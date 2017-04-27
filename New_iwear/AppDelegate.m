@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "RootViewController.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    [self.window makeKeyAndVisible];
+    self.window.backgroundColor = WHITE_COLOR;
+    
+    //初始化一个tabBar控制器
+    RootViewController *tb = [[RootViewController alloc]init];
+    //设置UIWindow的rootViewController为UITabBarController
+    self.window.rootViewController = tb;
+    
     return YES;
 }
 

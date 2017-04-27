@@ -7,28 +7,48 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0ECB1E486694141D0EA75E86 /* libPods-New_iwear.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99364F3EDABD966673E228A3 /* libPods-New_iwear.a */; };
+		9C4FBDB11EB081760072E9CE /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDB01EB081760072E9CE /* SecondViewController.m */; };
+		9C4FBDB61EB081A00072E9CE /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDB31EB081A00072E9CE /* FirstViewController.m */; };
+		9C4FBDB71EB081A00072E9CE /* StepCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDB51EB081A00072E9CE /* StepCircleView.m */; };
+		9C4FBDBB1EB081E00072E9CE /* ThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDBA1EB081E00072E9CE /* ThirdViewController.m */; };
+		9C4FBDBF1EB099140072E9CE /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDBE1EB099140072E9CE /* RootViewController.m */; };
+		9C4FBDC31EB099D90072E9CE /* BaseNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDC21EB099D90072E9CE /* BaseNavigationViewController.m */; };
+		9C4FBDC71EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDC61EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m */; };
 		9CDEAC5A1EB078EC00279EDA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDEAC591EB078EC00279EDA /* main.m */; };
 		9CDEAC5D1EB078EC00279EDA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDEAC5C1EB078EC00279EDA /* AppDelegate.m */; };
-		9CDEAC601EB078EC00279EDA /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDEAC5F1EB078EC00279EDA /* FirstViewController.m */; };
-		9CDEAC631EB078EC00279EDA /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDEAC621EB078EC00279EDA /* SecondViewController.m */; };
-		9CDEAC661EB078EC00279EDA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9CDEAC641EB078EC00279EDA /* Main.storyboard */; };
 		9CDEAC681EB078EC00279EDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9CDEAC671EB078EC00279EDA /* Assets.xcassets */; };
 		9CDEAC6B1EB078EC00279EDA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9CDEAC691EB078EC00279EDA /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		99364F3EDABD966673E228A3 /* libPods-New_iwear.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-New_iwear.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C4FBDAF1EB081760072E9CE /* SecondViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SecondViewController.h; path = SecondItem/SecondViewController.h; sourceTree = "<group>"; };
+		9C4FBDB01EB081760072E9CE /* SecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SecondViewController.m; path = SecondItem/SecondViewController.m; sourceTree = "<group>"; };
+		9C4FBDB21EB081A00072E9CE /* FirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FirstViewController.h; path = FirstItem/FirstViewController.h; sourceTree = "<group>"; };
+		9C4FBDB31EB081A00072E9CE /* FirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FirstViewController.m; path = FirstItem/FirstViewController.m; sourceTree = "<group>"; };
+		9C4FBDB41EB081A00072E9CE /* StepCircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StepCircleView.h; path = FirstItem/StepCircleView.h; sourceTree = "<group>"; };
+		9C4FBDB51EB081A00072E9CE /* StepCircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StepCircleView.m; path = FirstItem/StepCircleView.m; sourceTree = "<group>"; };
+		9C4FBDB91EB081E00072E9CE /* ThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThirdViewController.h; path = ThirdItem/ThirdViewController.h; sourceTree = "<group>"; };
+		9C4FBDBA1EB081E00072E9CE /* ThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThirdViewController.m; path = ThirdItem/ThirdViewController.m; sourceTree = "<group>"; };
+		9C4FBDBD1EB099140072E9CE /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = RootTabViewController/RootViewController.h; sourceTree = "<group>"; };
+		9C4FBDBE1EB099140072E9CE /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RootViewController.m; path = RootTabViewController/RootViewController.m; sourceTree = "<group>"; };
+		9C4FBDC11EB099D90072E9CE /* BaseNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseNavigationViewController.h; path = BaseNavigationViewController/BaseNavigationViewController.h; sourceTree = "<group>"; };
+		9C4FBDC21EB099D90072E9CE /* BaseNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseNavigationViewController.m; path = BaseNavigationViewController/BaseNavigationViewController.m; sourceTree = "<group>"; };
+		9C4FBDC51EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+FDFullscreenPopGesture.h"; sourceTree = "<group>"; };
+		9C4FBDC61EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FDFullscreenPopGesture.m"; sourceTree = "<group>"; };
 		9CDEAC551EB078EC00279EDA /* New_iwear.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = New_iwear.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CDEAC591EB078EC00279EDA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9CDEAC5B1EB078EC00279EDA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9CDEAC5C1EB078EC00279EDA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		9CDEAC5E1EB078EC00279EDA /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
-		9CDEAC5F1EB078EC00279EDA /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
-		9CDEAC611EB078EC00279EDA /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
-		9CDEAC621EB078EC00279EDA /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
-		9CDEAC651EB078EC00279EDA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9CDEAC671EB078EC00279EDA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9CDEAC6A1EB078EC00279EDA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9CDEAC6C1EB078EC00279EDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9CDEAC721EB07A0500279EDA /* IwearHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IwearHeader.pch; path = SupportingFiles/IwearHeader.pch; sourceTree = "<group>"; };
+		9CDEAC731EB07A9C00279EDA /* ColorConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorConstants.h; path = Constants/ColorConstants.h; sourceTree = "<group>"; };
+		9CDEAC741EB07A9C00279EDA /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Log.h; path = Constants/Log.h; sourceTree = "<group>"; };
+		9E1C62936127CBA2AB2484EB /* Pods-New_iwear.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-New_iwear.release.xcconfig"; path = "Pods/Target Support Files/Pods-New_iwear/Pods-New_iwear.release.xcconfig"; sourceTree = "<group>"; };
+		C009A0B0C823B2EBDFED3C4D /* Pods-New_iwear.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-New_iwear.debug.xcconfig"; path = "Pods/Target Support Files/Pods-New_iwear/Pods-New_iwear.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,17 +56,65 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0ECB1E486694141D0EA75E86 /* libPods-New_iwear.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9C4FBDAE1EB081470072E9CE /* SecondItem */ = {
+			isa = PBXGroup;
+			children = (
+				9C4FBDAF1EB081760072E9CE /* SecondViewController.h */,
+				9C4FBDB01EB081760072E9CE /* SecondViewController.m */,
+			);
+			name = SecondItem;
+			sourceTree = "<group>";
+		};
+		9C4FBDB81EB081AB0072E9CE /* ThirdItem */ = {
+			isa = PBXGroup;
+			children = (
+				9C4FBDB91EB081E00072E9CE /* ThirdViewController.h */,
+				9C4FBDBA1EB081E00072E9CE /* ThirdViewController.m */,
+			);
+			name = ThirdItem;
+			sourceTree = "<group>";
+		};
+		9C4FBDBC1EB098DB0072E9CE /* RootTabViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9C4FBDBD1EB099140072E9CE /* RootViewController.h */,
+				9C4FBDBE1EB099140072E9CE /* RootViewController.m */,
+			);
+			name = RootTabViewController;
+			sourceTree = "<group>";
+		};
+		9C4FBDC01EB099980072E9CE /* BaseNavigationViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9C4FBDC11EB099D90072E9CE /* BaseNavigationViewController.h */,
+				9C4FBDC21EB099D90072E9CE /* BaseNavigationViewController.m */,
+			);
+			name = BaseNavigationViewController;
+			sourceTree = "<group>";
+		};
+		9C4FBDC41EB0A9660072E9CE /* FDFullscreenPopGesture */ = {
+			isa = PBXGroup;
+			children = (
+				9C4FBDC51EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.h */,
+				9C4FBDC61EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m */,
+			);
+			path = FDFullscreenPopGesture;
+			sourceTree = "<group>";
+		};
 		9CDEAC4C1EB078EC00279EDA = {
 			isa = PBXGroup;
 			children = (
 				9CDEAC571EB078EC00279EDA /* New_iwear */,
 				9CDEAC561EB078EC00279EDA /* Products */,
+				AB0A39F28BA9571F790DB97C /* Pods */,
+				CEFE28DF7EF1F157D7DE4858 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -63,14 +131,16 @@
 			children = (
 				9CDEAC5B1EB078EC00279EDA /* AppDelegate.h */,
 				9CDEAC5C1EB078EC00279EDA /* AppDelegate.m */,
-				9CDEAC5E1EB078EC00279EDA /* FirstViewController.h */,
-				9CDEAC5F1EB078EC00279EDA /* FirstViewController.m */,
-				9CDEAC611EB078EC00279EDA /* SecondViewController.h */,
-				9CDEAC621EB078EC00279EDA /* SecondViewController.m */,
-				9CDEAC641EB078EC00279EDA /* Main.storyboard */,
+				9C4FBDC41EB0A9660072E9CE /* FDFullscreenPopGesture */,
+				9C4FBDC01EB099980072E9CE /* BaseNavigationViewController */,
+				9C4FBDBC1EB098DB0072E9CE /* RootTabViewController */,
+				9CDEAC771EB0800F00279EDA /* FirstItem */,
+				9C4FBDAE1EB081470072E9CE /* SecondItem */,
+				9C4FBDB81EB081AB0072E9CE /* ThirdItem */,
 				9CDEAC671EB078EC00279EDA /* Assets.xcassets */,
 				9CDEAC691EB078EC00279EDA /* LaunchScreen.storyboard */,
 				9CDEAC6C1EB078EC00279EDA /* Info.plist */,
+				9CDEAC751EB07AA300279EDA /* Constants */,
 				9CDEAC581EB078EC00279EDA /* Supporting Files */,
 			);
 			path = New_iwear;
@@ -79,9 +149,47 @@
 		9CDEAC581EB078EC00279EDA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9CDEAC721EB07A0500279EDA /* IwearHeader.pch */,
 				9CDEAC591EB078EC00279EDA /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9CDEAC751EB07AA300279EDA /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				9CDEAC731EB07A9C00279EDA /* ColorConstants.h */,
+				9CDEAC741EB07A9C00279EDA /* Log.h */,
+			);
+			name = Constants;
+			sourceTree = "<group>";
+		};
+		9CDEAC771EB0800F00279EDA /* FirstItem */ = {
+			isa = PBXGroup;
+			children = (
+				9C4FBDB21EB081A00072E9CE /* FirstViewController.h */,
+				9C4FBDB31EB081A00072E9CE /* FirstViewController.m */,
+				9C4FBDB41EB081A00072E9CE /* StepCircleView.h */,
+				9C4FBDB51EB081A00072E9CE /* StepCircleView.m */,
+			);
+			name = FirstItem;
+			sourceTree = "<group>";
+		};
+		AB0A39F28BA9571F790DB97C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C009A0B0C823B2EBDFED3C4D /* Pods-New_iwear.debug.xcconfig */,
+				9E1C62936127CBA2AB2484EB /* Pods-New_iwear.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		CEFE28DF7EF1F157D7DE4858 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				99364F3EDABD966673E228A3 /* libPods-New_iwear.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -91,9 +199,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9CDEAC6F1EB078EC00279EDA /* Build configuration list for PBXNativeTarget "New_iwear" */;
 			buildPhases = (
+				025803847F90DCEE99A65877 /* [CP] Check Pods Manifest.lock */,
 				9CDEAC511EB078EC00279EDA /* Sources */,
 				9CDEAC521EB078EC00279EDA /* Frameworks */,
 				9CDEAC531EB078EC00279EDA /* Resources */,
+				89A874E97FEB2154485F783D /* [CP] Embed Pods Frameworks */,
+				C69A54BFAF6FFBB82F18F16D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -145,35 +256,79 @@
 			files = (
 				9CDEAC6B1EB078EC00279EDA /* LaunchScreen.storyboard in Resources */,
 				9CDEAC681EB078EC00279EDA /* Assets.xcassets in Resources */,
-				9CDEAC661EB078EC00279EDA /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		025803847F90DCEE99A65877 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		89A874E97FEB2154485F783D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-New_iwear/Pods-New_iwear-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C69A54BFAF6FFBB82F18F16D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-New_iwear/Pods-New_iwear-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9CDEAC511EB078EC00279EDA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9CDEAC631EB078EC00279EDA /* SecondViewController.m in Sources */,
+				9C4FBDB71EB081A00072E9CE /* StepCircleView.m in Sources */,
+				9C4FBDBF1EB099140072E9CE /* RootViewController.m in Sources */,
+				9C4FBDB11EB081760072E9CE /* SecondViewController.m in Sources */,
+				9C4FBDC71EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
+				9C4FBDC31EB099D90072E9CE /* BaseNavigationViewController.m in Sources */,
+				9C4FBDBB1EB081E00072E9CE /* ThirdViewController.m in Sources */,
 				9CDEAC5D1EB078EC00279EDA /* AppDelegate.m in Sources */,
-				9CDEAC601EB078EC00279EDA /* FirstViewController.m in Sources */,
 				9CDEAC5A1EB078EC00279EDA /* main.m in Sources */,
+				9C4FBDB61EB081A00072E9CE /* FirstViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		9CDEAC641EB078EC00279EDA /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9CDEAC651EB078EC00279EDA /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		9CDEAC691EB078EC00279EDA /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -275,9 +430,11 @@
 		};
 		9CDEAC701EB078EC00279EDA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C009A0B0C823B2EBDFED3C4D /* Pods-New_iwear.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = CZG37T4ZQ8;
+				GCC_PREFIX_HEADER = New_iwear/SupportingFiles/IwearHeader.pch;
 				INFOPLIST_FILE = New_iwear/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.manridy.New-iwear";
@@ -287,9 +444,11 @@
 		};
 		9CDEAC711EB078EC00279EDA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9E1C62936127CBA2AB2484EB /* Pods-New_iwear.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = CZG37T4ZQ8;
+				GCC_PREFIX_HEADER = New_iwear/SupportingFiles/IwearHeader.pch;
 				INFOPLIST_FILE = New_iwear/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.manridy.New-iwear";
@@ -316,6 +475,7 @@
 				9CDEAC711EB078EC00279EDA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

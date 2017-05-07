@@ -4,7 +4,57 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>MDFTextAccessibility.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Masonry.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MaterialComponents-MaterialIcons_ic_arrow_back.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MaterialComponents-MaterialIcons_ic_check.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MaterialComponents-MaterialIcons_ic_check_circle.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MaterialComponents-MaterialIcons_ic_chevron_right.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MaterialComponents-MaterialIcons_ic_info.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MaterialComponents-MaterialIcons_ic_radio_button_unchecked.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MaterialComponents-MaterialIcons_ic_reorder.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MaterialComponents.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MaterialControls.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -17,12 +67,62 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>0B548419BEE5379DD899E782153CC73C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>14D99D2C0F1FDCAA207527FCBEB9B408</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>16F485B6EFFC19455F583F8A8579CA4F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1711B93DD35FFACC3923081B89675686</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>21839D5E1DEAD524F1FC47D25EA71177</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>47E7EC26FD88E63517D5068CE9CCA8EC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>53480ED0BE09FF49E34B1702D485CAAB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>805E67354E77DED717B3A45DD2BAE0BA</key>
+		<key>5641725AD58401FC3041B47382FFC4AA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5D8F2F39C6BE38DC012BBAC693D0E94B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B5899031C8F691DE7348741239B085BC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C986200D7C78BF3F45D2989DF94155CB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D031E243980AF0D454036B27E5F9CB26</key>
 		<dict>
 			<key>primary</key>
 			<true/>

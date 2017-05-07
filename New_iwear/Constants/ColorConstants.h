@@ -28,6 +28,9 @@
 #define ORANGE_COLOR [UIColor orangeColor]
 #define PURPLE_COLOR [UIColor purpleColor]
 
+/** 设置页面的背景颜色 */
+#define SETTING_BACKGROUND_COLOR COLOR_WITH_HEX(0xf5f5f5, 1)
+
 /** 未连接时的背景颜色 */
 #define DISCONNECT_BACKGROUND_COLOR COLOR_WITH_RGBA(46.0, 52.0, 62.0, 1)
 /** 连接时的背景颜色 */
@@ -39,12 +42,25 @@
 #define CONNECT_DIAL_COLOR COLOR_WITH_RGBA(124.0, 204.0, 218.0, 1)
 
 /** navigationBar 的颜色 */
-#define NAVIGATION_BAR_COLOR COLOR_WITH_HEX(0xfabe00, 1)
+#define NAVIGATION_BAR_COLOR COLOR_WITH_HEX(0x2196f3, 1)
 
 /** tableView 线的颜色 */
 #define TABLEVIEW_LINE_COLOR COLOR_WITH_HEX(0xcccccc,1)
 
 /** 按钮的绿色 */
 //#define kButtonGreenColor COLOR_WITH_HEX(0x18db30,1)
+
+/** 文字的颜色, 4 --> 0 由深到浅 */
+
+/** 文字的颜色 --> 0.87 */
+#define TEXT_COLOR_LEVEL4 COLOR_WITH_HEX(0x000000,0.87)
+/** 文字的颜色 --> 0.54 */
+#define TEXT_COLOR_LEVEL3 COLOR_WITH_HEX(0x000000,0.54)
+/** 文字的颜色 --> 0.38 */
+#define TEXT_COLOR_LEVEL2 COLOR_WITH_HEX(0x000000,0.38)
+/** 文字的颜色 --> 0.15 */
+#define TEXT_COLOR_LEVEL1 COLOR_WITH_HEX(0x000000,0.15)
+/** 文字的颜色 --> 0.05 */
+#define TEXT_COLOR_LEVEL0 COLOR_WITH_HEX(0x000000,0.05)
 
 #endif /* ColorConstants_h */

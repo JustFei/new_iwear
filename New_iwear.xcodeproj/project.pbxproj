@@ -8,6 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		0ECB1E486694141D0EA75E86 /* libPods-New_iwear.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99364F3EDABD966673E228A3 /* libPods-New_iwear.a */; };
+		9C0496901EB87DC400EDBEBB /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C04968F1EB87DC400EDBEBB /* SettingViewController.m */; };
+		9C0496941EB8855700EDBEBB /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0496931EB8855700EDBEBB /* HealthKit.framework */; };
+		9C079AAA1EBC612500D54AB3 /* PeripheralCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C079AA71EBC612500D54AB3 /* PeripheralCellModel.m */; };
+		9C079AAB1EBC612500D54AB3 /* SettingCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C079AA91EBC612500D54AB3 /* SettingCellModel.m */; };
+		9C079AAF1EBC61A800D54AB3 /* InterfaceSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C079AAE1EBC61A800D54AB3 /* InterfaceSelectionViewController.m */; };
+		9C079AB21EBC680400D54AB3 /* InterfaceSelectionCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C079AB11EBC680400D54AB3 /* InterfaceSelectionCollectionViewCell.m */; };
+		9C079AB81EBC747700D54AB3 /* InterfaceSelectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C079AB71EBC747700D54AB3 /* InterfaceSelectionModel.m */; };
+		9C079ABC1EBC8D6300D54AB3 /* TakePhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C079ABB1EBC8D6300D54AB3 /* TakePhotoViewController.m */; };
+		9C0817741EB9AB1800C1845F /* SettingPeripheralTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0817721EB9AB1800C1845F /* SettingPeripheralTableViewCell.m */; };
+		9C0817751EB9AB1800C1845F /* SettingPeripheralTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C0817731EB9AB1800C1845F /* SettingPeripheralTableViewCell.xib */; };
+		9C0817831EB9AB9300C1845F /* SettingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0817811EB9AB9300C1845F /* SettingTableViewCell.m */; };
+		9C0817841EB9AB9300C1845F /* SettingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C0817821EB9AB9300C1845F /* SettingTableViewCell.xib */; };
+		9C08178E1EB9D69A00C1845F /* SettingHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C08178D1EB9D69A00C1845F /* SettingHeaderView.m */; };
+		9C3AE82B1EBD63D50078CDAA /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AE82A1EBD63D50078CDAA /* CameraViewController.m */; };
+		9C3AE8351EBD770B0078CDAA /* FindMyPeriphearlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AE8341EBD770B0078CDAA /* FindMyPeriphearlViewController.m */; };
+		9C3AE83C1EBD7A200078CDAA /* RemindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AE83B1EBD7A200078CDAA /* RemindViewController.m */; };
+		9C3AE83F1EBD80F40078CDAA /* RemindCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AE83E1EBD80F40078CDAA /* RemindCollectionViewCell.m */; };
+		9C3AE8431EBD81320078CDAA /* RemindModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AE8421EBD81320078CDAA /* RemindModel.m */; };
+		9C3AE8461EBDB46B0078CDAA /* RemindMoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AE8451EBDB46B0078CDAA /* RemindMoreViewController.m */; };
+		9C3AE8491EBDB8320078CDAA /* RemindMoreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AE8481EBDB8320078CDAA /* RemindMoreTableViewCell.m */; };
+		9C3AE84D1EBDC62F0078CDAA /* WeChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AE84C1EBDC62F0078CDAA /* WeChatViewController.m */; };
+		9C3AE8521EBDCD850078CDAA /* DimmingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AE8511EBDCD850078CDAA /* DimmingViewController.m */; };
 		9C4FBDB11EB081760072E9CE /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDB01EB081760072E9CE /* SecondViewController.m */; };
 		9C4FBDB61EB081A00072E9CE /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDB31EB081A00072E9CE /* FirstViewController.m */; };
 		9C4FBDB71EB081A00072E9CE /* StepCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDB51EB081A00072E9CE /* StepCircleView.m */; };
@@ -23,6 +45,48 @@
 
 /* Begin PBXFileReference section */
 		99364F3EDABD966673E228A3 /* libPods-New_iwear.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-New_iwear.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C04968E1EB87DC400EDBEBB /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingViewController.h; path = Setting/SettingViewController/SettingViewController.h; sourceTree = "<group>"; };
+		9C04968F1EB87DC400EDBEBB /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingViewController.m; path = Setting/SettingViewController/SettingViewController.m; sourceTree = "<group>"; };
+		9C0496921EB8855700EDBEBB /* New_iwear.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = New_iwear.entitlements; sourceTree = "<group>"; };
+		9C0496931EB8855700EDBEBB /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		9C079AA61EBC612500D54AB3 /* PeripheralCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeripheralCellModel.h; sourceTree = "<group>"; };
+		9C079AA71EBC612500D54AB3 /* PeripheralCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeripheralCellModel.m; sourceTree = "<group>"; };
+		9C079AA81EBC612500D54AB3 /* SettingCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingCellModel.h; sourceTree = "<group>"; };
+		9C079AA91EBC612500D54AB3 /* SettingCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingCellModel.m; sourceTree = "<group>"; };
+		9C079AAD1EBC61A800D54AB3 /* InterfaceSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InterfaceSelectionViewController.h; path = Setting/InterfaceSelectionViewController/InterfaceSelectionViewController.h; sourceTree = "<group>"; };
+		9C079AAE1EBC61A800D54AB3 /* InterfaceSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InterfaceSelectionViewController.m; path = Setting/InterfaceSelectionViewController/InterfaceSelectionViewController.m; sourceTree = "<group>"; };
+		9C079AB01EBC680400D54AB3 /* InterfaceSelectionCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InterfaceSelectionCollectionViewCell.h; path = Setting/InterfaceSelectionViewController/InterfaceSelectionCollectionViewCell.h; sourceTree = "<group>"; };
+		9C079AB11EBC680400D54AB3 /* InterfaceSelectionCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InterfaceSelectionCollectionViewCell.m; path = Setting/InterfaceSelectionViewController/InterfaceSelectionCollectionViewCell.m; sourceTree = "<group>"; };
+		9C079AB61EBC747700D54AB3 /* InterfaceSelectionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InterfaceSelectionModel.h; path = Setting/InterfaceSelectionViewController/InterfaceSelectionModel/InterfaceSelectionModel.h; sourceTree = "<group>"; };
+		9C079AB71EBC747700D54AB3 /* InterfaceSelectionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InterfaceSelectionModel.m; path = Setting/InterfaceSelectionViewController/InterfaceSelectionModel/InterfaceSelectionModel.m; sourceTree = "<group>"; };
+		9C079ABA1EBC8D6300D54AB3 /* TakePhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TakePhotoViewController.h; path = Setting/TakePhotoViewController/TakePhotoViewController.h; sourceTree = "<group>"; };
+		9C079ABB1EBC8D6300D54AB3 /* TakePhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TakePhotoViewController.m; path = Setting/TakePhotoViewController/TakePhotoViewController.m; sourceTree = "<group>"; };
+		9C0817711EB9AB1800C1845F /* SettingPeripheralTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingPeripheralTableViewCell.h; path = Setting/SettingViewController/SettingPeripheralTableViewCell.h; sourceTree = "<group>"; };
+		9C0817721EB9AB1800C1845F /* SettingPeripheralTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingPeripheralTableViewCell.m; path = Setting/SettingViewController/SettingPeripheralTableViewCell.m; sourceTree = "<group>"; };
+		9C0817731EB9AB1800C1845F /* SettingPeripheralTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingPeripheralTableViewCell.xib; path = Setting/SettingViewController/SettingPeripheralTableViewCell.xib; sourceTree = "<group>"; };
+		9C0817801EB9AB9300C1845F /* SettingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingTableViewCell.h; path = Setting/SettingViewController/SettingTableViewCell.h; sourceTree = "<group>"; };
+		9C0817811EB9AB9300C1845F /* SettingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingTableViewCell.m; path = Setting/SettingViewController/SettingTableViewCell.m; sourceTree = "<group>"; };
+		9C0817821EB9AB9300C1845F /* SettingTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingTableViewCell.xib; path = Setting/SettingViewController/SettingTableViewCell.xib; sourceTree = "<group>"; };
+		9C08178C1EB9D69A00C1845F /* SettingHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingHeaderView.h; path = Setting/SettingViewController/SettingHeaderView.h; sourceTree = "<group>"; };
+		9C08178D1EB9D69A00C1845F /* SettingHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingHeaderView.m; path = Setting/SettingViewController/SettingHeaderView.m; sourceTree = "<group>"; };
+		9C3AE8291EBD63D50078CDAA /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CameraViewController.h; path = Setting/TakePhotoViewController/CameraViewController.h; sourceTree = "<group>"; };
+		9C3AE82A1EBD63D50078CDAA /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CameraViewController.m; path = Setting/TakePhotoViewController/CameraViewController.m; sourceTree = "<group>"; };
+		9C3AE8331EBD770B0078CDAA /* FindMyPeriphearlViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FindMyPeriphearlViewController.h; path = Setting/FindMyPeriphearlViewController/FindMyPeriphearlViewController.h; sourceTree = "<group>"; };
+		9C3AE8341EBD770B0078CDAA /* FindMyPeriphearlViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FindMyPeriphearlViewController.m; path = Setting/FindMyPeriphearlViewController/FindMyPeriphearlViewController.m; sourceTree = "<group>"; };
+		9C3AE83A1EBD7A200078CDAA /* RemindViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemindViewController.h; path = Setting/RemindViewController/RemindViewController.h; sourceTree = "<group>"; };
+		9C3AE83B1EBD7A200078CDAA /* RemindViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemindViewController.m; path = Setting/RemindViewController/RemindViewController.m; sourceTree = "<group>"; };
+		9C3AE83D1EBD80F40078CDAA /* RemindCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemindCollectionViewCell.h; path = Setting/RemindViewController/RemindCollectionViewCell.h; sourceTree = "<group>"; };
+		9C3AE83E1EBD80F40078CDAA /* RemindCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemindCollectionViewCell.m; path = Setting/RemindViewController/RemindCollectionViewCell.m; sourceTree = "<group>"; };
+		9C3AE8411EBD81320078CDAA /* RemindModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemindModel.h; path = Setting/RemindViewController/RemindModel/RemindModel.h; sourceTree = "<group>"; };
+		9C3AE8421EBD81320078CDAA /* RemindModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemindModel.m; path = Setting/RemindViewController/RemindModel/RemindModel.m; sourceTree = "<group>"; };
+		9C3AE8441EBDB46B0078CDAA /* RemindMoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemindMoreViewController.h; path = Setting/RemindViewController/RemindMoreViewController.h; sourceTree = "<group>"; };
+		9C3AE8451EBDB46B0078CDAA /* RemindMoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemindMoreViewController.m; path = Setting/RemindViewController/RemindMoreViewController.m; sourceTree = "<group>"; };
+		9C3AE8471EBDB8320078CDAA /* RemindMoreTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemindMoreTableViewCell.h; path = Setting/RemindViewController/RemindMoreTableViewCell.h; sourceTree = "<group>"; };
+		9C3AE8481EBDB8320078CDAA /* RemindMoreTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemindMoreTableViewCell.m; path = Setting/RemindViewController/RemindMoreTableViewCell.m; sourceTree = "<group>"; };
+		9C3AE84B1EBDC62F0078CDAA /* WeChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeChatViewController.h; path = Setting/WeChatViewController/WeChatViewController.h; sourceTree = "<group>"; };
+		9C3AE84C1EBDC62F0078CDAA /* WeChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeChatViewController.m; path = Setting/WeChatViewController/WeChatViewController.m; sourceTree = "<group>"; };
+		9C3AE8501EBDCD850078CDAA /* DimmingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DimmingViewController.h; path = Setting/DimmingViewController/DimmingViewController.h; sourceTree = "<group>"; };
+		9C3AE8511EBDCD850078CDAA /* DimmingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DimmingViewController.m; path = Setting/DimmingViewController/DimmingViewController.m; sourceTree = "<group>"; };
 		9C4FBDAF1EB081760072E9CE /* SecondViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SecondViewController.h; path = SecondItem/SecondViewController.h; sourceTree = "<group>"; };
 		9C4FBDB01EB081760072E9CE /* SecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SecondViewController.m; path = SecondItem/SecondViewController.m; sourceTree = "<group>"; };
 		9C4FBDB21EB081A00072E9CE /* FirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FirstViewController.h; path = FirstItem/FirstViewController.h; sourceTree = "<group>"; };
@@ -37,6 +101,7 @@
 		9C4FBDC21EB099D90072E9CE /* BaseNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseNavigationViewController.m; path = BaseNavigationViewController/BaseNavigationViewController.m; sourceTree = "<group>"; };
 		9C4FBDC51EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+FDFullscreenPopGesture.h"; sourceTree = "<group>"; };
 		9C4FBDC61EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FDFullscreenPopGesture.m"; sourceTree = "<group>"; };
+		9C5CC3BC1EBC1B96009C07A5 /* FrameConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FrameConstants.h; path = Constants/FrameConstants.h; sourceTree = "<group>"; };
 		9CDEAC551EB078EC00279EDA /* New_iwear.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = New_iwear.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CDEAC591EB078EC00279EDA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9CDEAC5B1EB078EC00279EDA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -57,12 +122,169 @@
 			buildActionMask = 2147483647;
 			files = (
 				0ECB1E486694141D0EA75E86 /* libPods-New_iwear.a in Frameworks */,
+				9C0496941EB8855700EDBEBB /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9C04968B1EB87D5200EDBEBB /* TestMode */ = {
+			isa = PBXGroup;
+			children = (
+				9C4FBDC41EB0A9660072E9CE /* FDFullscreenPopGesture */,
+				9C4FBDC01EB099980072E9CE /* BaseNavigationViewController */,
+				9C4FBDBC1EB098DB0072E9CE /* RootTabViewController */,
+				9CDEAC771EB0800F00279EDA /* FirstItem */,
+				9C4FBDAE1EB081470072E9CE /* SecondItem */,
+				9C4FBDB81EB081AB0072E9CE /* ThirdItem */,
+			);
+			name = TestMode;
+			sourceTree = "<group>";
+		};
+		9C04968C1EB87D6B00EDBEBB /* Main */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Main;
+			sourceTree = "<group>";
+		};
+		9C04968D1EB87D7E00EDBEBB /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				9C3AE84F1EBDCD350078CDAA /* DimmingViewController */,
+				9C0496911EB880FC00EDBEBB /* SettingViewController */,
+				9C079AAC1EBC613200D54AB3 /* InterfaceSelectionViewController */,
+				9C079AB91EBC8C2800D54AB3 /* TakePhotoViewController */,
+				9C3AE8321EBD76DE0078CDAA /* FindMyPeriphearlViewController */,
+				9C3AE8361EBD79400078CDAA /* RemindViewController */,
+				9C3AE84A1EBDC5C90078CDAA /* WeChatViewController */,
+			);
+			name = Setting;
+			sourceTree = "<group>";
+		};
+		9C0496911EB880FC00EDBEBB /* SettingViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9C079AA51EBC612500D54AB3 /* SettingModel */,
+				9C3AE84E1EBDC6400078CDAA /* SettingView */,
+				9C04968E1EB87DC400EDBEBB /* SettingViewController.h */,
+				9C04968F1EB87DC400EDBEBB /* SettingViewController.m */,
+			);
+			name = SettingViewController;
+			sourceTree = "<group>";
+		};
+		9C079AA51EBC612500D54AB3 /* SettingModel */ = {
+			isa = PBXGroup;
+			children = (
+				9C079AA61EBC612500D54AB3 /* PeripheralCellModel.h */,
+				9C079AA71EBC612500D54AB3 /* PeripheralCellModel.m */,
+				9C079AA81EBC612500D54AB3 /* SettingCellModel.h */,
+				9C079AA91EBC612500D54AB3 /* SettingCellModel.m */,
+			);
+			name = SettingModel;
+			path = Setting/SettingViewController/SettingModel;
+			sourceTree = "<group>";
+		};
+		9C079AAC1EBC613200D54AB3 /* InterfaceSelectionViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9C079AB51EBC743F00D54AB3 /* InterfaceSelectionModel */,
+				9C079AAD1EBC61A800D54AB3 /* InterfaceSelectionViewController.h */,
+				9C079AAE1EBC61A800D54AB3 /* InterfaceSelectionViewController.m */,
+				9C079AB01EBC680400D54AB3 /* InterfaceSelectionCollectionViewCell.h */,
+				9C079AB11EBC680400D54AB3 /* InterfaceSelectionCollectionViewCell.m */,
+			);
+			name = InterfaceSelectionViewController;
+			sourceTree = "<group>";
+		};
+		9C079AB51EBC743F00D54AB3 /* InterfaceSelectionModel */ = {
+			isa = PBXGroup;
+			children = (
+				9C079AB61EBC747700D54AB3 /* InterfaceSelectionModel.h */,
+				9C079AB71EBC747700D54AB3 /* InterfaceSelectionModel.m */,
+			);
+			name = InterfaceSelectionModel;
+			sourceTree = "<group>";
+		};
+		9C079AB91EBC8C2800D54AB3 /* TakePhotoViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9C079ABA1EBC8D6300D54AB3 /* TakePhotoViewController.h */,
+				9C079ABB1EBC8D6300D54AB3 /* TakePhotoViewController.m */,
+				9C3AE8291EBD63D50078CDAA /* CameraViewController.h */,
+				9C3AE82A1EBD63D50078CDAA /* CameraViewController.m */,
+			);
+			name = TakePhotoViewController;
+			sourceTree = "<group>";
+		};
+		9C3AE8321EBD76DE0078CDAA /* FindMyPeriphearlViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9C3AE8331EBD770B0078CDAA /* FindMyPeriphearlViewController.h */,
+				9C3AE8341EBD770B0078CDAA /* FindMyPeriphearlViewController.m */,
+			);
+			name = FindMyPeriphearlViewController;
+			sourceTree = "<group>";
+		};
+		9C3AE8361EBD79400078CDAA /* RemindViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9C3AE8401EBD80FC0078CDAA /* RemindModel */,
+				9C3AE83A1EBD7A200078CDAA /* RemindViewController.h */,
+				9C3AE83B1EBD7A200078CDAA /* RemindViewController.m */,
+				9C3AE83D1EBD80F40078CDAA /* RemindCollectionViewCell.h */,
+				9C3AE83E1EBD80F40078CDAA /* RemindCollectionViewCell.m */,
+				9C3AE8441EBDB46B0078CDAA /* RemindMoreViewController.h */,
+				9C3AE8451EBDB46B0078CDAA /* RemindMoreViewController.m */,
+				9C3AE8471EBDB8320078CDAA /* RemindMoreTableViewCell.h */,
+				9C3AE8481EBDB8320078CDAA /* RemindMoreTableViewCell.m */,
+			);
+			name = RemindViewController;
+			sourceTree = "<group>";
+		};
+		9C3AE8401EBD80FC0078CDAA /* RemindModel */ = {
+			isa = PBXGroup;
+			children = (
+				9C3AE8411EBD81320078CDAA /* RemindModel.h */,
+				9C3AE8421EBD81320078CDAA /* RemindModel.m */,
+			);
+			name = RemindModel;
+			sourceTree = "<group>";
+		};
+		9C3AE84A1EBDC5C90078CDAA /* WeChatViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9C3AE84B1EBDC62F0078CDAA /* WeChatViewController.h */,
+				9C3AE84C1EBDC62F0078CDAA /* WeChatViewController.m */,
+			);
+			name = WeChatViewController;
+			sourceTree = "<group>";
+		};
+		9C3AE84E1EBDC6400078CDAA /* SettingView */ = {
+			isa = PBXGroup;
+			children = (
+				9C0817711EB9AB1800C1845F /* SettingPeripheralTableViewCell.h */,
+				9C0817721EB9AB1800C1845F /* SettingPeripheralTableViewCell.m */,
+				9C0817731EB9AB1800C1845F /* SettingPeripheralTableViewCell.xib */,
+				9C0817801EB9AB9300C1845F /* SettingTableViewCell.h */,
+				9C0817811EB9AB9300C1845F /* SettingTableViewCell.m */,
+				9C0817821EB9AB9300C1845F /* SettingTableViewCell.xib */,
+				9C08178C1EB9D69A00C1845F /* SettingHeaderView.h */,
+				9C08178D1EB9D69A00C1845F /* SettingHeaderView.m */,
+			);
+			name = SettingView;
+			sourceTree = "<group>";
+		};
+		9C3AE84F1EBDCD350078CDAA /* DimmingViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9C3AE8501EBDCD850078CDAA /* DimmingViewController.h */,
+				9C3AE8511EBDCD850078CDAA /* DimmingViewController.m */,
+			);
+			name = DimmingViewController;
+			sourceTree = "<group>";
+		};
 		9C4FBDAE1EB081470072E9CE /* SecondItem */ = {
 			isa = PBXGroup;
 			children = (
@@ -129,14 +351,12 @@
 		9CDEAC571EB078EC00279EDA /* New_iwear */ = {
 			isa = PBXGroup;
 			children = (
+				9C0496921EB8855700EDBEBB /* New_iwear.entitlements */,
 				9CDEAC5B1EB078EC00279EDA /* AppDelegate.h */,
 				9CDEAC5C1EB078EC00279EDA /* AppDelegate.m */,
-				9C4FBDC41EB0A9660072E9CE /* FDFullscreenPopGesture */,
-				9C4FBDC01EB099980072E9CE /* BaseNavigationViewController */,
-				9C4FBDBC1EB098DB0072E9CE /* RootTabViewController */,
-				9CDEAC771EB0800F00279EDA /* FirstItem */,
-				9C4FBDAE1EB081470072E9CE /* SecondItem */,
-				9C4FBDB81EB081AB0072E9CE /* ThirdItem */,
+				9C04968D1EB87D7E00EDBEBB /* Setting */,
+				9C04968C1EB87D6B00EDBEBB /* Main */,
+				9C04968B1EB87D5200EDBEBB /* TestMode */,
 				9CDEAC671EB078EC00279EDA /* Assets.xcassets */,
 				9CDEAC691EB078EC00279EDA /* LaunchScreen.storyboard */,
 				9CDEAC6C1EB078EC00279EDA /* Info.plist */,
@@ -160,6 +380,7 @@
 			children = (
 				9CDEAC731EB07A9C00279EDA /* ColorConstants.h */,
 				9CDEAC741EB07A9C00279EDA /* Log.h */,
+				9C5CC3BC1EBC1B96009C07A5 /* FrameConstants.h */,
 			);
 			name = Constants;
 			sourceTree = "<group>";
@@ -187,6 +408,7 @@
 		CEFE28DF7EF1F157D7DE4858 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9C0496931EB8855700EDBEBB /* HealthKit.framework */,
 				99364F3EDABD966673E228A3 /* libPods-New_iwear.a */,
 			);
 			name = Frameworks;
@@ -228,6 +450,11 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = CZG37T4ZQ8;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.HealthKit = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -254,7 +481,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C0817751EB9AB1800C1845F /* SettingPeripheralTableViewCell.xib in Resources */,
 				9CDEAC6B1EB078EC00279EDA /* LaunchScreen.storyboard in Resources */,
+				9C0817841EB9AB9300C1845F /* SettingTableViewCell.xib in Resources */,
 				9CDEAC681EB078EC00279EDA /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -315,14 +544,33 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C4FBDB71EB081A00072E9CE /* StepCircleView.m in Sources */,
+				9C079AAA1EBC612500D54AB3 /* PeripheralCellModel.m in Sources */,
+				9C08178E1EB9D69A00C1845F /* SettingHeaderView.m in Sources */,
 				9C4FBDBF1EB099140072E9CE /* RootViewController.m in Sources */,
+				9C079AB81EBC747700D54AB3 /* InterfaceSelectionModel.m in Sources */,
+				9C3AE84D1EBDC62F0078CDAA /* WeChatViewController.m in Sources */,
+				9C3AE8521EBDCD850078CDAA /* DimmingViewController.m in Sources */,
+				9C3AE82B1EBD63D50078CDAA /* CameraViewController.m in Sources */,
+				9C079AAB1EBC612500D54AB3 /* SettingCellModel.m in Sources */,
+				9C0817831EB9AB9300C1845F /* SettingTableViewCell.m in Sources */,
+				9C3AE8431EBD81320078CDAA /* RemindModel.m in Sources */,
 				9C4FBDB11EB081760072E9CE /* SecondViewController.m in Sources */,
 				9C4FBDC71EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				9C4FBDC31EB099D90072E9CE /* BaseNavigationViewController.m in Sources */,
 				9C4FBDBB1EB081E00072E9CE /* ThirdViewController.m in Sources */,
 				9CDEAC5D1EB078EC00279EDA /* AppDelegate.m in Sources */,
+				9C3AE83C1EBD7A200078CDAA /* RemindViewController.m in Sources */,
+				9C3AE8461EBDB46B0078CDAA /* RemindMoreViewController.m in Sources */,
+				9C3AE83F1EBD80F40078CDAA /* RemindCollectionViewCell.m in Sources */,
+				9C3AE8491EBDB8320078CDAA /* RemindMoreTableViewCell.m in Sources */,
+				9C3AE8351EBD770B0078CDAA /* FindMyPeriphearlViewController.m in Sources */,
 				9CDEAC5A1EB078EC00279EDA /* main.m in Sources */,
+				9C0817741EB9AB1800C1845F /* SettingPeripheralTableViewCell.m in Sources */,
 				9C4FBDB61EB081A00072E9CE /* FirstViewController.m in Sources */,
+				9C0496901EB87DC400EDBEBB /* SettingViewController.m in Sources */,
+				9C079ABC1EBC8D6300D54AB3 /* TakePhotoViewController.m in Sources */,
+				9C079AAF1EBC61A800D54AB3 /* InterfaceSelectionViewController.m in Sources */,
+				9C079AB21EBC680400D54AB3 /* InterfaceSelectionCollectionViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,7 +628,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -421,7 +669,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -433,9 +681,11 @@
 			baseConfigurationReference = C009A0B0C823B2EBDFED3C4D /* Pods-New_iwear.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = New_iwear/New_iwear.entitlements;
 				DEVELOPMENT_TEAM = CZG37T4ZQ8;
 				GCC_PREFIX_HEADER = New_iwear/SupportingFiles/IwearHeader.pch;
 				INFOPLIST_FILE = New_iwear/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.manridy.New-iwear";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -447,9 +697,11 @@
 			baseConfigurationReference = 9E1C62936127CBA2AB2484EB /* Pods-New_iwear.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = New_iwear/New_iwear.entitlements;
 				DEVELOPMENT_TEAM = CZG37T4ZQ8;
 				GCC_PREFIX_HEADER = New_iwear/SupportingFiles/IwearHeader.pch;
 				INFOPLIST_FILE = New_iwear/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.manridy.New-iwear";
 				PRODUCT_NAME = "$(TARGET_NAME)";

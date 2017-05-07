@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "RootViewController.h"
+#import "SettingViewController.h"
 
 @interface AppDelegate ()
 
@@ -24,9 +24,9 @@
     self.window.backgroundColor = WHITE_COLOR;
     
     //初始化一个tabBar控制器
-    RootViewController *tb = [[RootViewController alloc]init];
+    SettingViewController *tb = [[SettingViewController alloc]init];
     //设置UIWindow的rootViewController为UITabBarController
-    self.window.rootViewController = tb;
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:tb];
     
     return YES;
 }

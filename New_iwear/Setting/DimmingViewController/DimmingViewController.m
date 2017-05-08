@@ -57,7 +57,7 @@
     }];
     
     _currentDimLabel = [[UILabel alloc] init];
-    [_currentDimLabel setText:@"100%%"];
+    [_currentDimLabel setText:@"100%"];
     [_currentDimLabel setTextColor:COLOR_WITH_HEX(0x2196f3, 1)];
     [_currentDimLabel setFont:[UIFont systemFontOfSize:16]];
     [self.view addSubview:_currentDimLabel];
@@ -79,10 +79,38 @@
         make.width.equalTo(@(225 * VIEW_CONTROLLER_FRAME_WIDTH / 375));
         make.height.equalTo(@10);
     }];
-//    _slider.translatesAutoresizingMaskIntoConstraints = NO;
-//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_slider attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
-//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_slider attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
-//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_slider attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+
+    _subtractBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFloatingAction rippleColor:nil];
+    [_subtractBtn setTitle:@"-" forState:UIControlStateNormal];
+    [_subtractBtn.titleLabel setFont:[UIFont systemFontOfSize:24]];
+    [_subtractBtn setTitleColor:COLOR_WITH_HEX(0x1e1e1e, 1) forState:UIControlStateNormal];
+//    _subtractBtn.backgroundColor = CLEAR_COLOR;
+    _subtractBtn.layer.masksToBounds = YES;
+    _subtractBtn.layer.cornerRadius = 12;
+    [_subtractBtn addTarget:self action:@selector(subtractAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_subtractBtn];
+    [_subtractBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(_slider.mas_left).offset(-10);
+        make.centerY.equalTo(_slider.mas_top).offset(52);
+        make.width.equalTo(@24);
+        make.height.equalTo(@24);
+    }];
+    
+    _plusBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFloatingAction rippleColor:nil];
+    [_plusBtn setTitle:@"+" forState:UIControlStateNormal];
+    [_plusBtn.titleLabel setFont:[UIFont systemFontOfSize:24]];
+    [_plusBtn setTitleColor:COLOR_WITH_HEX(0x1e1e1e, 1) forState:UIControlStateNormal];
+//    _plusBtn.backgroundColor = CLEAR_COLOR;
+    _plusBtn.layer.masksToBounds = YES;
+    _plusBtn.layer.cornerRadius = 12;
+    [_plusBtn addTarget:self action:@selector(plusAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_plusBtn];
+    [_plusBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_slider.mas_right).offset(10);
+        make.centerY.equalTo(_slider.mas_top).offset(52);
+        make.width.equalTo(@24);
+        make.height.equalTo(@24);
+    }];
 }
 
 #pragma mark - Action
@@ -93,7 +121,25 @@
 
 - (void)sliderValueChanged:(id)sender {
     self.currentDimLabel.text =
-    [NSString stringWithFormat:@"%.01f", _slider.value];
+    [NSString stringWithFormat:@"%0.f%%", _slider.value];
+}
+
+- (void)subtractAction:(MDButton *)sender
+{
+    if (self.slider.value >= 10) {
+        self.slider.value = self.slider.value - 10.f;
+    }else if (self.slider.value >= 0 && self.slider.value < 10) {
+        self.slider.value = 0.f;
+    }
+}
+
+- (void)plusAction:(MDButton *)sender
+{
+    if (self.slider.value <= 90) {
+        self.slider.value = self.slider.value + 10.f;
+    }else if (self.slider.value > 90 && self.slider.value <= 100) {
+        self.slider.value = 100.f;
+    }
 }
 
 @end

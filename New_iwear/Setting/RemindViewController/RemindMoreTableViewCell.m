@@ -17,11 +17,12 @@
 
 @implementation RemindMoreTableViewCell
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    self = [super initWithFrame:frame];
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        DLog(@"00000");
+        self.backgroundColor = CLEAR_COLOR;
+        
         _headImageView = [[UIImageView alloc] init];
         [self addSubview:_headImageView];
         [_headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -55,7 +56,6 @@
 
 - (void)setModel:(RemindModel *)model
 {
-    DLog(@"111111");
     _model = model;
     [self.headImageView setImage:[UIImage imageNamed:model.headImageName]];
     [self.funcNameLabel setText:model.functionName];

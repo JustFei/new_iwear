@@ -110,7 +110,7 @@ static NSString *const settingHeaderID = @"settingHeader";
         view.backgroundColor = CLEAR_COLOR;
         
         UIView *lineView = [[UIView alloc] init];
-        lineView.backgroundColor = COLOR_WITH_HEX(0x000000, 0.15);
+        lineView.backgroundColor = TEXT_COLOR_LEVEL1;
         [view addSubview:lineView];
         [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(view.mas_top);
@@ -258,8 +258,8 @@ static NSString *const settingHeaderID = @"settingHeader";
 - (NSArray *)groupSecondDataSourceArr
 {
     if (!_groupSecondDataSourceArr) {
-        NSArray *fucName = @[@"界面选择",@"遥控拍照",@"查找手环",@"提醒功能",@"微信运动",@"亮度调节",@"单位设置",@"时间格式",@"关于"];
-        NSArray *imageName = @[@"set_interface",@"set_camera",@"set_find",@"set_remind",@"set_wechat",@"set_dimming",@"set_unit",@"set_time",@"set_info"];
+        NSArray *fucName = @[@"界面选择",@"遥控拍照",@"查找手环",@"提醒功能",@"微信运动",@"亮度调节",@"单位设置",@"时间格式",@"目标设置",@"关于"];
+        NSArray *imageName = @[@"set_interface",@"set_camera",@"set_find",@"set_remind",@"set_wechat",@"set_dimming",@"set_unit",@"set_time",@"",@"set_info"];
         NSMutableArray *dataArr = [NSMutableArray array];
         for (int i = 0; i < fucName.count; i ++) {
             SettingCellModel *model = [[SettingCellModel alloc] init];
@@ -276,7 +276,7 @@ static NSString *const settingHeaderID = @"settingHeader";
 - (NSArray *)vcArray
 {
     if (!_vcArray) {
-        _vcArray = @[@"InterfaceSelectionViewController", @"TakePhotoViewController", @"FindMyPeriphearlViewController", @"RemindViewController", @"WeChatViewController", @"DimmingViewController"];
+        _vcArray = @[@"InterfaceSelectionViewController", @"TakePhotoViewController", @"FindMyPeriphearlViewController", @"RemindViewController", @"WeChatViewController", @"DimmingViewController", @"UnitsSettingViewController", @"TimeFormatterViewController", @"TargetSettingViewController", @"AboutViewController"];
     }
     
     return _vcArray;

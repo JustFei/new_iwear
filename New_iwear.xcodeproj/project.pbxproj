@@ -37,6 +37,15 @@
 		9C4FBDBF1EB099140072E9CE /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDBE1EB099140072E9CE /* RootViewController.m */; };
 		9C4FBDC31EB099D90072E9CE /* BaseNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDC21EB099D90072E9CE /* BaseNavigationViewController.m */; };
 		9C4FBDC71EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDC61EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m */; };
+		9CD631071EC0163D005EECE1 /* UnitsSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD631061EC0163D005EECE1 /* UnitsSettingViewController.m */; };
+		9CD6310B1EC019A2005EECE1 /* UnitsSettingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD6310A1EC019A2005EECE1 /* UnitsSettingTableViewCell.m */; };
+		9CD6310F1EC01E58005EECE1 /* UnitsSettingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD6310E1EC01E58005EECE1 /* UnitsSettingModel.m */; };
+		9CD631131EC0556B005EECE1 /* TimeFormatterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD631121EC0556B005EECE1 /* TimeFormatterViewController.m */; };
+		9CD631171EC05A06005EECE1 /* TargetSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD631161EC05A06005EECE1 /* TargetSettingViewController.m */; };
+		9CD6311A1EC05BB2005EECE1 /* TargetSettingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD631191EC05BB2005EECE1 /* TargetSettingTableViewCell.m */; };
+		9CD6311D1EC06866005EECE1 /* TargetSettingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD6311C1EC06866005EECE1 /* TargetSettingModel.m */; };
+		9CD631211EC06E84005EECE1 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD631201EC06E84005EECE1 /* AboutViewController.m */; };
+		9CD631241EC06F7B005EECE1 /* AboutTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD631231EC06F7B005EECE1 /* AboutTableViewCell.m */; };
 		9CDEAC5A1EB078EC00279EDA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDEAC591EB078EC00279EDA /* main.m */; };
 		9CDEAC5D1EB078EC00279EDA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDEAC5C1EB078EC00279EDA /* AppDelegate.m */; };
 		9CDEAC681EB078EC00279EDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9CDEAC671EB078EC00279EDA /* Assets.xcassets */; };
@@ -102,6 +111,24 @@
 		9C4FBDC51EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+FDFullscreenPopGesture.h"; sourceTree = "<group>"; };
 		9C4FBDC61EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FDFullscreenPopGesture.m"; sourceTree = "<group>"; };
 		9C5CC3BC1EBC1B96009C07A5 /* FrameConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FrameConstants.h; path = Constants/FrameConstants.h; sourceTree = "<group>"; };
+		9CD631051EC0163D005EECE1 /* UnitsSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnitsSettingViewController.h; path = Setting/UnitsSettingViewController/UnitsSettingViewController.h; sourceTree = "<group>"; };
+		9CD631061EC0163D005EECE1 /* UnitsSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UnitsSettingViewController.m; path = Setting/UnitsSettingViewController/UnitsSettingViewController.m; sourceTree = "<group>"; };
+		9CD631091EC019A2005EECE1 /* UnitsSettingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnitsSettingTableViewCell.h; path = Setting/UnitsSettingViewController/UnitsSettingTableViewCell.h; sourceTree = "<group>"; };
+		9CD6310A1EC019A2005EECE1 /* UnitsSettingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UnitsSettingTableViewCell.m; path = Setting/UnitsSettingViewController/UnitsSettingTableViewCell.m; sourceTree = "<group>"; };
+		9CD6310D1EC01E58005EECE1 /* UnitsSettingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnitsSettingModel.h; path = Setting/UnitsSettingViewController/UnitsSettingModel.h; sourceTree = "<group>"; };
+		9CD6310E1EC01E58005EECE1 /* UnitsSettingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UnitsSettingModel.m; path = Setting/UnitsSettingViewController/UnitsSettingModel.m; sourceTree = "<group>"; };
+		9CD631111EC0556B005EECE1 /* TimeFormatterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeFormatterViewController.h; path = Setting/TimeFormatterViewController/TimeFormatterViewController.h; sourceTree = "<group>"; };
+		9CD631121EC0556B005EECE1 /* TimeFormatterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeFormatterViewController.m; path = Setting/TimeFormatterViewController/TimeFormatterViewController.m; sourceTree = "<group>"; };
+		9CD631151EC05A06005EECE1 /* TargetSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TargetSettingViewController.h; path = Setting/TargetSettingViewController/TargetSettingViewController.h; sourceTree = "<group>"; };
+		9CD631161EC05A06005EECE1 /* TargetSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TargetSettingViewController.m; path = Setting/TargetSettingViewController/TargetSettingViewController.m; sourceTree = "<group>"; };
+		9CD631181EC05BB2005EECE1 /* TargetSettingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TargetSettingTableViewCell.h; path = Setting/TargetSettingViewController/TargetSettingTableViewCell.h; sourceTree = "<group>"; };
+		9CD631191EC05BB2005EECE1 /* TargetSettingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TargetSettingTableViewCell.m; path = Setting/TargetSettingViewController/TargetSettingTableViewCell.m; sourceTree = "<group>"; };
+		9CD6311B1EC06866005EECE1 /* TargetSettingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TargetSettingModel.h; path = Setting/TargetSettingViewController/TargetSettingModel.h; sourceTree = "<group>"; };
+		9CD6311C1EC06866005EECE1 /* TargetSettingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TargetSettingModel.m; path = Setting/TargetSettingViewController/TargetSettingModel.m; sourceTree = "<group>"; };
+		9CD6311F1EC06E84005EECE1 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutViewController.h; path = Setting/AboutViewController/AboutViewController.h; sourceTree = "<group>"; };
+		9CD631201EC06E84005EECE1 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutViewController.m; path = Setting/AboutViewController/AboutViewController.m; sourceTree = "<group>"; };
+		9CD631221EC06F7B005EECE1 /* AboutTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutTableViewCell.h; path = Setting/AboutViewController/AboutTableViewCell.h; sourceTree = "<group>"; };
+		9CD631231EC06F7B005EECE1 /* AboutTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutTableViewCell.m; path = Setting/AboutViewController/AboutTableViewCell.m; sourceTree = "<group>"; };
 		9CDEAC551EB078EC00279EDA /* New_iwear.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = New_iwear.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CDEAC591EB078EC00279EDA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9CDEAC5B1EB078EC00279EDA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -152,13 +179,17 @@
 		9C04968D1EB87D7E00EDBEBB /* Setting */ = {
 			isa = PBXGroup;
 			children = (
-				9C3AE84F1EBDCD350078CDAA /* DimmingViewController */,
+				9CD6311E1EC06E52005EECE1 /* AboutViewController */,
 				9C0496911EB880FC00EDBEBB /* SettingViewController */,
 				9C079AAC1EBC613200D54AB3 /* InterfaceSelectionViewController */,
 				9C079AB91EBC8C2800D54AB3 /* TakePhotoViewController */,
 				9C3AE8321EBD76DE0078CDAA /* FindMyPeriphearlViewController */,
 				9C3AE8361EBD79400078CDAA /* RemindViewController */,
 				9C3AE84A1EBDC5C90078CDAA /* WeChatViewController */,
+				9C3AE84F1EBDCD350078CDAA /* DimmingViewController */,
+				9CD631041EC015FF005EECE1 /* UnitsSettingViewController */,
+				9CD631101EC05541005EECE1 /* TimeFormatterViewController */,
+				9CD631141EC059C9005EECE1 /* TargetSettingViewController */,
 			);
 			name = Setting;
 			sourceTree = "<group>";
@@ -328,6 +359,68 @@
 				9C4FBDC61EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m */,
 			);
 			path = FDFullscreenPopGesture;
+			sourceTree = "<group>";
+		};
+		9CD631041EC015FF005EECE1 /* UnitsSettingViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9CD631051EC0163D005EECE1 /* UnitsSettingViewController.h */,
+				9CD631061EC0163D005EECE1 /* UnitsSettingViewController.m */,
+				9CD6310C1EC01E32005EECE1 /* UnitsSettingModel */,
+				9CD631081EC01967005EECE1 /* UnitsSettingView */,
+			);
+			name = UnitsSettingViewController;
+			sourceTree = "<group>";
+		};
+		9CD631081EC01967005EECE1 /* UnitsSettingView */ = {
+			isa = PBXGroup;
+			children = (
+				9CD631091EC019A2005EECE1 /* UnitsSettingTableViewCell.h */,
+				9CD6310A1EC019A2005EECE1 /* UnitsSettingTableViewCell.m */,
+			);
+			name = UnitsSettingView;
+			sourceTree = "<group>";
+		};
+		9CD6310C1EC01E32005EECE1 /* UnitsSettingModel */ = {
+			isa = PBXGroup;
+			children = (
+				9CD6310D1EC01E58005EECE1 /* UnitsSettingModel.h */,
+				9CD6310E1EC01E58005EECE1 /* UnitsSettingModel.m */,
+			);
+			name = UnitsSettingModel;
+			sourceTree = "<group>";
+		};
+		9CD631101EC05541005EECE1 /* TimeFormatterViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9CD631111EC0556B005EECE1 /* TimeFormatterViewController.h */,
+				9CD631121EC0556B005EECE1 /* TimeFormatterViewController.m */,
+			);
+			name = TimeFormatterViewController;
+			sourceTree = "<group>";
+		};
+		9CD631141EC059C9005EECE1 /* TargetSettingViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9CD631151EC05A06005EECE1 /* TargetSettingViewController.h */,
+				9CD631161EC05A06005EECE1 /* TargetSettingViewController.m */,
+				9CD631181EC05BB2005EECE1 /* TargetSettingTableViewCell.h */,
+				9CD631191EC05BB2005EECE1 /* TargetSettingTableViewCell.m */,
+				9CD6311B1EC06866005EECE1 /* TargetSettingModel.h */,
+				9CD6311C1EC06866005EECE1 /* TargetSettingModel.m */,
+			);
+			name = TargetSettingViewController;
+			sourceTree = "<group>";
+		};
+		9CD6311E1EC06E52005EECE1 /* AboutViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9CD6311F1EC06E84005EECE1 /* AboutViewController.h */,
+				9CD631201EC06E84005EECE1 /* AboutViewController.m */,
+				9CD631221EC06F7B005EECE1 /* AboutTableViewCell.h */,
+				9CD631231EC06F7B005EECE1 /* AboutTableViewCell.m */,
+			);
+			name = AboutViewController;
 			sourceTree = "<group>";
 		};
 		9CDEAC4C1EB078EC00279EDA = {
@@ -545,6 +638,7 @@
 			files = (
 				9C4FBDB71EB081A00072E9CE /* StepCircleView.m in Sources */,
 				9C079AAA1EBC612500D54AB3 /* PeripheralCellModel.m in Sources */,
+				9CD631241EC06F7B005EECE1 /* AboutTableViewCell.m in Sources */,
 				9C08178E1EB9D69A00C1845F /* SettingHeaderView.m in Sources */,
 				9C4FBDBF1EB099140072E9CE /* RootViewController.m in Sources */,
 				9C079AB81EBC747700D54AB3 /* InterfaceSelectionModel.m in Sources */,
@@ -552,20 +646,28 @@
 				9C3AE8521EBDCD850078CDAA /* DimmingViewController.m in Sources */,
 				9C3AE82B1EBD63D50078CDAA /* CameraViewController.m in Sources */,
 				9C079AAB1EBC612500D54AB3 /* SettingCellModel.m in Sources */,
+				9CD6311A1EC05BB2005EECE1 /* TargetSettingTableViewCell.m in Sources */,
 				9C0817831EB9AB9300C1845F /* SettingTableViewCell.m in Sources */,
+				9CD6310B1EC019A2005EECE1 /* UnitsSettingTableViewCell.m in Sources */,
 				9C3AE8431EBD81320078CDAA /* RemindModel.m in Sources */,
 				9C4FBDB11EB081760072E9CE /* SecondViewController.m in Sources */,
+				9CD6310F1EC01E58005EECE1 /* UnitsSettingModel.m in Sources */,
 				9C4FBDC71EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				9C4FBDC31EB099D90072E9CE /* BaseNavigationViewController.m in Sources */,
 				9C4FBDBB1EB081E00072E9CE /* ThirdViewController.m in Sources */,
+				9CD631211EC06E84005EECE1 /* AboutViewController.m in Sources */,
 				9CDEAC5D1EB078EC00279EDA /* AppDelegate.m in Sources */,
 				9C3AE83C1EBD7A200078CDAA /* RemindViewController.m in Sources */,
 				9C3AE8461EBDB46B0078CDAA /* RemindMoreViewController.m in Sources */,
+				9CD631171EC05A06005EECE1 /* TargetSettingViewController.m in Sources */,
+				9CD6311D1EC06866005EECE1 /* TargetSettingModel.m in Sources */,
 				9C3AE83F1EBD80F40078CDAA /* RemindCollectionViewCell.m in Sources */,
 				9C3AE8491EBDB8320078CDAA /* RemindMoreTableViewCell.m in Sources */,
 				9C3AE8351EBD770B0078CDAA /* FindMyPeriphearlViewController.m in Sources */,
 				9CDEAC5A1EB078EC00279EDA /* main.m in Sources */,
 				9C0817741EB9AB1800C1845F /* SettingPeripheralTableViewCell.m in Sources */,
+				9CD631071EC0163D005EECE1 /* UnitsSettingViewController.m in Sources */,
+				9CD631131EC0556B005EECE1 /* TimeFormatterViewController.m in Sources */,
 				9C4FBDB61EB081A00072E9CE /* FirstViewController.m in Sources */,
 				9C0496901EB87DC400EDBEBB /* SettingViewController.m in Sources */,
 				9C079ABC1EBC8D6300D54AB3 /* TakePhotoViewController.m in Sources */,

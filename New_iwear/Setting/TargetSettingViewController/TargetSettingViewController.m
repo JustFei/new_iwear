@@ -1,29 +1,28 @@
 //
-//  RemindMoreViewController.m
+//  TargetSettingViewController.m
 //  New_iwear
 //
-//  Created by Faith on 2017/5/6.
+//  Created by Faith on 2017/5/8.
 //  Copyright © 2017年 manridy. All rights reserved.
 //
 
-#import "RemindMoreViewController.h"
-#import "RemindMoreTableViewCell.h"
+#import "TargetSettingViewController.h"
+#import "TargetSettingTableViewCell.h"
 
-static NSString * const RemindMoreTableViewCellID = @"RemindMoreTableViewCell";
+static NSString * const TargetSettingTableViewCellID = @"TargetSettingTableViewCell";
 
-@interface RemindMoreViewController () < UITableViewDelegate, UITableViewDataSource >
+@interface TargetSettingViewController () < UITableViewDelegate, UITableViewDataSource >
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *dataArr;
 
 @end
 
-@implementation RemindMoreViewController
+@implementation TargetSettingViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.title = @"更多提醒";
+    self.title = @"目标设置";
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
@@ -32,9 +31,10 @@ static NSString * const RemindMoreTableViewCellID = @"RemindMoreTableViewCell";
     self.automaticallyAdjustsScrollViewInsets = YES;
     
     self.view.backgroundColor = SETTING_BACKGROUND_COLOR;
-    self.tableView.backgroundColor = SETTING_BACKGROUND_COLOR;
+    self.tableView.backgroundColor = CLEAR_COLOR;
 }
 
+#pragma mark - Action
 - (void)backViewController
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -53,16 +53,20 @@ static NSString * const RemindMoreTableViewCellID = @"RemindMoreTableViewCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    RemindMoreTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:RemindMoreTableViewCellID forIndexPath:indexPath];
+    TargetSettingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TargetSettingTableViewCellID];
     
     cell.model = self.dataArr[indexPath.row];
-    
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 48;
+    return 80;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - lazy
@@ -70,11 +74,11 @@ static NSString * const RemindMoreTableViewCellID = @"RemindMoreTableViewCell";
 {
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:VIEW_CONTROLLER_BOUNDS style:UITableViewStylePlain];
-        [_tableView registerClass:NSClassFromString(@"RemindMoreTableViewCell") forCellReuseIdentifier:RemindMoreTableViewCellID];
-        _tableView.tableFooterView = [UIView new];
+        [_tableView registerClass:NSClassFromString(TargetSettingTableViewCellID) forCellReuseIdentifier:TargetSettingTableViewCellID];
         _tableView.separatorInset = UIEdgeInsetsMake(0, 16, 0, 16);
+        _tableView.tableFooterView = [UIView new];
+        _tableView.scrollEnabled = NO;
         
-        _tableView.showsVerticalScrollIndicator = NO;
         _tableView.delegate = self;
         _tableView.dataSource = self;
         [self.view addSubview:_tableView];
@@ -86,17 +90,16 @@ static NSString * const RemindMoreTableViewCellID = @"RemindMoreTableViewCell";
 - (NSArray *)dataArr
 {
     if (!_dataArr) {
-        NSMutableArray *mutArr = [NSMutableArray array];
-        NSArray *imageNameArr = @[@"remind_sit02", @"remind_alarm02", @"remind_mgs02", @"remind_phone02", @"remind_antilost", @"remind_app"];
-        NSArray *funcNameArr = @[@"久坐提醒", @"闹钟提醒", @"短信提醒", @"来电提醒", @"防丢提醒", @"APP提醒"];
-        for (int index = 0; index < funcNameArr.count; index ++) {
-            RemindModel *model = [[RemindModel alloc] init];
-            model.functionName = funcNameArr[index];
-            model.headImageName = imageNameArr[index];
-            [mutArr addObject:model];
-        }
+        TargetSettingModel *model1 = [[TargetSettingModel alloc] init];
+        model1.title = @"运动目标";
+        model1.name = @"每天步行";
+        model1.target = @"8000步";
         
-        _dataArr = [NSArray arrayWithArray:mutArr];
+        TargetSettingModel *model2 = [[TargetSettingModel alloc] init];
+        model2.title = @"睡眠目标";
+        model2.name = @"每天睡眠";
+        model2.target = @"8小时";
+        _dataArr = @[model1, model2];
     }
     
     return _dataArr;

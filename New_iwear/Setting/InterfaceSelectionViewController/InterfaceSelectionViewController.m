@@ -57,7 +57,6 @@ static NSString *const interfaceCollectionViewHeaderID = @"interfaceCollectionVi
 {
     InterfaceSelectionCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:interfaceCollectionViewCellID forIndexPath:indexPath];
     
-//    [cell setNeedsDisplay];
     cell.model = self.dataArr[indexPath.row];
     return cell;
 }
@@ -74,7 +73,7 @@ static NSString *const interfaceCollectionViewHeaderID = @"interfaceCollectionVi
     UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:interfaceCollectionViewHeaderID forIndexPath:indexPath];
     UILabel *tipLabel = [[UILabel alloc] init];
     [tipLabel setText:@"选择需要在设备上显示的界面"];
-    [tipLabel setTextColor:TEXT_COLOR_LEVEL3];
+    [tipLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [tipLabel setFont:[UIFont systemFontOfSize:14]];
     [headerView addSubview:tipLabel];
     [tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -83,7 +82,7 @@ static NSString *const interfaceCollectionViewHeaderID = @"interfaceCollectionVi
     }];
     
     UIView *lineView = [[UIView alloc] init];
-    lineView.backgroundColor = TEXT_COLOR_LEVEL1;
+    lineView.backgroundColor = TEXT_BLACK_COLOR_LEVEL1;
     [headerView addSubview:lineView];
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(headerView.mas_left);
@@ -93,6 +92,21 @@ static NSString *const interfaceCollectionViewHeaderID = @"interfaceCollectionVi
     }];
     
     return headerView;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    InterfaceSelectionModel *model = self.dataArr[indexPath.row];
+    if (model.selectMode == SelectModeUnchoose) {
+        return;
+    }
+    model.selectMode = model.selectMode == SelectModeSelected ? SelectModeUnselected : SelectModeSelected;
+    NSMutableArray *mutArr = [NSMutableArray arrayWithArray:self.dataArr];
+    [mutArr replaceObjectAtIndex:indexPath.row withObject:model];
+    self.dataArr = mutArr;
+    NSArray *indexPathArr = @[indexPath];
+    [self.collectionView reloadItemsAtIndexPaths:indexPathArr];
 }
 
 #pragma mark - lazy
@@ -107,7 +121,7 @@ static NSString *const interfaceCollectionViewHeaderID = @"interfaceCollectionVi
         layout.minimumLineSpacing = 4;
         // 设置垂直间距
         layout.minimumInteritemSpacing = 4;
-        layout.sectionInset = UIEdgeInsetsMake(4, 43, 4, 43);
+        layout.sectionInset = UIEdgeInsetsMake(4, 43 * VIEW_CONTROLLER_FRAME_WIDTH / 375, 4, 43 * VIEW_CONTROLLER_FRAME_WIDTH / 375);
         // 设置滚动方向（默认垂直滚动）
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
         

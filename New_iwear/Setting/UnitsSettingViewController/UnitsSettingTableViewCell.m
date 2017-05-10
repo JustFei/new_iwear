@@ -24,7 +24,7 @@
         self.backgroundColor = CLEAR_COLOR;
         
         _nameLabel = [[UILabel alloc] init];
-        [_nameLabel setTextColor:TEXT_COLOR_LEVEL3];
+        [_nameLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [_nameLabel setFont:[UIFont systemFontOfSize:14]];
         [self addSubview:_nameLabel];
         [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -52,7 +52,7 @@
         _model = model;
         [self.nameLabel setText:model.name];
         self.selectButton.selected = model.isSelect;
-        [self.nameLabel setTextColor:model.isSelect ? NAVIGATION_BAR_COLOR : TEXT_COLOR_LEVEL4 ];
+        [self.nameLabel setTextColor:model.isSelect ? NAVIGATION_BAR_COLOR : TEXT_BLACK_COLOR_LEVEL4 ];
     }
 }
 

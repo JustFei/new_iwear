@@ -12,7 +12,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"peripheralName == %@, isBind == %d, isConnect == %d, battery == %ld", _peripheralName, _isBind, _isConnect, _battery];
+    return [NSString stringWithFormat:@"peripheralName == %@, isBind == %d, isConnect == %d, battery == %ld", _peripheralName, _isBind, _isConnect, (long)_battery];
 }
 
 @end

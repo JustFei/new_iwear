@@ -14,10 +14,10 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.backgroundColor = WHITE_COLOR;
+        self.backgroundColor = CLEAR_COLOR;
         
         _nameLabel = [[UILabel alloc] init];
-        [_nameLabel setTextColor:TEXT_COLOR_LEVEL3];
+        [_nameLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [_nameLabel setFont:[UIFont systemFontOfSize:14]];
         [self addSubview:_nameLabel];
         [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {

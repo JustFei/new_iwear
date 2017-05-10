@@ -25,7 +25,7 @@
         self.backgroundColor = CLEAR_COLOR;
         
         _titleLabel = [[UILabel alloc] init];
-        [_titleLabel setTextColor:TEXT_COLOR_LEVEL3];
+        [_titleLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [_titleLabel setFont:[UIFont systemFontOfSize:12]];
         [self addSubview:_titleLabel];
         [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -34,7 +34,7 @@
         }];
         
         _nameLabel = [[UILabel alloc] init];
-        [_nameLabel setTextColor:TEXT_COLOR_LEVEL4];
+        [_nameLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_nameLabel setFont:[UIFont systemFontOfSize:14]];
         [self addSubview:_nameLabel];
         [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {

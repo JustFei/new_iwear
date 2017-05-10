@@ -76,7 +76,7 @@ static NSString * const UnitsSettingTableViewCellID = @"UnitsSettingTableViewCel
     UILabel *sectionTitleLabel = [[UILabel alloc] init];
     [sectionTitleLabel setText:section == 0 ? @"长度单位设置" : @"重量单位设置"];
     [sectionTitleLabel setFont:[UIFont systemFontOfSize:14]];
-    [sectionTitleLabel setTextColor:TEXT_COLOR_LEVEL3];
+    [sectionTitleLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [headerView addSubview:sectionTitleLabel];
     [sectionTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(headerView.mas_left).offset(16);

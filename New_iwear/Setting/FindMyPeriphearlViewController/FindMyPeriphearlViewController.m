@@ -34,7 +34,7 @@
     
     UILabel *infoLabel = [[UILabel alloc] init];
     [infoLabel setText:@"使用此功能需手环与手机保持连接"];
-    [infoLabel setTextColor:TEXT_COLOR_LEVEL3];
+    [infoLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [infoLabel setFont:[UIFont systemFontOfSize:14]];
     [self.view addSubview:infoLabel];
     [infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -43,7 +43,7 @@
     }];
     
     UIView *lineView = [[UIView alloc] init];
-    lineView.backgroundColor = TEXT_COLOR_LEVEL1;
+    lineView.backgroundColor = TEXT_BLACK_COLOR_LEVEL1;
     [self.view addSubview:lineView];
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left);
@@ -69,7 +69,7 @@
     UILabel *takePhotoLabel = [[UILabel alloc] init];
     [takePhotoLabel setText:@"查找手环"];
     [takePhotoLabel setFont:[UIFont systemFontOfSize:14]];
-    [takePhotoLabel setTextColor:TEXT_COLOR_LEVEL3];
+    [takePhotoLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [self.view addSubview:takePhotoLabel];
     [takePhotoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.mas_centerX);
@@ -79,7 +79,7 @@
     UILabel *tipLabel = [[UILabel alloc] init];
     [tipLabel setText:@"如果找到手环，手环会振动和亮屏"];
     [tipLabel setFont:[UIFont systemFontOfSize:12]];
-    [tipLabel setTextColor:TEXT_COLOR_LEVEL3];
+    [tipLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [self.view addSubview:tipLabel];
     [tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).offset(16);

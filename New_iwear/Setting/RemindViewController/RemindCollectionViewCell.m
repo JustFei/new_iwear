@@ -32,7 +32,7 @@
         }];
         
         _functionNameLabel = [[UILabel alloc] init];
-        [_functionNameLabel setTextColor:TEXT_COLOR_LEVEL3];
+        [_functionNameLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [_functionNameLabel setFont:[UIFont systemFontOfSize:16]];
         [self addSubview:_functionNameLabel];
         [_functionNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -41,7 +41,7 @@
         }];
         
         _isOpenLabel = [[UILabel alloc] init];
-        [_isOpenLabel setTextColor:TEXT_COLOR_LEVEL2];
+        [_isOpenLabel setTextColor:TEXT_BLACK_COLOR_LEVEL2];
         [_isOpenLabel setFont:[UIFont systemFontOfSize:14]];
         [self addSubview:_isOpenLabel];
         [_isOpenLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -49,7 +49,7 @@
             make.top.equalTo(_functionNameLabel.mas_bottom).offset(9);
         }];
         
-        self.layer.borderColor = TEXT_COLOR_LEVEL1.CGColor;//边框颜色
+        self.layer.borderColor = TEXT_BLACK_COLOR_LEVEL1.CGColor;//边框颜色
         self.layer.borderWidth = 1;//边框宽度
     }
     return self;

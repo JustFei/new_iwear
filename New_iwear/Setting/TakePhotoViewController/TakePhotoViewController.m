@@ -28,14 +28,14 @@
 
 - (void)createUI
 {
-    MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFloatingAction rippleColor:nil];
+    MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
     UILabel *infoLabel = [[UILabel alloc] init];
     [infoLabel setText:@"使用手表遥控拍照"];
-    [infoLabel setTextColor:TEXT_COLOR_LEVEL3];
+    [infoLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [infoLabel setFont:[UIFont systemFontOfSize:14]];
     [self.view addSubview:infoLabel];
     [infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -44,7 +44,7 @@
     }];
     
     UIView *lineView = [[UIView alloc] init];
-    lineView.backgroundColor = TEXT_COLOR_LEVEL1;
+    lineView.backgroundColor = TEXT_BLACK_COLOR_LEVEL1;
     [self.view addSubview:lineView];
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left);
@@ -70,7 +70,7 @@
     UILabel *takePhotoLabel = [[UILabel alloc] init];
     [takePhotoLabel setText:@"开始拍照"];
     [takePhotoLabel setFont:[UIFont systemFontOfSize:14]];
-    [takePhotoLabel setTextColor:TEXT_COLOR_LEVEL3];
+    [takePhotoLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [self.view addSubview:takePhotoLabel];
     [takePhotoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.mas_centerX);

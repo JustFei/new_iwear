@@ -37,6 +37,36 @@
 		9C4FBDBF1EB099140072E9CE /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDBE1EB099140072E9CE /* RootViewController.m */; };
 		9C4FBDC31EB099D90072E9CE /* BaseNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDC21EB099D90072E9CE /* BaseNavigationViewController.m */; };
 		9C4FBDC71EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDC61EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m */; };
+		9C9E7FCA1EC2AC9E004840FD /* ClockTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FC91EC2AC9E004840FD /* ClockTableViewCell.m */; };
+		9C9E7FCE1EC2B224004840FD /* ClockModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FCD1EC2B224004840FD /* ClockModel.m */; };
+		9C9E7FD21EC2C06B004840FD /* MessageReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FD11EC2C06B004840FD /* MessageReminderViewController.m */; };
+		9C9E7FD61EC2C38C004840FD /* PhoneReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FD51EC2C38C004840FD /* PhoneReminderViewController.m */; };
+		9C9E7FDA1EC2C4C2004840FD /* LoseReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FD91EC2C4C2004840FD /* LoseReminderViewController.m */; };
+		9C9E7FDE1EC2E117004840FD /* BleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FDD1EC2E117004840FD /* BleManager.m */; };
+		9C9E7FE61EC2E1F1004840FD /* AnalysisProcotolTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FE31EC2E1F1004840FD /* AnalysisProcotolTool.m */; };
+		9C9E7FE71EC2E1F1004840FD /* NSStringTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FE51EC2E1F1004840FD /* NSStringTool.m */; };
+		9C9E80031EC2E203004840FD /* BloodModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FEA1EC2E203004840FD /* BloodModel.m */; };
+		9C9E80041EC2E203004840FD /* BloodO2Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FEC1EC2E203004840FD /* BloodO2Model.m */; };
+		9C9E80051EC2E203004840FD /* HeartRateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FEE1EC2E203004840FD /* HeartRateModel.m */; };
+		9C9E80061EC2E203004840FD /* manridyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FF01EC2E203004840FD /* manridyModel.m */; };
+		9C9E80071EC2E203004840FD /* Remind.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FF21EC2E203004840FD /* Remind.m */; };
+		9C9E80081EC2E203004840FD /* SedentaryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FF41EC2E203004840FD /* SedentaryModel.m */; };
+		9C9E80091EC2E203004840FD /* SegmentedRunModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FF61EC2E203004840FD /* SegmentedRunModel.m */; };
+		9C9E800A1EC2E203004840FD /* SegmentedStepModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FF81EC2E203004840FD /* SegmentedStepModel.m */; };
+		9C9E800B1EC2E203004840FD /* SetTimeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FFA1EC2E203004840FD /* SetTimeModel.m */; };
+		9C9E800C1EC2E203004840FD /* SleepModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FFC1EC2E203004840FD /* SleepModel.m */; };
+		9C9E800D1EC2E203004840FD /* SportModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FFE1EC2E203004840FD /* SportModel.m */; };
+		9C9E800E1EC2E203004840FD /* SportTargetModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E80001EC2E203004840FD /* SportTargetModel.m */; };
+		9C9E800F1EC2E203004840FD /* TakePhotoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E80021EC2E203004840FD /* TakePhotoModel.m */; };
+		9C9E80121EC2E20B004840FD /* BleDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E80111EC2E20B004840FD /* BleDevice.m */; };
+		9C9E80151EC2E283004840FD /* UserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E80141EC2E283004840FD /* UserInfoModel.m */; };
+		9C9E80181EC2E298004840FD /* StepDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E80171EC2E298004840FD /* StepDataModel.m */; };
+		9C9E801C1EC2E6AD004840FD /* BindPeripheralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E801B1EC2E6AD004840FD /* BindPeripheralViewController.m */; };
+		9CA1C86C1EC2E944007DB83A /* AlertTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CA1C86B1EC2E944007DB83A /* AlertTool.m */; };
+		9CA1C8701EC313E8007DB83A /* FMDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CA1C86F1EC313E8007DB83A /* FMDBManager.m */; };
+		9CB6160F1EC31544008914F5 /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB6160E1EC31544008914F5 /* UserInfoViewController.m */; };
+		9CB616121EC31575008914F5 /* UserInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB616111EC31575008914F5 /* UserInfoTableViewCell.m */; };
+		9CB616161EC316FB008914F5 /* UnitsTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB616151EC316FB008914F5 /* UnitsTool.m */; };
 		9CD631071EC0163D005EECE1 /* UnitsSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD631061EC0163D005EECE1 /* UnitsSettingViewController.m */; };
 		9CD6310B1EC019A2005EECE1 /* UnitsSettingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD6310A1EC019A2005EECE1 /* UnitsSettingTableViewCell.m */; };
 		9CD6310F1EC01E58005EECE1 /* UnitsSettingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD6310E1EC01E58005EECE1 /* UnitsSettingModel.m */; };
@@ -50,6 +80,10 @@
 		9CDEAC5D1EB078EC00279EDA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDEAC5C1EB078EC00279EDA /* AppDelegate.m */; };
 		9CDEAC681EB078EC00279EDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9CDEAC671EB078EC00279EDA /* Assets.xcassets */; };
 		9CDEAC6B1EB078EC00279EDA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9CDEAC691EB078EC00279EDA /* LaunchScreen.storyboard */; };
+		9CE95A5E1EC154C200E88B47 /* SedentaryReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE95A5D1EC154C200E88B47 /* SedentaryReminderViewController.m */; };
+		9CE95A611EC15DC600E88B47 /* SedentaryReminderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE95A601EC15DC600E88B47 /* SedentaryReminderTableViewCell.m */; };
+		9CE95A651EC1BE5900E88B47 /* SedentaryReminderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE95A641EC1BE5900E88B47 /* SedentaryReminderModel.m */; };
+		9CE95A691EC1CBF700E88B47 /* ClockReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE95A681EC1CBF700E88B47 /* ClockReminderViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -111,6 +145,66 @@
 		9C4FBDC51EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+FDFullscreenPopGesture.h"; sourceTree = "<group>"; };
 		9C4FBDC61EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FDFullscreenPopGesture.m"; sourceTree = "<group>"; };
 		9C5CC3BC1EBC1B96009C07A5 /* FrameConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FrameConstants.h; path = Constants/FrameConstants.h; sourceTree = "<group>"; };
+		9C9E7FC81EC2AC9E004840FD /* ClockTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClockTableViewCell.h; path = Setting/RemindViewController/ClockViewController/ClockTableViewCell.h; sourceTree = "<group>"; };
+		9C9E7FC91EC2AC9E004840FD /* ClockTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClockTableViewCell.m; path = Setting/RemindViewController/ClockViewController/ClockTableViewCell.m; sourceTree = "<group>"; };
+		9C9E7FCC1EC2B224004840FD /* ClockModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClockModel.h; path = Setting/RemindViewController/ClockViewController/ClockModel.h; sourceTree = "<group>"; };
+		9C9E7FCD1EC2B224004840FD /* ClockModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClockModel.m; path = Setting/RemindViewController/ClockViewController/ClockModel.m; sourceTree = "<group>"; };
+		9C9E7FD01EC2C06B004840FD /* MessageReminderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageReminderViewController.h; path = Setting/RemindViewController/MessageReminderViewController/MessageReminderViewController.h; sourceTree = "<group>"; };
+		9C9E7FD11EC2C06B004840FD /* MessageReminderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageReminderViewController.m; path = Setting/RemindViewController/MessageReminderViewController/MessageReminderViewController.m; sourceTree = "<group>"; };
+		9C9E7FD41EC2C38C004840FD /* PhoneReminderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhoneReminderViewController.h; path = Setting/RemindViewController/PhoneReminderViewController/PhoneReminderViewController.h; sourceTree = "<group>"; };
+		9C9E7FD51EC2C38C004840FD /* PhoneReminderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhoneReminderViewController.m; path = Setting/RemindViewController/PhoneReminderViewController/PhoneReminderViewController.m; sourceTree = "<group>"; };
+		9C9E7FD81EC2C4C2004840FD /* LoseReminderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoseReminderViewController.h; path = Setting/RemindViewController/LoseReminderViewController/LoseReminderViewController.h; sourceTree = "<group>"; };
+		9C9E7FD91EC2C4C2004840FD /* LoseReminderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoseReminderViewController.m; path = Setting/RemindViewController/LoseReminderViewController/LoseReminderViewController.m; sourceTree = "<group>"; };
+		9C9E7FDC1EC2E117004840FD /* BleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BleManager.h; path = BleManager/BleManager.h; sourceTree = "<group>"; };
+		9C9E7FDD1EC2E117004840FD /* BleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BleManager.m; path = BleManager/BleManager.m; sourceTree = "<group>"; };
+		9C9E7FE21EC2E1F1004840FD /* AnalysisProcotolTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalysisProcotolTool.h; sourceTree = "<group>"; };
+		9C9E7FE31EC2E1F1004840FD /* AnalysisProcotolTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalysisProcotolTool.m; sourceTree = "<group>"; };
+		9C9E7FE41EC2E1F1004840FD /* NSStringTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringTool.h; sourceTree = "<group>"; };
+		9C9E7FE51EC2E1F1004840FD /* NSStringTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringTool.m; sourceTree = "<group>"; };
+		9C9E7FE91EC2E203004840FD /* BloodModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BloodModel.h; sourceTree = "<group>"; };
+		9C9E7FEA1EC2E203004840FD /* BloodModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BloodModel.m; sourceTree = "<group>"; };
+		9C9E7FEB1EC2E203004840FD /* BloodO2Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BloodO2Model.h; sourceTree = "<group>"; };
+		9C9E7FEC1EC2E203004840FD /* BloodO2Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BloodO2Model.m; sourceTree = "<group>"; };
+		9C9E7FED1EC2E203004840FD /* HeartRateModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeartRateModel.h; sourceTree = "<group>"; };
+		9C9E7FEE1EC2E203004840FD /* HeartRateModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeartRateModel.m; sourceTree = "<group>"; };
+		9C9E7FEF1EC2E203004840FD /* manridyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = manridyModel.h; sourceTree = "<group>"; };
+		9C9E7FF01EC2E203004840FD /* manridyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = manridyModel.m; sourceTree = "<group>"; };
+		9C9E7FF11EC2E203004840FD /* Remind.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Remind.h; sourceTree = "<group>"; };
+		9C9E7FF21EC2E203004840FD /* Remind.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Remind.m; sourceTree = "<group>"; };
+		9C9E7FF31EC2E203004840FD /* SedentaryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SedentaryModel.h; sourceTree = "<group>"; };
+		9C9E7FF41EC2E203004840FD /* SedentaryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SedentaryModel.m; sourceTree = "<group>"; };
+		9C9E7FF51EC2E203004840FD /* SegmentedRunModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentedRunModel.h; sourceTree = "<group>"; };
+		9C9E7FF61EC2E203004840FD /* SegmentedRunModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentedRunModel.m; sourceTree = "<group>"; };
+		9C9E7FF71EC2E203004840FD /* SegmentedStepModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentedStepModel.h; sourceTree = "<group>"; };
+		9C9E7FF81EC2E203004840FD /* SegmentedStepModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentedStepModel.m; sourceTree = "<group>"; };
+		9C9E7FF91EC2E203004840FD /* SetTimeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetTimeModel.h; sourceTree = "<group>"; };
+		9C9E7FFA1EC2E203004840FD /* SetTimeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetTimeModel.m; sourceTree = "<group>"; };
+		9C9E7FFB1EC2E203004840FD /* SleepModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SleepModel.h; sourceTree = "<group>"; };
+		9C9E7FFC1EC2E203004840FD /* SleepModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SleepModel.m; sourceTree = "<group>"; };
+		9C9E7FFD1EC2E203004840FD /* SportModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SportModel.h; sourceTree = "<group>"; };
+		9C9E7FFE1EC2E203004840FD /* SportModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SportModel.m; sourceTree = "<group>"; };
+		9C9E7FFF1EC2E203004840FD /* SportTargetModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SportTargetModel.h; sourceTree = "<group>"; };
+		9C9E80001EC2E203004840FD /* SportTargetModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SportTargetModel.m; sourceTree = "<group>"; };
+		9C9E80011EC2E203004840FD /* TakePhotoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TakePhotoModel.h; sourceTree = "<group>"; };
+		9C9E80021EC2E203004840FD /* TakePhotoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TakePhotoModel.m; sourceTree = "<group>"; };
+		9C9E80101EC2E20B004840FD /* BleDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BleDevice.h; path = BleManager/BleDevice.h; sourceTree = "<group>"; };
+		9C9E80111EC2E20B004840FD /* BleDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BleDevice.m; path = BleManager/BleDevice.m; sourceTree = "<group>"; };
+		9C9E80131EC2E283004840FD /* UserInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoModel.h; sourceTree = "<group>"; };
+		9C9E80141EC2E283004840FD /* UserInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoModel.m; sourceTree = "<group>"; };
+		9C9E80161EC2E298004840FD /* StepDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StepDataModel.h; sourceTree = "<group>"; };
+		9C9E80171EC2E298004840FD /* StepDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StepDataModel.m; sourceTree = "<group>"; };
+		9C9E801A1EC2E6AD004840FD /* BindPeripheralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BindPeripheralViewController.h; sourceTree = "<group>"; };
+		9C9E801B1EC2E6AD004840FD /* BindPeripheralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BindPeripheralViewController.m; sourceTree = "<group>"; };
+		9CA1C86A1EC2E944007DB83A /* AlertTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertTool.h; sourceTree = "<group>"; };
+		9CA1C86B1EC2E944007DB83A /* AlertTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertTool.m; sourceTree = "<group>"; };
+		9CA1C86E1EC313E8007DB83A /* FMDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDBManager.h; path = FMDBManager/FMDBManager.h; sourceTree = "<group>"; };
+		9CA1C86F1EC313E8007DB83A /* FMDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDBManager.m; path = FMDBManager/FMDBManager.m; sourceTree = "<group>"; };
+		9CB6160D1EC31544008914F5 /* UserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserInfoViewController.h; path = Setting/UserInfoViewController/UserInfoViewController.h; sourceTree = "<group>"; };
+		9CB6160E1EC31544008914F5 /* UserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserInfoViewController.m; path = Setting/UserInfoViewController/UserInfoViewController.m; sourceTree = "<group>"; };
+		9CB616101EC31575008914F5 /* UserInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserInfoTableViewCell.h; path = Setting/UserInfoViewController/UserInfoTableViewCell.h; sourceTree = "<group>"; };
+		9CB616111EC31575008914F5 /* UserInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserInfoTableViewCell.m; path = Setting/UserInfoViewController/UserInfoTableViewCell.m; sourceTree = "<group>"; };
+		9CB616141EC316FB008914F5 /* UnitsTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitsTool.h; sourceTree = "<group>"; };
+		9CB616151EC316FB008914F5 /* UnitsTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnitsTool.m; sourceTree = "<group>"; };
 		9CD631051EC0163D005EECE1 /* UnitsSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnitsSettingViewController.h; path = Setting/UnitsSettingViewController/UnitsSettingViewController.h; sourceTree = "<group>"; };
 		9CD631061EC0163D005EECE1 /* UnitsSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UnitsSettingViewController.m; path = Setting/UnitsSettingViewController/UnitsSettingViewController.m; sourceTree = "<group>"; };
 		9CD631091EC019A2005EECE1 /* UnitsSettingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnitsSettingTableViewCell.h; path = Setting/UnitsSettingViewController/UnitsSettingTableViewCell.h; sourceTree = "<group>"; };
@@ -139,6 +233,14 @@
 		9CDEAC721EB07A0500279EDA /* IwearHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IwearHeader.pch; path = SupportingFiles/IwearHeader.pch; sourceTree = "<group>"; };
 		9CDEAC731EB07A9C00279EDA /* ColorConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorConstants.h; path = Constants/ColorConstants.h; sourceTree = "<group>"; };
 		9CDEAC741EB07A9C00279EDA /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Log.h; path = Constants/Log.h; sourceTree = "<group>"; };
+		9CE95A5C1EC154C200E88B47 /* SedentaryReminderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SedentaryReminderViewController.h; path = Setting/RemindViewController/SedentaryReminder/SedentaryReminderViewController.h; sourceTree = "<group>"; };
+		9CE95A5D1EC154C200E88B47 /* SedentaryReminderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SedentaryReminderViewController.m; path = Setting/RemindViewController/SedentaryReminder/SedentaryReminderViewController.m; sourceTree = "<group>"; };
+		9CE95A5F1EC15DC600E88B47 /* SedentaryReminderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SedentaryReminderTableViewCell.h; path = Setting/RemindViewController/SedentaryReminder/SedentaryReminderTableViewCell.h; sourceTree = "<group>"; };
+		9CE95A601EC15DC600E88B47 /* SedentaryReminderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SedentaryReminderTableViewCell.m; path = Setting/RemindViewController/SedentaryReminder/SedentaryReminderTableViewCell.m; sourceTree = "<group>"; };
+		9CE95A631EC1BE5900E88B47 /* SedentaryReminderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SedentaryReminderModel.h; path = Setting/RemindViewController/SedentaryReminder/SedentaryReminderModel.h; sourceTree = "<group>"; };
+		9CE95A641EC1BE5900E88B47 /* SedentaryReminderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SedentaryReminderModel.m; path = Setting/RemindViewController/SedentaryReminder/SedentaryReminderModel.m; sourceTree = "<group>"; };
+		9CE95A671EC1CBF700E88B47 /* ClockReminderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClockReminderViewController.h; path = Setting/RemindViewController/ClockViewController/ClockReminderViewController.h; sourceTree = "<group>"; };
+		9CE95A681EC1CBF700E88B47 /* ClockReminderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClockReminderViewController.m; path = Setting/RemindViewController/ClockViewController/ClockReminderViewController.m; sourceTree = "<group>"; };
 		9E1C62936127CBA2AB2484EB /* Pods-New_iwear.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-New_iwear.release.xcconfig"; path = "Pods/Target Support Files/Pods-New_iwear/Pods-New_iwear.release.xcconfig"; sourceTree = "<group>"; };
 		C009A0B0C823B2EBDFED3C4D /* Pods-New_iwear.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-New_iwear.debug.xcconfig"; path = "Pods/Target Support Files/Pods-New_iwear/Pods-New_iwear.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -179,8 +281,13 @@
 		9C04968D1EB87D7E00EDBEBB /* Setting */ = {
 			isa = PBXGroup;
 			children = (
-				9CD6311E1EC06E52005EECE1 /* AboutViewController */,
 				9C0496911EB880FC00EDBEBB /* SettingViewController */,
+				9CB6160C1EC314C2008914F5 /* UserInfoViewController */,
+				9CB6160D1EC31544008914F5 /* UserInfoViewController.h */,
+				9CB6160E1EC31544008914F5 /* UserInfoViewController.m */,
+				9CB616101EC31575008914F5 /* UserInfoTableViewCell.h */,
+				9CB616111EC31575008914F5 /* UserInfoTableViewCell.m */,
+				9C9E80191EC2E6AD004840FD /* PeripheralViewController */,
 				9C079AAC1EBC613200D54AB3 /* InterfaceSelectionViewController */,
 				9C079AB91EBC8C2800D54AB3 /* TakePhotoViewController */,
 				9C3AE8321EBD76DE0078CDAA /* FindMyPeriphearlViewController */,
@@ -190,6 +297,7 @@
 				9CD631041EC015FF005EECE1 /* UnitsSettingViewController */,
 				9CD631101EC05541005EECE1 /* TimeFormatterViewController */,
 				9CD631141EC059C9005EECE1 /* TargetSettingViewController */,
+				9CD6311E1EC06E52005EECE1 /* AboutViewController */,
 			);
 			name = Setting;
 			sourceTree = "<group>";
@@ -262,14 +370,16 @@
 			isa = PBXGroup;
 			children = (
 				9C3AE8401EBD80FC0078CDAA /* RemindModel */,
+				9CE95A5A1EC1544400E88B47 /* RemindMoreViewController */,
 				9C3AE83A1EBD7A200078CDAA /* RemindViewController.h */,
 				9C3AE83B1EBD7A200078CDAA /* RemindViewController.m */,
 				9C3AE83D1EBD80F40078CDAA /* RemindCollectionViewCell.h */,
 				9C3AE83E1EBD80F40078CDAA /* RemindCollectionViewCell.m */,
-				9C3AE8441EBDB46B0078CDAA /* RemindMoreViewController.h */,
-				9C3AE8451EBDB46B0078CDAA /* RemindMoreViewController.m */,
-				9C3AE8471EBDB8320078CDAA /* RemindMoreTableViewCell.h */,
-				9C3AE8481EBDB8320078CDAA /* RemindMoreTableViewCell.m */,
+				9CE95A5B1EC1546500E88B47 /* SedentaryReminderViewController */,
+				9CE95A661EC1C95A00E88B47 /* ClockReminderViewController */,
+				9C9E7FCF1EC2BF94004840FD /* MessageReminderViewController */,
+				9C9E7FD31EC2C368004840FD /* PhoneReminderViewController */,
+				9C9E7FD71EC2C3FE004840FD /* LoseReminderViewController */,
 			);
 			name = RemindViewController;
 			sourceTree = "<group>";
@@ -361,6 +471,158 @@
 			path = FDFullscreenPopGesture;
 			sourceTree = "<group>";
 		};
+		9C9E7FCB1EC2B1F6004840FD /* ClockModel */ = {
+			isa = PBXGroup;
+			children = (
+				9C9E7FCC1EC2B224004840FD /* ClockModel.h */,
+				9C9E7FCD1EC2B224004840FD /* ClockModel.m */,
+			);
+			name = ClockModel;
+			sourceTree = "<group>";
+		};
+		9C9E7FCF1EC2BF94004840FD /* MessageReminderViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9C9E7FD01EC2C06B004840FD /* MessageReminderViewController.h */,
+				9C9E7FD11EC2C06B004840FD /* MessageReminderViewController.m */,
+			);
+			name = MessageReminderViewController;
+			sourceTree = "<group>";
+		};
+		9C9E7FD31EC2C368004840FD /* PhoneReminderViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9C9E7FD41EC2C38C004840FD /* PhoneReminderViewController.h */,
+				9C9E7FD51EC2C38C004840FD /* PhoneReminderViewController.m */,
+			);
+			name = PhoneReminderViewController;
+			sourceTree = "<group>";
+		};
+		9C9E7FD71EC2C3FE004840FD /* LoseReminderViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9C9E7FD81EC2C4C2004840FD /* LoseReminderViewController.h */,
+				9C9E7FD91EC2C4C2004840FD /* LoseReminderViewController.m */,
+			);
+			name = LoseReminderViewController;
+			sourceTree = "<group>";
+		};
+		9C9E7FDB1EC2E0D8004840FD /* BleManager */ = {
+			isa = PBXGroup;
+			children = (
+				9C9E7FDC1EC2E117004840FD /* BleManager.h */,
+				9C9E7FDD1EC2E117004840FD /* BleManager.m */,
+				9C9E80101EC2E20B004840FD /* BleDevice.h */,
+				9C9E80111EC2E20B004840FD /* BleDevice.m */,
+				9C9E7FE81EC2E203004840FD /* DataModel */,
+				9C9E7FE11EC2E1F1004840FD /* DataTool */,
+			);
+			name = BleManager;
+			sourceTree = "<group>";
+		};
+		9C9E7FE11EC2E1F1004840FD /* DataTool */ = {
+			isa = PBXGroup;
+			children = (
+				9C9E7FE21EC2E1F1004840FD /* AnalysisProcotolTool.h */,
+				9C9E7FE31EC2E1F1004840FD /* AnalysisProcotolTool.m */,
+				9C9E7FE41EC2E1F1004840FD /* NSStringTool.h */,
+				9C9E7FE51EC2E1F1004840FD /* NSStringTool.m */,
+			);
+			name = DataTool;
+			path = BleManager/DataTool;
+			sourceTree = "<group>";
+		};
+		9C9E7FE81EC2E203004840FD /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+				9C9E7FEF1EC2E203004840FD /* manridyModel.h */,
+				9C9E7FF01EC2E203004840FD /* manridyModel.m */,
+				9C9E80161EC2E298004840FD /* StepDataModel.h */,
+				9C9E80171EC2E298004840FD /* StepDataModel.m */,
+				9C9E80131EC2E283004840FD /* UserInfoModel.h */,
+				9C9E80141EC2E283004840FD /* UserInfoModel.m */,
+				9C9E7FE91EC2E203004840FD /* BloodModel.h */,
+				9C9E7FEA1EC2E203004840FD /* BloodModel.m */,
+				9C9E7FEB1EC2E203004840FD /* BloodO2Model.h */,
+				9C9E7FEC1EC2E203004840FD /* BloodO2Model.m */,
+				9C9E7FED1EC2E203004840FD /* HeartRateModel.h */,
+				9C9E7FEE1EC2E203004840FD /* HeartRateModel.m */,
+				9C9E7FF11EC2E203004840FD /* Remind.h */,
+				9C9E7FF21EC2E203004840FD /* Remind.m */,
+				9C9E7FF31EC2E203004840FD /* SedentaryModel.h */,
+				9C9E7FF41EC2E203004840FD /* SedentaryModel.m */,
+				9C9E7FF51EC2E203004840FD /* SegmentedRunModel.h */,
+				9C9E7FF61EC2E203004840FD /* SegmentedRunModel.m */,
+				9C9E7FF71EC2E203004840FD /* SegmentedStepModel.h */,
+				9C9E7FF81EC2E203004840FD /* SegmentedStepModel.m */,
+				9C9E7FF91EC2E203004840FD /* SetTimeModel.h */,
+				9C9E7FFA1EC2E203004840FD /* SetTimeModel.m */,
+				9C9E7FFB1EC2E203004840FD /* SleepModel.h */,
+				9C9E7FFC1EC2E203004840FD /* SleepModel.m */,
+				9C9E7FFD1EC2E203004840FD /* SportModel.h */,
+				9C9E7FFE1EC2E203004840FD /* SportModel.m */,
+				9C9E7FFF1EC2E203004840FD /* SportTargetModel.h */,
+				9C9E80001EC2E203004840FD /* SportTargetModel.m */,
+				9C9E80011EC2E203004840FD /* TakePhotoModel.h */,
+				9C9E80021EC2E203004840FD /* TakePhotoModel.m */,
+			);
+			name = DataModel;
+			path = BleManager/DataModel;
+			sourceTree = "<group>";
+		};
+		9C9E80191EC2E6AD004840FD /* PeripheralViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9C9E801A1EC2E6AD004840FD /* BindPeripheralViewController.h */,
+				9C9E801B1EC2E6AD004840FD /* BindPeripheralViewController.m */,
+			);
+			name = PeripheralViewController;
+			path = Setting/PeripheralViewController;
+			sourceTree = "<group>";
+		};
+		9CA1C8691EC2E944007DB83A /* AlertTool */ = {
+			isa = PBXGroup;
+			children = (
+				9CA1C86A1EC2E944007DB83A /* AlertTool.h */,
+				9CA1C86B1EC2E944007DB83A /* AlertTool.m */,
+			);
+			path = AlertTool;
+			sourceTree = "<group>";
+		};
+		9CA1C86D1EC31377007DB83A /* FMDBManager */ = {
+			isa = PBXGroup;
+			children = (
+				9CA1C86E1EC313E8007DB83A /* FMDBManager.h */,
+				9CA1C86F1EC313E8007DB83A /* FMDBManager.m */,
+			);
+			name = FMDBManager;
+			sourceTree = "<group>";
+		};
+		9CB6160C1EC314C2008914F5 /* UserInfoViewController */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = UserInfoViewController;
+			sourceTree = "<group>";
+		};
+		9CB616131EC316FB008914F5 /* UnitsTool */ = {
+			isa = PBXGroup;
+			children = (
+				9CB616141EC316FB008914F5 /* UnitsTool.h */,
+				9CB616151EC316FB008914F5 /* UnitsTool.m */,
+			);
+			path = UnitsTool;
+			sourceTree = "<group>";
+		};
+		9CB616171EC31703008914F5 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				9CA1C8691EC2E944007DB83A /* AlertTool */,
+				9CB616131EC316FB008914F5 /* UnitsTool */,
+			);
+			name = Tool;
+			sourceTree = "<group>";
+		};
 		9CD631041EC015FF005EECE1 /* UnitsSettingViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -447,6 +709,9 @@
 				9C0496921EB8855700EDBEBB /* New_iwear.entitlements */,
 				9CDEAC5B1EB078EC00279EDA /* AppDelegate.h */,
 				9CDEAC5C1EB078EC00279EDA /* AppDelegate.m */,
+				9CB616171EC31703008914F5 /* Tool */,
+				9CA1C86D1EC31377007DB83A /* FMDBManager */,
+				9C9E7FDB1EC2E0D8004840FD /* BleManager */,
 				9C04968D1EB87D7E00EDBEBB /* Setting */,
 				9C04968C1EB87D6B00EDBEBB /* Main */,
 				9C04968B1EB87D5200EDBEBB /* TestMode */,
@@ -487,6 +752,50 @@
 				9C4FBDB51EB081A00072E9CE /* StepCircleView.m */,
 			);
 			name = FirstItem;
+			sourceTree = "<group>";
+		};
+		9CE95A5A1EC1544400E88B47 /* RemindMoreViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9C3AE8441EBDB46B0078CDAA /* RemindMoreViewController.h */,
+				9C3AE8451EBDB46B0078CDAA /* RemindMoreViewController.m */,
+				9C3AE8471EBDB8320078CDAA /* RemindMoreTableViewCell.h */,
+				9C3AE8481EBDB8320078CDAA /* RemindMoreTableViewCell.m */,
+			);
+			name = RemindMoreViewController;
+			sourceTree = "<group>";
+		};
+		9CE95A5B1EC1546500E88B47 /* SedentaryReminderViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9CE95A621EC1BE2100E88B47 /* SedentaryReminderModel */,
+				9CE95A5C1EC154C200E88B47 /* SedentaryReminderViewController.h */,
+				9CE95A5D1EC154C200E88B47 /* SedentaryReminderViewController.m */,
+				9CE95A5F1EC15DC600E88B47 /* SedentaryReminderTableViewCell.h */,
+				9CE95A601EC15DC600E88B47 /* SedentaryReminderTableViewCell.m */,
+			);
+			name = SedentaryReminderViewController;
+			sourceTree = "<group>";
+		};
+		9CE95A621EC1BE2100E88B47 /* SedentaryReminderModel */ = {
+			isa = PBXGroup;
+			children = (
+				9CE95A631EC1BE5900E88B47 /* SedentaryReminderModel.h */,
+				9CE95A641EC1BE5900E88B47 /* SedentaryReminderModel.m */,
+			);
+			name = SedentaryReminderModel;
+			sourceTree = "<group>";
+		};
+		9CE95A661EC1C95A00E88B47 /* ClockReminderViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9C9E7FCB1EC2B1F6004840FD /* ClockModel */,
+				9CE95A671EC1CBF700E88B47 /* ClockReminderViewController.h */,
+				9CE95A681EC1CBF700E88B47 /* ClockReminderViewController.m */,
+				9C9E7FC81EC2AC9E004840FD /* ClockTableViewCell.h */,
+				9C9E7FC91EC2AC9E004840FD /* ClockTableViewCell.m */,
+			);
+			name = ClockReminderViewController;
 			sourceTree = "<group>";
 		};
 		AB0A39F28BA9571F790DB97C /* Pods */ = {
@@ -544,6 +853,9 @@
 						DevelopmentTeam = CZG37T4ZQ8;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.HealthKit = {
 								enabled = 1;
 							};
@@ -638,32 +950,64 @@
 			files = (
 				9C4FBDB71EB081A00072E9CE /* StepCircleView.m in Sources */,
 				9C079AAA1EBC612500D54AB3 /* PeripheralCellModel.m in Sources */,
+				9CE95A691EC1CBF700E88B47 /* ClockReminderViewController.m in Sources */,
 				9CD631241EC06F7B005EECE1 /* AboutTableViewCell.m in Sources */,
+				9C9E800C1EC2E203004840FD /* SleepModel.m in Sources */,
 				9C08178E1EB9D69A00C1845F /* SettingHeaderView.m in Sources */,
+				9CA1C86C1EC2E944007DB83A /* AlertTool.m in Sources */,
+				9C9E80151EC2E283004840FD /* UserInfoModel.m in Sources */,
+				9C9E7FE61EC2E1F1004840FD /* AnalysisProcotolTool.m in Sources */,
+				9C9E800E1EC2E203004840FD /* SportTargetModel.m in Sources */,
+				9C9E80081EC2E203004840FD /* SedentaryModel.m in Sources */,
 				9C4FBDBF1EB099140072E9CE /* RootViewController.m in Sources */,
+				9C9E801C1EC2E6AD004840FD /* BindPeripheralViewController.m in Sources */,
 				9C079AB81EBC747700D54AB3 /* InterfaceSelectionModel.m in Sources */,
+				9C9E80051EC2E203004840FD /* HeartRateModel.m in Sources */,
 				9C3AE84D1EBDC62F0078CDAA /* WeChatViewController.m in Sources */,
 				9C3AE8521EBDCD850078CDAA /* DimmingViewController.m in Sources */,
+				9CB6160F1EC31544008914F5 /* UserInfoViewController.m in Sources */,
 				9C3AE82B1EBD63D50078CDAA /* CameraViewController.m in Sources */,
+				9CE95A651EC1BE5900E88B47 /* SedentaryReminderModel.m in Sources */,
 				9C079AAB1EBC612500D54AB3 /* SettingCellModel.m in Sources */,
 				9CD6311A1EC05BB2005EECE1 /* TargetSettingTableViewCell.m in Sources */,
 				9C0817831EB9AB9300C1845F /* SettingTableViewCell.m in Sources */,
+				9C9E7FCE1EC2B224004840FD /* ClockModel.m in Sources */,
 				9CD6310B1EC019A2005EECE1 /* UnitsSettingTableViewCell.m in Sources */,
+				9CA1C8701EC313E8007DB83A /* FMDBManager.m in Sources */,
+				9CB616121EC31575008914F5 /* UserInfoTableViewCell.m in Sources */,
 				9C3AE8431EBD81320078CDAA /* RemindModel.m in Sources */,
 				9C4FBDB11EB081760072E9CE /* SecondViewController.m in Sources */,
 				9CD6310F1EC01E58005EECE1 /* UnitsSettingModel.m in Sources */,
+				9C9E7FCA1EC2AC9E004840FD /* ClockTableViewCell.m in Sources */,
+				9C9E800D1EC2E203004840FD /* SportModel.m in Sources */,
+				9C9E7FD21EC2C06B004840FD /* MessageReminderViewController.m in Sources */,
 				9C4FBDC71EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				9C4FBDC31EB099D90072E9CE /* BaseNavigationViewController.m in Sources */,
 				9C4FBDBB1EB081E00072E9CE /* ThirdViewController.m in Sources */,
 				9CD631211EC06E84005EECE1 /* AboutViewController.m in Sources */,
 				9CDEAC5D1EB078EC00279EDA /* AppDelegate.m in Sources */,
+				9C9E800B1EC2E203004840FD /* SetTimeModel.m in Sources */,
+				9C9E80181EC2E298004840FD /* StepDataModel.m in Sources */,
+				9C9E800A1EC2E203004840FD /* SegmentedStepModel.m in Sources */,
+				9C9E80121EC2E20B004840FD /* BleDevice.m in Sources */,
 				9C3AE83C1EBD7A200078CDAA /* RemindViewController.m in Sources */,
+				9C9E7FDA1EC2C4C2004840FD /* LoseReminderViewController.m in Sources */,
+				9C9E80071EC2E203004840FD /* Remind.m in Sources */,
+				9C9E800F1EC2E203004840FD /* TakePhotoModel.m in Sources */,
 				9C3AE8461EBDB46B0078CDAA /* RemindMoreViewController.m in Sources */,
 				9CD631171EC05A06005EECE1 /* TargetSettingViewController.m in Sources */,
+				9C9E80061EC2E203004840FD /* manridyModel.m in Sources */,
 				9CD6311D1EC06866005EECE1 /* TargetSettingModel.m in Sources */,
 				9C3AE83F1EBD80F40078CDAA /* RemindCollectionViewCell.m in Sources */,
+				9CB616161EC316FB008914F5 /* UnitsTool.m in Sources */,
+				9C9E7FE71EC2E1F1004840FD /* NSStringTool.m in Sources */,
+				9C9E80031EC2E203004840FD /* BloodModel.m in Sources */,
+				9C9E7FD61EC2C38C004840FD /* PhoneReminderViewController.m in Sources */,
+				9C9E80091EC2E203004840FD /* SegmentedRunModel.m in Sources */,
 				9C3AE8491EBDB8320078CDAA /* RemindMoreTableViewCell.m in Sources */,
+				9CE95A611EC15DC600E88B47 /* SedentaryReminderTableViewCell.m in Sources */,
 				9C3AE8351EBD770B0078CDAA /* FindMyPeriphearlViewController.m in Sources */,
+				9CE95A5E1EC154C200E88B47 /* SedentaryReminderViewController.m in Sources */,
 				9CDEAC5A1EB078EC00279EDA /* main.m in Sources */,
 				9C0817741EB9AB1800C1845F /* SettingPeripheralTableViewCell.m in Sources */,
 				9CD631071EC0163D005EECE1 /* UnitsSettingViewController.m in Sources */,
@@ -671,8 +1015,10 @@
 				9C4FBDB61EB081A00072E9CE /* FirstViewController.m in Sources */,
 				9C0496901EB87DC400EDBEBB /* SettingViewController.m in Sources */,
 				9C079ABC1EBC8D6300D54AB3 /* TakePhotoViewController.m in Sources */,
+				9C9E7FDE1EC2E117004840FD /* BleManager.m in Sources */,
 				9C079AAF1EBC61A800D54AB3 /* InterfaceSelectionViewController.m in Sources */,
 				9C079AB21EBC680400D54AB3 /* InterfaceSelectionCollectionViewCell.m in Sources */,
+				9C9E80041EC2E203004840FD /* BloodO2Model.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

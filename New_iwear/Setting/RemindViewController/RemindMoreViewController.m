@@ -15,6 +15,7 @@ static NSString * const RemindMoreTableViewCellID = @"RemindMoreTableViewCell";
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *dataArr;
+@property (nonatomic, strong) NSArray *vcArr;
 
 @end
 
@@ -65,6 +66,13 @@ static NSString * const RemindMoreTableViewCellID = @"RemindMoreTableViewCell";
     return 48;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    id pushVC = [[NSClassFromString(self.vcArr[indexPath.row]) alloc] init];
+    [self.navigationController pushViewController:pushVC animated:YES];
+}
+
 #pragma mark - lazy
 - (UITableView *)tableView
 {
@@ -100,6 +108,15 @@ static NSString * const RemindMoreTableViewCellID = @"RemindMoreTableViewCell";
     }
     
     return _dataArr;
+}
+
+- (NSArray *)vcArr
+{
+    if (!_vcArr) {
+        _vcArr = @[@"SedentaryReminderViewController", @"ClockReminderViewController", @"MessageReminderViewController", @"PhoneReminderViewController", @"LoseReminderViewController", @""];
+    }
+    
+    return _vcArr;
 }
 
 @end

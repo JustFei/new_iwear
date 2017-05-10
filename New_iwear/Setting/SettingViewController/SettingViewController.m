@@ -39,16 +39,13 @@ static NSString *const settingHeaderID = @"settingHeader";
     
     self.title = @"设置";
     self.navigationController.navigationBar.barTintColor = NAVIGATION_BAR_COLOR;
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
-//    [leftButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(self.navigationController.view.mas_centerY);
-//        make.left.equalTo(self.navigationController.view.mas_left).offset(16);
-//        make.width.equalTo(@48);
-//        make.height.equalTo(@48);
-//    }];
     
     self.automaticallyAdjustsScrollViewInsets = YES;
     [self healthKit];
@@ -110,7 +107,7 @@ static NSString *const settingHeaderID = @"settingHeader";
         view.backgroundColor = CLEAR_COLOR;
         
         UIView *lineView = [[UIView alloc] init];
-        lineView.backgroundColor = TEXT_COLOR_LEVEL1;
+        lineView.backgroundColor = TEXT_BLACK_COLOR_LEVEL1;
         [view addSubview:lineView];
         [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(view.mas_top);
@@ -121,7 +118,7 @@ static NSString *const settingHeaderID = @"settingHeader";
 
         UILabel *functionChooseLabel = [[UILabel alloc] init];
         [functionChooseLabel setText:@"功能设置"];
-        [functionChooseLabel setTextColor:TEXT_COLOR_LEVEL3];
+        [functionChooseLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [functionChooseLabel setFont:[UIFont systemFontOfSize:14]];
         [view addSubview:functionChooseLabel];
         [functionChooseLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -153,9 +150,14 @@ static NSString *const settingHeaderID = @"settingHeader";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 0) {
+        id pushVC = [[NSClassFromString(@"BindPeripheralViewController") alloc] init];
+        [self.navigationController pushViewController:pushVC animated:YES];
+    }else if (indexPath.section == 1) {
+        id pushVC = [[NSClassFromString(self.vcArray[indexPath.row]) alloc] init];
+        [self.navigationController pushViewController:pushVC animated:YES];
+    }
     
-    id pushVC = [[NSClassFromString(self.vcArray[indexPath.row]) alloc] init];
-    [self.navigationController pushViewController:pushVC animated:YES];
 }
 
 /** 重载 ScrollView 代理方法来让 HeaderView 跟着 tableView 一起滑动 */

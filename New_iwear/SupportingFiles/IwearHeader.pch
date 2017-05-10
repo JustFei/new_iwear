@@ -11,6 +11,8 @@
 #import "MaterialControls.h"
 #import "Log.h"
 #import "Masonry.h"
+#import "AlertTool.h"
+#import "MBProgressHUD.h"
 
 #ifndef IwearHeader_pch
 #define IwearHeader_pch

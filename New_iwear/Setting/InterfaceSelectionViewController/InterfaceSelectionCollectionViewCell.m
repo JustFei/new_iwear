@@ -36,7 +36,7 @@
         
         _bottomView = [[UIView alloc] init];
         _bottomView.backgroundColor = CLEAR_COLOR;
-        _bottomView.layer.borderColor = TEXT_COLOR_LEVEL3.CGColor;//边框颜色
+        _bottomView.layer.borderColor = TEXT_BLACK_COLOR_LEVEL3.CGColor;//边框颜色
         _bottomView.layer.borderWidth = 1;//边框宽度
         
         [self addSubview:_bottomView];
@@ -48,19 +48,19 @@
         }];
         
         _nameLabel = [[UILabel alloc] init];
-        [_nameLabel setTextColor:TEXT_COLOR_LEVEL4];
+        [_nameLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_nameLabel setFont:[UIFont systemFontOfSize:16]];
         [_bottomView addSubview:_nameLabel];
         [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(_bottomView.mas_centerY);
-            make.left.equalTo(_bottomView.mas_left).offset(16);
+            make.left.equalTo(_bottomView.mas_left).offset(16 * SCREEN_BOUNDS.size.width / 375);
         }];
         
         _selectView = [[UIImageView alloc] init];
         [_bottomView addSubview:_selectView];
         [_selectView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(_bottomView.mas_centerY);
-            make.left.equalTo(_nameLabel.mas_right).offset(8);
+            make.left.equalTo(_nameLabel.mas_right).offset(8 * SCREEN_BOUNDS.size.width / 375);
             make.width.equalTo(@18);
             make.height.equalTo(@18);
         }];
@@ -88,5 +88,7 @@
             break;
     }
 }
+
+
 
 @end

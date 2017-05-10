@@ -34,7 +34,7 @@
         
         _funcNameLabel = [[UILabel alloc] init];
         [_funcNameLabel setFont:[UIFont systemFontOfSize:16]];
-        [_funcNameLabel setTextColor:TEXT_COLOR_LEVEL4];
+        [_funcNameLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [self addSubview:_funcNameLabel];
         [_funcNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.mas_centerY);

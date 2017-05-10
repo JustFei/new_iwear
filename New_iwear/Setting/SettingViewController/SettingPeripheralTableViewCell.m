@@ -37,7 +37,7 @@
     [_peripheralNameLabel setText:peripheralModel.peripheralName];
     [_bindLabel setText:peripheralModel.isBind ? @"已绑定" : @"未绑定"];
     [_connectLabel setText:peripheralModel.isConnect ? @"已连接" : @"未连接"];
-    [_powerLabel setText:[NSString stringWithFormat:@"剩余电量:%ld%%", peripheralModel.battery]];
+    [_powerLabel setText:[NSString stringWithFormat:@"剩余电量:%ld%%", (long)peripheralModel.battery]];
 }
 
 @end

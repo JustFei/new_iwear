@@ -17,6 +17,7 @@ static NSString * const RemindCollectionViewFooterID = @"RemindCollectionViewFoo
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSArray *dataArr;
+@property (nonatomic, strong) NSArray *vcArr;
 
 @end
 
@@ -72,6 +73,8 @@ static NSString * const RemindCollectionViewFooterID = @"RemindCollectionViewFoo
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    id pushVC = [[NSClassFromString(self.vcArr[indexPath.row]) alloc] init];
+    [self.navigationController pushViewController:pushVC animated:YES];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
@@ -84,10 +87,10 @@ static NSString * const RemindCollectionViewFooterID = @"RemindCollectionViewFoo
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionReusableView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:RemindCollectionViewFooterID forIndexPath:indexPath];
-    MDButton *moreBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFloatingAction rippleColor:CLEAR_COLOR];
+    MDButton *moreBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
     moreBtn.backgroundColor = WHITE_COLOR;
     [moreBtn setTitle:@"更多" forState:UIControlStateNormal];
-    [moreBtn setTitleColor:TEXT_COLOR_LEVEL2 forState:UIControlStateNormal];
+    [moreBtn setTitleColor:TEXT_BLACK_COLOR_LEVEL2 forState:UIControlStateNormal];
     [moreBtn.titleLabel setFont:[UIFont systemFontOfSize:12]];
     [moreBtn addTarget:self action:@selector(moreFunctionAction:) forControlEvents:UIControlEventTouchUpInside];
     [footerView addSubview:moreBtn];
@@ -99,7 +102,7 @@ static NSString * const RemindCollectionViewFooterID = @"RemindCollectionViewFoo
     }];
     moreBtn.layer.masksToBounds = YES;
     moreBtn.layer.cornerRadius = 18;
-    moreBtn.layer.borderColor = TEXT_COLOR_LEVEL1.CGColor;
+    moreBtn.layer.borderColor = TEXT_BLACK_COLOR_LEVEL1.CGColor;
     moreBtn.layer.borderWidth = 1;
     
     return footerView;
@@ -158,6 +161,15 @@ static NSString * const RemindCollectionViewFooterID = @"RemindCollectionViewFoo
     }
     
     return _dataArr;
+}
+
+- (NSArray *)vcArr
+{
+    if (!_vcArr) {
+        _vcArr = @[@"PhoneReminderViewController",@"MessageReminderViewController",@"SedentaryReminderViewController",@"ClockReminderViewController"];
+    }
+    
+    return _vcArr;
 }
 
 @end

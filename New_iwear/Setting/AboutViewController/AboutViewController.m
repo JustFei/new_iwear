@@ -22,7 +22,7 @@ static NSString * const AboutTableViewCellID = @"AboutTableViewCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"目标设置";
+    self.title = @"关于";
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
@@ -89,7 +89,7 @@ static NSString * const AboutTableViewCellID = @"AboutTableViewCell";
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *lineView = [UIView new];
-    lineView.backgroundColor = TEXT_COLOR_LEVEL1;
+    lineView.backgroundColor = TEXT_BLACK_COLOR_LEVEL1;
     
     return lineView;
 }
@@ -108,6 +108,8 @@ static NSString * const AboutTableViewCellID = @"AboutTableViewCell";
         _tableView.separatorInset = UIEdgeInsetsMake(0, 16, 0, 16);
         _tableView.tableFooterView = [UIView new];
         _tableView.scrollEnabled = NO;
+        /** 偏移掉表头的 64 个像素 */
+        _tableView.contentInset = UIEdgeInsetsMake(- 64, 0, 0, 0);
         
         _tableView.delegate = self;
         _tableView.dataSource = self;

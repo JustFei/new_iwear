@@ -38,7 +38,7 @@
 {
     UILabel *infoLabel = [[UILabel alloc] init];
     [infoLabel setText:@"设置手表的亮度"];
-    [infoLabel setTextColor:TEXT_COLOR_LEVEL3];
+    [infoLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [infoLabel setFont:[UIFont systemFontOfSize:14]];
     [self.view addSubview:infoLabel];
     [infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -47,7 +47,7 @@
     }];
     
     UIView *lineView = [[UIView alloc] init];
-    lineView.backgroundColor = TEXT_COLOR_LEVEL1;
+    lineView.backgroundColor = TEXT_BLACK_COLOR_LEVEL1;
     [self.view addSubview:lineView];
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left);
@@ -80,7 +80,7 @@
         make.height.equalTo(@10);
     }];
 
-    _subtractBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFloatingAction rippleColor:nil];
+    _subtractBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:nil];
     [_subtractBtn setTitle:@"-" forState:UIControlStateNormal];
     [_subtractBtn.titleLabel setFont:[UIFont systemFontOfSize:24]];
     [_subtractBtn setTitleColor:COLOR_WITH_HEX(0x1e1e1e, 1) forState:UIControlStateNormal];
@@ -96,7 +96,7 @@
         make.height.equalTo(@24);
     }];
     
-    _plusBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFloatingAction rippleColor:nil];
+    _plusBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:nil];
     [_plusBtn setTitle:@"+" forState:UIControlStateNormal];
     [_plusBtn.titleLabel setFont:[UIFont systemFontOfSize:24]];
     [_plusBtn setTitleColor:COLOR_WITH_HEX(0x1e1e1e, 1) forState:UIControlStateNormal];

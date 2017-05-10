@@ -12,7 +12,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"functionImageName == %@, functionName == %@, selectMode == %ld", _functionImageName, _functionName, _selectMode];
+    return [NSString stringWithFormat:@"functionImageName == %@, functionName == %@, selectMode == %ld", _functionImageName, _functionName, (unsigned long)_selectMode];
 }
 
 @end

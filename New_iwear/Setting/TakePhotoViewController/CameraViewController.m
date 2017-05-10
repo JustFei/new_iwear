@@ -86,7 +86,7 @@
         }
         [_device unlockForConfiguration];
     }
-    MDButton *cameraBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFloatingAction rippleColor:CLEAR_COLOR];
+    MDButton *cameraBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
     [cameraBtn setImage:[UIImage imageNamed:@"camera_takephone02"] forState:UIControlStateNormal];
     [cameraBtn addTarget:self action:@selector(photoBtnDidClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:cameraBtn];

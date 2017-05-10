@@ -24,7 +24,7 @@ static NSString *const timeFormatterCollectionViewHeaderID = @"timeFormatterColl
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"界面选择";
+    self.title = @"时间格式";
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
@@ -74,7 +74,7 @@ static NSString *const timeFormatterCollectionViewHeaderID = @"timeFormatterColl
     UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:timeFormatterCollectionViewHeaderID forIndexPath:indexPath];
     UILabel *tipLabel = [[UILabel alloc] init];
     [tipLabel setText:@"选择需要在设备上显示的界面"];
-    [tipLabel setTextColor:TEXT_COLOR_LEVEL3];
+    [tipLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [tipLabel setFont:[UIFont systemFontOfSize:14]];
     [headerView addSubview:tipLabel];
     [tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -83,7 +83,7 @@ static NSString *const timeFormatterCollectionViewHeaderID = @"timeFormatterColl
     }];
     
     UIView *lineView = [[UIView alloc] init];
-    lineView.backgroundColor = TEXT_COLOR_LEVEL1;
+    lineView.backgroundColor = TEXT_BLACK_COLOR_LEVEL1;
     [headerView addSubview:lineView];
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(headerView.mas_left);
@@ -104,10 +104,10 @@ static NSString *const timeFormatterCollectionViewHeaderID = @"timeFormatterColl
         // 定义大小
         layout.itemSize = CGSizeMake(88 * VIEW_CONTROLLER_FRAME_WIDTH / 375, 176 * VIEW_CONTROLLER_FRAME_WIDTH / 375);
         // 设置最小行间距
-        //layout.minimumLineSpacing = 4 * VIEW_CONTROLLER_FRAME_WIDTH / 375;
+        layout.minimumLineSpacing = 4;
         // 设置垂直间距
-        layout.minimumInteritemSpacing = 4 * VIEW_CONTROLLER_FRAME_WIDTH / 375;
-        layout.sectionInset = UIEdgeInsetsMake(8 * VIEW_CONTROLLER_FRAME_WIDTH / 375, 44 * VIEW_CONTROLLER_FRAME_WIDTH / 375, 8 * VIEW_CONTROLLER_FRAME_WIDTH / 375, 44 * VIEW_CONTROLLER_FRAME_WIDTH / 375);
+        layout.minimumInteritemSpacing = 4;
+        layout.sectionInset = UIEdgeInsetsMake(4, 43 * VIEW_CONTROLLER_FRAME_WIDTH / 375, 4, 43 * VIEW_CONTROLLER_FRAME_WIDTH / 375);
         // 设置滚动方向（默认垂直滚动）
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
         
@@ -129,7 +129,7 @@ static NSString *const timeFormatterCollectionViewHeaderID = @"timeFormatterColl
 - (NSArray *)dataArr
 {
     if (!_dataArr) {
-        NSArray *nameArr = @[@"12 时",@"24 时",@"石英"];
+        NSArray *nameArr = @[@"12时",@"24时",@"石英"];
         NSMutableArray *mutArr = [NSMutableArray array];
         for (int i = 0; i < nameArr.count; i ++) {
             InterfaceSelectionModel *model = [[InterfaceSelectionModel alloc] init];

@@ -25,7 +25,7 @@
     
     _userNameLabel = [[UILabel alloc] init];
     [_userNameLabel setText:@"cecboy"];
-    [_userNameLabel setTextColor:TEXT_COLOR_LEVEL1];
+    [_userNameLabel setTextColor:TEXT_BLACK_COLOR_LEVEL1];
     [_userNameLabel setFont:[UIFont systemFontOfSize:16]];
     [self addSubview:_userNameLabel];
     [_userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -35,7 +35,7 @@
     
     _userInfoButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_userInfoButton setTitle:@"用户信息" forState:UIControlStateNormal];
-    [_userInfoButton setTitleColor:TEXT_COLOR_LEVEL2 forState:UIControlStateNormal];
+    [_userInfoButton setTitleColor:TEXT_BLACK_COLOR_LEVEL2 forState:UIControlStateNormal];
     [_userInfoButton.titleLabel setFont:[UIFont systemFontOfSize:14]];
     [_userInfoButton addTarget:self action:@selector(userInfoAction:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_userInfoButton];
@@ -58,7 +58,7 @@
     
     UILabel *peripheralConnectLabel = [[UILabel alloc] init];
     [peripheralConnectLabel setText:@"设备连接"];
-    [peripheralConnectLabel setTextColor:TEXT_COLOR_LEVEL3];
+    [peripheralConnectLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [peripheralConnectLabel setFont:[UIFont systemFontOfSize:14]];
     [self addSubview:peripheralConnectLabel];
     [peripheralConnectLabel mas_makeConstraints:^(MASConstraintMaker *make) {

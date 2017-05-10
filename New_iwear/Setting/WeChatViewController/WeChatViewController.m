@@ -19,7 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"提醒功能";
+    self.title = @"微信运动";
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
@@ -45,7 +45,7 @@
     UILabel *label1 = [[UILabel alloc] init];
     [label1 setText:@"点击“接入”启动微信后，进入“深圳曼瑞德科技有限公司”账号页面，然后点击“绑定设备”按钮既可完成接入"];
     [label1 setFont:[UIFont systemFontOfSize:17]];
-    [label1 setTextColor:TEXT_COLOR_LEVEL4];
+    [label1 setTextColor:TEXT_BLACK_COLOR_LEVEL4];
     label1.numberOfLines = 0;
     [_bottomBackView addSubview:label1];
     [label1 mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -57,7 +57,7 @@
     UILabel *label2 = [[UILabel alloc] init];
     [label2 setText:@"接入后，步数将会同步至微信排行榜中"];
     [label1 setFont:[UIFont systemFontOfSize:17]];
-    [label1 setTextColor:TEXT_COLOR_LEVEL4];
+    [label1 setTextColor:TEXT_BLACK_COLOR_LEVEL4];
     label2.numberOfLines = 0;
     [_bottomBackView addSubview:label2];
     [label2 mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -66,9 +66,9 @@
         make.width.equalTo(@(288 * VIEW_CONTROLLER_FRAME_WIDTH / 375));
     }];
     
-    MDButton *moreBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFloatingAction rippleColor:CLEAR_COLOR];
+    MDButton *moreBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
     [moreBtn setTitle:@"更多" forState:UIControlStateNormal];
-    [moreBtn setTitleColor:TEXT_COLOR_LEVEL3 forState:UIControlStateNormal];
+    [moreBtn setTitleColor:TEXT_BLACK_COLOR_LEVEL3 forState:UIControlStateNormal];
     [moreBtn.titleLabel setFont:[UIFont systemFontOfSize:12]];
     moreBtn.backgroundColor = WHITE_COLOR;
     [moreBtn addTarget:self action:@selector(moreAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -81,7 +81,7 @@
     }];
     moreBtn.layer.masksToBounds = YES;
     moreBtn.layer.cornerRadius = 18;
-    moreBtn.layer.borderColor = TEXT_COLOR_LEVEL1.CGColor;
+    moreBtn.layer.borderColor = TEXT_BLACK_COLOR_LEVEL1.CGColor;
     moreBtn.layer.borderWidth = 1;
 }
 

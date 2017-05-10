@@ -28,6 +28,26 @@
     //设置UIWindow的rootViewController为UITabBarController
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:tb];
     
+//    UIView *alertView = [[UIView alloc] init];
+//    alertView.backgroundColor = RED_COLOR;
+//    [self.window addSubview:alertView];
+//    [alertView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self.window.mas_left);
+//        make.right.equalTo(self.window.mas_right);
+//        make.bottom.equalTo(self.window.mas_bottom);
+//        make.height.equalTo(@44);
+//    }];
+//    
+//    UILabel *disconnectLabel = [[UILabel alloc] init];
+//    [disconnectLabel setText:@"连接已断开"];
+//    [disconnectLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+//    [disconnectLabel setFont:[UIFont systemFontOfSize:14]];
+//    [alertView addSubview:disconnectLabel];
+//    [disconnectLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerY.equalTo(alertView.mas_centerY);
+//        make.left.equalTo(alertView.mas_left).offset(16);
+//    }];
+    
     return YES;
 }
 

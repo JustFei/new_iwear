@@ -1,4 +1,7 @@
 PODS:
+  - FMDB (2.6.2):
+    - FMDB/standard (= 2.6.2)
+  - FMDB/standard (2.6.2)
   - Masonry (1.0.2)
   - MaterialComponents/AppBar (19.0.4):
     - MaterialComponents/FlexibleHeader
@@ -67,21 +70,26 @@ PODS:
   - MaterialComponents/ShadowLayer (19.0.4)
   - MaterialComponents/Typography (19.0.4)
   - MaterialControls (1.2.2)
+  - MBProgressHUD (1.0.0)
   - MDFTextAccessibility (1.1.4)
 
 DEPENDENCIES:
+  - FMDB (~> 2.6.2)
   - Masonry (~> 1.0.2)
   - MaterialComponents/AppBar
   - MaterialComponents/Buttons
   - MaterialComponents/Collections
   - MaterialControls (~> 1.2.2)
+  - MBProgressHUD (~> 1.0.0)
 
 SPEC CHECKSUMS:
+  FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MaterialComponents: bd2bbd4e8631c6a560100848c7d2a864e61b6716
   MaterialControls: 1c6b29e78d3a13d8dd6a67ed31b6d26eb5de8f72
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MDFTextAccessibility: aa897b2675bc614c01a331053af680deea692148
 
-PODFILE CHECKSUM: ded65a844070f7345f27e073c8be92690158ba94
+PODFILE CHECKSUM: 340a96a353785de206465ccb26a1ad680c2d616e
 
 COCOAPODS: 1.0.1

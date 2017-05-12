@@ -7,9 +7,9 @@
 //
 
 #import "StepTargetViewController.h"
-#import "BLETool.h"
+#import "BleManager.h"
 #import "MBProgressHUD.h"
-#import "FMDBTool.h"
+#import "FMDBManager.h"
 #import "UserInfoModel.h"
 #import "NSStringTool.h"
 
@@ -24,9 +24,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *mileageTargetLabel;
 @property (weak, nonatomic) IBOutlet UILabel *kcalTargetLabel;
 @property (weak, nonatomic) IBOutlet UIButton *saveButton;
-@property (nonatomic ,strong) BLETool *myBleTool;
+@property (nonatomic ,strong) BleManager *myBleTool;
 @property (nonatomic ,strong) MBProgressHUD *hud;
-@property (nonatomic ,strong) FMDBTool *myFmdbTool;
+@property (nonatomic ,strong) FMDBManager *myFmdbTool;
 
 @end
 
@@ -38,7 +38,7 @@
     
     self.navigationItem.title = NSLocalizedString(@"targetSet", nil);
     
-    self.myBleTool = [BLETool shareInstance];
+    self.myBleTool = [BleManager shareInstance];
     self.myBleTool.receiveDelegate = self;
     
     self.saveButton.layer.masksToBounds = YES;
@@ -164,10 +164,10 @@
 
 
 #pragma mark - 懒加载
-- (FMDBTool *)myFmdbTool
+- (FMDBManager *)myFmdbTool
 {
     if (!_myFmdbTool) {
-        _myFmdbTool = [[FMDBTool alloc] initWithPath:@"UserList"];
+        _myFmdbTool = [[FMDBManager alloc] initWithPath:@"UserList"];
     }
     
     return _myFmdbTool;

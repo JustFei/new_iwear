@@ -296,60 +296,60 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 {
     [self.view endEditing:YES];
 //     && self.steplengthTextField.text != nil && self.steplengthTextField.text.length != 0
-    if (self.userNameTextField.text != nil && self.userNameTextField.text.length != 0 && self.ageTextField.text != nil && self.ageTextField.text.length != 0 && self.heightTextField.text != nil && self.heightTextField.text.length != 0 && self.weightTextField.text != nil && self.weightTextField.text.length != 0) {
-        
-        [self.myBleTool writeUserInfoToPeripheralWeight:self.weightTextField.text andHeight:self.heightTextField.text];
-        
-        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self.hud.mode = MBProgressHUDModeIndeterminate;
-        
-        NSArray *userArr = [self.myFmdbTool queryAllUserInfo];
-        
-        //计算出在英制和公制下的身高体重
-        NSInteger height = self.isMetric ? self.heightTextField.text.integerValue : [UnitsTool cmAndInch:self.heightTextField.text.integerValue withMode:ImperialToMetric];
-        NSInteger weight = self.isMetric ? self.weightTextField.text.integerValue : [UnitsTool kgAndLb:self.weightTextField.text.integerValue withMode:ImperialToMetric];
-        
-        UserInfoModel *model = [UserInfoModel userInfoModelWithUserName:self.userNameTextField.text andGender:self.genderLabel.text andAge:self.ageTextField.text.integerValue andHeight:height andWeight:weight andStepLength:self.steplengthTextField.text.integerValue andStepTarget:0 andSleepTarget:0];
-       
-        if (userArr.count == 0) {
-           BOOL isSuccess = [self.myFmdbTool insertUserInfoModel:model];
-            if (isSuccess) {
-                self.hud.label.text = NSLocalizedString(@"saveSuccess", nil);
-                
-                NSData *imageData = UIImagePNGRepresentation(self.headImageView.image);
-                [[NSUserDefaults standardUserDefaults] setObject:imageData forKey:@"userheadimage"];
-                
-                [self.hud hideAnimated:YES afterDelay:1];
-            }else {
-                self.hud.label.text = NSLocalizedString(@"saveFailAndTryAgain", nil);
-                [self.hud hideAnimated:YES afterDelay:1];
-            }
-        }else {
-            BOOL isSuccess = [self.myFmdbTool modifyUserInfoWithID:1 model:model];
-            if (isSuccess) {
-                self.hud.label.text = NSLocalizedString(@"changeSuccess", nil);
-                
-                NSData *imageData = UIImagePNGRepresentation(self.headImageView.image);
-                [[NSUserDefaults standardUserDefaults] setObject:imageData forKey:@"userheadimage"];
-                
-                [self.hud hideAnimated:YES afterDelay:1];
-            }else {
-                self.hud.label.text = NSLocalizedString(@"changeFailAndTryAgain", nil);
-                [self.hud hideAnimated:YES afterDelay:1];
-            }
-        }
-        
-        [[NSUserDefaults standardUserDefaults] setObject:self.userNameTextField.text forKey:@"currentusername"];
-        
-        DLog(@"gang gang set == %@",[[NSUserDefaults standardUserDefaults] objectForKey:@"currentusername"]);
-        
-    }else {
-        AlertTool *vc = [AlertTool alertWithTitle:NSLocalizedString(@"tips", nil) message:NSLocalizedString(@"infoNotComplete", nil) style:UIAlertControllerStyleAlert];
-        [vc addAction:[AlertAction actionWithTitle:NSLocalizedString(@"IKnow", nil) style:AlertToolStyleDefault handler:nil]];
-        
-        [vc show];
+//    if (self.userNameTextField.text != nil && self.userNameTextField.text.length != 0 && self.ageTextField.text != nil && self.ageTextField.text.length != 0 && self.heightTextField.text != nil && self.heightTextField.text.length != 0 && self.weightTextField.text != nil && self.weightTextField.text.length != 0) {
+    
+//        [self.myBleTool writeUserInfoToPeripheralWeight:self.weightTextField.text andHeight:self.heightTextField.text];
+    
+//        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//        self.hud.mode = MBProgressHUDModeIndeterminate;
+//        
+//        NSArray *userArr = [self.myFmdbTool queryAllUserInfo];
+//        
+//        //计算出在英制和公制下的身高体重
+//        NSInteger height = self.isMetric ? self.heightTextField.text.integerValue : [UnitsTool cmAndInch:self.heightTextField.text.integerValue withMode:ImperialToMetric];
+//        NSInteger weight = self.isMetric ? self.weightTextField.text.integerValue : [UnitsTool kgAndLb:self.weightTextField.text.integerValue withMode:ImperialToMetric];
+//        
+//        UserInfoModel *model = [UserInfoModel userInfoModelWithUserName:self.userNameTextField.text andGender:self.genderLabel.text andAge:self.ageTextField.text.integerValue andHeight:height andWeight:weight andStepLength:self.steplengthTextField.text.integerValue andStepTarget:0 andSleepTarget:0];
+//       
+//        if (userArr.count == 0) {
+//           BOOL isSuccess = [self.myFmdbTool insertUserInfoModel:model];
+//            if (isSuccess) {
+//                self.hud.label.text = NSLocalizedString(@"saveSuccess", nil);
+//                
+//                NSData *imageData = UIImagePNGRepresentation(self.headImageView.image);
+//                [[NSUserDefaults standardUserDefaults] setObject:imageData forKey:@"userheadimage"];
+//                
+//                [self.hud hideAnimated:YES afterDelay:1];
+//            }else {
+//                self.hud.label.text = NSLocalizedString(@"saveFailAndTryAgain", nil);
+//                [self.hud hideAnimated:YES afterDelay:1];
+//            }
+//        }else {
+//            BOOL isSuccess = [self.myFmdbTool modifyUserInfoWithID:1 model:model];
+//            if (isSuccess) {
+//                self.hud.label.text = NSLocalizedString(@"changeSuccess", nil);
+//                
+//                NSData *imageData = UIImagePNGRepresentation(self.headImageView.image);
+//                [[NSUserDefaults standardUserDefaults] setObject:imageData forKey:@"userheadimage"];
+//                
+//                [self.hud hideAnimated:YES afterDelay:1];
+//            }else {
+//                self.hud.label.text = NSLocalizedString(@"changeFailAndTryAgain", nil);
+//                [self.hud hideAnimated:YES afterDelay:1];
+//            }
+//        }
+//        
+//        [[NSUserDefaults standardUserDefaults] setObject:self.userNameTextField.text forKey:@"currentusername"];
+//        
+//        DLog(@"gang gang set == %@",[[NSUserDefaults standardUserDefaults] objectForKey:@"currentusername"]);
+//        
+////    }else {
+//        AlertTool *vc = [AlertTool alertWithTitle:NSLocalizedString(@"tips", nil) message:NSLocalizedString(@"infoNotComplete", nil) style:UIAlertControllerStyleAlert];
+//        [vc addAction:[AlertAction actionWithTitle:NSLocalizedString(@"IKnow", nil) style:AlertToolStyleDefault handler:nil]];
+//        
+//        [vc show];
          
-    }
+//    }
 }
 
 #pragma mark - UIPickerViewDelegate && UIPickerViewDataSource

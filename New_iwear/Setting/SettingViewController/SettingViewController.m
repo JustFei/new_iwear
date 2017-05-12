@@ -38,9 +38,6 @@ static NSString *const settingHeaderID = @"settingHeader";
     // Do any additional setup after loading the view.
     
     self.title = @"设置";
-    self.navigationController.navigationBar.barTintColor = NAVIGATION_BAR_COLOR;
-    [self.navigationController.navigationBar setTitleTextAttributes:
-     @{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
@@ -50,6 +47,12 @@ static NSString *const settingHeaderID = @"settingHeader";
     self.automaticallyAdjustsScrollViewInsets = YES;
     [self healthKit];
     self.tableView.backgroundColor = SETTING_BACKGROUND_COLOR;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [[self.navigationController.navigationBar subviews].firstObject setAlpha:1];
+    self.navigationController.navigationBar.barTintColor = NAVIGATION_BAR_COLOR;
 }
 
 #pragma mark - Action

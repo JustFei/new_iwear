@@ -15,20 +15,9 @@
 
 @interface StepContentView : UIView < PNChartDelegate >
 
-@property (weak, nonatomic) IBOutlet UILabel *stepLabel;
-@property (weak, nonatomic) IBOutlet UILabel *mileageAndkCalLabel;
-@property (weak, nonatomic) IBOutlet UILabel *weekStatisticsLabel;
-@property (weak, nonatomic) IBOutlet UIView *downView;
-@property (weak, nonatomic) IBOutlet UILabel *todayLabel;
-
-@property (weak, nonatomic) IBOutlet UIImageView *progressImageView;
-
 @property (nonatomic ,strong) BleManager *myBleManager;
 
 @property (nonatomic, assign) CGFloat progress;
-
-@property (nonatomic ,weak) PNLineChart *stepChart;
-@property (nonatomic ,weak) PNCircleChart *stepCircleChart;
 
 //创建全局属性
 @property (nonatomic, strong) CAShapeLayer *shapeLayer;
@@ -44,6 +33,5 @@
 
 - (void)drawProgress:(CGFloat )progress;
 - (void)showChartView;
-- (void)showStepStateLabel;
 
 @end

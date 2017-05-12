@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "SettingViewController.h"
+#import "MainViewController.h"
 
 @interface AppDelegate ()
 
@@ -24,10 +24,19 @@
     self.window.backgroundColor = WHITE_COLOR;
     
     //初始化一个tabBar控制器
-    SettingViewController *tb = [[SettingViewController alloc]init];
-    //设置UIWindow的rootViewController为UITabBarController
-    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:tb];
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:[[MainViewController alloc]init]];
     
+    //设置navigationBar为透明无线
+//    [nc.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+//    [nc.navigationBar setShadowImage:[UIImage new]];
+//    nc.navigationBar.clipsToBounds = YES;
+    
+    //修改title颜色和font
+    [nc.navigationBar setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont systemFontOfSize:15]}];
+    self.window.rootViewController = nc;
+    
+    //断链通知
 //    UIView *alertView = [[UIView alloc] init];
 //    alertView.backgroundColor = RED_COLOR;
 //    [self.window addSubview:alertView];

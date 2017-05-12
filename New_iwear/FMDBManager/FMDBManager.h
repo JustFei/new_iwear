@@ -1,5 +1,5 @@
 //
-//  FMDBTool.h
+//  FMDBManager.h
 //  ManridyApp
 //
 //  Created by JustFei on 16/10/9.

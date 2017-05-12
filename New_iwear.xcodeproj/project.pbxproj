@@ -21,14 +21,8 @@
 		9C0712271EC558E800F41754 /* SleepSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C0711E21EC558E800F41754 /* SleepSettingViewController.xib */; };
 		9C0712281EC558E800F41754 /* SleepContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0711F71EC558E800F41754 /* SleepContentView.m */; };
 		9C0712291EC558E800F41754 /* SleepSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0711F91EC558E800F41754 /* SleepSettingViewController.m */; };
-		9C07122A1EC558E800F41754 /* StepContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C0711FD1EC558E800F41754 /* StepContentView.xib */; };
-		9C07122B1EC558E800F41754 /* StepTargetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C0711FF1EC558E800F41754 /* StepTargetViewController.xib */; };
 		9C07122C1EC558E800F41754 /* StepContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0712141EC558E800F41754 /* StepContentView.m */; };
 		9C07122D1EC558E800F41754 /* StepTargetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0712161EC558E800F41754 /* StepTargetViewController.m */; };
-		9C07122E1EC558E800F41754 /* TemperatureContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C07121B1EC558E800F41754 /* TemperatureContentView.m */; };
-		9C07122F1EC558E800F41754 /* TemperatureContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C07121C1EC558E800F41754 /* TemperatureContentView.xib */; };
-		9C0712301EC558E800F41754 /* TemperatureWarningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C07121E1EC558E800F41754 /* TemperatureWarningViewController.m */; };
-		9C0712311EC558E800F41754 /* TemperatureWarningViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C07121F1EC558E800F41754 /* TemperatureWarningViewController.xib */; };
 		9C079AAA1EBC612500D54AB3 /* PeripheralCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C079AA71EBC612500D54AB3 /* PeripheralCellModel.m */; };
 		9C079AAB1EBC612500D54AB3 /* SettingCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C079AA91EBC612500D54AB3 /* SettingCellModel.m */; };
 		9C079AAF1EBC61A800D54AB3 /* InterfaceSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C079AAE1EBC61A800D54AB3 /* InterfaceSelectionViewController.m */; };
@@ -179,38 +173,10 @@
 		9C0711F91EC558E800F41754 /* SleepSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SleepSettingViewController.m; sourceTree = "<group>"; };
 		9C0711FA1EC558E800F41754 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/SleepContentView.xib"; sourceTree = "<group>"; };
 		9C0711FB1EC558E800F41754 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/SleepSettingViewController.xib"; sourceTree = "<group>"; };
-		9C0711FE1EC558E800F41754 /* ar */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ar; path = ar.lproj/StepContentView.xib; sourceTree = "<group>"; };
-		9C0712001EC558E800F41754 /* ar */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ar; path = ar.lproj/StepTargetViewController.xib; sourceTree = "<group>"; };
-		9C0712011EC558E800F41754 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/StepContentView.xib; sourceTree = "<group>"; };
-		9C0712021EC558E800F41754 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/StepTargetViewController.xib; sourceTree = "<group>"; };
-		9C0712031EC558E800F41754 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/StepContentView.xib; sourceTree = "<group>"; };
-		9C0712041EC558E800F41754 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/StepTargetViewController.xib; sourceTree = "<group>"; };
-		9C0712051EC558E800F41754 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/StepContentView.xib; sourceTree = "<group>"; };
-		9C0712061EC558E800F41754 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/StepTargetViewController.xib; sourceTree = "<group>"; };
-		9C0712071EC558E800F41754 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/StepContentView.xib; sourceTree = "<group>"; };
-		9C0712081EC558E800F41754 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/StepTargetViewController.xib; sourceTree = "<group>"; };
-		9C0712091EC558E800F41754 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/StepContentView.xib; sourceTree = "<group>"; };
-		9C07120A1EC558E800F41754 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/StepTargetViewController.xib; sourceTree = "<group>"; };
-		9C07120B1EC558E800F41754 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/StepContentView.xib; sourceTree = "<group>"; };
-		9C07120C1EC558E800F41754 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/StepTargetViewController.xib; sourceTree = "<group>"; };
-		9C07120D1EC558E800F41754 /* ko */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ko; path = ko.lproj/StepContentView.xib; sourceTree = "<group>"; };
-		9C07120E1EC558E800F41754 /* ko */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ko; path = ko.lproj/StepTargetViewController.xib; sourceTree = "<group>"; };
-		9C07120F1EC558E800F41754 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/StepContentView.xib"; sourceTree = "<group>"; };
-		9C0712101EC558E800F41754 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/StepTargetViewController.xib"; sourceTree = "<group>"; };
-		9C0712111EC558E800F41754 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/StepContentView.xib; sourceTree = "<group>"; };
-		9C0712121EC558E800F41754 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/StepTargetViewController.xib; sourceTree = "<group>"; };
 		9C0712131EC558E800F41754 /* StepContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StepContentView.h; sourceTree = "<group>"; };
 		9C0712141EC558E800F41754 /* StepContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StepContentView.m; sourceTree = "<group>"; };
 		9C0712151EC558E800F41754 /* StepTargetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StepTargetViewController.h; sourceTree = "<group>"; };
 		9C0712161EC558E800F41754 /* StepTargetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StepTargetViewController.m; sourceTree = "<group>"; };
-		9C0712171EC558E800F41754 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/StepContentView.xib"; sourceTree = "<group>"; };
-		9C0712181EC558E800F41754 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/StepTargetViewController.xib"; sourceTree = "<group>"; };
-		9C07121A1EC558E800F41754 /* TemperatureContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemperatureContentView.h; sourceTree = "<group>"; };
-		9C07121B1EC558E800F41754 /* TemperatureContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemperatureContentView.m; sourceTree = "<group>"; };
-		9C07121C1EC558E800F41754 /* TemperatureContentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TemperatureContentView.xib; sourceTree = "<group>"; };
-		9C07121D1EC558E800F41754 /* TemperatureWarningViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemperatureWarningViewController.h; sourceTree = "<group>"; };
-		9C07121E1EC558E800F41754 /* TemperatureWarningViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemperatureWarningViewController.m; sourceTree = "<group>"; };
-		9C07121F1EC558E800F41754 /* TemperatureWarningViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TemperatureWarningViewController.xib; sourceTree = "<group>"; };
 		9C079AA61EBC612500D54AB3 /* PeripheralCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeripheralCellModel.h; sourceTree = "<group>"; };
 		9C079AA71EBC612500D54AB3 /* PeripheralCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeripheralCellModel.m; sourceTree = "<group>"; };
 		9C079AA81EBC612500D54AB3 /* SettingCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingCellModel.h; sourceTree = "<group>"; };
@@ -422,10 +388,10 @@
 		9C0496911EB880FC00EDBEBB /* SettingViewController */ = {
 			isa = PBXGroup;
 			children = (
-				9C079AA51EBC612500D54AB3 /* SettingModel */,
-				9C3AE84E1EBDC6400078CDAA /* SettingView */,
 				9C04968E1EB87DC400EDBEBB /* SettingViewController.h */,
 				9C04968F1EB87DC400EDBEBB /* SettingViewController.m */,
+				9C079AA51EBC612500D54AB3 /* SettingModel */,
+				9C3AE84E1EBDC6400078CDAA /* SettingView */,
 			);
 			name = SettingViewController;
 			sourceTree = "<group>";
@@ -448,7 +414,6 @@
 				9C0711D01EC558E800F41754 /* HeartRate */,
 				9C0711DF1EC558E800F41754 /* Sleep */,
 				9C0711FC1EC558E800F41754 /* Step */,
-				9C0712191EC558E800F41754 /* Temperature */,
 			);
 			path = SubView;
 			sourceTree = "<group>";
@@ -499,27 +464,12 @@
 		9C0711FC1EC558E800F41754 /* Step */ = {
 			isa = PBXGroup;
 			children = (
-				9C0711FD1EC558E800F41754 /* StepContentView.xib */,
-				9C0711FF1EC558E800F41754 /* StepTargetViewController.xib */,
 				9C0712131EC558E800F41754 /* StepContentView.h */,
 				9C0712141EC558E800F41754 /* StepContentView.m */,
 				9C0712151EC558E800F41754 /* StepTargetViewController.h */,
 				9C0712161EC558E800F41754 /* StepTargetViewController.m */,
 			);
 			path = Step;
-			sourceTree = "<group>";
-		};
-		9C0712191EC558E800F41754 /* Temperature */ = {
-			isa = PBXGroup;
-			children = (
-				9C07121A1EC558E800F41754 /* TemperatureContentView.h */,
-				9C07121B1EC558E800F41754 /* TemperatureContentView.m */,
-				9C07121C1EC558E800F41754 /* TemperatureContentView.xib */,
-				9C07121D1EC558E800F41754 /* TemperatureWarningViewController.h */,
-				9C07121E1EC558E800F41754 /* TemperatureWarningViewController.m */,
-				9C07121F1EC558E800F41754 /* TemperatureWarningViewController.xib */,
-			);
-			path = Temperature;
 			sourceTree = "<group>";
 		};
 		9C079AA51EBC612500D54AB3 /* SettingModel */ = {
@@ -1112,19 +1062,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9C07122A1EC558E800F41754 /* StepContentView.xib in Resources */,
 				9C0712221EC558E800F41754 /* BloodPressureContentView.xib in Resources */,
 				9C0712271EC558E800F41754 /* SleepSettingViewController.xib in Resources */,
 				9C0817751EB9AB1800C1845F /* SettingPeripheralTableViewCell.xib in Resources */,
 				9CDEAC6B1EB078EC00279EDA /* LaunchScreen.storyboard in Resources */,
-				9C0712311EC558E800F41754 /* TemperatureWarningViewController.xib in Resources */,
 				9C0817841EB9AB9300C1845F /* SettingTableViewCell.xib in Resources */,
 				9C0712261EC558E800F41754 /* SleepContentView.xib in Resources */,
 				9CDEAC681EB078EC00279EDA /* Assets.xcassets in Resources */,
-				9C07122B1EC558E800F41754 /* StepTargetViewController.xib in Resources */,
 				9C0712201EC558E800F41754 /* BloodO2ContentView.xib in Resources */,
 				9C0712241EC558E800F41754 /* HeartRateContentView.xib in Resources */,
-				9C07122F1EC558E800F41754 /* TemperatureContentView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1205,7 +1151,6 @@
 				9CB6160F1EC31544008914F5 /* UserInfoViewController.m in Sources */,
 				9C3AE82B1EBD63D50078CDAA /* CameraViewController.m in Sources */,
 				9C347BC71EC371EC001CFE6F /* UserInfoSettingModel.m in Sources */,
-				9C07122E1EC558E800F41754 /* TemperatureContentView.m in Sources */,
 				9CE95A651EC1BE5900E88B47 /* SedentaryReminderModel.m in Sources */,
 				9C079AAB1EBC612500D54AB3 /* SettingCellModel.m in Sources */,
 				9CD6311A1EC05BB2005EECE1 /* TargetSettingTableViewCell.m in Sources */,
@@ -1251,7 +1196,6 @@
 				9C3AE8491EBDB8320078CDAA /* RemindMoreTableViewCell.m in Sources */,
 				9CE95A611EC15DC600E88B47 /* SedentaryReminderTableViewCell.m in Sources */,
 				9C3AE8351EBD770B0078CDAA /* FindMyPeriphearlViewController.m in Sources */,
-				9C0712301EC558E800F41754 /* TemperatureWarningViewController.m in Sources */,
 				9CE95A5E1EC154C200E88B47 /* SedentaryReminderViewController.m in Sources */,
 				9CDEAC5A1EB078EC00279EDA /* main.m in Sources */,
 				9C0817741EB9AB1800C1845F /* SettingPeripheralTableViewCell.m in Sources */,
@@ -1359,42 +1303,6 @@
 				9C0711FB1EC558E800F41754 /* zh-Hans */,
 			);
 			name = SleepSettingViewController.xib;
-			sourceTree = "<group>";
-		};
-		9C0711FD1EC558E800F41754 /* StepContentView.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9C0711FE1EC558E800F41754 /* ar */,
-				9C0712011EC558E800F41754 /* de */,
-				9C0712031EC558E800F41754 /* en */,
-				9C0712051EC558E800F41754 /* es */,
-				9C0712071EC558E800F41754 /* fr */,
-				9C0712091EC558E800F41754 /* it */,
-				9C07120B1EC558E800F41754 /* ja */,
-				9C07120D1EC558E800F41754 /* ko */,
-				9C07120F1EC558E800F41754 /* pt-PT */,
-				9C0712111EC558E800F41754 /* ru */,
-				9C0712171EC558E800F41754 /* zh-Hans */,
-			);
-			name = StepContentView.xib;
-			sourceTree = "<group>";
-		};
-		9C0711FF1EC558E800F41754 /* StepTargetViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9C0712001EC558E800F41754 /* ar */,
-				9C0712021EC558E800F41754 /* de */,
-				9C0712041EC558E800F41754 /* en */,
-				9C0712061EC558E800F41754 /* es */,
-				9C0712081EC558E800F41754 /* fr */,
-				9C07120A1EC558E800F41754 /* it */,
-				9C07120C1EC558E800F41754 /* ja */,
-				9C07120E1EC558E800F41754 /* ko */,
-				9C0712101EC558E800F41754 /* pt-PT */,
-				9C0712121EC558E800F41754 /* ru */,
-				9C0712181EC558E800F41754 /* zh-Hans */,
-			);
-			name = StepTargetViewController.xib;
 			sourceTree = "<group>";
 		};
 		9CDEAC691EB078EC00279EDA /* LaunchScreen.storyboard */ = {

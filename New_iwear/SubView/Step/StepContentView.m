@@ -8,7 +8,7 @@
 
 #import "StepContentView.h"
 #import "AppDelegate.h"
-#import "StepHistoryViewController.h"
+//#import "StepHistoryViewController.h"
 #import "BindPeripheralViewController.h"
 #import "UnitsTool.h"
 
@@ -19,6 +19,12 @@
     NSInteger sumkCal;
     BOOL _isMetric;
 }
+
+@property (nonatomic, strong) UIView *upView;
+@property (nonatomic, strong) UILabel *stepLabel;
+@property (nonatomic, strong) UILabel *mileageAndkCalLabel;
+@property (nonatomic, strong) PNCircleChart *stepCircleChart;
+
 @end
 
 @implementation StepContentView
@@ -27,9 +33,42 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
-        self = [[NSBundle mainBundle] loadNibNamed:@"StepContentView" owner:self options:nil].firstObject;
         self.frame = frame;
+        
+        _upView = [[UIView alloc] init];
+        _upView.backgroundColor = STEP_CURRENT_BACKGROUND_COLOR;
+        [self addSubview:_upView];
+        [_upView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.mas_left);
+            make.top.equalTo(self.mas_top);
+            make.right.equalTo(self.mas_right);
+            make.height.equalTo(self.mas_width);
+        }];
+        
+//        self.stepCircleChart.backgroundColor = CLEAR_COLOR;
+        [self.stepCircleChart mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(_upView.mas_centerX);
+            make.bottom.equalTo(_upView.mas_bottom).offset(-48);
+            make.width.equalTo(@220);
+            make.height.equalTo(@220);
+        }];
+        [self.stepCircleChart strokeChart];
+        [self.stepCircleChart updateChartByCurrent:@(0.75)];
+        
+        [self.stepLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.stepCircleChart.mas_centerX);
+            make.centerY.equalTo(self.stepCircleChart.mas_centerY);
+        }];
+        [self.stepLabel setText:@"28965"];
+        
+        [self.mileageAndkCalLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.stepCircleChart.mas_centerX);
+            make.top.equalTo(self.stepLabel.mas_bottom).offset(15);
+        }];
+        [self.mileageAndkCalLabel setText:@"23.7km/1800kcal"];
+        
+        
+        
         sumStep = 0;
         sumMileage = 0;
         sumkCal = 0;
@@ -38,15 +77,6 @@
         self.dataArr = [NSMutableArray array];
     }
     return self;
-}
-
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(reScanPeripheral)];
-    self.stepLabel.userInteractionEnabled = YES;
-    [self.stepLabel addGestureRecognizer:tap];
-    
 }
 
 - (void)drawProgress:(CGFloat )progress
@@ -58,81 +88,63 @@
     [self.stepCircleChart updateChartByCurrent:@(progress)];
 }
 
-- (void)showChartView
-{
-    NSMutableArray *xLabelArr = [NSMutableArray array];
-    
-    for (__strong NSString *dateStr in self.dateArr) {
-        dateStr = [dateStr substringFromIndex:5];
-        DLog(@"querystring == %@",dateStr);
-        
-        [xLabelArr addObject:dateStr];
-    }
-    
-    [self.stepChart setXLabels:xLabelArr];
-    
-    PNLineChartData *data02 = [PNLineChartData new];
-    data02.color = PNTwitterColor;
-    data02.itemCount = self.stepChart.xLabels.count;
-    data02.inflexionPointColor = PNLightBlue;
-    data02.inflexionPointStyle = PNLineChartPointStyleCircle;
-    data02.getData = ^(NSUInteger index) {
-        
-        SportModel *model = self.dataArr[index];
-        CGFloat yValue;
-        if (model.stepNumber != 0) {
-            yValue = model.stepNumber.integerValue;
-
-        }else {
-            yValue = 0;
-        }
-        
-        return [PNLineChartDataItem dataItemWithY:yValue];
-    };
-    
-    self.stepChart.chartData = @[data02];
-    [self.stepChart strokeChart];
-}
-
-- (void)showStepStateLabel
-{
-    for (int i = 0; i < self.dataArr.count; i ++) {
-        SportModel *model = self.dataArr[i];
-        
-        if (model.stepNumber != 0) {
-            sumStep += model.stepNumber.integerValue;
-            sumMileage += model.mileageNumber.integerValue;
-            sumkCal += model.kCalNumber.integerValue;
-        }
-    }
-    //    double mileage = sumMileage;
-    _isMetric = [UnitsTool isMetricOrImperialSystem];
-    //判断单位是英制还是公制
-    //TODO: 这里翻译还要改一下
-    [self.weekStatisticsLabel setText:[NSString stringWithFormat:_isMetric ?  NSLocalizedString(@"currentWeekStepData", nil) : NSLocalizedString(@"currentWeekStepDataImperial", nil),sumStep ,_isMetric ?  sumMileage / 1000.f : [UnitsTool kmAndMi:sumMileage / 1000.f withMode:ImperialToMetric] ,sumkCal]];
-    sumStep = sumMileage = sumkCal = 0;
-}
-
-#pragma mark - PNChartDelegate
-//- (void)userClickedOnLinePoint:(CGPoint)point lineIndex:(NSInteger)lineIndex
+//- (void)showChartView
 //{
-//    DLog(@"点击了%ld根线",lineIndex);
+//    NSMutableArray *xLabelArr = [NSMutableArray array];
+//    
+//    for (__strong NSString *dateStr in self.dateArr) {
+//        dateStr = [dateStr substringFromIndex:5];
+//        DLog(@"querystring == %@",dateStr);
+//        
+//        [xLabelArr addObject:dateStr];
+//    }
+//    
+//    [self.stepChart setXLabels:xLabelArr];
+//    
+//    PNLineChartData *data02 = [PNLineChartData new];
+//    data02.color = PNTwitterColor;
+//    data02.itemCount = self.stepChart.xLabels.count;
+//    data02.inflexionPointColor = PNLightBlue;
+//    data02.inflexionPointStyle = PNLineChartPointStyleCircle;
+//    data02.getData = ^(NSUInteger index) {
+//        
+//        SportModel *model = self.dataArr[index];
+//        CGFloat yValue;
+//        if (model.stepNumber != 0) {
+//            yValue = model.stepNumber.integerValue;
+//
+//        }else {
+//            yValue = 0;
+//        }
+//        
+//        return [PNLineChartDataItem dataItemWithY:yValue];
+//    };
+//    
+//    self.stepChart.chartData = @[data02];
+//    [self.stepChart strokeChart];
+//}
+//
+//- (void)showStepStateLabel
+//{
+//    for (int i = 0; i < self.dataArr.count; i ++) {
+//        SportModel *model = self.dataArr[i];
+//        
+//        if (model.stepNumber != 0) {
+//            sumStep += model.stepNumber.integerValue;
+//            sumMileage += model.mileageNumber.integerValue;
+//            sumkCal += model.kCalNumber.integerValue;
+//        }
+//    }
+//    //    double mileage = sumMileage;
+//    _isMetric = [UnitsTool isMetricOrImperialSystem];
+//    //判断单位是英制还是公制
+//    //TODO: 这里翻译还要改一下
+//    [self.weekStatisticsLabel setText:[NSString stringWithFormat:_isMetric ?  NSLocalizedString(@"currentWeekStepData", nil) : NSLocalizedString(@"currentWeekStepDataImperial", nil),sumStep ,_isMetric ?  sumMileage / 1000.f : [UnitsTool kmAndMi:sumMileage / 1000.f withMode:ImperialToMetric] ,sumkCal]];
+//    sumStep = sumMileage = sumkCal = 0;
 //}
 
+#pragma mark - PNChartDelegate
 
-- (void)userClickedOnLineKeyPoint:(CGPoint)point
-                        lineIndex:(NSInteger)lineIndex
-                       pointIndex:(NSInteger)pointIndex
-{
-    SportModel *model = self.dataArr[pointIndex];
-    NSString *date = self.dateArr[pointIndex];
-    if (model.stepNumber) {
-        [self.weekStatisticsLabel setText:[NSString stringWithFormat:NSLocalizedString(@"step", nil),date ,model.stepNumber]];
-    }else {
-        [self.weekStatisticsLabel setText:[NSString stringWithFormat:NSLocalizedString(@"step", nil),date ,@(0) ]];
-    }
-    
-}
 
 
 #pragma mark - Action
@@ -143,62 +155,44 @@
     
 }
 
-//重新扫描的点击动作
-- (void)reScanPeripheral
-{
-    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    
-    BOOL isBind = [[NSUserDefaults standardUserDefaults] boolForKey:@"isBind"];
-    if (isBind) {
-        [delegate.myBleManager scanDevice];
-        [delegate.mainVc.stepView.stepLabel setText:NSLocalizedString(@"perConnecting", nil)];
-        delegate.myBleManager.isReconnect = YES;
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [delegate.myBleManager stopScan];
-            if (delegate.myBleManager.connectState == kBLEstateDisConnected) {
-                [delegate.mainVc.stepView.stepLabel setText:NSLocalizedString(@"canNotConnectPer", nil)];
-            }
-        });
-    }else {
-        BindPeripheralViewController *vc = [[BindPeripheralViewController alloc] init];
-        [[self findViewController:self].navigationController pushViewController:vc animated:YES];
-    }
-}
-
 #pragma mark - 懒加载
-- (PNLineChart *)stepChart
-{
-    if (!_stepChart) {
-        [self.downView layoutIfNeeded];
-        PNLineChart *view = [[PNLineChart alloc] initWithFrame:self.downView.bounds];
-        view.delegate = self;
-        view.backgroundColor = [UIColor clearColor];
-        view.showCoordinateAxis = YES;
-        
-        view.yGridLinesColor = [UIColor clearColor];
-        view.showYGridLines = YES;
-        
-        [self.downView addSubview:view];
-        _stepChart = view;
-    }
-    
-    return _stepChart;
-}
-
 - (PNCircleChart *)stepCircleChart
 {
     if (!_stepCircleChart) {
-        PNCircleChart *view = [[PNCircleChart alloc] initWithFrame:CGRectMake(self.progressImageView.frame.origin.x + 15, self.progressImageView.frame.origin.y + 27, self.progressImageView.frame.size.width - 30, self.progressImageView.frame.size.height - 40) total:@1 current:@0 clockwise:YES shadow:YES shadowColor:[UIColor colorWithRed:43.0 / 255.0 green:147.0 / 255.0 blue:190.0 / 255.0 alpha:1] displayCountingLabel:NO overrideLineWidth:@5];
-        view.backgroundColor = [UIColor clearColor];
-        [view setStrokeColor:[UIColor colorWithRed:1 green:1 blue:0 alpha:1]];
-        [view setStrokeColorGradientStart:[UIColor colorWithRed:1 green:1 blue:0 alpha:1]];
+        _stepCircleChart = [[PNCircleChart alloc] initWithFrame:CGRectZero total:@1 current:@0 clockwise:YES shadow:YES shadowColor:TEXT_WHITE_COLOR_LEVEL1 displayCountingLabel:NO overrideLineWidth:@5];
+        [_stepCircleChart setStrokeColor:COLOR_WITH_HEX(0xffeb3b, 0.87)];
+        //[_stepCircleChart setStrokeColorGradientStart:[UIColor colorWithRed:1 green:1 blue:0 alpha:1]];
         
-        [self addSubview:view];
-        _stepCircleChart = view;
+        [self addSubview:_stepCircleChart];
     }
     
     return _stepCircleChart;
+}
+
+- (UILabel *)stepLabel
+{
+    if (!_stepLabel) {
+        _stepLabel = [[UILabel alloc] init];
+        [_stepLabel setTextColor:WHITE_COLOR];
+        [_stepLabel setFont:[UIFont systemFontOfSize:59]];
+        
+        [self addSubview:_stepLabel];
+    }
+    
+    return _stepLabel;
+}
+
+- (UILabel *)mileageAndkCalLabel
+{
+    if (!_mileageAndkCalLabel) {
+        _mileageAndkCalLabel = [[UILabel alloc] init];
+        [_mileageAndkCalLabel setTextColor:WHITE_COLOR];
+        [_mileageAndkCalLabel setFont:[UIFont systemFontOfSize:28]];
+        
+        [self addSubview:_mileageAndkCalLabel];
+    }
+    
+    return _mileageAndkCalLabel;
 }
 
 - (NSMutableArray *)dateArr

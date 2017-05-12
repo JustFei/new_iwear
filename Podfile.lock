@@ -72,6 +72,9 @@ PODS:
   - MaterialControls (1.2.2)
   - MBProgressHUD (1.0.0)
   - MDFTextAccessibility (1.1.4)
+  - PNChart (0.8.9):
+    - UICountingLabel (~> 1.2.0)
+  - UICountingLabel (1.2.0)
 
 DEPENDENCIES:
   - FMDB (~> 2.6.2)
@@ -81,6 +84,7 @@ DEPENDENCIES:
   - MaterialComponents/Collections
   - MaterialControls (~> 1.2.2)
   - MBProgressHUD (~> 1.0.0)
+  - PNChart (~> 0.8.9)
 
 SPEC CHECKSUMS:
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
@@ -89,7 +93,9 @@ SPEC CHECKSUMS:
   MaterialControls: 1c6b29e78d3a13d8dd6a67ed31b6d26eb5de8f72
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MDFTextAccessibility: aa897b2675bc614c01a331053af680deea692148
+  PNChart: 84774d225c2126ded6c93d4dbe6ae98c3a73c2d2
+  UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
 
-PODFILE CHECKSUM: 340a96a353785de206465ccb26a1ad680c2d616e
+PODFILE CHECKSUM: e2b0197581e35912042254094324aac03733b5ea
 
 COCOAPODS: 1.0.1

@@ -69,7 +69,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>PNChart.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-New_iwear.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>UICountingLabel.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -78,6 +88,11 @@
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>0B548419BEE5379DD899E782153CC73C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>11929A53A8AD141288485C2968E5803E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -117,7 +132,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>75D080D4A5250E5AEBFA92D51B1150D5</key>
+		<key>7CEEB7F4CD0B847C8524FB6C3FD41570</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -128,6 +143,11 @@
 			<true/>
 		</dict>
 		<key>B5899031C8F691DE7348741239B085BC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B951D5D087C9C6565BE47DF8E635DC48</key>
 		<dict>
 			<key>primary</key>
 			<true/>

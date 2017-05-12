@@ -7,7 +7,7 @@
 //
 
 #import "SleepSettingViewController.h"
-#import "FMDBTool.h"
+#import "FMDBManager.h"
 #import "UserInfoModel.h"
 
 @interface SleepSettingViewController () < UIPickerViewDelegate , UIPickerViewDataSource >
@@ -20,7 +20,7 @@
 
 @property (nonatomic ,weak) UIPickerView *timePickerView;
 
-@property (nonatomic ,strong) FMDBTool *myFmdbTool;
+@property (nonatomic ,strong) FMDBManager *myFmdbTool;
 
 @end
 
@@ -123,10 +123,10 @@
     return _timePickerView;
 }
 
-- (FMDBTool *)myFmdbTool
+- (FMDBManager *)myFmdbTool
 {
     if (!_myFmdbTool) {
-        _myFmdbTool = [[FMDBTool alloc] initWithPath:@"UserList"];
+        _myFmdbTool = [[FMDBManager alloc] initWithPath:@"UserList"];
     }
     
     return _myFmdbTool;

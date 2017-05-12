@@ -1,5 +1,5 @@
 //
-//  FMDBTool.m
+//  FMDBManager.m
 //  ManridyApp
 //
 //  Created by JustFei on 16/10/9.

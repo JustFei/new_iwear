@@ -11,49 +11,39 @@
 #import "FMDBManager.h"
 #import "BleManager.h"
 #import "UserInfoModel.h"
-#import "MBProgressHUD.h"
-//#import "UserListViewController.h"
+#import "UserInfoSettingModel.h"
 #import "UnitsTool.h"
+
+typedef enum : NSUInteger {
+    PickerTypeGender = 0,
+    PickerTypeAge,
+    PickerTypeHeight,
+    PickerTypeWeight,
+} PickerType;
 
 static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 
 @interface UserInfoViewController () <UITableViewDelegate ,UITableViewDataSource ,UITextFieldDelegate ,UINavigationControllerDelegate ,UIImagePickerControllerDelegate ,UIAlertViewDelegate ,UIPickerViewDelegate ,UIPickerViewDataSource ,BleReceiveDelegate>
 {
-    NSArray *_nameArr;
-    NSArray *_fieldPlaceholdeArr;
-    NSArray *_unitArr;
-    UITextField *_tempField;
     NSArray *_userArr;
     NSArray *_genderArr;
 }
 
-@property (nonatomic ,weak) UIImageView *headImageView;
-
-@property (nonatomic ,weak) UITextField *userNameTextField;
-
-@property (nonatomic ,weak) UILabel *genderLabel;
-
-@property (nonatomic ,weak) UITextField *ageTextField;
-
-@property (nonatomic ,weak) UITextField *heightTextField;
-
-@property (nonatomic ,weak) UITextField *weightTextField;
-
-@property (nonatomic ,weak) UITextField *steplengthTextField;
-
-@property (nonatomic ,weak) UITableView *infoTableView;
-
-@property (nonatomic ,weak) UIButton *saveButton;
-
-@property (nonatomic ,strong) FMDBManager *myFmdbTool;
-
-@property (nonatomic ,strong) BleManager *myBleTool;
-
-@property (nonatomic ,strong) MBProgressHUD *hud;
-
-@property (nonatomic ,weak) UIPickerView *genderPickerView;
-
-@property (nonatomic ,assign) BOOL isMetric;
+@property (nonatomic, weak) UIImageView *headImageView;
+@property (nonatomic, weak) UITextField *userNameTextField;
+@property (nonatomic, weak) UITableView *infoTableView;
+@property (nonatomic, weak) UIButton *saveButton;
+@property (nonatomic, strong) FMDBManager *myFmdbTool;
+@property (nonatomic, strong) BleManager *myBleTool;
+@property (nonatomic, strong) MBProgressHUD *hud;
+@property (nonatomic, strong) NSArray *dataArr;
+@property (nonatomic, assign) BOOL isMetric;
+@property (nonatomic ,assign) PickerType pickerType;
+@property (nonatomic ,strong) UIPickerView *infoPickerView;
+@property (nonatomic ,strong) NSArray *genderArr;
+@property (nonatomic ,strong) NSArray *ageArr;
+@property (nonatomic ,strong) NSArray *heightArr;
+@property (nonatomic ,strong) NSArray *weightArr;
 
 @end
 
@@ -64,16 +54,11 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.isMetric = [self isMetricOrImperialSystem];
-    _nameArr = @[NSLocalizedString(@"gender", nil),NSLocalizedString(@"age", nil),NSLocalizedString(@"height", nil),NSLocalizedString(@"weight", nil)];
-    _fieldPlaceholdeArr = @[@"",NSLocalizedString(@"inputAge", nil),NSLocalizedString(@"inputHeight", nil),NSLocalizedString(@"inputWeight", nil)];
-    _unitArr = @[@"",NSLocalizedString(@"year", nil),self.isMetric ? @"(cm)" : @"(In)",self.isMetric ? @"(kg)" : @"(lb)"];
+    
     _genderArr = @[NSLocalizedString(@"male", nil),NSLocalizedString(@"Female", nil)];
     
-    self.navigationItem.title = NSLocalizedString(@"userInfo", nil);
-    
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"切换用户" style:UIBarButtonItemStylePlain target:self action:@selector(changeUser)];
-    
-    self.view.backgroundColor = [UIColor colorWithRed:77.0 / 255.0 green:170.0 / 255.0 blue:225.0 / 255.0 alpha:1];
+    self.navigationItem.title = @"用户信息";
+    self.view.backgroundColor = NAVIGATION_BAR_COLOR;
     
     _userArr = [self.myFmdbTool queryAllUserInfo];
     
@@ -88,24 +73,33 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
     self.userNameTextField.borderStyle = UITextBorderStyleNone;
     self.userNameTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 261 * VIEW_CONTROLLER_FRAME_WIDTH / 320, self.view.frame.size.width, 13 * VIEW_CONTROLLER_FRAME_WIDTH / 320)];
-    view.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.5];
-    [self.view addSubview:view];
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 261 * VIEW_CONTROLLER_FRAME_WIDTH / 320, self.view.frame.size.width, 8 * VIEW_CONTROLLER_FRAME_WIDTH / 320)];
+    lineView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.5];
+    [self.view addSubview:lineView];
+    [self.infoTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(lineView.mas_bottom);
+        make.left.equalTo(self.view.mas_left);
+        make.right.equalTo(self.view.mas_right);
+        make.bottom.equalTo(self.view.mas_bottom);
+    }];
     
-    self.infoTableView.backgroundColor = [UIColor clearColor];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    self.title = @"设备绑定";
+    MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
+    [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
+    [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.view.backgroundColor = NAVIGATION_BAR_COLOR;
 }
 
 - (void)dealloc
 {
     //注销掉所有代理和关闭数据库
-    self.infoTableView.delegate = nil;
-    self.infoTableView.dataSource = nil;
-    self.myBleTool.receiveDelegate = nil;
-    [self.myFmdbTool CloseDataBase];
+//    self.infoTableView.delegate = nil;
+//    self.infoTableView.dataSource = nil;
+//    self.myBleTool.receiveDelegate = nil;
+//    [self.myFmdbTool CloseDataBase];
 }
-
 
 - (void)setInitUI
 {
@@ -138,57 +132,22 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
     }
 }
 
-- (void)keyboardWillChangeFrame:(NSNotification *)notification
-{
-    if (self.userNameTextField.isEditing) {
-        return;
-    }else {
-        
-        //1. 获取键盘的 Y 值
-        CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-        ;
-        
-        //注意从字典取出来的是对象，而 CGRect CGFloat 都是基本数据类型，一次需要转换
-        CGFloat keyboardY = keyboardFrame.origin.y;
-        
-        //如果键盘的Y值小于textField的y值，就偏移
-        //    if (keyboardY < _tempField.frame.origin.y + _tempField.frame.size.height) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:0.25 animations:^{
-                self.view.transform = CGAffineTransformMakeTranslation(0, keyboardY - self.view.frame.size.height);
-            }];
-        });
-        
-        if ((keyboardY - self.view.frame.size.height) >= 0) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.navigationController.navigationBar setHidden:NO];
-            });
-        }else {
-            [self.navigationController.navigationBar setHidden:YES];
-        }
-        
-    }
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Action
+- (void)backViewController
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)setHeadImage
 {
-    /**
-     *  弹出提示框
-     */
-    //初始化提示框
     AlertTool *alert = [AlertTool alertWithTitle:nil message:nil style:UIAlertControllerStyleActionSheet];
-    //按钮：从相册选择，类型：UIAlertActionStyleDefault
-    [alert addAction:[AlertAction actionWithTitle:NSLocalizedString(@"choosePhotoFromPhotoAlbum", nil) style:AlertToolStyleDefault handler:^(AlertAction *action) {
+    [alert addAction:[AlertAction actionWithTitle:NSLocalizedString(@"相册", nil) style:AlertToolStyleDefault handler:^(AlertAction *action) {
         UIImagePickerController *PickerImage = [[UIImagePickerController alloc]init];
-        //获取方式1：通过相册（呈现全部相册），UIImagePickerControllerSourceTypePhotoLibrary
-        //获取方式2，通过相机，UIImagePickerControllerSourceTypeCamera
-        //获取方方式3，通过相册（呈现全部图片），UIImagePickerControllerSourceTypeSavedPhotosAlbum
         PickerImage.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;//方式1
         //允许编辑，即放大裁剪
         PickerImage.allowsEditing = YES;
@@ -198,11 +157,8 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
         [self presentViewController:PickerImage animated:YES completion:nil];
     }]];
     //按钮：拍照，类型：UIAlertActionStyleDefault
-    [alert addAction:[AlertAction actionWithTitle:NSLocalizedString(@"takeAPhoto", nil) style:AlertToolStyleDefault handler:^(AlertAction *action) {
+    [alert addAction:[AlertAction actionWithTitle:NSLocalizedString(@"拍照", nil) style:AlertToolStyleDefault handler:^(AlertAction *action) {
         UIImagePickerController *PickerImage = [[UIImagePickerController alloc]init];
-        //获取方式1：通过相册（呈现全部相册），UIImagePickerControllerSourceTypePhotoLibrary
-        //获取方式2，通过相机，UIImagePickerControllerSourceTypeCamera
-        //获取方方式3，通过相册（呈现全部图片），UIImagePickerControllerSourceTypeSavedPhotosAlbum
         PickerImage.sourceType = UIImagePickerControllerSourceTypeCamera;//方式1
         //允许编辑，即放大裁剪
         PickerImage.allowsEditing = YES;
@@ -212,14 +168,13 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
         [self presentViewController:PickerImage animated:YES completion:nil];
     }]];
     //按钮：取消，类型：UIAlertActionStyleCancel
-    [alert addAction:[AlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:AlertToolStyleCancel handler:nil]];
+    [alert addAction:[AlertAction actionWithTitle:NSLocalizedString(@"取消", nil) style:AlertToolStyleCancel handler:nil]];
     [alert show];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     [self.view endEditing:YES];
-    self.genderPickerView.hidden = YES;
 }
 
 //PickerImage完成后的代理方法
@@ -232,18 +187,108 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)chooseGender
+- (void)showInfoPickerView:(NSString *)infoText
 {
-    self.genderPickerView.hidden = NO;
-    self.genderPickerView.backgroundColor = [UIColor colorWithRed:48.0 / 255.0 green:110.0 / 255.0 blue:187.0 / 255.0 alpha:1];
-    if (_userArr.count != 0) {
-        UserInfoModel *model = _userArr.firstObject;
-        if ([model.gender isEqualToString:NSLocalizedString(@"male", nil)]) {
-            [self.genderPickerView selectRow:0 inComponent:0 animated:NO];
-        }else {
-            [self.genderPickerView selectRow:1 inComponent:0 animated:NO];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"\n\n\n\n\n\n\n\n\n\n" message:nil preferredStyle:(UIAlertControllerStyleActionSheet)];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //self.isChange = YES;
+        //获取到该cell的label对象，修改text
+//        if (self.title) {
+//            self.infoLabel.text = self.title;
+//            self.title = nil;
+//            switch (self.pickerType) {
+//                case PickerTypeGender:
+//                {
+//                    if ([self.infoLabel.text isEqualToString:@"男"]) {
+//                        self.changeModel.gender = 0;
+//                    }else if ([self.infoLabel.text isEqualToString:@"女"]) {
+//                        self.changeModel.gender = 1;
+//                    }else if ([self.infoLabel.text isEqualToString:@"未选择"]) {
+//                        self.changeModel.gender = -1;
+//                    }
+//                }
+//                    break;
+//                case PickerTypeBirthday:
+//                {
+//                    self.changeModel.birthday = self.infoLabel.text;
+//                }
+//                    break;
+//                case PickerTypeHeight:
+//                {
+//                    self.changeModel.height = self.infoLabel.text.integerValue;
+//                }
+//                    break;
+//                case PickerTypeWeight:
+//                {
+//                    self.changeModel.weight = self.infoLabel.text.integerValue;
+//                }
+//                    break;
+//                case PickerTypeMotionTarget:
+//                {
+//                    self.changeModel.stepTarget = self.infoLabel.text.integerValue;
+//                }
+//                    break;
+//                    
+//                default:
+//                    break;
+//            }
+//        }
+    }];
+    [alert addAction:cancelAction];
+    [alert addAction:okAction];
+    
+    switch (self.pickerType) {
+        case PickerTypeGender:
+        {
+            self.infoPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, alert.view.frame.size.width - 30, 216)];
+            self.infoPickerView.dataSource = self;
+            self.infoPickerView.delegate = self;
+//            NSInteger index = [self.genderArr indexOfObject:infoText];
+            NSInteger index = 0;
+            [self.infoPickerView selectRow:index inComponent:0 animated:NO];
+            [alert.view addSubview:self.infoPickerView];
         }
+            break;
+        case PickerTypeAge:
+        {
+            self.infoPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, alert.view.frame.size.width - 30, 216)];
+            self.infoPickerView.dataSource = self;
+            self.infoPickerView.delegate = self;
+            //            NSInteger index = [self.heightArr indexOfObject:infoText];
+            NSInteger index = 0;
+            [self.infoPickerView selectRow:index inComponent:0 animated:NO];
+            [alert.view addSubview:self.infoPickerView];
+        }
+            break;
+        case PickerTypeHeight:
+        {
+            self.infoPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, alert.view.frame.size.width - 30, 216)];
+            self.infoPickerView.dataSource = self;
+            self.infoPickerView.delegate = self;
+//            NSInteger index = [self.heightArr indexOfObject:infoText];
+            NSInteger index = 0;
+            [self.infoPickerView selectRow:index inComponent:0 animated:NO];
+            [alert.view addSubview:self.infoPickerView];
+        }
+            break;
+        case PickerTypeWeight:
+        {
+            self.infoPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, alert.view.frame.size.width - 30, 216)];
+            self.infoPickerView.dataSource = self;
+            self.infoPickerView.delegate = self;
+//            NSInteger index = [self.weightArr indexOfObject:infoText];
+            NSInteger index = 0;
+            [self.infoPickerView selectRow:index inComponent:0 animated:NO];
+            [alert.view addSubview:self.infoPickerView];
+        }
+            break;
+            
+        default:
+            break;
     }
+    
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark -ButtonAction
@@ -307,115 +352,87 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
     }
 }
 
-//- (void)changeUser
-//{
-//    UserListViewController *vc = [[UserListViewController alloc] init];
-//    [self.navigationController pushViewController:vc animated:YES];
-//}
-
-#pragma mark - UIPickerViewDataSource有关的代理方法
-//返回列数（必须实现）
+#pragma mark - UIPickerViewDelegate && UIPickerViewDataSource
+// UIPickerViewDataSource中定义的方法，该方法的返回值决定改控件包含多少列
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     return 1;
 }
 
-//返回每列里边的行数（必须实现）
+// UIPickerViewDataSource中定义的方法，该方法的返回值决定该控件指定列包含多少哥列表项
+
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-        //返回表情数组的个数
-    return _genderArr.count;
-}
-
-#pragma mark - UIPickerViewDelegate处理有关的代理方法
-//设置组件的宽度
-- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
-{
-    return 100;
-}
-//设置组件中每行的高度
-- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
-{
-    return 50;
-}
-//设置组件中每行的标题row:行
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-    return _genderArr[row];
-}
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
-    [self.genderLabel setText:_genderArr[row]];
-}
-
-#pragma mark - UITextFieldDelegate
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    
-    [textField resignFirstResponder];
-    
-    return YES;
-}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    switch (textField.tag) {
-        case 101:
-        {
-            if (string.length == 0) return YES;
-            
-            NSInteger existedLength = textField.text.length;
-            NSInteger selectedLength = range.length;
-            NSInteger replaceLength = string.length;
-            if (existedLength - selectedLength + replaceLength > 3) {
-                return NO;
-            }
-        }
+    switch (self.pickerType) {
+        case PickerTypeGender:
+            return self.genderArr.count;
             break;
-        case 102:
-        {
-            if (string.length == 0) return YES;
-            
-            NSInteger existedLength = textField.text.length;
-            NSInteger selectedLength = range.length;
-            NSInteger replaceLength = string.length;
-            if (existedLength - selectedLength + replaceLength > 3) {
-                return NO;
-            }
-        }
+        case PickerTypeAge:
+            return self.ageArr.count;
             break;
-        case 103:
-        {
-            if (string.length == 0) return YES;
-            
-            NSInteger existedLength = textField.text.length;
-            NSInteger selectedLength = range.length;
-            NSInteger replaceLength = string.length;
-            if (existedLength - selectedLength + replaceLength > 3) {
-                return NO;
-            }
-        }
+        case PickerTypeHeight:
+            return self.heightArr.count;
             break;
-        case 104:
-        {
-            if (string.length == 0) return YES;
-            
-            NSInteger existedLength = textField.text.length;
-            NSInteger selectedLength = range.length;
-            NSInteger replaceLength = string.length;
-            if (existedLength - selectedLength + replaceLength > 3) {
-                return NO;
-            }
-        }
+        case PickerTypeWeight:
+            return self.weightArr.count;
             break;
             
         default:
             break;
     }
     
-    
-    return YES;
+    return 0;
+}
+
+// UIPickerViewDelegate中定义的方法，该方法返回NSString将作为UIPickerView中指定列和列表项上显示的标题
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    switch (self.pickerType) {
+        case PickerTypeGender:
+            return self.genderArr[row];
+            break;
+        case PickerTypeAge:
+            return self.ageArr[row];
+            break;
+        case PickerTypeWeight:
+            return self.weightArr[row];
+            break;
+        case PickerTypeHeight:
+            return self.heightArr[row];
+            break;
+            
+        default:
+            break;
+    }
+    return 0;
+}
+
+// 当用户选中UIPickerViewDataSource中指定列和列表项时激发该方法
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+
+{
+    switch (self.pickerType) {
+        case PickerTypeGender:
+            self.title = self.genderArr[row];
+            break;
+            
+        case PickerTypeAge:
+            self.title = self.ageArr[row];
+            break;
+            
+        case PickerTypeHeight:
+            self.title = self.heightArr[row];
+            break;
+            
+        case PickerTypeWeight:
+            self.title = self.weightArr[row];
+            break;
+            
+        default:
+            break;
+    }
 }
 
 #pragma mark - UITableViewDelegate && UITableViewDataSource
@@ -427,86 +444,29 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _nameArr.count;
+    return self.dataArr.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UserInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:UserInfoTableViewCellID];
     
-    if (indexPath.row == 0) {
-        [cell.genderLabel setHidden:NO];
-        cell.genderLabel.userInteractionEnabled = YES;
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chooseGender)];
-        [cell.genderLabel addGestureRecognizer:tap];
-        [cell.textField setHidden:YES];
-        
-        if (_userArr.count != 0) {
-            UserInfoModel *model = _userArr.firstObject;
-            [cell.genderLabel setText:model.gender];
-        }
-        
-        self.genderLabel = cell.genderLabel;
-    }else {
-        [cell.genderLabel setHidden:YES];
-        cell.textField.placeholder = _fieldPlaceholdeArr[indexPath.row];
-        cell.textField.delegate = self;
-        
-        switch (indexPath.row) {
-            case 1:
-            {
-                cell.textField.tag = 101;
-                self.ageTextField = cell.textField;
-                if (_userArr.count != 0) {
-                    UserInfoModel *model = _userArr.firstObject;
-                    [self.ageTextField setText:[NSString stringWithFormat:@"%ld",(long)model.age]];
-                }
-            }
-                break;
-            case 2:
-            {
-                cell.textField.tag = 102;
-                self.heightTextField = cell.textField;
-                if (_userArr.count != 0) {
-                    UserInfoModel *model = _userArr.firstObject;
-                    //判断是英制还是公制
-                    [self.heightTextField setText:[NSString stringWithFormat:@"%ld",(long)self.isMetric ? model.height : [UnitsTool cmAndInch:model.height withMode:MetricToImperial]]];
-                }
-                
-            }
-                break;
-            case 3:
-            {
-                cell.textField.tag = 103;
-                self.weightTextField = cell.textField;
-                if (_userArr.count != 0) {
-                    UserInfoModel *model = _userArr.firstObject;
-                    [self.weightTextField setText:[NSString stringWithFormat:@"%ld",(long)self.isMetric ? model.weight : [UnitsTool kgAndLb:model.weight withMode:MetricToImperial]]];
-                }
-                
-            }
-                
-                break;
-                
-            default:
-                break;
-        }
-        
-    }
-    
-    [cell.nameLabel setText:_nameArr[indexPath.row]];
-    [cell.unitLabel setText:_unitArr[indexPath.row]];
-    
-    cell.userInfoTextFieldBlock = ^(UITextField * textField) {
-        _tempField = textField;
-    };
+    cell.model = self.dataArr[indexPath.row];
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return VIEW_CONTROLLER_FRAME_WIDTH * 44 / 320;
+    return 48;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    self.pickerType = indexPath.row;
+    UserInfoSettingModel *model = self.dataArr[indexPath.row];
+    [self showInfoPickerView:model.placeHoldText];
 }
 
 #pragma mark - BleReceiveDelegate
@@ -523,20 +483,25 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 - (UIImageView *)headImageView
 {
     if (!_headImageView) {
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.center.x - 63.5 * WIDTH / 320, 80, 127 * WIDTH / 320, 127 * WIDTH / 320)];
-        imageView.backgroundColor = [UIColor whiteColor];
-        imageView.image = [UIImage imageNamed:@"set_userphoto"];
-        
-        imageView.layer.masksToBounds = YES;
-        imageView.layer.borderWidth = 1;
-        imageView.layer.borderColor = [UIColor whiteColor].CGColor;
-        imageView.layer.cornerRadius = imageView.frame.size.width / 2;
-        
+        UIImageView *imageView = [[UIImageView alloc] init];
+        imageView.backgroundColor = CLEAR_COLOR;
+        imageView.image = [UIImage imageNamed:@"set_head"];
         imageView.userInteractionEnabled = YES;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setHeadImage)];
         [imageView addGestureRecognizer:tap];
         
         [self.view addSubview:imageView];
+        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.view.mas_centerX);
+            make.top.equalTo(self.view.mas_top).offset(80);
+            make.width.equalTo(@127);
+            make.height.equalTo(@127);
+        }];
+        imageView.layer.masksToBounds = YES;
+        imageView.layer.borderWidth = 1;
+        imageView.layer.borderColor = [UIColor whiteColor].CGColor;
+        imageView.layer.cornerRadius = 127 / 2;
+        
         _headImageView = imageView;
     }
     
@@ -546,16 +511,21 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 - (UITextField *)userNameTextField
 {
     if (!_userNameTextField) {
-        UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(self.view.center.x - 100 * WIDTH / 320, 215 * WIDTH / 320, 200 * WIDTH / 320, 34)];
-        textField.placeholder = NSLocalizedString(@"inputUserName", nil);
-//        textField.delegate = self;
+        UITextField *textField = [[UITextField alloc] init];
+        textField.placeholder = NSLocalizedString(@"请输入用户名", nil);
         
-        [textField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+        [textField setValue:WHITE_COLOR forKeyPath:@"_placeholderLabel.textColor"];
         textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         textField.textAlignment = NSTextAlignmentCenter;
         textField.font = [UIFont systemFontOfSize:14];
         
         [self.view addSubview:textField];
+        [textField mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.view.mas_centerX);
+            make.top.equalTo(self.view.mas_top).offset(215);
+            make.width.equalTo(@200);
+            make.height.equalTo(@34);
+        }];
         _userNameTextField = textField;
     }
     
@@ -565,19 +535,18 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 - (UITableView *)infoTableView
 {
     if (!_infoTableView) {
-        UITableView *view = [[UITableView alloc] initWithFrame:CGRectMake(0, 274 * WIDTH / 320, WIDTH, WIDTH * 220 / 320) style:UITableViewStylePlain];
-        view.tableFooterView = [[UIView alloc] init];
-        view.scrollEnabled = NO;
-        view.allowsSelection = NO;
+        UITableView *_tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView.tableFooterView = [[UIView alloc] init];
+        _tableView.scrollEnabled = NO;
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        _tableView.separatorInset = UIEdgeInsetsMake(0, 16, 0, 16);
+        _tableView.backgroundColor = CLEAR_COLOR;
         
-        view.delegate = self;
-        view.dataSource = self;
+        [_tableView registerClass:NSClassFromString(UserInfoTableViewCellID)forCellReuseIdentifier:UserInfoTableViewCellID];
         
-        view.backgroundColor = [UIColor clearColor];
-        [view registerClass:NSClassFromString(UserInfoTableViewCellID)forCellReuseIdentifier:UserInfoTableViewCellID];
-        
-        [self.view addSubview:view];
-        _infoTableView = view;
+        [self.view addSubview:_tableView];
+        _infoTableView = _tableView;
     }
     
     return _infoTableView;
@@ -586,9 +555,9 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 - (UIButton *)saveButton
 {
     if (!_saveButton) {
-        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(self.view.center.x - 85 * WIDTH / 320, self.view.frame.size.height - 64 * WIDTH / 320, 170 * WIDTH / 320, 44)];
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(self.view.center.x - 85 * VIEW_CONTROLLER_FRAME_WIDTH / 320, self.view.frame.size.height - 64 * VIEW_CONTROLLER_FRAME_WIDTH / 320, 170 * VIEW_CONTROLLER_FRAME_WIDTH / 320, 44)];
         [button addTarget:self action:@selector(saveUserInfo) forControlEvents:UIControlEventTouchUpInside];
-        [button setTitle:NSLocalizedString(@"save", nil) forState:UIControlStateNormal];
+        [button setTitle:NSLocalizedString(@"保存", nil) forState:UIControlStateNormal];
         [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         button.clipsToBounds = YES;
         button.layer.cornerRadius = 5;
@@ -620,18 +589,75 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
     return _myBleTool;
 }
 
-- (UIPickerView *)genderPickerView
+- (NSArray *)dataArr
 {
-    if (!_genderPickerView) {
-        UIPickerView *view = [[UIPickerView alloc] initWithFrame:CGRectMake(10, WIDTH * 200 / 320, WIDTH - 20, WIDTH * 100 / 320)];
-        view.delegate = self;
-        view.dataSource = self;
+    if (!_dataArr) {
+        NSArray *nameArr = @[NSLocalizedString(@"性别", nil),NSLocalizedString(@"年龄", nil),NSLocalizedString(@"身高", nil),NSLocalizedString(@"体重", nil)];
+        NSArray *fieldPlaceholdeArr = @[@"男",NSLocalizedString(@"请输入年龄", nil),NSLocalizedString(@"请输入身高", nil),NSLocalizedString(@"请输入体重", nil)];
+        NSArray *unitArr = @[@"",NSLocalizedString(@"岁", nil),self.isMetric ? @"(cm)" : @"(In)",self.isMetric ? @"(kg)" : @"(lb)"];
+        NSMutableArray *mutArr = [NSMutableArray array];
+        for (int index = 0; index < nameArr.count; index ++) {
+            UserInfoSettingModel *model = [[UserInfoSettingModel alloc] init];
+            model.nameText = nameArr[index];
+            model.placeHoldText = fieldPlaceholdeArr[index];
+            model.unitText = unitArr[index];
+            model.isGenderCell = index == 0 ? YES : NO;
+            [mutArr addObject:model];
+        }
         
-        [self.view addSubview:view];
-        _genderPickerView = view;
+        _dataArr = [NSArray arrayWithArray:mutArr];
     }
     
-    return _genderPickerView;
+    return _dataArr;
+}
+
+- (NSArray *)genderArr
+{
+    if (!_genderArr) {
+        _genderArr = @[@"男",@"女"];
+    }
+    return _genderArr;
+}
+
+- (NSArray *)ageArr
+{
+    if (!_ageArr) {
+        NSMutableArray *ageMutArr = [NSMutableArray array];
+        for (int i = 0; i <= 100; i ++) {
+            NSString *age = [NSString stringWithFormat:@"%d",i];
+            [ageMutArr addObject:age];
+        }
+        _ageArr = ageMutArr;
+    }
+    return _ageArr;
+}
+
+- (NSArray *)heightArr
+{
+    if (!_heightArr) {
+        NSMutableArray *heightMutArr = [NSMutableArray array];
+        for (int i = 90; i <= 200; i ++) {
+            NSString *height = [NSString stringWithFormat:@"%d",i];
+            [heightMutArr addObject:height];
+        }
+        _heightArr = heightMutArr;
+    }
+    
+    return _heightArr;
+}
+
+- (NSArray *)weightArr
+{
+    if (!_weightArr) {
+        NSMutableArray *weightMutArr = [NSMutableArray array];
+        for (int i = 15; i <= 150; i ++) {
+            NSString *weight = [NSString stringWithFormat:@"%d",i];
+            [weightMutArr addObject:weight];
+        }
+        _weightArr = weightMutArr;
+    }
+    
+    return _weightArr;
 }
 
 @end

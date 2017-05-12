@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UserInfoSettingModel.h"
 
 @interface UserInfoTableViewCell : UITableViewCell
+
+@property (nonatomic, strong) UserInfoSettingModel *model;
 
 @end

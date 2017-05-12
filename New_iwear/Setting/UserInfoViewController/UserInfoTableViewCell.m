@@ -11,7 +11,7 @@
 @interface UserInfoTableViewCell ()
 
 @property (nonatomic, strong) UILabel *nameLabel;
-@property (nonatomic, strong) UITextField *textField;
+@property (nonatomic, strong) UILabel *centerLabel;
 @property (nonatomic, strong) UILabel *unitLabel;
 
 @end
@@ -22,6 +22,8 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.backgroundColor = WHITE_COLOR;
+        
         _nameLabel = [[UILabel alloc] init];
         [_nameLabel setFont:[UIFont systemFontOfSize:17]];
         [_nameLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
@@ -40,20 +42,34 @@
             make.right.equalTo(self.mas_right).offset(-16);
         }];
         
-        _textField = [[UITextField alloc] init];
-        [_textField setTextColor:TEXT_BLACK_COLOR_LEVEL4];
-        [_textField setFont:[UIFont systemFontOfSize:17]];
-        [_textField setTextAlignment:NSTextAlignmentCenter];
-        [self addSubview:_textField];
-        [_textField mas_makeConstraints:^(MASConstraintMaker *make) {
+        _centerLabel = [[UILabel alloc] init];
+//        [_centerLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
+        [_centerLabel setFont:[UIFont systemFontOfSize:17]];
+        [_centerLabel setTextAlignment:NSTextAlignmentCenter];
+        [self addSubview:_centerLabel];
+        [_centerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.mas_centerX);
             make.centerY.equalTo(self.mas_centerY);
-            make.left.equalTo(_nameLabel.mas_right).offset(10);
-            make.right.equalTo(_unitLabel.mas_left).offset(10);
         }];
     }
     
     return self;
+}
+
+- (void)setModel:(UserInfoSettingModel *)model
+{
+    if (model) {
+        _model = model;
+        [self.nameLabel setText:model.nameText];
+        [self.unitLabel setText:model.unitText];
+        if (model.isGenderCell) {
+            [self.centerLabel setText:model.placeHoldText];
+            [self.centerLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
+        }else {
+            [self.centerLabel setText:model.placeHoldText];
+            [self.centerLabel setTextColor:TEXT_BLACK_COLOR_LEVEL2];
+        }
+    }
 }
 
 @end

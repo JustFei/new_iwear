@@ -100,6 +100,10 @@ static NSString *const settingHeaderID = @"settingHeader";
         /** 这种方法可以改变 HeaderView 的背景颜色 */
         UIView *backgroundView = [[UIView alloc] initWithFrame:view.bounds];
         backgroundView.backgroundColor = SETTING_BACKGROUND_COLOR;
+        view.userInfoButtonClickBlock = ^ {
+            id pushVC = [[NSClassFromString(@"UserInfoViewController") alloc] init];
+            [self.navigationController pushViewController:pushVC animated:YES];
+        };
         view.backgroundView = backgroundView;
         return view;
     }else {

@@ -49,9 +49,9 @@
     [self createUI];
     _currentPage = 0;
     
-    Remind *model = [[Remind alloc] init];
-    model.phone = 1;
-    model.message = 1;
+//    Remind *model = [[Remind alloc] init];
+//    model.phone = 1;
+//    model.message = 1;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -151,7 +151,7 @@
 - (UIPageControl *)pageControl
 {
     if (!_pageControl) {
-        UIPageControl *view = [[UIPageControl alloc] initWithFrame:CGRectMake(0, 338, self.view.frame.size.width, 37)];
+        UIPageControl *view = [[UIPageControl alloc] initWithFrame:CGRectMake(0, 338 * VIEW_CONTROLLER_FRAME_WIDTH / 375, self.view.frame.size.width, 37)];
         view.numberOfPages = 5;
         view.currentPage = 0;
         view.enabled = NO;

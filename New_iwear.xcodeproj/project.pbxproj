@@ -7,22 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0ECB1E486694141D0EA75E86 /* libPods-New_iwear.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99364F3EDABD966673E228A3 /* libPods-New_iwear.a */; };
+		61B92AC401CFC6C37C77B005 /* libPods-New_iwear.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64350C29842B2F870FD1D38E /* libPods-New_iwear.a */; };
+		9C00DF881EC6D3CA005CB06F /* StepHisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C00DF871EC6D3CA005CB06F /* StepHisViewController.m */; };
+		9C00DF8D1EC6D93F005CB06F /* SleepHisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C00DF8C1EC6D93F005CB06F /* SleepHisViewController.m */; };
+		9C00DF911EC6DB1A005CB06F /* HeartRateHisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C00DF901EC6DB1A005CB06F /* HeartRateHisViewController.m */; };
+		9C00DF941EC6E7BB005CB06F /* HRTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C00DF931EC6E7BB005CB06F /* HRTableViewCell.m */; };
+		9C00DF981EC6E9E3005CB06F /* HRTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C00DF971EC6E9E3005CB06F /* HRTableModel.m */; };
 		9C0496901EB87DC400EDBEBB /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C04968F1EB87DC400EDBEBB /* SettingViewController.m */; };
 		9C0496941EB8855700EDBEBB /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0496931EB8855700EDBEBB /* HealthKit.framework */; };
 		9C0711B01EC5503A00F41754 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0711AF1EC5503A00F41754 /* MainViewController.m */; };
-		9C0712201EC558E800F41754 /* BloodO2ContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C0711B31EC558E800F41754 /* BloodO2ContentView.xib */; };
 		9C0712211EC558E800F41754 /* BloodO2ContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0711B61EC558E800F41754 /* BloodO2ContentView.m */; };
-		9C0712221EC558E800F41754 /* BloodPressureContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C0711C21EC558E800F41754 /* BloodPressureContentView.xib */; };
 		9C0712231EC558E800F41754 /* BloodPressureContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0711C51EC558E800F41754 /* BloodPressureContentView.m */; };
-		9C0712241EC558E800F41754 /* HeartRateContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C0711D11EC558E800F41754 /* HeartRateContentView.xib */; };
 		9C0712251EC558E800F41754 /* HeartRateContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0711D81EC558E800F41754 /* HeartRateContentView.m */; };
-		9C0712261EC558E800F41754 /* SleepContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C0711E01EC558E800F41754 /* SleepContentView.xib */; };
-		9C0712271EC558E800F41754 /* SleepSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C0711E21EC558E800F41754 /* SleepSettingViewController.xib */; };
 		9C0712281EC558E800F41754 /* SleepContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0711F71EC558E800F41754 /* SleepContentView.m */; };
-		9C0712291EC558E800F41754 /* SleepSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0711F91EC558E800F41754 /* SleepSettingViewController.m */; };
 		9C07122C1EC558E800F41754 /* StepContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0712141EC558E800F41754 /* StepContentView.m */; };
-		9C07122D1EC558E800F41754 /* StepTargetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0712161EC558E800F41754 /* StepTargetViewController.m */; };
 		9C079AAA1EBC612500D54AB3 /* PeripheralCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C079AA71EBC612500D54AB3 /* PeripheralCellModel.m */; };
 		9C079AAB1EBC612500D54AB3 /* SettingCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C079AA91EBC612500D54AB3 /* SettingCellModel.m */; };
 		9C079AAF1EBC61A800D54AB3 /* InterfaceSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C079AAE1EBC61A800D54AB3 /* InterfaceSelectionViewController.m */; };
@@ -51,6 +49,9 @@
 		9C4FBDBF1EB099140072E9CE /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDBE1EB099140072E9CE /* RootViewController.m */; };
 		9C4FBDC31EB099D90072E9CE /* BaseNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDC21EB099D90072E9CE /* BaseNavigationViewController.m */; };
 		9C4FBDC71EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDC61EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m */; };
+		9C87EB281EC5B6BD0051C59D /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C87EB271EC5B6BD0051C59D /* test.swift */; };
+		9C87EB291EC5B7100051C59D /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C87EB231EC5B60B0051C59D /* Charts.framework */; };
+		9C87EB2A1EC5B7100051C59D /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9C87EB231EC5B60B0051C59D /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9C9E7FCA1EC2AC9E004840FD /* ClockTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FC91EC2AC9E004840FD /* ClockTableViewCell.m */; };
 		9C9E7FCE1EC2B224004840FD /* ClockModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FCD1EC2B224004840FD /* ClockModel.m */; };
 		9C9E7FD21EC2C06B004840FD /* MessageReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FD11EC2C06B004840FD /* MessageReminderViewController.m */; };
@@ -100,83 +101,72 @@
 		9CE95A691EC1CBF700E88B47 /* ClockReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE95A681EC1CBF700E88B47 /* ClockReminderViewController.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		9C87EB221EC5B60B0051C59D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9C87EB1D1EC5B60B0051C59D /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 06165F241D8110E600722320;
+			remoteInfo = Charts;
+		};
+		9C87EB241EC5B60B0051C59D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9C87EB1D1EC5B60B0051C59D /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 06165F2E1D8110E600722320;
+			remoteInfo = ChartsTests;
+		};
+		9C87EB2B1EC5B7100051C59D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9C87EB1D1EC5B60B0051C59D /* Charts.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 06165F231D8110E600722320;
+			remoteInfo = Charts;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9C87EB2D1EC5B7100051C59D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9C87EB2A1EC5B7100051C59D /* Charts.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		99364F3EDABD966673E228A3 /* libPods-New_iwear.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-New_iwear.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		64350C29842B2F870FD1D38E /* libPods-New_iwear.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-New_iwear.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C00DF861EC6D3CA005CB06F /* StepHisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StepHisViewController.h; path = History/StepHis/StepHisViewController.h; sourceTree = "<group>"; };
+		9C00DF871EC6D3CA005CB06F /* StepHisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StepHisViewController.m; path = History/StepHis/StepHisViewController.m; sourceTree = "<group>"; };
+		9C00DF8B1EC6D93F005CB06F /* SleepHisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SleepHisViewController.h; path = History/SleepHis/SleepHisViewController.h; sourceTree = "<group>"; };
+		9C00DF8C1EC6D93F005CB06F /* SleepHisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SleepHisViewController.m; path = History/SleepHis/SleepHisViewController.m; sourceTree = "<group>"; };
+		9C00DF8F1EC6DB1A005CB06F /* HeartRateHisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HeartRateHisViewController.h; path = History/HeartRateHis/HeartRateHisViewController.h; sourceTree = "<group>"; };
+		9C00DF901EC6DB1A005CB06F /* HeartRateHisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HeartRateHisViewController.m; path = History/HeartRateHis/HeartRateHisViewController.m; sourceTree = "<group>"; };
+		9C00DF921EC6E7BB005CB06F /* HRTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HRTableViewCell.h; path = History/HeartRateHis/HRTableViewCell.h; sourceTree = "<group>"; };
+		9C00DF931EC6E7BB005CB06F /* HRTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HRTableViewCell.m; path = History/HeartRateHis/HRTableViewCell.m; sourceTree = "<group>"; };
+		9C00DF961EC6E9E3005CB06F /* HRTableModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HRTableModel.h; path = History/HeartRateHis/HRTableModel.h; sourceTree = "<group>"; };
+		9C00DF971EC6E9E3005CB06F /* HRTableModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HRTableModel.m; path = History/HeartRateHis/HRTableModel.m; sourceTree = "<group>"; };
 		9C04968E1EB87DC400EDBEBB /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingViewController.h; path = Setting/SettingViewController/SettingViewController.h; sourceTree = "<group>"; };
 		9C04968F1EB87DC400EDBEBB /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingViewController.m; path = Setting/SettingViewController/SettingViewController.m; sourceTree = "<group>"; };
 		9C0496921EB8855700EDBEBB /* New_iwear.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = New_iwear.entitlements; sourceTree = "<group>"; };
 		9C0496931EB8855700EDBEBB /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		9C0711AE1EC5503A00F41754 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = MainViewController/MainViewController.h; sourceTree = "<group>"; };
 		9C0711AF1EC5503A00F41754 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = MainViewController/MainViewController.m; sourceTree = "<group>"; };
-		9C0711B41EC558E800F41754 /* ar */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ar; path = ar.lproj/BloodO2ContentView.xib; sourceTree = "<group>"; };
 		9C0711B51EC558E800F41754 /* BloodO2ContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BloodO2ContentView.h; sourceTree = "<group>"; };
 		9C0711B61EC558E800F41754 /* BloodO2ContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BloodO2ContentView.m; sourceTree = "<group>"; };
-		9C0711B71EC558E800F41754 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/BloodO2ContentView.xib; sourceTree = "<group>"; };
-		9C0711B81EC558E800F41754 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/BloodO2ContentView.xib; sourceTree = "<group>"; };
-		9C0711B91EC558E800F41754 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/BloodO2ContentView.xib; sourceTree = "<group>"; };
-		9C0711BA1EC558E800F41754 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/BloodO2ContentView.xib; sourceTree = "<group>"; };
-		9C0711BB1EC558E800F41754 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/BloodO2ContentView.xib; sourceTree = "<group>"; };
-		9C0711BC1EC558E800F41754 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/BloodO2ContentView.xib; sourceTree = "<group>"; };
-		9C0711BD1EC558E800F41754 /* ko */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ko; path = ko.lproj/BloodO2ContentView.xib; sourceTree = "<group>"; };
-		9C0711BE1EC558E800F41754 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/BloodO2ContentView.xib"; sourceTree = "<group>"; };
-		9C0711BF1EC558E800F41754 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/BloodO2ContentView.xib; sourceTree = "<group>"; };
-		9C0711C01EC558E800F41754 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/BloodO2ContentView.xib"; sourceTree = "<group>"; };
-		9C0711C31EC558E800F41754 /* ar */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ar; path = ar.lproj/BloodPressureContentView.xib; sourceTree = "<group>"; };
 		9C0711C41EC558E800F41754 /* BloodPressureContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BloodPressureContentView.h; sourceTree = "<group>"; };
 		9C0711C51EC558E800F41754 /* BloodPressureContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BloodPressureContentView.m; sourceTree = "<group>"; };
-		9C0711C61EC558E800F41754 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/BloodPressureContentView.xib; sourceTree = "<group>"; };
-		9C0711C71EC558E800F41754 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/BloodPressureContentView.xib; sourceTree = "<group>"; };
-		9C0711C81EC558E800F41754 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/BloodPressureContentView.xib; sourceTree = "<group>"; };
-		9C0711C91EC558E800F41754 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/BloodPressureContentView.xib; sourceTree = "<group>"; };
-		9C0711CA1EC558E800F41754 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/BloodPressureContentView.xib; sourceTree = "<group>"; };
-		9C0711CB1EC558E800F41754 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/BloodPressureContentView.xib; sourceTree = "<group>"; };
-		9C0711CC1EC558E800F41754 /* ko */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ko; path = ko.lproj/BloodPressureContentView.xib; sourceTree = "<group>"; };
-		9C0711CD1EC558E800F41754 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/BloodPressureContentView.xib"; sourceTree = "<group>"; };
-		9C0711CE1EC558E800F41754 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/BloodPressureContentView.xib; sourceTree = "<group>"; };
-		9C0711CF1EC558E800F41754 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/BloodPressureContentView.xib"; sourceTree = "<group>"; };
-		9C0711D21EC558E800F41754 /* ar */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ar; path = ar.lproj/HeartRateContentView.xib; sourceTree = "<group>"; };
-		9C0711D31EC558E800F41754 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/HeartRateContentView.xib; sourceTree = "<group>"; };
-		9C0711D41EC558E800F41754 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/HeartRateContentView.xib; sourceTree = "<group>"; };
-		9C0711D51EC558E800F41754 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/HeartRateContentView.xib; sourceTree = "<group>"; };
-		9C0711D61EC558E800F41754 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/HeartRateContentView.xib; sourceTree = "<group>"; };
 		9C0711D71EC558E800F41754 /* HeartRateContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeartRateContentView.h; sourceTree = "<group>"; };
 		9C0711D81EC558E800F41754 /* HeartRateContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeartRateContentView.m; sourceTree = "<group>"; };
-		9C0711D91EC558E800F41754 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/HeartRateContentView.xib; sourceTree = "<group>"; };
-		9C0711DA1EC558E800F41754 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/HeartRateContentView.xib; sourceTree = "<group>"; };
-		9C0711DB1EC558E800F41754 /* ko */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ko; path = ko.lproj/HeartRateContentView.xib; sourceTree = "<group>"; };
-		9C0711DC1EC558E800F41754 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/HeartRateContentView.xib"; sourceTree = "<group>"; };
-		9C0711DD1EC558E800F41754 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/HeartRateContentView.xib; sourceTree = "<group>"; };
-		9C0711DE1EC558E800F41754 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/HeartRateContentView.xib"; sourceTree = "<group>"; };
-		9C0711E11EC558E800F41754 /* ar */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ar; path = ar.lproj/SleepContentView.xib; sourceTree = "<group>"; };
-		9C0711E31EC558E800F41754 /* ar */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ar; path = ar.lproj/SleepSettingViewController.xib; sourceTree = "<group>"; };
-		9C0711E41EC558E800F41754 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/SleepContentView.xib; sourceTree = "<group>"; };
-		9C0711E51EC558E800F41754 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/SleepSettingViewController.xib; sourceTree = "<group>"; };
-		9C0711E61EC558E800F41754 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SleepContentView.xib; sourceTree = "<group>"; };
-		9C0711E71EC558E800F41754 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SleepSettingViewController.xib; sourceTree = "<group>"; };
-		9C0711E81EC558E800F41754 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/SleepContentView.xib; sourceTree = "<group>"; };
-		9C0711E91EC558E800F41754 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/SleepSettingViewController.xib; sourceTree = "<group>"; };
-		9C0711EA1EC558E800F41754 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/SleepContentView.xib; sourceTree = "<group>"; };
-		9C0711EB1EC558E800F41754 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/SleepSettingViewController.xib; sourceTree = "<group>"; };
-		9C0711EC1EC558E800F41754 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/SleepContentView.xib; sourceTree = "<group>"; };
-		9C0711ED1EC558E800F41754 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/SleepSettingViewController.xib; sourceTree = "<group>"; };
-		9C0711EE1EC558E800F41754 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/SleepContentView.xib; sourceTree = "<group>"; };
-		9C0711EF1EC558E800F41754 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/SleepSettingViewController.xib; sourceTree = "<group>"; };
-		9C0711F01EC558E800F41754 /* ko */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ko; path = ko.lproj/SleepContentView.xib; sourceTree = "<group>"; };
-		9C0711F11EC558E800F41754 /* ko */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ko; path = ko.lproj/SleepSettingViewController.xib; sourceTree = "<group>"; };
-		9C0711F21EC558E800F41754 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/SleepContentView.xib"; sourceTree = "<group>"; };
-		9C0711F31EC558E800F41754 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "pt-PT.lproj/SleepSettingViewController.xib"; sourceTree = "<group>"; };
-		9C0711F41EC558E800F41754 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/SleepContentView.xib; sourceTree = "<group>"; };
-		9C0711F51EC558E800F41754 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/SleepSettingViewController.xib; sourceTree = "<group>"; };
 		9C0711F61EC558E800F41754 /* SleepContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SleepContentView.h; sourceTree = "<group>"; };
 		9C0711F71EC558E800F41754 /* SleepContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SleepContentView.m; sourceTree = "<group>"; };
-		9C0711F81EC558E800F41754 /* SleepSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SleepSettingViewController.h; sourceTree = "<group>"; };
-		9C0711F91EC558E800F41754 /* SleepSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SleepSettingViewController.m; sourceTree = "<group>"; };
-		9C0711FA1EC558E800F41754 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/SleepContentView.xib"; sourceTree = "<group>"; };
-		9C0711FB1EC558E800F41754 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/SleepSettingViewController.xib"; sourceTree = "<group>"; };
 		9C0712131EC558E800F41754 /* StepContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StepContentView.h; sourceTree = "<group>"; };
 		9C0712141EC558E800F41754 /* StepContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StepContentView.m; sourceTree = "<group>"; };
-		9C0712151EC558E800F41754 /* StepTargetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StepTargetViewController.h; sourceTree = "<group>"; };
-		9C0712161EC558E800F41754 /* StepTargetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StepTargetViewController.m; sourceTree = "<group>"; };
 		9C079AA61EBC612500D54AB3 /* PeripheralCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeripheralCellModel.h; sourceTree = "<group>"; };
 		9C079AA71EBC612500D54AB3 /* PeripheralCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeripheralCellModel.m; sourceTree = "<group>"; };
 		9C079AA81EBC612500D54AB3 /* SettingCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingCellModel.h; sourceTree = "<group>"; };
@@ -232,6 +222,10 @@
 		9C4FBDC51EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+FDFullscreenPopGesture.h"; sourceTree = "<group>"; };
 		9C4FBDC61EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FDFullscreenPopGesture.m"; sourceTree = "<group>"; };
 		9C5CC3BC1EBC1B96009C07A5 /* FrameConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FrameConstants.h; path = Constants/FrameConstants.h; sourceTree = "<group>"; };
+		9C6D07141EC5B48C0000FAE6 /* MaterialControls.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MaterialControls.framework; path = "Pods/../build/Debug-iphoneos/MaterialControls/MaterialControls.framework"; sourceTree = "<group>"; };
+		9C87EB1D1EC5B60B0051C59D /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = "Charts-master/Charts.xcodeproj"; sourceTree = "<group>"; };
+		9C87EB261EC5B6BC0051C59D /* New_iwear-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "New_iwear-Bridging-Header.h"; sourceTree = "<group>"; };
+		9C87EB271EC5B6BD0051C59D /* test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = test.swift; path = SupportingFiles/test.swift; sourceTree = "<group>"; };
 		9C9E7FC81EC2AC9E004840FD /* ClockTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClockTableViewCell.h; path = Setting/RemindViewController/ClockViewController/ClockTableViewCell.h; sourceTree = "<group>"; };
 		9C9E7FC91EC2AC9E004840FD /* ClockTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClockTableViewCell.m; path = Setting/RemindViewController/ClockViewController/ClockTableViewCell.m; sourceTree = "<group>"; };
 		9C9E7FCC1EC2B224004840FD /* ClockModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClockModel.h; path = Setting/RemindViewController/ClockViewController/ClockModel.h; sourceTree = "<group>"; };
@@ -337,14 +331,64 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0ECB1E486694141D0EA75E86 /* libPods-New_iwear.a in Frameworks */,
+				9C87EB291EC5B7100051C59D /* Charts.framework in Frameworks */,
 				9C0496941EB8855700EDBEBB /* HealthKit.framework in Frameworks */,
+				61B92AC401CFC6C37C77B005 /* libPods-New_iwear.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9C00DF851EC6D2BE005CB06F /* History */ = {
+			isa = PBXGroup;
+			children = (
+				9C00DF8E1EC6DA9E005CB06F /* HeartRateHis */,
+				9C00DF8A1EC6D911005CB06F /* SleepHis */,
+				9C00DF891EC6D3CE005CB06F /* StepHis */,
+			);
+			name = History;
+			sourceTree = "<group>";
+		};
+		9C00DF891EC6D3CE005CB06F /* StepHis */ = {
+			isa = PBXGroup;
+			children = (
+				9C00DF861EC6D3CA005CB06F /* StepHisViewController.h */,
+				9C00DF871EC6D3CA005CB06F /* StepHisViewController.m */,
+			);
+			name = StepHis;
+			sourceTree = "<group>";
+		};
+		9C00DF8A1EC6D911005CB06F /* SleepHis */ = {
+			isa = PBXGroup;
+			children = (
+				9C00DF8B1EC6D93F005CB06F /* SleepHisViewController.h */,
+				9C00DF8C1EC6D93F005CB06F /* SleepHisViewController.m */,
+			);
+			name = SleepHis;
+			sourceTree = "<group>";
+		};
+		9C00DF8E1EC6DA9E005CB06F /* HeartRateHis */ = {
+			isa = PBXGroup;
+			children = (
+				9C00DF8F1EC6DB1A005CB06F /* HeartRateHisViewController.h */,
+				9C00DF901EC6DB1A005CB06F /* HeartRateHisViewController.m */,
+				9C00DF921EC6E7BB005CB06F /* HRTableViewCell.h */,
+				9C00DF931EC6E7BB005CB06F /* HRTableViewCell.m */,
+				9C00DF951EC6E9C3005CB06F /* HRTableModel */,
+			);
+			name = HeartRateHis;
+			sourceTree = "<group>";
+		};
+		9C00DF951EC6E9C3005CB06F /* HRTableModel */ = {
+			isa = PBXGroup;
+			children = (
+				9C00DF961EC6E9E3005CB06F /* HRTableModel.h */,
+				9C00DF971EC6E9E3005CB06F /* HRTableModel.m */,
+			);
+			name = HRTableModel;
+			sourceTree = "<group>";
+		};
 		9C04968B1EB87D5200EDBEBB /* TestMode */ = {
 			isa = PBXGroup;
 			children = (
@@ -421,7 +465,6 @@
 		9C0711B21EC558E800F41754 /* BloodO2 */ = {
 			isa = PBXGroup;
 			children = (
-				9C0711B31EC558E800F41754 /* BloodO2ContentView.xib */,
 				9C0711B51EC558E800F41754 /* BloodO2ContentView.h */,
 				9C0711B61EC558E800F41754 /* BloodO2ContentView.m */,
 			);
@@ -431,7 +474,6 @@
 		9C0711C11EC558E800F41754 /* BloodPressure */ = {
 			isa = PBXGroup;
 			children = (
-				9C0711C21EC558E800F41754 /* BloodPressureContentView.xib */,
 				9C0711C41EC558E800F41754 /* BloodPressureContentView.h */,
 				9C0711C51EC558E800F41754 /* BloodPressureContentView.m */,
 			);
@@ -441,7 +483,6 @@
 		9C0711D01EC558E800F41754 /* HeartRate */ = {
 			isa = PBXGroup;
 			children = (
-				9C0711D11EC558E800F41754 /* HeartRateContentView.xib */,
 				9C0711D71EC558E800F41754 /* HeartRateContentView.h */,
 				9C0711D81EC558E800F41754 /* HeartRateContentView.m */,
 			);
@@ -451,12 +492,8 @@
 		9C0711DF1EC558E800F41754 /* Sleep */ = {
 			isa = PBXGroup;
 			children = (
-				9C0711E01EC558E800F41754 /* SleepContentView.xib */,
-				9C0711E21EC558E800F41754 /* SleepSettingViewController.xib */,
 				9C0711F61EC558E800F41754 /* SleepContentView.h */,
 				9C0711F71EC558E800F41754 /* SleepContentView.m */,
-				9C0711F81EC558E800F41754 /* SleepSettingViewController.h */,
-				9C0711F91EC558E800F41754 /* SleepSettingViewController.m */,
 			);
 			path = Sleep;
 			sourceTree = "<group>";
@@ -466,8 +503,6 @@
 			children = (
 				9C0712131EC558E800F41754 /* StepContentView.h */,
 				9C0712141EC558E800F41754 /* StepContentView.m */,
-				9C0712151EC558E800F41754 /* StepTargetViewController.h */,
-				9C0712161EC558E800F41754 /* StepTargetViewController.m */,
 			);
 			path = Step;
 			sourceTree = "<group>";
@@ -628,6 +663,15 @@
 				9C4FBDC61EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m */,
 			);
 			path = FDFullscreenPopGesture;
+			sourceTree = "<group>";
+		};
+		9C87EB1E1EC5B60B0051C59D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9C87EB231EC5B60B0051C59D /* Charts.framework */,
+				9C87EB251EC5B60B0051C59D /* ChartsTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		9C9E7FCB1EC2B1F6004840FD /* ClockModel */ = {
@@ -853,6 +897,7 @@
 		9CDEAC4C1EB078EC00279EDA = {
 			isa = PBXGroup;
 			children = (
+				9C87EB1D1EC5B60B0051C59D /* Charts.xcodeproj */,
 				9CDEAC571EB078EC00279EDA /* New_iwear */,
 				9CDEAC561EB078EC00279EDA /* Products */,
 				AB0A39F28BA9571F790DB97C /* Pods */,
@@ -874,11 +919,12 @@
 				9C0496921EB8855700EDBEBB /* New_iwear.entitlements */,
 				9CDEAC5B1EB078EC00279EDA /* AppDelegate.h */,
 				9CDEAC5C1EB078EC00279EDA /* AppDelegate.m */,
+				9C00DF851EC6D2BE005CB06F /* History */,
 				9C0711AD1EC5500B00F41754 /* MainViewController */,
+				9C04968D1EB87D7E00EDBEBB /* Setting */,
 				9CB616171EC31703008914F5 /* Tool */,
 				9CA1C86D1EC31377007DB83A /* FMDBManager */,
 				9C9E7FDB1EC2E0D8004840FD /* BleManager */,
-				9C04968D1EB87D7E00EDBEBB /* Setting */,
 				9C04968C1EB87D6B00EDBEBB /* Main */,
 				9C04968B1EB87D5200EDBEBB /* TestMode */,
 				9CDEAC671EB078EC00279EDA /* Assets.xcassets */,
@@ -895,6 +941,8 @@
 			children = (
 				9CDEAC721EB07A0500279EDA /* IwearHeader.pch */,
 				9CDEAC591EB078EC00279EDA /* main.m */,
+				9C87EB271EC5B6BD0051C59D /* test.swift */,
+				9C87EB261EC5B6BC0051C59D /* New_iwear-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -976,8 +1024,9 @@
 		CEFE28DF7EF1F157D7DE4858 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9C6D07141EC5B48C0000FAE6 /* MaterialControls.framework */,
 				9C0496931EB8855700EDBEBB /* HealthKit.framework */,
-				99364F3EDABD966673E228A3 /* libPods-New_iwear.a */,
+				64350C29842B2F870FD1D38E /* libPods-New_iwear.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -995,10 +1044,12 @@
 				9CDEAC531EB078EC00279EDA /* Resources */,
 				89A874E97FEB2154485F783D /* [CP] Embed Pods Frameworks */,
 				C69A54BFAF6FFBB82F18F16D /* [CP] Copy Pods Resources */,
+				9C87EB2D1EC5B7100051C59D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				9C87EB2C1EC5B7100051C59D /* PBXTargetDependency */,
 			);
 			name = New_iwear;
 			productName = New_iwear;
@@ -1017,6 +1068,7 @@
 					9CDEAC541EB078EC00279EDA = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = CZG37T4ZQ8;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -1050,6 +1102,12 @@
 			mainGroup = 9CDEAC4C1EB078EC00279EDA;
 			productRefGroup = 9CDEAC561EB078EC00279EDA /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 9C87EB1E1EC5B60B0051C59D /* Products */;
+					ProjectRef = 9C87EB1D1EC5B60B0051C59D /* Charts.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				9CDEAC541EB078EC00279EDA /* New_iwear */,
@@ -1057,20 +1115,32 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		9C87EB231EC5B60B0051C59D /* Charts.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Charts.framework;
+			remoteRef = 9C87EB221EC5B60B0051C59D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9C87EB251EC5B60B0051C59D /* ChartsTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ChartsTests.xctest;
+			remoteRef = 9C87EB241EC5B60B0051C59D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		9CDEAC531EB078EC00279EDA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9C0712221EC558E800F41754 /* BloodPressureContentView.xib in Resources */,
-				9C0712271EC558E800F41754 /* SleepSettingViewController.xib in Resources */,
 				9C0817751EB9AB1800C1845F /* SettingPeripheralTableViewCell.xib in Resources */,
 				9CDEAC6B1EB078EC00279EDA /* LaunchScreen.storyboard in Resources */,
 				9C0817841EB9AB9300C1845F /* SettingTableViewCell.xib in Resources */,
-				9C0712261EC558E800F41754 /* SleepContentView.xib in Resources */,
 				9CDEAC681EB078EC00279EDA /* Assets.xcassets in Resources */,
-				9C0712201EC558E800F41754 /* BloodO2ContentView.xib in Resources */,
-				9C0712241EC558E800F41754 /* HeartRateContentView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1129,9 +1199,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C00DF981EC6E9E3005CB06F /* HRTableModel.m in Sources */,
 				9C4FBDB71EB081A00072E9CE /* StepCircleView.m in Sources */,
 				9C079AAA1EBC612500D54AB3 /* PeripheralCellModel.m in Sources */,
 				9CE95A691EC1CBF700E88B47 /* ClockReminderViewController.m in Sources */,
+				9C00DF941EC6E7BB005CB06F /* HRTableViewCell.m in Sources */,
+				9C00DF8D1EC6D93F005CB06F /* SleepHisViewController.m in Sources */,
 				9CD631241EC06F7B005EECE1 /* AboutTableViewCell.m in Sources */,
 				9C9E800C1EC2E203004840FD /* SleepModel.m in Sources */,
 				9C08178E1EB9D69A00C1845F /* SettingHeaderView.m in Sources */,
@@ -1142,6 +1215,7 @@
 				9C9E80081EC2E203004840FD /* SedentaryModel.m in Sources */,
 				9C4FBDBF1EB099140072E9CE /* RootViewController.m in Sources */,
 				9C9E801C1EC2E6AD004840FD /* BindPeripheralViewController.m in Sources */,
+				9C00DF881EC6D3CA005CB06F /* StepHisViewController.m in Sources */,
 				9C079AB81EBC747700D54AB3 /* InterfaceSelectionModel.m in Sources */,
 				9C9E80051EC2E203004840FD /* HeartRateModel.m in Sources */,
 				9C3AE84D1EBDC62F0078CDAA /* WeChatViewController.m in Sources */,
@@ -1151,6 +1225,7 @@
 				9CB6160F1EC31544008914F5 /* UserInfoViewController.m in Sources */,
 				9C3AE82B1EBD63D50078CDAA /* CameraViewController.m in Sources */,
 				9C347BC71EC371EC001CFE6F /* UserInfoSettingModel.m in Sources */,
+				9C87EB281EC5B6BD0051C59D /* test.swift in Sources */,
 				9CE95A651EC1BE5900E88B47 /* SedentaryReminderModel.m in Sources */,
 				9C079AAB1EBC612500D54AB3 /* SettingCellModel.m in Sources */,
 				9CD6311A1EC05BB2005EECE1 /* TargetSettingTableViewCell.m in Sources */,
@@ -1179,12 +1254,10 @@
 				9C9E7FDA1EC2C4C2004840FD /* LoseReminderViewController.m in Sources */,
 				9C9E80071EC2E203004840FD /* Remind.m in Sources */,
 				9C9E800F1EC2E203004840FD /* TakePhotoModel.m in Sources */,
-				9C0712291EC558E800F41754 /* SleepSettingViewController.m in Sources */,
 				9C3AE8461EBDB46B0078CDAA /* RemindMoreViewController.m in Sources */,
 				9CD631171EC05A06005EECE1 /* TargetSettingViewController.m in Sources */,
 				9C9E80061EC2E203004840FD /* manridyModel.m in Sources */,
 				9CD6311D1EC06866005EECE1 /* TargetSettingModel.m in Sources */,
-				9C07122D1EC558E800F41754 /* StepTargetViewController.m in Sources */,
 				9C3AE83F1EBD80F40078CDAA /* RemindCollectionViewCell.m in Sources */,
 				9CB616161EC316FB008914F5 /* UnitsTool.m in Sources */,
 				9C0712251EC558E800F41754 /* HeartRateContentView.m in Sources */,
@@ -1192,6 +1265,7 @@
 				9C9E80031EC2E203004840FD /* BloodModel.m in Sources */,
 				9C9E7FD61EC2C38C004840FD /* PhoneReminderViewController.m in Sources */,
 				9C9E80091EC2E203004840FD /* SegmentedRunModel.m in Sources */,
+				9C00DF911EC6DB1A005CB06F /* HeartRateHisViewController.m in Sources */,
 				9C0712231EC558E800F41754 /* BloodPressureContentView.m in Sources */,
 				9C3AE8491EBDB8320078CDAA /* RemindMoreTableViewCell.m in Sources */,
 				9CE95A611EC15DC600E88B47 /* SedentaryReminderTableViewCell.m in Sources */,
@@ -1214,97 +1288,15 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		9C87EB2C1EC5B7100051C59D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Charts;
+			targetProxy = 9C87EB2B1EC5B7100051C59D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
-		9C0711B31EC558E800F41754 /* BloodO2ContentView.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9C0711B41EC558E800F41754 /* ar */,
-				9C0711B71EC558E800F41754 /* de */,
-				9C0711B81EC558E800F41754 /* en */,
-				9C0711B91EC558E800F41754 /* es */,
-				9C0711BA1EC558E800F41754 /* fr */,
-				9C0711BB1EC558E800F41754 /* it */,
-				9C0711BC1EC558E800F41754 /* ja */,
-				9C0711BD1EC558E800F41754 /* ko */,
-				9C0711BE1EC558E800F41754 /* pt-PT */,
-				9C0711BF1EC558E800F41754 /* ru */,
-				9C0711C01EC558E800F41754 /* zh-Hans */,
-			);
-			name = BloodO2ContentView.xib;
-			sourceTree = "<group>";
-		};
-		9C0711C21EC558E800F41754 /* BloodPressureContentView.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9C0711C31EC558E800F41754 /* ar */,
-				9C0711C61EC558E800F41754 /* de */,
-				9C0711C71EC558E800F41754 /* en */,
-				9C0711C81EC558E800F41754 /* es */,
-				9C0711C91EC558E800F41754 /* fr */,
-				9C0711CA1EC558E800F41754 /* it */,
-				9C0711CB1EC558E800F41754 /* ja */,
-				9C0711CC1EC558E800F41754 /* ko */,
-				9C0711CD1EC558E800F41754 /* pt-PT */,
-				9C0711CE1EC558E800F41754 /* ru */,
-				9C0711CF1EC558E800F41754 /* zh-Hans */,
-			);
-			name = BloodPressureContentView.xib;
-			sourceTree = "<group>";
-		};
-		9C0711D11EC558E800F41754 /* HeartRateContentView.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9C0711D21EC558E800F41754 /* ar */,
-				9C0711D31EC558E800F41754 /* de */,
-				9C0711D41EC558E800F41754 /* en */,
-				9C0711D51EC558E800F41754 /* es */,
-				9C0711D61EC558E800F41754 /* fr */,
-				9C0711D91EC558E800F41754 /* it */,
-				9C0711DA1EC558E800F41754 /* ja */,
-				9C0711DB1EC558E800F41754 /* ko */,
-				9C0711DC1EC558E800F41754 /* pt-PT */,
-				9C0711DD1EC558E800F41754 /* ru */,
-				9C0711DE1EC558E800F41754 /* zh-Hans */,
-			);
-			name = HeartRateContentView.xib;
-			sourceTree = "<group>";
-		};
-		9C0711E01EC558E800F41754 /* SleepContentView.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9C0711E11EC558E800F41754 /* ar */,
-				9C0711E41EC558E800F41754 /* de */,
-				9C0711E61EC558E800F41754 /* en */,
-				9C0711E81EC558E800F41754 /* es */,
-				9C0711EA1EC558E800F41754 /* fr */,
-				9C0711EC1EC558E800F41754 /* it */,
-				9C0711EE1EC558E800F41754 /* ja */,
-				9C0711F01EC558E800F41754 /* ko */,
-				9C0711F21EC558E800F41754 /* pt-PT */,
-				9C0711F41EC558E800F41754 /* ru */,
-				9C0711FA1EC558E800F41754 /* zh-Hans */,
-			);
-			name = SleepContentView.xib;
-			sourceTree = "<group>";
-		};
-		9C0711E21EC558E800F41754 /* SleepSettingViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9C0711E31EC558E800F41754 /* ar */,
-				9C0711E51EC558E800F41754 /* de */,
-				9C0711E71EC558E800F41754 /* en */,
-				9C0711E91EC558E800F41754 /* es */,
-				9C0711EB1EC558E800F41754 /* fr */,
-				9C0711ED1EC558E800F41754 /* it */,
-				9C0711EF1EC558E800F41754 /* ja */,
-				9C0711F11EC558E800F41754 /* ko */,
-				9C0711F31EC558E800F41754 /* pt-PT */,
-				9C0711F51EC558E800F41754 /* ru */,
-				9C0711FB1EC558E800F41754 /* zh-Hans */,
-			);
-			name = SleepSettingViewController.xib;
-			sourceTree = "<group>";
-		};
 		9CDEAC691EB078EC00279EDA /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1408,15 +1400,24 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C009A0B0C823B2EBDFED3C4D /* Pods-New_iwear.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = New_iwear/New_iwear.entitlements;
 				DEVELOPMENT_TEAM = CZG37T4ZQ8;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/MaterialControls",
+				);
 				GCC_PREFIX_HEADER = New_iwear/SupportingFiles/IwearHeader.pch;
 				INFOPLIST_FILE = New_iwear/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.manridy.New-iwear";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "New_iwear/New_iwear-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -1424,15 +1425,23 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9E1C62936127CBA2AB2484EB /* Pods-New_iwear.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = New_iwear/New_iwear.entitlements;
 				DEVELOPMENT_TEAM = CZG37T4ZQ8;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/MaterialControls",
+				);
 				GCC_PREFIX_HEADER = New_iwear/SupportingFiles/IwearHeader.pch;
 				INFOPLIST_FILE = New_iwear/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.manridy.New-iwear";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "New_iwear/New_iwear-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

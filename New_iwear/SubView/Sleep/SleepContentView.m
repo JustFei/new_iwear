@@ -7,15 +7,31 @@
 //
 
 #import "SleepContentView.h"
-#import "SleepSettingViewController.h"
+#import "SleepHisViewController.h"
+#import "UnitsTool.h"
+#import "BleManager.h"
+#import "PNChart.h"
+//#import "FMDBTool.h"
+#import "StepDataModel.h"
 
-
-@interface SleepContentView ()
+@interface SleepContentView () < PNChartDelegate >
 {
-    NSMutableArray *_textArr;
+    NSInteger sumStep;
+    NSInteger sumMileage;
+    NSInteger sumkCal;
+    BOOL _isMetric;
 }
 
-@property (nonatomic ,weak) PNCircleChart *sleepCircleChart;
+@property (nonatomic, strong) UIView *upView;
+@property (nonatomic, strong) UILabel *stepLabel;
+@property (nonatomic, strong) UILabel *mileageAndkCalLabel;
+@property (nonatomic, strong) UILabel *InSleepLabel;
+@property (nonatomic, strong) UILabel *outSleepLabel;
+@property (nonatomic, strong) UILabel *awakeLabel;
+@property (nonatomic, strong) PNCircleChart *sleepCircleChart;
+@property (nonatomic ,strong) BleManager *myBleManager;
+@property (nonatomic ,strong) NSMutableArray *dateArr;
+@property (nonatomic ,strong) NSMutableArray *dataArr;
 
 @end
 
@@ -25,17 +41,181 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
-        self = [[NSBundle mainBundle] loadNibNamed:@"SleepContentView" owner:self options:nil].firstObject;
         self.frame = frame;
-        _textArr = [NSMutableArray array];
+        
+        _upView = [[UIView alloc] init];
+        _upView.backgroundColor = SLEEP_CURRENT_BACKGROUND_COLOR;
+        [self addSubview:_upView];
+        [_upView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.mas_left);
+            make.top.equalTo(self.mas_top);
+            make.right.equalTo(self.mas_right);
+            make.height.equalTo(self.mas_width);
+        }];
+        
+        [self.sleepCircleChart mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(_upView.mas_centerX);
+            make.bottom.equalTo(_upView.mas_bottom).offset(-48 * VIEW_FRAME_WIDTH / 360);
+            make.width.equalTo(@(220 * VIEW_FRAME_WIDTH / 360));
+            make.height.equalTo(@(220 * VIEW_FRAME_WIDTH / 360));
+        }];
+        [self.sleepCircleChart strokeChart];
+        [self.sleepCircleChart updateChartByCurrent:@(0.75)];
+        
+        [self.stepLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.sleepCircleChart.mas_centerX);
+            make.centerY.equalTo(self.sleepCircleChart.mas_centerY);
+        }];
+        [self.stepLabel setText:@"28965"];
+        
+        UILabel *todayLabel = [[UILabel alloc] init];
+        [todayLabel setText:@"今日睡眠"];
+        [todayLabel setTextColor:TEXT_WHITE_COLOR_LEVEL3];
+        [todayLabel setFont:[UIFont systemFontOfSize:24]];
+        [self addSubview:todayLabel];
+        [todayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.sleepCircleChart.mas_centerX);
+            make.bottom.equalTo(self.stepLabel.mas_top).offset(-18 * VIEW_FRAME_WIDTH / 360);
+        }];
+        
+        UIImageView *headImageView = [[UIImageView alloc] init];
+        [headImageView setImage:[UIImage imageNamed:@"sleep_sleep-icon"]];
+        [self addSubview:headImageView];
+        [headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.sleepCircleChart.mas_centerX);
+            make.bottom.equalTo(todayLabel.mas_top);
+        }];
+        
+        UIView *lineView = [[UIView alloc] init];
+        lineView.backgroundColor = WHITE_COLOR;
+        [self addSubview:lineView];
+        [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.stepLabel.mas_bottom).offset(13 * VIEW_FRAME_WIDTH / 360);
+            make.centerX.equalTo(self.sleepCircleChart.mas_centerX);
+            make.width.equalTo(self.stepLabel.mas_width).offset(-6 * VIEW_FRAME_WIDTH / 360);
+            make.height.equalTo(@1);
+        }];
+        
+        [self.mileageAndkCalLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.sleepCircleChart.mas_centerX);
+            make.top.equalTo(lineView.mas_bottom).offset(2 * VIEW_FRAME_WIDTH / 360);
+        }];
+        [self.mileageAndkCalLabel setText:@"23.7km/1800kcal"];
+        
+        MDButton *hisBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
+        [hisBtn setImage:[UIImage imageNamed:@"walk_trainingicon"] forState:UIControlStateNormal];
+        hisBtn.backgroundColor = CLEAR_COLOR;
+        [hisBtn addTarget:self action:@selector(showHisVC:) forControlEvents:UIControlEventTouchUpInside];
+        [_upView addSubview:hisBtn];
+        [hisBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(_upView.mas_right).offset(-16);
+            make.bottom.equalTo(_upView.mas_bottom).offset(-16);
+        }];
+        
+        MDButton *trainingBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
+        [trainingBtn setImage:[UIImage imageNamed:@"walk_trainingicon"] forState:UIControlStateNormal];
+        trainingBtn.backgroundColor = CLEAR_COLOR;
+        [trainingBtn addTarget:self action:@selector(showTrainingVC:) forControlEvents:UIControlEventTouchUpInside];
+        [_upView addSubview:trainingBtn];
+        [trainingBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(hisBtn.mas_left).offset(-8);
+            make.bottom.equalTo(hisBtn.mas_bottom);
+        }];
+        
+        UIView *view1 = [[UIView alloc] init];
+        view1.layer.borderWidth = 1;
+        view1.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
+        [self addSubview:view1];
+        [view1 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_upView.mas_bottom).offset(8);
+            make.left.equalTo(self.mas_left).offset(-1);
+            make.height.equalTo(@72);
+            make.width.equalTo(@((VIEW_FRAME_WIDTH + 4) / 3));
+        }];
+        
+        UILabel *view1Title = [[UILabel alloc] init];
+        [view1Title setText:@"昨晚入睡"];
+        [view1Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
+        [view1Title setFont:[UIFont systemFontOfSize:12]];
+        [view1 addSubview:view1Title];
+        [view1Title mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(view1.mas_centerX);
+            make.top.equalTo(@18);
+        }];
+        
+        _InSleepLabel = [[UILabel alloc] init];
+        [_InSleepLabel setText:@"02:09"];
+        [_InSleepLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
+        [_InSleepLabel setFont:[UIFont systemFontOfSize:14]];
+        [view1 addSubview:_InSleepLabel];
+        [_InSleepLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(view1.mas_centerX);
+            make.bottom.equalTo(@-17);
+        }];
+        
+        UIView *view2 = [[UIView alloc] init];
+        view2.layer.borderWidth = 1;
+        view2.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
+        [self addSubview:view2];
+        [view2 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(view1.mas_top);
+            make.left.equalTo(view1.mas_right).offset(-1);
+            make.height.equalTo(view1);
+            make.width.equalTo(view1.mas_width);
+        }];
+        
+        UILabel *view2Title = [[UILabel alloc] init];
+        [view2Title setText:@"今天醒来"];
+        [view2Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
+        [view2Title setFont:[UIFont systemFontOfSize:12]];
+        [view2 addSubview:view2Title];
+        [view2Title mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(view2.mas_centerX);
+            make.top.equalTo(@18);
+        }];
+        
+        _outSleepLabel = [[UILabel alloc] init];
+        [_outSleepLabel setText:@"08:02"];
+        [_outSleepLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
+        [_outSleepLabel setFont:[UIFont systemFontOfSize:14]];
+        [view2 addSubview:_outSleepLabel];
+        [_outSleepLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(view2.mas_centerX);
+            make.bottom.equalTo(@-17);
+        }];
+        
+        UIView *view3 = [[UIView alloc] init];
+        view3.layer.borderWidth = 1;
+        view3.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
+        [self addSubview:view3];
+        [view3 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(view1.mas_top);
+            make.left.equalTo(view2.mas_right).offset(-1);
+            make.height.equalTo(view1);
+            make.width.equalTo(view1.mas_width);
+        }];
+        
+        UILabel *view3Title = [[UILabel alloc] init];
+        [view3Title setText:@"清醒时长"];
+        [view3Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
+        [view3Title setFont:[UIFont systemFontOfSize:12]];
+        [view3 addSubview:view3Title];
+        [view3Title mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(view3.mas_centerX);
+            make.top.equalTo(@18);
+        }];
+        
+        _awakeLabel = [[UILabel alloc] init];
+        [_awakeLabel setText:@"0.5小时"];
+        [_awakeLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
+        [_awakeLabel setFont:[UIFont systemFontOfSize:14]];
+        [view3 addSubview:_awakeLabel];
+        [_awakeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(view3.mas_centerX);
+            make.bottom.equalTo(@-17);
+        }];
     }
     return self;
-}
-
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
 }
 
 - (void)drawProgress:(CGFloat )progress
@@ -44,127 +224,62 @@
     dispatch_once(&onceToken, ^{
         [self.sleepCircleChart strokeChart];
     });
-    [self.sleepCircleChart updateChartByCurrent:@(progress * 100)];
-}
-
-- (void)showChartViewWithData:(BOOL)haveData
-{
-    if (haveData) {
-        [_textArr removeAllObjects];
-        for (NSInteger i = 0; i < self.sumDataArr.count; i ++) {
-            [_textArr addObject:@(i + 1)];
-            NSNumber *hightest = (NSNumber *)self.sumDataArr[i];
-            DLog(@"%@",hightest);
-            NSInteger hight = hightest.integerValue;
-            if (hight > self.sumSleepChart.yMaxValue) {
-                self.sumSleepChart.yMaxValue = hight + 10;
-                self.deepSleepChart.yMaxValue = hight + 10;
-            }
-        }
-        DLog(@"hightest == %f",self.sumSleepChart.yMaxValue);
-        
-        [self.deepSleepChart setXLabels:_textArr];
-        [self.deepSleepChart setYValues:self.deepDataArr];
-        [self.deepSleepChart strokeChart];
-        
-        [self.sumSleepChart setXLabels:_textArr];
-        [self.sumSleepChart setYValues:self.sumDataArr];
-        [self.sumSleepChart strokeChart];
-        
-    }else {
-        //仅仅展示个坐标系
-        [self.sumSleepChart setYLabels:@[@1,@2,@3,@4,@5,@6,@7,@8]];
-        [self.sumSleepChart showLabel];
-        [self.sumSleepChart strokeChart];
-    }
-}
-
-- (IBAction)sleepTargetAction:(UIButton *)sender {
-    SleepSettingViewController *vc = [[SleepSettingViewController alloc] initWithNibName:@"SleepSettingViewController" bundle:nil];
-    
-    [[self findViewController:self].navigationController pushViewController:vc animated:YES];
+    [self.sleepCircleChart updateChartByCurrent:@(progress)];
 }
 
 #pragma mark - PNChartDelegate
-- (void)userClickedOnBarAtIndex:(NSInteger)barIndex
+
+
+
+#pragma mark - Action
+- (void)showHisVC:(MDButton *)sender
 {
-    NSNumber *sumNum = self.sumDataArr[barIndex];
-    NSNumber *deepNum = self.deepDataArr[barIndex];
-    NSInteger low = sumNum.integerValue - deepNum.integerValue;
-    NSString *start = [self.startDataArr[barIndex] substringFromIndex:11];
-    NSString *end = [self.endDataArr[barIndex] substringFromIndex:11];
-    self.currentSleepStateLabel.text = [NSString stringWithFormat:NSLocalizedString(@"currentSleepData", nil),start ,end ,low / 60.f ,deepNum.integerValue / 60.f];
+    SleepHisViewController *vc = [[SleepHisViewController alloc] init];
+    [[self findViewController:self].navigationController pushViewController:vc animated:YES];
+}
+
+- (void)showTrainingVC:(MDButton *)sender
+{
+    
 }
 
 #pragma mark - 懒加载
-- (PNBarChart *)deepSleepChart
-{
-    if (!_deepSleepChart) {
-        PNBarChart *view = [[PNBarChart alloc] initWithFrame:self.downView.bounds];
-        view.backgroundColor = [UIColor clearColor];
-        view.delegate = self;
-        [view setStrokeColor:[UIColor blackColor]];
-        view.barBackgroundColor = [UIColor clearColor];
-        view.yChartLabelWidth = 20.0;
-        view.chartMarginLeft = 30.0;
-        view.chartMarginRight = 10.0;
-        view.chartMarginTop = 5.0;
-        view.chartMarginBottom = 10.0;
-        view.barWidth = 20;
-        view.yMinValue = 0;
-        view.yMaxValue = 15;
-        view.showLabel = YES;
-        view.showChartBorder = NO;
-        view.isShowNumbers = NO;
-        view.isGradientShow = NO;
-        
-        [self.downView addSubview:view];
-        _deepSleepChart = view;
-    }
-    
-    return _deepSleepChart;
-}
-
-- (PNBarChart *)sumSleepChart
-{
-    if (!_sumSleepChart) {
-        PNBarChart *view = [[PNBarChart alloc] initWithFrame:self.downView.bounds];
-        view.backgroundColor = [UIColor clearColor];
-        [view setStrokeColor:[UIColor grayColor]];
-        view.barBackgroundColor = [UIColor clearColor];
-        view.yChartLabelWidth = 20.0;
-        view.chartMarginLeft = 30.0;
-        view.chartMarginRight = 10.0;
-        view.chartMarginTop = 5.0;
-        view.chartMarginBottom = 10.0;
-        view.barWidth = 20;
-        view.yMinValue = 0;
-        view.yMaxValue = 15;
-        view.showLabel = YES;
-        view.showChartBorder = YES;
-        view.isShowNumbers = NO;
-        view.isGradientShow = NO;
-        
-        [self.downView addSubview:view];
-        _sumSleepChart = view;
-    }
-    
-    return _sumSleepChart;
-}
-
 - (PNCircleChart *)sleepCircleChart
 {
     if (!_sleepCircleChart) {
-        PNCircleChart *view = [[PNCircleChart alloc] initWithFrame:CGRectMake(self.progressImageView.frame.origin.x + 15, self.progressImageView.frame.origin.y + 27, self.progressImageView.frame.size.width - 30, self.progressImageView.frame.size.height - 40) total:@100 current:@0 clockwise:YES shadow:YES shadowColor:[UIColor colorWithRed:43.0 / 255.0 green:147.0 / 255.0 blue:190.0 / 255.0 alpha:1] displayCountingLabel:NO overrideLineWidth:@5];
-        view.backgroundColor = [UIColor clearColor];
-        [view setStrokeColor:[UIColor colorWithRed:128.0 / 255.0 green:128.0 / 255.0 blue:128.0 / 255.0 alpha:1]];
-        [view setStrokeColorGradientStart:[UIColor colorWithRed:128.0 / 255.0 green:128.0 / 255.0 blue:128.0 / 255.0 alpha:1]];
+        _sleepCircleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 0, 220 * VIEW_FRAME_WIDTH / 360, 220 * VIEW_FRAME_WIDTH / 360) total:@1 current:@0 clockwise:YES shadow:YES shadowColor:SLEEP_CURRENT_SHADOW_CIRCLE_COLOR displayCountingLabel:NO overrideLineWidth:@10];
+        [_sleepCircleChart setStrokeColor:SLEEP_CURRENT_CIRCLE_COLOR];
         
-        [self addSubview:view];
-        _sleepCircleChart = view;
+        [self addSubview:_sleepCircleChart];
     }
     
     return _sleepCircleChart;
+}
+
+- (UILabel *)stepLabel
+{
+    if (!_stepLabel) {
+        _stepLabel = [[UILabel alloc] init];
+        [_stepLabel setTextColor:WHITE_COLOR];
+        [_stepLabel setFont:[UIFont systemFontOfSize:50]];
+        
+        [self addSubview:_stepLabel];
+    }
+    
+    return _stepLabel;
+}
+
+- (UILabel *)mileageAndkCalLabel
+{
+    if (!_mileageAndkCalLabel) {
+        _mileageAndkCalLabel = [[UILabel alloc] init];
+        [_mileageAndkCalLabel setTextColor:WHITE_COLOR];
+        [_mileageAndkCalLabel setFont:[UIFont systemFontOfSize:14]];
+        
+        [self addSubview:_mileageAndkCalLabel];
+    }
+    
+    return _mileageAndkCalLabel;
 }
 
 - (NSMutableArray *)dateArr
@@ -176,40 +291,13 @@
     return _dateArr;
 }
 
-- (NSMutableArray *)sumDataArr
+- (NSMutableArray *)dataArr
 {
-    if (!_sumDataArr) {
-        _sumDataArr = [NSMutableArray array];
+    if (!_dataArr) {
+        _dataArr = [NSMutableArray array];
     }
     
-    return _sumDataArr;
-}
-
-- (NSMutableArray *)deepDataArr
-{
-    if (!_deepDataArr) {
-        _deepDataArr = [NSMutableArray array];
-    }
-    
-    return _deepDataArr;
-}
-
-- (NSMutableArray *)startDataArr
-{
-    if (!_startDataArr) {
-        _startDataArr = [NSMutableArray array];
-    }
-    
-    return _startDataArr;
-}
-
-- (NSMutableArray *)endDataArr
-{
-    if (!_endDataArr) {
-        _endDataArr = [NSMutableArray array];
-    }
-    
-    return _endDataArr;
+    return _dataArr;
 }
 
 #pragma mark - 获取当前View的控制器的方法

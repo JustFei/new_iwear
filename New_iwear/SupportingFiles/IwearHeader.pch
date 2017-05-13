@@ -13,6 +13,8 @@
 #import "Masonry.h"
 #import "AlertTool.h"
 #import "MBProgressHUD.h"
+#import "New_iwear-Bridging-Header.h"
+#import "New_iwear-Swift.h"
 
 #ifndef IwearHeader_pch
 #define IwearHeader_pch

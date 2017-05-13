@@ -7,15 +7,31 @@
 //
 
 #import "HeartRateContentView.h"
+#import "HeartRateHisViewController.h"
+#import "UnitsTool.h"
+#import "BleManager.h"
+#import "PNChart.h"
+//#import "FMDBTool.h"
+#import "StepDataModel.h"
 
+@interface HeartRateContentView () < PNChartDelegate >
+{
+    NSInteger sumStep;
+    NSInteger sumMileage;
+    NSInteger sumkCal;
+    BOOL _isMetric;
+}
 
-@interface HeartRateContentView ()
-
-
-@property (nonatomic ,weak) PNCircleChart *heartCircleChart;
-@property (weak, nonatomic) IBOutlet UIView *downView;
-@property (weak, nonatomic) IBOutlet UIImageView *progressImageView;
-
+@property (nonatomic, strong) UIView *upView;
+@property (nonatomic, strong) UILabel *stepLabel;
+@property (nonatomic, strong) MDButton *singleTestButton;
+@property (nonatomic, strong) UILabel *averageHR;
+@property (nonatomic, strong) UILabel *minHR;
+@property (nonatomic, strong) UILabel *maxHR;
+@property (nonatomic, strong) PNCircleChart *hrCircleChart;
+@property (nonatomic ,strong) BleManager *myBleManager;
+@property (nonatomic ,strong) NSMutableArray *dateArr;
+@property (nonatomic ,strong) NSMutableArray *dataArr;
 
 @end
 
@@ -25,110 +41,257 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
-        self = [[NSBundle mainBundle] loadNibNamed:@"HeartRateContentView" owner:self options:nil].firstObject;
         self.frame = frame;
+        
+        _upView = [[UIView alloc] init];
+        _upView.backgroundColor = HR_CURRENT_BACKGROUND_COLOR;
+        [self addSubview:_upView];
+        [_upView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.mas_left);
+            make.top.equalTo(self.mas_top);
+            make.right.equalTo(self.mas_right);
+            make.height.equalTo(self.mas_width);
+        }];
+        
+        [self.hrCircleChart mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(_upView.mas_centerX);
+            make.bottom.equalTo(_upView.mas_bottom).offset(-48 * VIEW_FRAME_WIDTH / 360);
+            make.width.equalTo(@(220 * VIEW_FRAME_WIDTH / 360));
+            make.height.equalTo(@(220 * VIEW_FRAME_WIDTH / 360));
+        }];
+        [self.hrCircleChart strokeChart];
+        [self.hrCircleChart updateChartByCurrent:@(0.75)];
+        
+        [self.stepLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.hrCircleChart.mas_centerX);
+            make.centerY.equalTo(self.hrCircleChart.mas_centerY);
+        }];
+        [self.stepLabel setText:@"28965"];
+        
+        UILabel *todayLabel = [[UILabel alloc] init];
+        [todayLabel setText:@"上次测量结果"];
+        [todayLabel setTextColor:TEXT_WHITE_COLOR_LEVEL3];
+        [todayLabel setFont:[UIFont systemFontOfSize:20]];
+        [self addSubview:todayLabel];
+        [todayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.hrCircleChart.mas_centerX);
+            make.bottom.equalTo(self.stepLabel.mas_top).offset(-18 * VIEW_FRAME_WIDTH / 360);
+        }];
+        
+        UIImageView *headImageView = [[UIImageView alloc] init];
+        [headImageView setImage:[UIImage imageNamed:@"heart_heart-icon"]];
+        [self addSubview:headImageView];
+        [headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.hrCircleChart.mas_centerX);
+            make.bottom.equalTo(todayLabel.mas_top);
+        }];
+        
+        UIView *lineView = [[UIView alloc] init];
+        lineView.backgroundColor = WHITE_COLOR;
+        [self addSubview:lineView];
+        [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.stepLabel.mas_bottom).offset(13 * VIEW_FRAME_WIDTH / 360);
+            make.centerX.equalTo(self.hrCircleChart.mas_centerX);
+            make.width.equalTo(self.stepLabel.mas_width).offset(-6 * VIEW_FRAME_WIDTH / 360);
+            make.height.equalTo(@1);
+        }];
+        
+        [self.singleTestButton setTitle:@"单次测量" forState:UIControlStateNormal];
+        [self.singleTestButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.hrCircleChart.mas_centerX);
+            make.top.equalTo(lineView.mas_bottom).offset(8 * VIEW_FRAME_WIDTH / 360);
+            make.width.equalTo(@92);
+            make.height.equalTo(@36);
+        }];
+        _singleTestButton.layer.masksToBounds = YES;
+        _singleTestButton.layer.cornerRadius = 18;
+        _singleTestButton.layer.borderColor = TEXT_WHITE_COLOR_LEVEL3.CGColor;
+        _singleTestButton.layer.borderWidth = 1;
+        
+        
+        MDButton *hisBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
+        [hisBtn setImage:[UIImage imageNamed:@"walk_trainingicon"] forState:UIControlStateNormal];
+        hisBtn.backgroundColor = CLEAR_COLOR;
+        [hisBtn addTarget:self action:@selector(showHisVC:) forControlEvents:UIControlEventTouchUpInside];
+        [_upView addSubview:hisBtn];
+        [hisBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(_upView.mas_right).offset(-16);
+            make.bottom.equalTo(_upView.mas_bottom).offset(-16);
+        }];
+        
+        MDButton *trainingBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
+        [trainingBtn setImage:[UIImage imageNamed:@"heart_measure"] forState:UIControlStateNormal];
+        trainingBtn.backgroundColor = CLEAR_COLOR;
+        [trainingBtn addTarget:self action:@selector(showTrainingVC:) forControlEvents:UIControlEventTouchUpInside];
+        [_upView addSubview:trainingBtn];
+        [trainingBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(hisBtn.mas_left).offset(-8);
+            make.bottom.equalTo(hisBtn.mas_bottom);
+        }];
+        
+        UIView *view1 = [[UIView alloc] init];
+        view1.layer.borderWidth = 1;
+        view1.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
+        [self addSubview:view1];
+        [view1 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_upView.mas_bottom).offset(8);
+            make.left.equalTo(self.mas_left).offset(-1);
+            make.height.equalTo(@72);
+            make.width.equalTo(@((VIEW_FRAME_WIDTH + 4) / 3));
+        }];
+        
+        UILabel *view1Title = [[UILabel alloc] init];
+        [view1Title setText:@"平均心率"];
+        [view1Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
+        [view1Title setFont:[UIFont systemFontOfSize:12]];
+        [view1 addSubview:view1Title];
+        [view1Title mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(view1.mas_centerX);
+            make.top.equalTo(@18);
+        }];
+        
+        _averageHR = [[UILabel alloc] init];
+        [_averageHR setText:@"78次/分"];
+        [_averageHR setTextColor:TEXT_BLACK_COLOR_LEVEL4];
+        [_averageHR setFont:[UIFont systemFontOfSize:14]];
+        [view1 addSubview:_averageHR];
+        [_averageHR mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(view1.mas_centerX);
+            make.bottom.equalTo(@-17);
+        }];
+        
+        UIView *view2 = [[UIView alloc] init];
+        view2.layer.borderWidth = 1;
+        view2.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
+        [self addSubview:view2];
+        [view2 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(view1.mas_top);
+            make.left.equalTo(view1.mas_right).offset(-1);
+            make.height.equalTo(view1);
+            make.width.equalTo(view1.mas_width);
+        }];
+        
+        UILabel *view2Title = [[UILabel alloc] init];
+        [view2Title setText:@"最低心率"];
+        [view2Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
+        [view2Title setFont:[UIFont systemFontOfSize:12]];
+        [view2 addSubview:view2Title];
+        [view2Title mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(view2.mas_centerX);
+            make.top.equalTo(@18);
+        }];
+        
+        _minHR = [[UILabel alloc] init];
+        [_minHR setText:@"57次/分"];
+        [_minHR setTextColor:TEXT_BLACK_COLOR_LEVEL4];
+        [_minHR setFont:[UIFont systemFontOfSize:14]];
+        [view2 addSubview:_minHR];
+        [_minHR mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(view2.mas_centerX);
+            make.bottom.equalTo(@-17);
+        }];
+        
+        UIView *view3 = [[UIView alloc] init];
+        view3.layer.borderWidth = 1;
+        view3.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
+        [self addSubview:view3];
+        [view3 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(view1.mas_top);
+            make.left.equalTo(view2.mas_right).offset(-1);
+            make.height.equalTo(view1);
+            make.width.equalTo(view1.mas_width);
+        }];
+        
+        UILabel *view3Title = [[UILabel alloc] init];
+        [view3Title setText:@"最高心率"];
+        [view3Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
+        [view3Title setFont:[UIFont systemFontOfSize:12]];
+        [view3 addSubview:view3Title];
+        [view3Title mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(view3.mas_centerX);
+            make.top.equalTo(@18);
+        }];
+        
+        _maxHR = [[UILabel alloc] init];
+        [_maxHR setText:@"115次/分"];
+        [_maxHR setTextColor:TEXT_BLACK_COLOR_LEVEL4];
+        [_maxHR setFont:[UIFont systemFontOfSize:14]];
+        [view3 addSubview:_maxHR];
+        [_maxHR mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(view3.mas_centerX);
+            make.bottom.equalTo(@-17);
+        }];
     }
     return self;
-}
-
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
 }
 
 - (void)drawProgress:(CGFloat )progress
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        [self.heartCircleChart strokeChart];
+        [self.hrCircleChart strokeChart];
     });
-    [self.heartCircleChart updateChartByCurrent:@(progress)];
-}
-
-- (void)showChartViewWithData:(BOOL)haveData
-{
-    if (haveData) {
-        [self.heartChart setXLabels:self.dateArr];
-        
-        PNLineChartData *data02 = [PNLineChartData new];
-        data02.color = PNTwitterColor;
-        data02.itemCount = self.heartChart.xLabels.count;
-        data02.inflexionPointColor = PNLightBlue;
-        data02.inflexionPointStyle = PNLineChartPointStyleCircle;
-        data02.getData = ^(NSUInteger index) {
-            CGFloat yValue;
-            if (index < self.dataArr.count) {
-                CGFloat yValue = [self.dataArr[index] floatValue];
-                DLog(@"%f",yValue);
-            }
-            
-            return [PNLineChartDataItem dataItemWithY:yValue];
-        };
-        
-        self.heartChart.chartData = @[data02];
-        
-
-        [self.heartChart strokeChart];
-    }else {
-        //仅仅展示个坐标系
-        [self.heartChart strokeChart];
-        
-    }
-    
+    [self.hrCircleChart updateChartByCurrent:@(progress)];
 }
 
 #pragma mark - PNChartDelegate
-- (void)userClickedOnLineKeyPoint:(CGPoint)point
-                        lineIndex:(NSInteger)lineIndex
-                       pointIndex:(NSInteger)pointIndex
+
+
+
+#pragma mark - Action
+- (void)showHisVC:(MDButton *)sender
 {
-    NSString *date = self.dateArr[pointIndex];
-    NSString *hr = self.dataArr[pointIndex];
-    [self.currentHRStateLabel setText:[NSString stringWithFormat:NSLocalizedString(@"currentHRData", nil),[date substringFromIndex:6] ,hr]];
+    HeartRateHisViewController *vc = [[HeartRateHisViewController alloc] init];
+    vc.vcType = ViewControllerTypeHR;
+    [[self findViewController:self].navigationController pushViewController:vc animated:YES];
 }
 
-- (void)showHRStateLabel
+- (void)showTrainingVC:(MDButton *)sender
 {
-    self.currentHRStateLabel.text = NSLocalizedString(@"lastTimesHRData", nil);
+    
 }
+
 
 #pragma mark - 懒加载
-- (PNLineChart *)heartChart
+- (PNCircleChart *)hrCircleChart
 {
-    if (!_heartChart) {
-        PNLineChart *view = [[PNLineChart alloc] initWithFrame:self.downView.bounds];
-        view.backgroundColor = [UIColor clearColor];
-        view.delegate = self;
-        view.showCoordinateAxis = YES;
-        view.yValueMin = 0;
-        view.yValueMax = 200;
+    if (!_hrCircleChart) {
+        _hrCircleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 0, 220 * VIEW_FRAME_WIDTH / 360, 220 * VIEW_FRAME_WIDTH / 360) total:@1 current:@0 clockwise:YES shadow:YES shadowColor:HR_CURRENT_SHADOW_CIRCLE_COLOR displayCountingLabel:NO overrideLineWidth:@10];
+        [_hrCircleChart setStrokeColor:HR_CURRENT_CIRCLE_COLOR];
         
-        view.yGridLinesColor = [UIColor clearColor];
-        view.showYGridLines = YES;
-        
-        
-        [self.downView addSubview:view];
-        _heartChart = view;
+        [self addSubview:_hrCircleChart];
     }
     
-    return _heartChart;
+    return _hrCircleChart;
 }
 
-- (PNCircleChart *)heartCircleChart
+- (UILabel *)stepLabel
 {
-    if (!_heartCircleChart) {
-        PNCircleChart *view = [[PNCircleChart alloc] initWithFrame:CGRectMake(self.progressImageView.frame.origin.x + 15, self.progressImageView.frame.origin.y + 27, self.progressImageView.frame.size.width - 30, self.progressImageView.frame.size.height - 40) total:@200 current:@0 clockwise:YES shadow:YES shadowColor:[UIColor colorWithRed:43.0 / 255.0 green:147.0 / 255.0 blue:190.0 / 255.0 alpha:1] displayCountingLabel:NO overrideLineWidth:@5];
-        view.backgroundColor = [UIColor clearColor];
-        [view setStrokeColor:[UIColor colorWithRed:127.0 / 255.0 green:71.0 / 255.0 blue:221.0 / 255.0 alpha:1]];
-        [view setStrokeColorGradientStart:[UIColor colorWithRed:127.0 / 255.0 green:71.0 / 255.0 blue:221.0 / 255.0 alpha:1]];
+    if (!_stepLabel) {
+        _stepLabel = [[UILabel alloc] init];
+        [_stepLabel setTextColor:WHITE_COLOR];
+        [_stepLabel setFont:[UIFont systemFontOfSize:50]];
         
-        [self addSubview:view];
-        _heartCircleChart = view;
+        [self addSubview:_stepLabel];
     }
     
-    return _heartCircleChart;
+    return _stepLabel;
 }
+
+- (MDButton *)singleTestButton
+{
+    if (!_singleTestButton) {
+        _singleTestButton = [[MDButton alloc] init];
+        [_singleTestButton setTitleColor:WHITE_COLOR forState:UIControlStateNormal];
+        [_singleTestButton.titleLabel setFont:[UIFont systemFontOfSize:14]];
+        _singleTestButton.backgroundColor = CLEAR_COLOR;
+        
+        [self addSubview:_singleTestButton];
+    }
+    
+    return _singleTestButton;
+}
+
 
 
 - (NSMutableArray *)dateArr
@@ -147,6 +310,19 @@
     }
     
     return _dataArr;
+}
+
+#pragma mark - 获取当前View的控制器的方法
+- (UIViewController *)findViewController:(UIView *)sourceView
+{
+    id target=sourceView;
+    while (target) {
+        target = ((UIResponder *)target).nextResponder;
+        if ([target isKindOfClass:[UIViewController class]]) {
+            break;
+        }
+    }
+    return target;
 }
 
 @end

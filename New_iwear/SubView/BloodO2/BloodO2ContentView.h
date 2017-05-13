@@ -7,16 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PNChart.h"
 
-@interface BloodO2ContentView : UIView < PNChartDelegate >
-@property (weak, nonatomic) IBOutlet UILabel *BOLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *progressImageView;
-@property (weak, nonatomic) IBOutlet UIView *downView;
-@property (nonatomic ,copy) NSMutableArray *dateArr;
-@property (nonatomic ,strong) NSMutableArray *timeArr;
-@property (nonatomic ,weak) PNLineChart *BOChart;
-@property (weak, nonatomic) IBOutlet UILabel *currentBOLabel;
 
-- (void)queryBOWithBloodArr:(NSArray *)BODataArr;
+@interface BloodO2ContentView : UIView 
+
 @end

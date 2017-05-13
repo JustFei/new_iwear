@@ -7,31 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "StepTargetViewController.h"
-#import "BleManager.h"
-#import "PNChart.h"
-//#import "FMDBTool.h"
-#import "StepDataModel.h"
 
-@interface StepContentView : UIView < PNChartDelegate >
-
-@property (nonatomic ,strong) BleManager *myBleManager;
-
-@property (nonatomic, assign) CGFloat progress;
-
-//创建全局属性
-@property (nonatomic, strong) CAShapeLayer *shapeLayer;
-
-@property (nonatomic ,strong) NSTimer *timer;
-
-//@property (nonatomic ,strong) FMDBTool *myFmdbTool;
-
-@property (nonatomic ,strong) NSMutableArray *dateArr;
-@property (nonatomic ,strong) NSMutableArray *dataArr;
-
-
+@interface StepContentView : UIView 
 
 - (void)drawProgress:(CGFloat )progress;
-- (void)showChartView;
+//- (void)showChartView;
 
 @end

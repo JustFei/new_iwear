@@ -165,7 +165,7 @@ static FMDatabase *_fmdb;
 /**
  *  查找数据
  *
- *  @param querySql 查找的关键字
+ *  @param date 查找的关键字
  *
  *  @return 返回所有查找的结果
  */

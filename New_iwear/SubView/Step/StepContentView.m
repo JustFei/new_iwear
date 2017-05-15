@@ -8,6 +8,7 @@
 
 #import "StepContentView.h"
 #import "StepHisViewController.h"
+#import "TrainingViewController.h"
 #import "UnitsTool.h"
 #import "BleManager.h"
 #import "PNChart.h"
@@ -144,7 +145,7 @@
         }];
         
         _view1StepLabel = [[UILabel alloc] init];
-        [_view1StepLabel setText:@"0步"];
+        [_view1StepLabel setText:@"0"];
         [_view1StepLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_view1StepLabel setFont:[UIFont systemFontOfSize:14]];
         [view1 addSubview:_view1StepLabel];
@@ -152,6 +153,8 @@
             make.centerX.equalTo(view1.mas_centerX);
             make.bottom.equalTo(@-17);
         }];
+        
+        
         
         UIView *view2 = [[UIView alloc] init];
         view2.layer.borderWidth = 1;
@@ -175,7 +178,7 @@
         }];
         
         _view2MileageLabel = [[UILabel alloc] init];
-        [_view2MileageLabel setText:@"18公里"];
+        [_view2MileageLabel setText:@"18"];
         [_view2MileageLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_view2MileageLabel setFont:[UIFont systemFontOfSize:14]];
         [view2 addSubview:_view2MileageLabel];
@@ -206,13 +209,40 @@
         }];
         
         _view3kCalLabel = [[UILabel alloc] init];
-        [_view3kCalLabel setText:@"1365千卡"];
+        [_view3kCalLabel setText:@"1365"];
         [_view3kCalLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_view3kCalLabel setFont:[UIFont systemFontOfSize:14]];
         [view3 addSubview:_view3kCalLabel];
         [_view3kCalLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(view3.mas_centerX);
             make.bottom.equalTo(@-17);
+        }];
+        UILabel *unitLabel = [[UILabel alloc] init];
+        [unitLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+        [unitLabel setFont:[UIFont systemFontOfSize:8]];
+        [unitLabel setText:@"步"];
+        [view1 addSubview:unitLabel];
+        [unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_view1StepLabel.mas_right).offset(8);
+            make.top.equalTo(_view1StepLabel.mas_bottom);
+        }];
+        UILabel *unitLabel2 = [[UILabel alloc] init];
+        [unitLabel2 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+        [unitLabel2 setFont:[UIFont systemFontOfSize:8]];
+        [unitLabel2 setText:@"公里"];
+        [view1 addSubview:unitLabel2];
+        [unitLabel2 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_view2MileageLabel.mas_right).offset(8);
+            make.top.equalTo(_view2MileageLabel.mas_bottom);
+        }];
+        UILabel *unitLabel3 = [[UILabel alloc] init];
+        [unitLabel3 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+        [unitLabel3 setFont:[UIFont systemFontOfSize:8]];
+        [unitLabel3 setText:@"千卡"];
+        [view1 addSubview:unitLabel3];
+        [unitLabel3 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_view3kCalLabel.mas_right).offset(8);
+            make.top.equalTo(_view3kCalLabel.mas_bottom);
         }];
     }
     return self;
@@ -240,7 +270,8 @@
 
 - (void)showTrainingVC:(MDButton *)sender
 {
-    
+    TrainingViewController *vc = [[TrainingViewController alloc] init];
+    [[self findViewController:self].navigationController pushViewController:vc animated:YES];
 }
 
 

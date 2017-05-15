@@ -41,7 +41,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    _titleArr = @[NSLocalizedString(@"计步", nil),NSLocalizedString(@"心率", nil),NSLocalizedString(@"睡眠", nil),NSLocalizedString(@"血压", nil),NSLocalizedString(@"血氧", nil)];
+    _titleArr = @[NSLocalizedString(@"计步", nil),NSLocalizedString(@"睡眠", nil),NSLocalizedString(@"心率", nil),NSLocalizedString(@"血压", nil),NSLocalizedString(@"血氧", nil)];
     
     self.navigationController.automaticallyAdjustsScrollViewInsets = YES;
     self.navigationController.navigationBar.barTintColor = CLEAR_COLOR;
@@ -130,11 +130,11 @@
         self.stepView = [[StepContentView alloc] initWithFrame:CGRectMake(0, 0, VIEW_CONTROLLER_FRAME_WIDTH, VIEW_CONTROLLER_FRAME_HEIGHT)];
         [_backScrollView addSubview:self.stepView];
         
-        self.heartRateView = [[HeartRateContentView alloc] initWithFrame:CGRectMake(VIEW_CONTROLLER_FRAME_WIDTH, 0, VIEW_CONTROLLER_FRAME_WIDTH, VIEW_CONTROLLER_FRAME_HEIGHT)];
-        [_backScrollView addSubview:self.heartRateView];
-        
-        self.sleepView = [[SleepContentView alloc] initWithFrame:CGRectMake(2 * VIEW_CONTROLLER_FRAME_WIDTH, 0, VIEW_CONTROLLER_FRAME_WIDTH, VIEW_CONTROLLER_FRAME_HEIGHT)];
+        self.sleepView = [[SleepContentView alloc] initWithFrame:CGRectMake( VIEW_CONTROLLER_FRAME_WIDTH, 0, VIEW_CONTROLLER_FRAME_WIDTH, VIEW_CONTROLLER_FRAME_HEIGHT)];
         [_backScrollView addSubview:self.sleepView];
+        
+        self.heartRateView = [[HeartRateContentView alloc] initWithFrame:CGRectMake(2 * VIEW_CONTROLLER_FRAME_WIDTH, 0, VIEW_CONTROLLER_FRAME_WIDTH, VIEW_CONTROLLER_FRAME_HEIGHT)];
+        [_backScrollView addSubview:self.heartRateView];
         
         self.bloodPressureView = [[BloodPressureContentView alloc] initWithFrame:CGRectMake(3 * VIEW_CONTROLLER_FRAME_WIDTH, 0, VIEW_CONTROLLER_FRAME_WIDTH, VIEW_CONTROLLER_FRAME_HEIGHT)];
         [_backScrollView addSubview:self.bloodPressureView];

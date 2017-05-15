@@ -151,7 +151,7 @@
         }];
         
         _averageHR = [[UILabel alloc] init];
-        [_averageHR setText:@"78次/分"];
+        [_averageHR setText:@"78"];
         [_averageHR setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_averageHR setFont:[UIFont systemFontOfSize:14]];
         [view1 addSubview:_averageHR];
@@ -182,7 +182,7 @@
         }];
         
         _minHR = [[UILabel alloc] init];
-        [_minHR setText:@"57次/分"];
+        [_minHR setText:@"57"];
         [_minHR setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_minHR setFont:[UIFont systemFontOfSize:14]];
         [view2 addSubview:_minHR];
@@ -213,13 +213,41 @@
         }];
         
         _maxHR = [[UILabel alloc] init];
-        [_maxHR setText:@"115次/分"];
+        [_maxHR setText:@"115"];
         [_maxHR setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_maxHR setFont:[UIFont systemFontOfSize:14]];
         [view3 addSubview:_maxHR];
         [_maxHR mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(view3.mas_centerX);
             make.bottom.equalTo(@-17);
+        }];
+        
+        UILabel *unitLabel = [[UILabel alloc] init];
+        [unitLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+        [unitLabel setFont:[UIFont systemFontOfSize:8]];
+        [unitLabel setText:@"次/分"];
+        [view1 addSubview:unitLabel];
+        [unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_averageHR.mas_right).offset(8);
+            make.top.equalTo(_averageHR.mas_bottom);
+        }];
+        UILabel *unitLabel2 = [[UILabel alloc] init];
+        [unitLabel2 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+        [unitLabel2 setFont:[UIFont systemFontOfSize:8]];
+        [unitLabel2 setText:@"次/分"];
+        [view1 addSubview:unitLabel2];
+        [unitLabel2 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_minHR.mas_right).offset(8);
+            make.top.equalTo(_minHR.mas_bottom);
+        }];
+        UILabel *unitLabel3 = [[UILabel alloc] init];
+        [unitLabel3 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+        [unitLabel3 setFont:[UIFont systemFontOfSize:8]];
+        [unitLabel3 setText:@"次/分"];
+        [view1 addSubview:unitLabel3];
+        [unitLabel3 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_maxHR.mas_right).offset(8);
+            make.top.equalTo(_maxHR.mas_bottom);
         }];
     }
     return self;
@@ -250,7 +278,6 @@
 {
     
 }
-
 
 #pragma mark - 懒加载
 - (PNCircleChart *)hrCircleChart

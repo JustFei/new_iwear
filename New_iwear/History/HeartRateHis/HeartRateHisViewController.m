@@ -48,16 +48,13 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
         make.top.equalTo(self.view.mas_top).offset(86 * VIEW_CONTROLLER_FRAME_WIDTH / 360);
     }];
     
+    [self.stepLabel setText:@"68"];
     [self.stepLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.mas_centerX);
         make.top.equalTo(todayLabel.mas_bottom).offset(6 * VIEW_CONTROLLER_FRAME_WIDTH / 360);
     }];
-    [self.stepLabel setText:@"68"];
-    
-    
     
     UIImageView *headImageView = [[UIImageView alloc] init];
-    [headImageView setImage:[UIImage imageNamed:@"heart_heart-icon"]];
     [self.view addSubview:headImageView];
     [headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.stepLabel.mas_left).offset(-8 * VIEW_CONTROLLER_FRAME_WIDTH / 360);
@@ -191,6 +188,34 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
         make.top.equalTo(view1.mas_bottom);
     }];
     
+    UILabel *unitLabel = [[UILabel alloc] init];
+    [unitLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+    [unitLabel setFont:[UIFont systemFontOfSize:8]];
+    [unitLabel setText:@"步"];
+    [view1 addSubview:unitLabel];
+    [unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_view1StepLabel.mas_right).offset(8);
+        make.top.equalTo(_view1StepLabel.mas_bottom);
+    }];
+    UILabel *unitLabel2 = [[UILabel alloc] init];
+    [unitLabel2 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+    [unitLabel2 setFont:[UIFont systemFontOfSize:8]];
+    [unitLabel2 setText:@"公里"];
+    [view1 addSubview:unitLabel2];
+    [unitLabel2 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_view2MileageLabel.mas_right).offset(8);
+        make.top.equalTo(_view2MileageLabel.mas_bottom);
+    }];
+    UILabel *unitLabel3 = [[UILabel alloc] init];
+    [unitLabel3 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+    [unitLabel3 setFont:[UIFont systemFontOfSize:8]];
+    [unitLabel3 setText:@"千卡"];
+    [view1 addSubview:unitLabel3];
+    [unitLabel3 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_view3kCalLabel.mas_right).offset(8);
+        make.top.equalTo(_view3kCalLabel.mas_bottom);
+    }];
+    
     switch (self.vcType) {
         case ViewControllerTypeHR:
         {
@@ -199,24 +224,27 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
             view1.layer.borderColor = HR_HISTORY_BACKGROUND_COLOR.CGColor;
             view2.layer.borderColor = HR_HISTORY_BACKGROUND_COLOR.CGColor;
             view3.layer.borderColor = HR_HISTORY_BACKGROUND_COLOR.CGColor;
+            [headImageView setImage:[UIImage imageNamed:@"heart_heart-icon"]];
         }
             break;
         case ViewControllerTypeBP:
         {
             self.title = @"血压记录";
-            self.navigationController.navigationBar.barTintColor = HR_HISTORY_BACKGROUND_COLOR;
-            view1.layer.borderColor = HR_HISTORY_BACKGROUND_COLOR.CGColor;
-            view2.layer.borderColor = HR_HISTORY_BACKGROUND_COLOR.CGColor;
-            view3.layer.borderColor = HR_HISTORY_BACKGROUND_COLOR.CGColor;
+            self.navigationController.navigationBar.barTintColor = BP_HISTORY_BACKGROUND_COLOR;
+            view1.layer.borderColor = BP_HISTORY_BACKGROUND_COLOR.CGColor;
+            view2.layer.borderColor = BP_HISTORY_BACKGROUND_COLOR.CGColor;
+            view3.layer.borderColor = BP_HISTORY_BACKGROUND_COLOR.CGColor;
+            [headImageView setImage:[UIImage imageNamed:@"bloodpressure_ic02"]];
         }
             break;
         case ViewControllerTypeBO:
         {
             self.title = @"血氧记录";
-            self.navigationController.navigationBar.barTintColor = HR_HISTORY_BACKGROUND_COLOR;
-            view1.layer.borderColor = HR_HISTORY_BACKGROUND_COLOR.CGColor;
-            view2.layer.borderColor = HR_HISTORY_BACKGROUND_COLOR.CGColor;
-            view3.layer.borderColor = HR_HISTORY_BACKGROUND_COLOR.CGColor;
+            self.navigationController.navigationBar.barTintColor = BO_HISTORY_BACKGROUND_COLOR;
+            view1.layer.borderColor = BO_HISTORY_BACKGROUND_COLOR.CGColor;
+            view2.layer.borderColor = BO_HISTORY_BACKGROUND_COLOR.CGColor;
+            view3.layer.borderColor = BO_HISTORY_BACKGROUND_COLOR.CGColor;
+            [headImageView setImage:[UIImage imageNamed:@"bloodoxygen_ic02"]];
         }
             break;
             
@@ -265,7 +293,7 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
 {
     if (!_leftButton) {
         _leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
-        [_leftButton setImage:[UIImage imageNamed:@"all_set"] forState:UIControlStateNormal];
+        [_leftButton setImage:[UIImage imageNamed:@"ic_back"] forState:UIControlStateNormal];
         [_leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:_leftButton];
         self.navigationItem.leftBarButtonItem = leftItem;

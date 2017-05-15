@@ -112,16 +112,6 @@
             make.bottom.equalTo(_upView.mas_bottom).offset(-16);
         }];
         
-        MDButton *trainingBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
-        [trainingBtn setImage:[UIImage imageNamed:@"walk_trainingicon"] forState:UIControlStateNormal];
-        trainingBtn.backgroundColor = CLEAR_COLOR;
-        [trainingBtn addTarget:self action:@selector(showTrainingVC:) forControlEvents:UIControlEventTouchUpInside];
-        [_upView addSubview:trainingBtn];
-        [trainingBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(hisBtn.mas_left).offset(-8);
-            make.bottom.equalTo(hisBtn.mas_bottom);
-        }];
-        
         UIView *view1 = [[UIView alloc] init];
         view1.layer.borderWidth = 1;
         view1.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
@@ -206,13 +196,40 @@
         }];
         
         _awakeLabel = [[UILabel alloc] init];
-        [_awakeLabel setText:@"0.5小时"];
+        [_awakeLabel setText:@"0.5"];
         [_awakeLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_awakeLabel setFont:[UIFont systemFontOfSize:14]];
         [view3 addSubview:_awakeLabel];
         [_awakeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(view3.mas_centerX);
             make.bottom.equalTo(@-17);
+        }];
+//        UILabel *unitLabel = [[UILabel alloc] init];
+//        [unitLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+//        [unitLabel setFont:[UIFont systemFontOfSize:8]];
+//        [unitLabel setText:@"步"];
+//        [view1 addSubview:unitLabel];
+//        [unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(_InSleepLabel.mas_right).offset(8);
+//            make.top.equalTo(_InSleepLabel.mas_bottom);
+//        }];
+//        UILabel *unitLabel2 = [[UILabel alloc] init];
+//        [unitLabel2 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+//        [unitLabel2 setFont:[UIFont systemFontOfSize:8]];
+//        [unitLabel2 setText:@"公里"];
+//        [view1 addSubview:unitLabel2];
+//        [unitLabel2 mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(_outSleepLabel.mas_right).offset(8);
+//            make.top.equalTo(_outSleepLabel.mas_bottom);
+//        }];
+        UILabel *unitLabel3 = [[UILabel alloc] init];
+        [unitLabel3 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+        [unitLabel3 setFont:[UIFont systemFontOfSize:8]];
+        [unitLabel3 setText:@"小时"];
+        [view1 addSubview:unitLabel3];
+        [unitLabel3 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_awakeLabel.mas_right).offset(8);
+            make.top.equalTo(_awakeLabel.mas_bottom);
         }];
     }
     return self;

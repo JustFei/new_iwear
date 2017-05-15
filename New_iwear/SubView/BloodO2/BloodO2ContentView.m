@@ -44,7 +44,7 @@
         self.frame = frame;
         
         _upView = [[UIView alloc] init];
-        _upView.backgroundColor = STEP_CURRENT_BACKGROUND_COLOR;
+        _upView.backgroundColor = BO_HISTORY_BACKGROUND_COLOR;
         [self addSubview:_upView];
         [_upView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.mas_left);
@@ -79,7 +79,7 @@
         }];
         
         UIImageView *headImageView = [[UIImageView alloc] init];
-        [headImageView setImage:[UIImage imageNamed:@"walk_walkicon"]];
+        [headImageView setImage:[UIImage imageNamed:@"bloodoxygen_icon01"]];
         [self addSubview:headImageView];
         [headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.boCircleChart.mas_centerX);
@@ -110,16 +110,6 @@
         [hisBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(_upView.mas_right).offset(-16);
             make.bottom.equalTo(_upView.mas_bottom).offset(-16);
-        }];
-        
-        MDButton *trainingBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
-        [trainingBtn setImage:[UIImage imageNamed:@"walk_trainingicon"] forState:UIControlStateNormal];
-        trainingBtn.backgroundColor = CLEAR_COLOR;
-        [trainingBtn addTarget:self action:@selector(showTrainingVC:) forControlEvents:UIControlEventTouchUpInside];
-        [_upView addSubview:trainingBtn];
-        [trainingBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(hisBtn.mas_left).offset(-8);
-            make.bottom.equalTo(hisBtn.mas_bottom);
         }];
         
         UIView *view1 = [[UIView alloc] init];
@@ -214,6 +204,34 @@
             make.centerX.equalTo(view3.mas_centerX);
             make.bottom.equalTo(@-17);
         }];
+        
+        UILabel *unitLabel = [[UILabel alloc] init];
+        [unitLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+        [unitLabel setFont:[UIFont systemFontOfSize:8]];
+        [unitLabel setText:@"次/分"];
+        [view1 addSubview:unitLabel];
+        [unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_avageBOLabel.mas_right).offset(8);
+            make.top.equalTo(_avageBOLabel.mas_bottom);
+        }];
+        UILabel *unitLabel2 = [[UILabel alloc] init];
+        [unitLabel2 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+        [unitLabel2 setFont:[UIFont systemFontOfSize:8]];
+        [unitLabel2 setText:@"mmHg"];
+        [view1 addSubview:unitLabel2];
+        [unitLabel2 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_lowBOLabel.mas_right).offset(8);
+            make.top.equalTo(_lowBOLabel.mas_bottom);
+        }];
+        UILabel *unitLabel3 = [[UILabel alloc] init];
+        [unitLabel3 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+        [unitLabel3 setFont:[UIFont systemFontOfSize:8]];
+        [unitLabel3 setText:@"mmHg"];
+        [view1 addSubview:unitLabel3];
+        [unitLabel3 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_highBOLabel.mas_right).offset(8);
+            make.top.equalTo(_highBOLabel.mas_bottom);
+        }];
     }
     return self;
 }
@@ -249,8 +267,8 @@
 - (PNCircleChart *)boCircleChart
 {
     if (!_boCircleChart) {
-        _boCircleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 0, 220 * VIEW_FRAME_WIDTH / 360, 220 * VIEW_FRAME_WIDTH / 360) total:@1 current:@0 clockwise:YES shadow:YES shadowColor:STEP_CURRENT_SHADOW_CIRCLE_COLOR displayCountingLabel:NO overrideLineWidth:@10];
-        [_boCircleChart setStrokeColor:STEP_CURRENT_CIRCLE_COLOR];
+        _boCircleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 0, 220 * VIEW_FRAME_WIDTH / 360, 220 * VIEW_FRAME_WIDTH / 360) total:@1 current:@0 clockwise:YES shadow:YES shadowColor:BO_CURRENT_SHADOW_CIRCLE_COLOR displayCountingLabel:NO overrideLineWidth:@10];
+        [_boCircleChart setStrokeColor:BO_CURRENT_CIRCLE_COLOR];
         
         [self addSubview:_boCircleChart];
     }

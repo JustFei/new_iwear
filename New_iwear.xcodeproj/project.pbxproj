@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		100E49061EC998D400625A93 /* TrainingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 100E49051EC998D400625A93 /* TrainingViewController.m */; };
+		100E490A1EC9AD6A00625A93 /* TrainingTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 100E49091EC9AD6A00625A93 /* TrainingTableCell.m */; };
+		100E490D1EC9B88B00625A93 /* TrainingTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 100E490C1EC9B88B00625A93 /* TrainingTableModel.m */; };
 		61B92AC401CFC6C37C77B005 /* libPods-New_iwear.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64350C29842B2F870FD1D38E /* libPods-New_iwear.a */; };
 		9C00DF881EC6D3CA005CB06F /* StepHisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C00DF871EC6D3CA005CB06F /* StepHisViewController.m */; };
 		9C00DF8D1EC6D93F005CB06F /* SleepHisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C00DF8C1EC6D93F005CB06F /* SleepHisViewController.m */; };
@@ -140,6 +143,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		100E49041EC998D400625A93 /* TrainingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrainingViewController.h; path = Training/TrainingViewController.h; sourceTree = "<group>"; };
+		100E49051EC998D400625A93 /* TrainingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrainingViewController.m; path = Training/TrainingViewController.m; sourceTree = "<group>"; };
+		100E49081EC9AD6A00625A93 /* TrainingTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrainingTableCell.h; path = Training/TrainingTableCell.h; sourceTree = "<group>"; };
+		100E49091EC9AD6A00625A93 /* TrainingTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrainingTableCell.m; path = Training/TrainingTableCell.m; sourceTree = "<group>"; };
+		100E490B1EC9B88B00625A93 /* TrainingTableModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrainingTableModel.h; path = Training/TrainingTableModel.h; sourceTree = "<group>"; };
+		100E490C1EC9B88B00625A93 /* TrainingTableModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrainingTableModel.m; path = Training/TrainingTableModel.m; sourceTree = "<group>"; };
 		64350C29842B2F870FD1D38E /* libPods-New_iwear.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-New_iwear.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C00DF861EC6D3CA005CB06F /* StepHisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StepHisViewController.h; path = History/StepHis/StepHisViewController.h; sourceTree = "<group>"; };
 		9C00DF871EC6D3CA005CB06F /* StepHisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StepHisViewController.m; path = History/StepHis/StepHisViewController.m; sourceTree = "<group>"; };
@@ -340,6 +349,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		100E49021EC9985100625A93 /* Training */ = {
+			isa = PBXGroup;
+			children = (
+				100E49041EC998D400625A93 /* TrainingViewController.h */,
+				100E49051EC998D400625A93 /* TrainingViewController.m */,
+				100E49081EC9AD6A00625A93 /* TrainingTableCell.h */,
+				100E49091EC9AD6A00625A93 /* TrainingTableCell.m */,
+				100E490B1EC9B88B00625A93 /* TrainingTableModel.h */,
+				100E490C1EC9B88B00625A93 /* TrainingTableModel.m */,
+			);
+			name = Training;
+			sourceTree = "<group>";
+		};
 		9C00DF851EC6D2BE005CB06F /* History */ = {
 			isa = PBXGroup;
 			children = (
@@ -400,13 +422,6 @@
 				9C4FBDB81EB081AB0072E9CE /* ThirdItem */,
 			);
 			name = TestMode;
-			sourceTree = "<group>";
-		};
-		9C04968C1EB87D6B00EDBEBB /* Main */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Main;
 			sourceTree = "<group>";
 		};
 		9C04968D1EB87D7E00EDBEBB /* Setting */ = {
@@ -919,13 +934,13 @@
 				9C0496921EB8855700EDBEBB /* New_iwear.entitlements */,
 				9CDEAC5B1EB078EC00279EDA /* AppDelegate.h */,
 				9CDEAC5C1EB078EC00279EDA /* AppDelegate.m */,
+				100E49021EC9985100625A93 /* Training */,
 				9C00DF851EC6D2BE005CB06F /* History */,
 				9C0711AD1EC5500B00F41754 /* MainViewController */,
 				9C04968D1EB87D7E00EDBEBB /* Setting */,
 				9CB616171EC31703008914F5 /* Tool */,
 				9CA1C86D1EC31377007DB83A /* FMDBManager */,
 				9C9E7FDB1EC2E0D8004840FD /* BleManager */,
-				9C04968C1EB87D6B00EDBEBB /* Main */,
 				9C04968B1EB87D5200EDBEBB /* TestMode */,
 				9CDEAC671EB078EC00279EDA /* Assets.xcassets */,
 				9CDEAC691EB078EC00279EDA /* LaunchScreen.storyboard */,
@@ -1269,14 +1284,17 @@
 				9C0712231EC558E800F41754 /* BloodPressureContentView.m in Sources */,
 				9C3AE8491EBDB8320078CDAA /* RemindMoreTableViewCell.m in Sources */,
 				9CE95A611EC15DC600E88B47 /* SedentaryReminderTableViewCell.m in Sources */,
+				100E490A1EC9AD6A00625A93 /* TrainingTableCell.m in Sources */,
 				9C3AE8351EBD770B0078CDAA /* FindMyPeriphearlViewController.m in Sources */,
 				9CE95A5E1EC154C200E88B47 /* SedentaryReminderViewController.m in Sources */,
+				100E490D1EC9B88B00625A93 /* TrainingTableModel.m in Sources */,
 				9CDEAC5A1EB078EC00279EDA /* main.m in Sources */,
 				9C0817741EB9AB1800C1845F /* SettingPeripheralTableViewCell.m in Sources */,
 				9CD631071EC0163D005EECE1 /* UnitsSettingViewController.m in Sources */,
 				9CD631131EC0556B005EECE1 /* TimeFormatterViewController.m in Sources */,
 				9C4FBDB61EB081A00072E9CE /* FirstViewController.m in Sources */,
 				9C0496901EB87DC400EDBEBB /* SettingViewController.m in Sources */,
+				100E49061EC998D400625A93 /* TrainingViewController.m in Sources */,
 				9C079ABC1EBC8D6300D54AB3 /* TakePhotoViewController.m in Sources */,
 				9C9E7FDE1EC2E117004840FD /* BleManager.m in Sources */,
 				9C079AAF1EBC61A800D54AB3 /* InterfaceSelectionViewController.m in Sources */,

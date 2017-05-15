@@ -80,7 +80,7 @@
     
     UILabel *todayLabel = [[UILabel alloc] init];
     [todayLabel setText:@"每日平均睡眠"];
-    [todayLabel setTextColor:TEXT_WHITE_COLOR_LEVEL3];
+    [todayLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [todayLabel setFont:[UIFont systemFontOfSize:20]];
     [self.view addSubview:todayLabel];
     [todayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -89,7 +89,7 @@
     }];
     
     UIImageView *headImageView = [[UIImageView alloc] init];
-    [headImageView setImage:[UIImage imageNamed:@"sleep_sleep-icon"]];
+    [headImageView setImage:[UIImage imageNamed:@"sleep_sleepic02"]];
     [self.view addSubview:headImageView];
     [headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.stepCircleChart.mas_centerX);
@@ -97,7 +97,7 @@
     }];
     
     UIView *lineView = [[UIView alloc] init];
-    lineView.backgroundColor = WHITE_COLOR;
+    lineView.backgroundColor = TEXT_BLACK_COLOR_LEVEL1;
     [self.view addSubview:lineView];
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.stepLabel.mas_bottom).offset(13 * VIEW_CONTROLLER_FRAME_WIDTH / 360);
@@ -115,7 +115,7 @@
     MDButton *hisBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
     [hisBtn setTitle:@"本月" forState:UIControlStateNormal];
     [hisBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
-    [hisBtn setTitleColor:TEXT_WHITE_COLOR_LEVEL4 forState:UIControlStateNormal];
+    [hisBtn setTitleColor:TEXT_BLACK_COLOR_LEVEL4 forState:UIControlStateNormal];
     hisBtn.backgroundColor = CLEAR_COLOR;
     [hisBtn addTarget:self action:@selector(showHisVC:) forControlEvents:UIControlEventTouchUpInside];
     [_upView addSubview:hisBtn];
@@ -126,7 +126,7 @@
     
     UIView *view1 = [[UIView alloc] init];
     view1.layer.borderWidth = 1;
-    view1.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
+    view1.layer.borderColor = SLEEP_HISTORY_BACKGROUND_COLOR.CGColor;
     [self.view addSubview:view1];
     [view1 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_upView.mas_bottom).offset(8);
@@ -146,7 +146,7 @@
     }];
     
     _view1StepLabel = [[UILabel alloc] init];
-    [_view1StepLabel setText:@"7.2小时"];
+    [_view1StepLabel setText:@"7.2"];
     [_view1StepLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
     [_view1StepLabel setFont:[UIFont systemFontOfSize:14]];
     [view1 addSubview:_view1StepLabel];
@@ -157,7 +157,7 @@
     
     UIView *view2 = [[UIView alloc] init];
     view2.layer.borderWidth = 1;
-    view2.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
+    view2.layer.borderColor = SLEEP_HISTORY_BACKGROUND_COLOR.CGColor;
     [self.view addSubview:view2];
     [view2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(view1.mas_top);
@@ -177,7 +177,7 @@
     }];
     
     _view2MileageLabel = [[UILabel alloc] init];
-    [_view2MileageLabel setText:@"2.2小时"];
+    [_view2MileageLabel setText:@"2.2"];
     [_view2MileageLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
     [_view2MileageLabel setFont:[UIFont systemFontOfSize:14]];
     [view2 addSubview:_view2MileageLabel];
@@ -188,7 +188,7 @@
     
     UIView *view3 = [[UIView alloc] init];
     view3.layer.borderWidth = 1;
-    view3.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
+    view3.layer.borderColor = SLEEP_HISTORY_BACKGROUND_COLOR.CGColor;
     [self.view addSubview:view3];
     [view3 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(view1.mas_top);
@@ -208,13 +208,41 @@
     }];
     
     _view3kCalLabel = [[UILabel alloc] init];
-    [_view3kCalLabel setText:@"5.0小时"];
+    [_view3kCalLabel setText:@"5.0"];
     [_view3kCalLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
     [_view3kCalLabel setFont:[UIFont systemFontOfSize:14]];
     [view3 addSubview:_view3kCalLabel];
     [_view3kCalLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(view3.mas_centerX);
         make.bottom.equalTo(@-17);
+    }];
+    
+    UILabel *unitLabel = [[UILabel alloc] init];
+    [unitLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+    [unitLabel setFont:[UIFont systemFontOfSize:8]];
+    [unitLabel setText:@"小时"];
+    [view1 addSubview:unitLabel];
+    [unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_view1StepLabel.mas_right).offset(8);
+        make.top.equalTo(_view1StepLabel.mas_bottom);
+    }];
+    UILabel *unitLabel2 = [[UILabel alloc] init];
+    [unitLabel2 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+    [unitLabel2 setFont:[UIFont systemFontOfSize:8]];
+    [unitLabel2 setText:@"小时"];
+    [view1 addSubview:unitLabel2];
+    [unitLabel2 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_view2MileageLabel.mas_right).offset(8);
+        make.top.equalTo(_view2MileageLabel.mas_bottom);
+    }];
+    UILabel *unitLabel3 = [[UILabel alloc] init];
+    [unitLabel3 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+    [unitLabel3 setFont:[UIFont systemFontOfSize:8]];
+    [unitLabel3 setText:@"小时"];
+    [view1 addSubview:unitLabel3];
+    [unitLabel3 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_view3kCalLabel.mas_right).offset(8);
+        make.top.equalTo(_view3kCalLabel.mas_bottom);
     }];
     
 }
@@ -248,7 +276,7 @@
 {
     if (!_leftButton) {
         _leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
-        [_leftButton setImage:[UIImage imageNamed:@"all_set"] forState:UIControlStateNormal];
+        [_leftButton setImage:[UIImage imageNamed:@"ic_back"] forState:UIControlStateNormal];
         [_leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:_leftButton];
         self.navigationItem.leftBarButtonItem = leftItem;
@@ -260,8 +288,8 @@
 - (PNCircleChart *)stepCircleChart
 {
     if (!_stepCircleChart) {
-        _stepCircleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 0, 220 * VIEW_CONTROLLER_FRAME_WIDTH / 360, 220 * VIEW_CONTROLLER_FRAME_WIDTH / 360) total:@1 current:@0 clockwise:YES shadow:YES shadowColor:STEP_HISTORY_SHADOW_CIRCLE_COLOR displayCountingLabel:NO overrideLineWidth:@10];
-        [_stepCircleChart setStrokeColor:STEP_HISTORY_CIRCLE_COLOR];
+        _stepCircleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 0, 220 * VIEW_CONTROLLER_FRAME_WIDTH / 360, 220 * VIEW_CONTROLLER_FRAME_WIDTH / 360) total:@1 current:@0 clockwise:YES shadow:YES shadowColor:SLEEP_HISTORY_SHADOW_CIRCLE_COLOR displayCountingLabel:NO overrideLineWidth:@10];
+        [_stepCircleChart setStrokeColor:SLEEP_HISTORY_CIRCLE_COLOR];
         
         [self.view addSubview:_stepCircleChart];
     }
@@ -273,7 +301,7 @@
 {
     if (!_stepLabel) {
         _stepLabel = [[UILabel alloc] init];
-        [_stepLabel setTextColor:WHITE_COLOR];
+        [_stepLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_stepLabel setFont:[UIFont systemFontOfSize:50]];
         
         [self.view addSubview:_stepLabel];
@@ -286,7 +314,7 @@
 {
     if (!_mileageAndkCalLabel) {
         _mileageAndkCalLabel = [[UILabel alloc] init];
-        [_mileageAndkCalLabel setTextColor:WHITE_COLOR];
+        [_mileageAndkCalLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [_mileageAndkCalLabel setFont:[UIFont systemFontOfSize:14]];
         
         [self.view addSubview:_mileageAndkCalLabel];

@@ -143,18 +143,17 @@ static NSString *const interfaceCollectionViewHeaderID = @"interfaceCollectionVi
 - (NSArray *)dataArr
 {
     if (!_dataArr) {
-        NSArray *nameArr = @[@"待机",@"计步",@"运动",@"心率",@"睡眠",@"查找",@"待机",@"计步",@"运动",@"心率",@"睡眠",@"查找"];
+        NSArray *nameArr = @[@"待机",@"计步",@"运动",@"心率",@"睡眠",@"查找",@"闹钟",@"关机"];
+        NSArray *imageArr = @[@"selection_standby",@"selection_sport",@"selection_step",@"selection_heartrate",@"selection_sleep",@"selection_find",@"selection_alarmclock",@"selection_turnoff"];
         NSMutableArray *mutArr = [NSMutableArray array];
-        for (int i = 0; i < 12; i ++) {
+        for (int i = 0; i < nameArr.count; i ++) {
             InterfaceSelectionModel *model = [[InterfaceSelectionModel alloc] init];
             model.functionName = nameArr[i];
-            model.functionImageName = @"interface_camera";
-            if (i == 0 || i == 3) {
+            model.functionImageName = imageArr[i];
+            if (i == 0) {
                 model.selectMode = SelectModeUnchoose;
-            }else if (i == 1 || i == 4) {
-                model.selectMode = SelectModeSelected;
             }else {
-                model.selectMode = SelectModeUnselected;
+                model.selectMode = SelectModeSelected;
             }
             
             [mutArr addObject:model];

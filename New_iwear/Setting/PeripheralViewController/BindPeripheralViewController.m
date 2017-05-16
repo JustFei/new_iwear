@@ -22,13 +22,11 @@
 
 @property (nonatomic ,weak) UIView *downView;
 @property (nonatomic ,weak) UITableView *peripheralList;
-@property (nonatomic ,weak) UIButton *bindButton;
-@property (nonatomic ,weak) UIButton *disbindButton;
-@property (nonatomic ,strong) UIImageView *lockImageView;
+@property (nonatomic ,weak) MDButton *bindButton;
 @property (nonatomic ,weak) UIImageView *connectImageView;
 @property (nonatomic ,strong) UIImageView *refreshImageView;
 @property (nonatomic ,strong) UILabel *bindStateLabel;
-@property (nonatomic ,strong) UILabel *perNameLabel;
+@property (nonatomic, strong) MDButton *qrCodeButton;
 @property (nonatomic ,strong) BleManager *myBleTool;
 @property (nonatomic ,strong) MBProgressHUD *hud;
 @property (nonatomic ,copy) NSString *changeName;
@@ -42,8 +40,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.view layoutIfNeeded];
-    
     _dataArr = [NSMutableArray array];
     
     index = -1;
@@ -53,8 +49,16 @@
     self.myBleTool.connectDelegate = self;
     self.myBleTool.receiveDelegate = self;
     
+    //navigationbar
+    self.title = @"设备绑定";
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"搜索", nil) style:UIBarButtonItemStylePlain target:self action:@selector(searchPeripheral)];
     self.navigationItem.rightBarButtonItem = rightItem;
+    MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
+    [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
+    [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.view.backgroundColor = NAVIGATION_BAR_COLOR;
     
     BOOL isBinded = [[NSUserDefaults standardUserDefaults] boolForKey:@"isBind"];
     if (isBinded) {
@@ -63,25 +67,19 @@
        [self creatUnBindView];
     }
     
-    self.title = @"设备绑定";
-    MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
-    [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
-    [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    self.view.backgroundColor = NAVIGATION_BAR_COLOR;
+    MDButton *helpBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
+    [helpBtn setTitle:@"使用帮助" forState:UIControlStateNormal];
+    [helpBtn setTitleColor:TEXT_WHITE_COLOR_LEVEL3 forState:UIControlStateNormal];
+    [helpBtn addTarget:self action:@selector(helpAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:helpBtn];
+    [helpBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.bindStateLabel.mas_centerY);
+        make.right.equalTo(self.view.mas_right).offset(-16);
+    }];
     
-    UIImageView *bluetoothImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.center.x - 80, WIDTH * 120 / 320, 30, 46)];
-    [self.view addSubview:bluetoothImageView];
-    [bluetoothImageView setImage:[UIImage imageNamed:@"ble_icon"]];
-    
-    self.lockImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.center.x + 50, WIDTH * 120 / 320, 30, 46)];
-    [self.view addSubview:self.lockImageView];
-    [self.lockImageView setImage:[UIImage imageNamed:@"ble_lock_oper"]];
-    
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, WIDTH * 261 / 320, WIDTH, 8 * WIDTH / 320)];
-    view.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.5];
-    [self.view addSubview:view];
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, WIDTH * 261 / 320, WIDTH, 8 * WIDTH / 320)];
+    lineView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.5];
+    [self.view addSubview:lineView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -92,40 +90,33 @@
 - (void)createBindView
 {
     self.navigationItem.rightBarButtonItem.enabled = NO;
-    [self.connectImageView setImage:[UIImage imageNamed:@"ble_connect"]];
-    
+    [self.connectImageView setImage:[UIImage imageNamed:@"devicebinding_pic01_connect"]];
+    self.bindButton.alpha = 1.0f;
+    [self.bindButton setTitle:@"解除绑定" forState:UIControlStateNormal];
     [self.peripheralList setHidden:YES];
-    [self.bindButton setHidden:YES];
-    
     [self.refreshImageView setHidden:YES];
-    
-    [self.bindStateLabel setText:NSLocalizedString(@"haveBindPer", nil)];
-    
-    [self.perNameLabel setHidden:NO];
-    [self.perNameLabel setAlpha:0.5];
-    [self.perNameLabel setText:[[NSUserDefaults standardUserDefaults] objectForKey:@"bindPeripheralName"]];
-    
-    [self.disbindButton setHidden:NO];
-    [self.disbindButton setAlpha:1];
+    [self.bindStateLabel setText:[[NSUserDefaults standardUserDefaults] objectForKey:@"bindPeripheralName"]];
 }
 
 - (void)creatUnBindView
 {
     self.navigationItem.rightBarButtonItem.enabled = YES;
-    [self.connectImageView setImage: [UIImage imageNamed:@"ble_break_icon"]];
-    
+    [self.connectImageView setImage: [UIImage imageNamed:@"devicebinding_pic01_disconnect"]];
     [self.peripheralList setHidden:YES];
-    [self.bindButton setHidden:YES];
-    
     [self.refreshImageView setHidden:NO];
-    
     [self.bindStateLabel setText:@"未绑定设备"];
+    [self.qrCodeButton setBackgroundColor:CLEAR_COLOR];
 }
 
 #pragma mark - Action
 - (void)backViewController
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)helpAction:(MDButton *)sender
+{
+    
 }
 
 - (void)searchPeripheral
@@ -160,11 +151,14 @@
         self.hud.mode = MBProgressHUDModeIndeterminate;
         [self.hud.label setText:NSLocalizedString(@"bindingPer", nil)];
     }else {
-        AlertTool *aTool = [AlertTool alertWithTitle:NSLocalizedString(@"tips", nil) message:NSLocalizedString(@"choosePerToBind", nil) style:UIAlertControllerStyleAlert];
-        [aTool addAction:[AlertAction actionWithTitle:NSLocalizedString(@"goToChoose", nil) style:AlertToolStyleDefault handler:nil]];
-        [aTool show];
-
+        MDToast *toast = [[MDToast alloc] initWithText:@"请选择设备以绑定" duration:0.5];
+        [toast show];
     }
+}
+
+- (void)qrAction:(MDButton *)sender
+{
+    
 }
 
 - (void)disbindPeripheral
@@ -256,98 +250,87 @@
     }
 }
 
-#pragma mark - UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    switch (alertView.tag) {
-        case 100:
-        {
-            [self deletAllRowsAtTableView];
-            [self.peripheralList setHidden:YES];
-            
-            [UIView animateWithDuration:1 animations:^{
-                [self.disbindButton setHidden:NO];
-                self.disbindButton.alpha = 1;
-               
-                self.bindButton.alpha = 0;
-                [self.bindButton setHidden:YES];
-                
-                [self.perNameLabel setHidden:NO];
-                [self.perNameLabel setText:self.myBleTool.currentDev.deviceName];
-                [self.perNameLabel setAlpha:1];
-                
-                [self.bindStateLabel setText:NSLocalizedString(@"haveBindPer", nil)];
-                
-                [self.connectImageView setImage:[UIImage imageNamed:@"ble_connect"]];
-            }];
-            
-            
-        }
-            break;
-        case 101:
-        {
-            [self deletAllRowsAtTableView];
-            [self.peripheralList setHidden:YES];
-            
-            [UIView animateWithDuration:1 animations:^{
-                [self.refreshImageView setHidden:NO];
-                
-                self.bindButton.alpha = 0;
-                [self.bindButton setHidden:YES];
-            }];
-        }
-            break;
-        case 102:
-        {
-            if (!_isConnected) {
-                [self deletAllRowsAtTableView];
-                [self.peripheralList setHidden:YES];
-                
-                [UIView animateWithDuration:1 animations:^{
-                    self.disbindButton.alpha = 0;
-                    [self.disbindButton setHidden:YES];
-                    
-                    self.refreshImageView.alpha = 1;
-                    [self.refreshImageView setHidden:NO];
-                    
-                    self.bindButton.alpha = 0;
-                    [self.bindButton setHidden:YES];
-                    
-                    self.perNameLabel.alpha = 0;
-                    [self.perNameLabel setHidden:YES];
-                    
-                    [self.bindStateLabel setText:NSLocalizedString(@"haveNoBindPer", nil)];
-                    
-                    [self.connectImageView setImage:[UIImage imageNamed:@"ble_break_icon"]];
-                }];
-            }else {
-                [self.myBleTool connectDevice:self.myBleTool.currentDev];
-            }
-        }
-            break;
-        case 103:
-        {
-            if (buttonIndex == alertView.firstOtherButtonIndex) {
-                if ([alertView textFieldAtIndex:0].text.length != 0) {
-                    //改名字
-                    self.changeName = [alertView textFieldAtIndex:0].text;
-                    NSString *name_utf_8 =  [[[alertView textFieldAtIndex:0].text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"%" withString:@""];
-                    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                    if (name_utf_8.length >30) {
-                        self.hud.mode = MBProgressHUDModeText;
-                        self.hud.label.text = @"名字长度过长";
-                        [self.hud showAnimated:YES];
-                        [self.hud hideAnimated:YES afterDelay:2];
-                    }else {
-                        [self.myBleTool writePeripheralNameWithNameString:name_utf_8];
-                    }
-                }
-            }
-        }
-        default:
-            break;
-    }
-}
+//#pragma mark - UIAlertViewDelegate
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+//    switch (alertView.tag) {
+//        case 100:
+//        {
+//            [self deletAllRowsAtTableView];
+//            [self.peripheralList setHidden:YES];
+//            
+//            [UIView animateWithDuration:1 animations:^{
+//               
+//                self.bindButton.alpha = 0;
+//                [self.bindButton setHidden:YES];
+//                
+//                [self.bindStateLabel setText:NSLocalizedString(@"haveBindPer", nil)];
+//                
+//                [self.connectImageView setImage:[UIImage imageNamed:@"ble_connect"]];
+//            }];
+//            
+//            
+//        }
+//            break;
+//        case 101:
+//        {
+//            [self deletAllRowsAtTableView];
+//            [self.peripheralList setHidden:YES];
+//            
+//            [UIView animateWithDuration:1 animations:^{
+//                [self.refreshImageView setHidden:NO];
+//                
+//                self.bindButton.alpha = 0;
+//                [self.bindButton setHidden:YES];
+//            }];
+//        }
+//            break;
+//        case 102:
+//        {
+//            if (!_isConnected) {
+//                [self deletAllRowsAtTableView];
+//                [self.peripheralList setHidden:YES];
+//                
+//                [UIView animateWithDuration:1 animations:^{
+//                    
+//                    self.refreshImageView.alpha = 1;
+//                    [self.refreshImageView setHidden:NO];
+//                    
+//                    self.bindButton.alpha = 0;
+//                    [self.bindButton setHidden:YES];
+//                    
+//                    [self.bindStateLabel setText:NSLocalizedString(@"haveNoBindPer", nil)];
+//                    
+//                    [self.connectImageView setImage:[UIImage imageNamed:@"ble_break_icon"]];
+//                }];
+//            }else {
+//                [self.myBleTool connectDevice:self.myBleTool.currentDev];
+//            }
+//        }
+//            break;
+//        case 103:
+//        {
+//            if (buttonIndex == alertView.firstOtherButtonIndex) {
+//                if ([alertView textFieldAtIndex:0].text.length != 0) {
+//                    //改名字
+//                    self.changeName = [alertView textFieldAtIndex:0].text;
+//                    NSString *name_utf_8 =  [[[alertView textFieldAtIndex:0].text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"%" withString:@""];
+//                    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//                    if (name_utf_8.length >30) {
+//                        self.hud.mode = MBProgressHUDModeText;
+//                        self.hud.label.text = @"名字长度过长";
+//                        [self.hud showAnimated:YES];
+//                        [self.hud hideAnimated:YES afterDelay:2];
+//                    }else {
+//                        [self.myBleTool writePeripheralNameWithNameString:name_utf_8];
+//                    }
+//                }
+//            }
+//        }
+//        default:
+//            break;
+//    }
+//}
 
 #pragma mark - BleDiscoverDelegate
 - (void)manridyBLEDidDiscoverDeviceWithMAC:(BleDevice *)device
@@ -493,8 +476,12 @@
 - (UIImageView *)connectImageView
 {
     if (!_connectImageView) {
-        UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.center.x - 25, WIDTH * 136.5 / 320, 50, 13)];
+        UIImageView *view = [[UIImageView alloc] init];
         [self.view addSubview:view];
+        [view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.view.mas_centerX);
+            make.top.equalTo(self.view.mas_top).offset(131);
+        }];
         _connectImageView = view;
     }
     
@@ -504,13 +491,16 @@
 - (UIImageView *)refreshImageView
 {
     if (!_refreshImageView) {
-        UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(self.downView.center.x - 44, 100, 88, 78.5)];
-        [view setImage:[UIImage imageNamed:@"ble_refresh"]];
+        UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"devicebinding_refresh"]];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchPeripheral)];
         [view addGestureRecognizer:tap];
         view.userInteractionEnabled = YES;
         
         [self.downView addSubview:view];
+        [view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.downView.mas_centerX);
+            make.centerY.equalTo(self.downView.mas_centerY);
+        }];
         _refreshImageView = view;
     }
     
@@ -520,36 +510,36 @@
 - (UILabel *)bindStateLabel
 {
     if (!_bindStateLabel) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(self.view.center.x - 100, WIDTH * 190 / 320, 200, 19)];
-        [label setTextColor:[UIColor colorWithWhite:1 alpha:0.4]];
+        UILabel *label = [[UILabel alloc] init];
+        [label setTextColor:TEXT_WHITE_COLOR_LEVEL3];
         label.textAlignment = NSTextAlignmentCenter;
         
         [self.view addSubview:label];
+        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.view.mas_centerX);
+            make.bottom.equalTo(self.downView.mas_top).offset(-24);
+        }];
         _bindStateLabel = label;
     }
     
     return _bindStateLabel;
 }
 
-- (UILabel *)perNameLabel
+- (MDButton *)qrCodeButton
 {
-    if (!_perNameLabel) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(self.view.center.x - 100, WIDTH * 220 / 320, 200, 19)];
-        label.alpha = 0;
-        UILongPressGestureRecognizer *lp = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(changePeripheralName:)];
-        lp.minimumPressDuration = 3.0;
-        label.userInteractionEnabled = YES;
-        [label addGestureRecognizer:lp];
+    if (!_qrCodeButton) {
+        _qrCodeButton = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
+        [_qrCodeButton setImage:[UIImage imageNamed:@"devicebinding_scan"] forState:UIControlStateNormal];
+        [_qrCodeButton addTarget:self action:@selector(qrAction:) forControlEvents:UIControlEventTouchUpInside];
         
-        [label setTextColor:[UIColor colorWithWhite:1 alpha:0.4]];
-        label.textAlignment = NSTextAlignmentCenter;
-        [label setHidden:YES];
-        
-        [self.view addSubview:label];
-        _perNameLabel = label;
+        [self.view addSubview:_qrCodeButton];
+        [_qrCodeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.bindStateLabel.mas_centerY);
+            make.left.equalTo(self.bindStateLabel.mas_right).offset(8);
+        }];
     }
     
-    return _perNameLabel;
+    return _qrCodeButton;
 }
 
 - (UIView *)downView
@@ -568,60 +558,48 @@
 - (UITableView *)peripheralList
 {
     if (!_peripheralList) {
-        UITableView *view = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, self.downView.frame.size.height - 21 - 50) style:UITableViewStylePlain];
+        UITableView *view = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         view.backgroundColor = [UIColor whiteColor];
-        view.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         view.delegate = self;
         view.dataSource = self;
         
         [self.downView addSubview:view];
+        [view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.downView.mas_top);
+            make.left.equalTo(self.downView.mas_left);
+            make.right.equalTo(self.downView.mas_right);
+            make.bottom.equalTo(self.bindButton.mas_top);
+        }];
         _peripheralList = view;
     }
     
     return _peripheralList;
 }
 
-- (UIButton *)bindButton
+- (MDButton *)bindButton
 {
     if (!_bindButton) {
-        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(self.downView.center.x - 90, self.downView.frame.size.height - 21 - 47, 180, 47)];
-        [button setTitle:NSLocalizedString(@"bindPer", nil) forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        MDButton *button = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
+        [button setTitle:NSLocalizedString(@"绑定设备", nil) forState:UIControlStateNormal];
+        [button setTitleColor:NAVIGATION_BAR_COLOR forState:UIControlStateNormal];
         [button addTarget:self action:@selector(bindPeripheral) forControlEvents:UIControlEventTouchUpInside];
+        button.layer.borderWidth = 1;
+        button.layer.borderColor = TEXT_BLACK_COLOR_LEVEL1.CGColor;
+        [button setBackgroundColor:CLEAR_COLOR];
         button.alpha = 0;
         
-        button.layer.cornerRadius = 5;
-        button.layer.masksToBounds = YES;
-        button.layer.borderWidth = 1;
-        button.layer.borderColor = [UIColor blackColor].CGColor;
-        
         [self.downView addSubview:button];
+        [button mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view.mas_bottom).offset(1);
+            make.left.equalTo(self.view.mas_left).offset(-1);
+            make.right.equalTo(self.view.mas_right).offset(1);
+            make.height.equalTo(@48);
+        }];
         _bindButton = button;
     }
     
     return _bindButton;
-}
-
-- (UIButton *)disbindButton
-{
-    if (!_disbindButton) {
-        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(self.downView.center.x - 90 * WIDTH / 320, self.downView.frame.size.width * 18 / 320, WIDTH * 180 / 320, WIDTH * 47 / 320)];
-        [button setTitle:NSLocalizedString(@"disbindPer", nil) forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(disbindPeripheral) forControlEvents:UIControlEventTouchUpInside];
-        button.alpha = 0;
-        
-        button.layer.cornerRadius = 5;
-        button.layer.masksToBounds = YES;
-        button.layer.borderWidth = 1;
-        button.layer.borderColor = [UIColor blackColor].CGColor;
-        
-        [self.downView addSubview:button];
-        _disbindButton = button;
-    }
-    
-    return _disbindButton;
 }
 
 //- (FMDBTool *)myFmdbTool

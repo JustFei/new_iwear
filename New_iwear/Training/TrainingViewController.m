@@ -22,9 +22,9 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
 
 @property (nonatomic) UIView *headTopView;
 @property (nonatomic) UITableView *dataTableView;
-@property (nonatomic) UIView *tipsView;
-@property (nonatomic) UILabel *tipsLabel;
-@property (nonatomic) UIImageView *tipsImageView;
+//@property (nonatomic) UIView *tipsView;
+//@property (nonatomic) UILabel *tipsLabel;
+//@property (nonatomic) UIImageView *tipsImageView;
 @property (nonatomic, strong) NSArray *dataArr;
 
 @end
@@ -133,21 +133,21 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
     }else {
         stepAlpha = (offsetH - slideH) / 210.0;
     }
-    NSLog(@"透明度: %f",tipAlpha);
-    self.tipsView.alpha = tipAlpha;
-    //self.stepView.alpha = 1 - stepAlpha;
-    if (isSlideMax) {
-        self.tipsLabel.text = @"松手开始同步";
-        
-        [UIView animateWithDuration:0.3 animations:^{
-            self.tipsImageView.transform = CGAffineTransformMakeRotation( 3.14159265);
-        }];
-    } else {
-        self.tipsLabel.text = @"下拉同步数据";
-        [UIView animateWithDuration:0.3 animations:^{
-            self.tipsImageView.transform = CGAffineTransformMakeRotation( 3.14159265 * 2);
-        }];
-    }
+//    NSLog(@"透明度: %f",tipAlpha);
+//    self.tipsView.alpha = tipAlpha;
+//    //self.stepView.alpha = 1 - stepAlpha;
+//    if (isSlideMax) {
+//        self.tipsLabel.text = @"松手开始同步";
+//        
+//        [UIView animateWithDuration:0.3 animations:^{
+//            self.tipsImageView.transform = CGAffineTransformMakeRotation( 3.14159265);
+//        }];
+//    } else {
+//        self.tipsLabel.text = @"下拉同步数据";
+//        [UIView animateWithDuration:0.3 animations:^{
+//            self.tipsImageView.transform = CGAffineTransformMakeRotation( 3.14159265 * 2);
+//        }];
+//    }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
@@ -187,38 +187,38 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
     return _dataTableView;
 }
 
-- (UIView *)tipsView
-{
-    if (!_tipsView) {
-        _tipsView = [[UIView alloc] init];
-        _tipsView.backgroundColor = [UIColor clearColor];
-    }
-    
-    return _tipsView;
-}
+//- (UIView *)tipsView
+//{
+//    if (!_tipsView) {
+//        _tipsView = [[UIView alloc] init];
+//        _tipsView.backgroundColor = [UIColor clearColor];
+//    }
+//    
+//    return _tipsView;
+//}
+//
+//- (UILabel *)tipsLabel
+//{
+//    if (!_tipsLabel) {
+//        _tipsLabel = [[UILabel alloc] init];
+//        _tipsLabel.text = @"下拉同步数据";
+//        _tipsLabel.textAlignment = NSTextAlignmentCenter;
+//        _tipsLabel.textColor = [UIColor whiteColor];
+//        _tipsLabel.font = [UIFont systemFontOfSize:12];
+//    }
+//    
+//    return _tipsLabel;
+//}
 
-- (UILabel *)tipsLabel
-{
-    if (!_tipsLabel) {
-        _tipsLabel = [[UILabel alloc] init];
-        _tipsLabel.text = @"下拉同步数据";
-        _tipsLabel.textAlignment = NSTextAlignmentCenter;
-        _tipsLabel.textColor = [UIColor whiteColor];
-        _tipsLabel.font = [UIFont systemFontOfSize:12];
-    }
-    
-    return _tipsLabel;
-}
-
-- (UIImageView *)tipsImageView
-{
-    if (!_tipsImageView) {
-        _tipsImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tip_pull_down"]];
-        _tipsImageView.contentMode = UIViewContentModeScaleAspectFit;
-    }
-    
-    return _tipsImageView;
-}
+//- (UIImageView *)tipsImageView
+//{
+//    if (!_tipsImageView) {
+//        _tipsImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tip_pull_down"]];
+//        _tipsImageView.contentMode = UIViewContentModeScaleAspectFit;
+//    }
+//    
+//    return _tipsImageView;
+//}
 
 - (NSArray *)dataArr
 {

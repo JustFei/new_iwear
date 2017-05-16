@@ -8,8 +8,11 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
+#import "BindPeripheralViewController.h"
 
 @interface AppDelegate ()
+
+@property (nonatomic, strong) MDSnackbar *stateBar;
 
 @end
 
@@ -26,38 +29,28 @@
     //初始化一个tabBar控制器
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:[[MainViewController alloc]init]];
     
-    //设置navigationBar为透明无线
-//    [nc.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-//    [nc.navigationBar setShadowImage:[UIImage new]];
-//    nc.navigationBar.clipsToBounds = YES;
-    
     //修改title颜色和font
     [nc.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont systemFontOfSize:15]}];
     self.window.rootViewController = nc;
     
-    //断链通知
-//    UIView *alertView = [[UIView alloc] init];
-//    alertView.backgroundColor = RED_COLOR;
-//    [self.window addSubview:alertView];
-//    [alertView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.equalTo(self.window.mas_left);
-//        make.right.equalTo(self.window.mas_right);
-//        make.bottom.equalTo(self.window.mas_bottom);
-//        make.height.equalTo(@44);
-//    }];
-//    
-//    UILabel *disconnectLabel = [[UILabel alloc] init];
-//    [disconnectLabel setText:@"连接已断开"];
-//    [disconnectLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
-//    [disconnectLabel setFont:[UIFont systemFontOfSize:14]];
-//    [alertView addSubview:disconnectLabel];
-//    [disconnectLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(alertView.mas_centerY);
-//        make.left.equalTo(alertView.mas_left).offset(16);
-//    }];
+    self.stateBar = [[MDSnackbar alloc] init];
+    [self.stateBar setText:@"尚未绑定设备，请前往绑定设备"];
+    [self.stateBar setActionTitle:@"绑定"];
+    [self.stateBar setActionTitleColor:NAVIGATION_BAR_COLOR];
+    //这里100秒是让bar长驻在底部
+    [self.stateBar setDuration:100];
+    [self.stateBar addTarget:self action:@selector(bindAction)];
+    [self.stateBar show];
     
     return YES;
+}
+
+- (void)bindAction
+{
+    [self.stateBar dismiss];
+    BindPeripheralViewController *vc = [[BindPeripheralViewController alloc] init];
+    [(UINavigationController *)self.window.rootViewController pushViewController:vc animated:YES];
 }
 
 

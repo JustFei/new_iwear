@@ -26,7 +26,6 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 @interface UserInfoViewController () <UITableViewDelegate ,UITableViewDataSource ,UITextFieldDelegate ,UINavigationControllerDelegate ,UIImagePickerControllerDelegate ,UIAlertViewDelegate ,UIPickerViewDelegate ,UIPickerViewDataSource ,BleReceiveDelegate>
 {
     NSArray *_userArr;
-    NSArray *_genderArr;
 }
 
 @property (nonatomic, weak) UIImageView *headImageView;
@@ -58,11 +57,9 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
     _genderArr = @[NSLocalizedString(@"male", nil),NSLocalizedString(@"Female", nil)];
     
     self.navigationItem.title = @"用户信息";
-    self.view.backgroundColor = NAVIGATION_BAR_COLOR;
+    self.view.backgroundColor = SETTING_BACKGROUND_COLOR;
     
     _userArr = [self.myFmdbTool queryAllUserInfo];
-    
-    [self.saveButton setBackgroundColor:[UIColor whiteColor]];
     
     if (_userArr.count == 0) {
         [self setInitUI];
@@ -73,9 +70,16 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
     self.userNameTextField.borderStyle = UITextBorderStyleNone;
     self.userNameTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 261 * VIEW_CONTROLLER_FRAME_WIDTH / 320, self.view.frame.size.width, 8 * VIEW_CONTROLLER_FRAME_WIDTH / 320)];
-    lineView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.5];
+    UIView *lineView = [[UIView alloc] init];
+    lineView.backgroundColor = TEXT_BLACK_COLOR_LEVEL1;
     [self.view addSubview:lineView];
+    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.userNameTextField.mas_bottom).offset(16);
+        make.left.equalTo(self.view.mas_left);
+        make.right.equalTo(self.view.mas_right);
+        make.height.equalTo(@8);
+    }];
+    
     [self.infoTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(lineView.mas_bottom);
         make.left.equalTo(self.view.mas_left);
@@ -88,8 +92,11 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
+    
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"保存", nil) style:UIBarButtonItemStylePlain target:self action:@selector(saveUserInfo)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    self.view.backgroundColor = NAVIGATION_BAR_COLOR;
 }
 
 - (void)dealloc
@@ -295,6 +302,7 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 - (void)saveUserInfo
 {
     [self.view endEditing:YES];
+    
 //     && self.steplengthTextField.text != nil && self.steplengthTextField.text.length != 0
 //    if (self.userNameTextField.text != nil && self.userNameTextField.text.length != 0 && self.ageTextField.text != nil && self.ageTextField.text.length != 0 && self.heightTextField.text != nil && self.heightTextField.text.length != 0 && self.weightTextField.text != nil && self.weightTextField.text.length != 0) {
     
@@ -452,7 +460,6 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
     UserInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:UserInfoTableViewCellID];
     
     cell.model = self.dataArr[indexPath.row];
-    
     return cell;
 }
 
@@ -514,7 +521,7 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
         UITextField *textField = [[UITextField alloc] init];
         textField.placeholder = NSLocalizedString(@"请输入用户名", nil);
         
-        [textField setValue:WHITE_COLOR forKeyPath:@"_placeholderLabel.textColor"];
+//        [textField setValue:WHITE_COLOR forKeyPath:@"_placeholderLabel.textColor"];
         textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         textField.textAlignment = NSTextAlignmentCenter;
         textField.font = [UIFont systemFontOfSize:14];
@@ -550,23 +557,6 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
     }
     
     return _infoTableView;
-}
-
-- (UIButton *)saveButton
-{
-    if (!_saveButton) {
-        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(self.view.center.x - 85 * VIEW_CONTROLLER_FRAME_WIDTH / 320, self.view.frame.size.height - 64 * VIEW_CONTROLLER_FRAME_WIDTH / 320, 170 * VIEW_CONTROLLER_FRAME_WIDTH / 320, 44)];
-        [button addTarget:self action:@selector(saveUserInfo) forControlEvents:UIControlEventTouchUpInside];
-        [button setTitle:NSLocalizedString(@"保存", nil) forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        button.clipsToBounds = YES;
-        button.layer.cornerRadius = 5;
-        
-        [self.view addSubview:button];
-        _saveButton = button;
-    }
-    
-    return _saveButton;
 }
 
 - (FMDBManager *)myFmdbTool

@@ -10,4 +10,6 @@
 
 @interface BindPeripheralViewController : UIViewController
 
+@property (nonatomic ,strong) UIColor *naviBarColor;
+
 @end

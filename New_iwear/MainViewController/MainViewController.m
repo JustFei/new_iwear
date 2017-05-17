@@ -46,6 +46,7 @@
     self.navigationController.automaticallyAdjustsScrollViewInsets = YES;
     self.navigationController.navigationBar.barTintColor = CLEAR_COLOR;
     [[self.navigationController.navigationBar subviews].firstObject setAlpha:0];
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     [self createUI];
     _currentPage = 0;
     
@@ -60,6 +61,10 @@
     [[self.navigationController.navigationBar subviews].firstObject setAlpha:0];
 }
 
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)createUI
 {
     self.titleLabel.text = _titleArr[0];
@@ -72,6 +77,25 @@
 - (void)showSettingVC:(MDButton *)sender
 {
     SettingViewController *vc = [[SettingViewController alloc] init];
+    switch (self.pageControl.currentPage) {
+        case 0:
+            vc.naviBarColor = STEP_CURRENT_BACKGROUND_COLOR;
+            break;
+        case 1:
+            vc.naviBarColor = SLEEP_CURRENT_BACKGROUND_COLOR;
+            break;
+        case 2:
+            vc.naviBarColor = HR_CURRENT_BACKGROUND_COLOR;
+            break;
+        case 3:
+            vc.naviBarColor = BP_HISTORY_BACKGROUND_COLOR;
+            break;
+        case 4:
+            vc.naviBarColor = BO_HISTORY_BACKGROUND_COLOR;
+            break;
+        default:
+            break;
+    }
     [self.navigationController pushViewController:vc animated:YES];
 }
 

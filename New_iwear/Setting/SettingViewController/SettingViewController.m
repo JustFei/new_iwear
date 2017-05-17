@@ -52,7 +52,7 @@ static NSString *const settingHeaderID = @"settingHeader";
 - (void)viewWillAppear:(BOOL)animated
 {
     [[self.navigationController.navigationBar subviews].firstObject setAlpha:1];
-    self.navigationController.navigationBar.barTintColor = NAVIGATION_BAR_COLOR;
+    [self.navigationController.navigationBar setBackgroundColor:self.naviBarColor];
 }
 
 #pragma mark - Action

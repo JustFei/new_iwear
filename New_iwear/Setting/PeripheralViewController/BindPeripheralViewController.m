@@ -15,9 +15,12 @@
 
 @interface BindPeripheralViewController () <UITableViewDelegate ,UITableViewDataSource ,BleDiscoverDelegate ,BleConnectDelegate ,BleReceiveDelegate ,UIAlertViewDelegate, UITextFieldDelegate>
 {
+    /** 设备信息数据源 */
     NSMutableArray *_dataArr;
+    /** 点击的索引 */
     NSInteger index;
-    BOOL _isConnected;
+    /** 是否连接 */
+//    BOOL _isConnected;
 }
 
 @property (nonatomic ,weak) UIView *downView;
@@ -27,7 +30,7 @@
 @property (nonatomic ,strong) UIImageView *refreshImageView;
 @property (nonatomic ,strong) UILabel *bindStateLabel;
 @property (nonatomic, strong) MDButton *qrCodeButton;
-@property (nonatomic ,strong) BleManager *myBleTool;
+@property (nonatomic ,strong) BleManager *myBleMananger;
 @property (nonatomic ,strong) MBProgressHUD *hud;
 @property (nonatomic ,copy) NSString *changeName;
 //@property (nonatomic ,strong) FMDBManager *myFmdbTool;
@@ -44,11 +47,6 @@
     
     index = -1;
     
-    self.myBleTool = [BleManager shareInstance];
-    self.myBleTool.discoverDelegate = self;
-    self.myBleTool.connectDelegate = self;
-    self.myBleTool.receiveDelegate = self;
-    
     //navigationbar
     self.title = @"设备绑定";
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"搜索", nil) style:UIBarButtonItemStylePlain target:self action:@selector(searchPeripheral)];
@@ -58,13 +56,13 @@
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    self.view.backgroundColor = NAVIGATION_BAR_COLOR;
-    
+    self.view.backgroundColor = self.navigationController.navigationBar.backgroundColor;
+    [self.qrCodeButton setBackgroundColor:CLEAR_COLOR];
     BOOL isBinded = [[NSUserDefaults standardUserDefaults] boolForKey:@"isBind"];
     if (isBinded) {
-        [self createBindView];
+        [self setBindView];
     }else {
-       [self creatUnBindView];
+       [self setUnBindView];
     }
     
     MDButton *helpBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
@@ -77,9 +75,27 @@
         make.right.equalTo(self.view.mas_right).offset(-16);
     }];
     
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, WIDTH * 261 / 320, WIDTH, 8 * WIDTH / 320)];
+    UIView *lineView = [[UIView alloc] init];
     lineView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.5];
     [self.view addSubview:lineView];
+    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left);
+        make.right.equalTo(self.view.mas_right);
+        make.bottom.equalTo(self.downView.mas_top);
+        make.height.equalTo(@8);
+    }];
+    
+    _myBleMananger = [BleManager shareInstance];
+    _myBleMananger.connectDelegate = self;
+    _myBleMananger.discoverDelegate = self;
+    _myBleMananger.receiveDelegate = self;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    if (self.naviBarColor) {
+        [self.navigationController.navigationBar setBackgroundColor:self.naviBarColor];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -87,25 +103,26 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)createBindView
+- (void)setBindView
 {
     self.navigationItem.rightBarButtonItem.enabled = NO;
+    self.bindButton.hidden = NO;
     [self.connectImageView setImage:[UIImage imageNamed:@"devicebinding_pic01_connect"]];
-    self.bindButton.alpha = 1.0f;
     [self.bindButton setTitle:@"解除绑定" forState:UIControlStateNormal];
     [self.peripheralList setHidden:YES];
     [self.refreshImageView setHidden:YES];
     [self.bindStateLabel setText:[[NSUserDefaults standardUserDefaults] objectForKey:@"bindPeripheralName"]];
 }
 
-- (void)creatUnBindView
+- (void)setUnBindView
 {
     self.navigationItem.rightBarButtonItem.enabled = YES;
+    self.bindButton.hidden = YES;
     [self.connectImageView setImage: [UIImage imageNamed:@"devicebinding_pic01_disconnect"]];
+    [self.bindButton setTitle:@"绑定设备" forState:UIControlStateNormal];
     [self.peripheralList setHidden:YES];
     [self.refreshImageView setHidden:NO];
     [self.bindStateLabel setText:@"未绑定设备"];
-    [self.qrCodeButton setBackgroundColor:CLEAR_COLOR];
 }
 
 #pragma mark - Action
@@ -125,59 +142,63 @@
     
     [self deletAllRowsAtTableView];
     
-    [self.myBleTool scanDevice];
+    [self.myBleMananger scanDevice];
     
     [self.peripheralList setHidden:NO];
-    
-    [UIView animateWithDuration:0.5 animations:^{
-        self.refreshImageView.alpha = 0;
-        [self.refreshImageView setHidden:YES];
-        
-        [self.bindButton setHidden:NO];
-        self.bindButton.alpha = 1;
-    }];
+    [self.refreshImageView setHidden:YES];
+    [self.bindButton setHidden:NO];
 }
 
-- (void)bindPeripheral
+/** 绑定/接触绑定设备 */
+- (void)bindPeripheral:(MDButton *)sender
 {
-    if (index != -1) {
-        self.navigationItem.rightBarButtonItem.enabled = NO;
-        
-        BleDevice *device = _dataArr[index];
-        [self.myBleTool connectDevice:device];
-        self.myBleTool.isReconnect = YES;
-        _isConnected = YES;
-        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self.hud.mode = MBProgressHUDModeIndeterminate;
-        [self.hud.label setText:NSLocalizedString(@"bindingPer", nil)];
+    if ([sender.titleLabel.text isEqualToString:@"绑定设备"]) {
+        if (index != -1) {
+            self.navigationItem.rightBarButtonItem.enabled = NO;
+            
+            BleDevice *device = _dataArr[index];
+            [self.myBleMananger connectDevice:device];
+            self.myBleMananger.isReconnect = YES;
+            self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            self.hud.mode = MBProgressHUDModeIndeterminate;
+            [self.hud.label setText:NSLocalizedString(@"绑定中", nil)];
+        }else {
+            MDToast *toast = [[MDToast alloc] initWithText:@"请选择设备以绑定" duration:0.5];
+            [toast show];
+        }
     }else {
-        MDToast *toast = [[MDToast alloc] initWithText:@"请选择设备以绑定" duration:0.5];
-        [toast show];
+        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"确定解除绑定？" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAc = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            self.myBleMananger.isReconnect = NO;
+            [self.myBleMananger unConnectDevice];
+            index = -1;
+            
+            [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"bindPeripheralID"];
+            [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"bindPeripheralName"];
+            [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"peripheralUUID"];
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"isBind"];
+            
+            /** 解除绑定的UI */
+//            self.navigationItem.rightBarButtonItem.enabled = YES;
+//            [self.bindStateLabel setText:@"未绑定设备"];
+//            self.qrCodeButton.hidden = NO;
+//            self.refreshImageView.hidden = NO;
+//            [sender setTitle:@"绑定设备" forState:UIControlStateNormal];
+//            sender.hidden = YES;
+            [self setUnBindView];
+            MDToast *disconnectToast = [[MDToast alloc] initWithText:@"解绑成功" duration:1];
+            [disconnectToast show];
+        }];
+        UIAlertAction *cancelAc = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+        [alertC addAction:cancelAc];
+        [alertC addAction:okAc];
+        [self presentViewController:alertC animated:YES completion:nil];
     }
 }
 
 - (void)qrAction:(MDButton *)sender
 {
     
-}
-
-- (void)disbindPeripheral
-{
-    _isConnected = NO;
-    self.myBleTool.isReconnect = NO;
-    [self.myBleTool unConnectDevice];
-    index = -1;
-    
-    [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"bindPeripheralID"];
-    [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"bindPeripheralName"];
-    [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"peripheralUUID"];
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"isBind"];
-    
-    self.navigationItem.rightBarButtonItem.enabled = YES;
-    
-    UIAlertView *view = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"tips", nil) message:NSLocalizedString(@"disbindPerSuccess", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"IKnow", nil) otherButtonTitles:nil, nil];
-    view.tag = 102;
-    [view show];
 }
 
 - (void)deletAllRowsAtTableView
@@ -207,6 +228,7 @@
     }
 }
 
+#pragma mark - 同步设置的数据
 - (void)pairPhoneAndMessage
 {
     //同步提醒设置
@@ -214,8 +236,64 @@
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isRemindPhone"] && [[NSUserDefaults standardUserDefaults] boolForKey:@"isRemindMessage"]) {
         rem.phone = [[NSUserDefaults standardUserDefaults] boolForKey:@"isRemindPhone"];
         rem.message = [[NSUserDefaults standardUserDefaults] boolForKey:@"isRemindMessage"];
-        [self.myBleTool writePhoneAndMessageRemindToPeripheral:rem];
+        [self.myBleMananger writePhoneAndMessageRemindToPeripheral:rem];
     }
+}
+
+- (void)synchronizeSettings
+{
+    //写入电话短信配对提醒
+    [self pairPhoneAndMessage];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(500 * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isFindMyPeripheral"]) {
+            //写入防丢提醒
+            [self.myBleMananger writePeripheralShakeWhenUnconnectWithOforOff:[[NSUserDefaults standardUserDefaults] boolForKey:@"isFindMyPeripheral"]];
+        }else {
+            [self.myBleMananger writePeripheralShakeWhenUnconnectWithOforOff:NO];   //防丢置为NO，类似初始化
+        }
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(500 * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
+//            SedentaryModel *model = [self.myFmdbTool querySedentary].firstObject;
+//            if (model) {
+//                //写入久坐提醒
+//                [self.myBleMananger writeSedentaryAlertWithSedentaryModel:model];
+//            }else {
+//                model.sedentaryAlert = NO;
+//                model.unDisturb = NO;
+//                model.disturbStartTime = @"12:00";
+//                model.disturbEndTime = @"14:00";
+//                model.sedentaryStartTime = @"09:00";
+//                model.sedentaryEndTime = @"18:00";
+//                model.stepInterval = 100;
+//                //写入久坐提醒
+//                [self.myBleMananger writeSedentaryAlertWithSedentaryModel:model];
+//            }
+//            
+//            
+//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(500 * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
+//                NSMutableArray *clockArr = [self.myFmdbTool queryClockData];
+//                if (clockArr.count != 0) {
+//                    //写入闹钟数据
+//                    [self.myBleMananger writeClockToPeripheral:ClockDataSetClock withClockArr:clockArr];
+//                }else {
+//                    ClockModel *model = [[ClockModel alloc] init];
+//                    for (NSInteger i = 0; i < 3; i ++) {
+//                        model.ID = i;
+//                        model.time = @"08:00";
+//                        model.isOpen = NO;
+//                        [clockArr addObject:model];
+//                    }
+//                    //写入闹钟数据
+//                    [self.myBleMananger writeClockToPeripheral:ClockDataSetClock withClockArr:clockArr];
+//                }
+//                
+//            });
+//        });
+    });
+    
+    [self.myBleMananger writeTimeToPeripheral:[NSDate date]];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(300 * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
+        [self.myBleMananger writeRequestVersion];
+    });
 }
 
 #pragma mark - UITableViewDataSource && UITableViewDelegate
@@ -245,92 +323,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (!_isConnected) {
+//    if (!_isConnected) {
         index = indexPath.row;
-    }
-}
-
-//#pragma mark - UIAlertViewDelegate
-//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-//{
-//    switch (alertView.tag) {
-//        case 100:
-//        {
-//            [self deletAllRowsAtTableView];
-//            [self.peripheralList setHidden:YES];
-//            
-//            [UIView animateWithDuration:1 animations:^{
-//               
-//                self.bindButton.alpha = 0;
-//                [self.bindButton setHidden:YES];
-//                
-//                [self.bindStateLabel setText:NSLocalizedString(@"haveBindPer", nil)];
-//                
-//                [self.connectImageView setImage:[UIImage imageNamed:@"ble_connect"]];
-//            }];
-//            
-//            
-//        }
-//            break;
-//        case 101:
-//        {
-//            [self deletAllRowsAtTableView];
-//            [self.peripheralList setHidden:YES];
-//            
-//            [UIView animateWithDuration:1 animations:^{
-//                [self.refreshImageView setHidden:NO];
-//                
-//                self.bindButton.alpha = 0;
-//                [self.bindButton setHidden:YES];
-//            }];
-//        }
-//            break;
-//        case 102:
-//        {
-//            if (!_isConnected) {
-//                [self deletAllRowsAtTableView];
-//                [self.peripheralList setHidden:YES];
-//                
-//                [UIView animateWithDuration:1 animations:^{
-//                    
-//                    self.refreshImageView.alpha = 1;
-//                    [self.refreshImageView setHidden:NO];
-//                    
-//                    self.bindButton.alpha = 0;
-//                    [self.bindButton setHidden:YES];
-//                    
-//                    [self.bindStateLabel setText:NSLocalizedString(@"haveNoBindPer", nil)];
-//                    
-//                    [self.connectImageView setImage:[UIImage imageNamed:@"ble_break_icon"]];
-//                }];
-//            }else {
-//                [self.myBleTool connectDevice:self.myBleTool.currentDev];
-//            }
-//        }
-//            break;
-//        case 103:
-//        {
-//            if (buttonIndex == alertView.firstOtherButtonIndex) {
-//                if ([alertView textFieldAtIndex:0].text.length != 0) {
-//                    //改名字
-//                    self.changeName = [alertView textFieldAtIndex:0].text;
-//                    NSString *name_utf_8 =  [[[alertView textFieldAtIndex:0].text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"%" withString:@""];
-//                    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//                    if (name_utf_8.length >30) {
-//                        self.hud.mode = MBProgressHUDModeText;
-//                        self.hud.label.text = @"名字长度过长";
-//                        [self.hud showAnimated:YES];
-//                        [self.hud hideAnimated:YES afterDelay:2];
-//                    }else {
-//                        [self.myBleTool writePeripheralNameWithNameString:name_utf_8];
-//                    }
-//                }
-//            }
-//        }
-//        default:
-//            break;
 //    }
-//}
+}
 
 #pragma mark - BleDiscoverDelegate
 - (void)manridyBLEDidDiscoverDeviceWithMAC:(BleDevice *)device
@@ -350,82 +346,34 @@
 - (void)manridyBLEDidConnectDevice:(BleDevice *)device
 {
     [self.hud hideAnimated:YES];
-    
-    [self.myBleTool stopScan];
+    [self.myBleMananger stopScan];
     
     [[NSUserDefaults standardUserDefaults] setValue:device.peripheral.identifier.UUIDString forKey:@"bindPeripheralID"];
     [[NSUserDefaults standardUserDefaults] setValue:device.deviceName forKey:@"bindPeripheralName"];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isBind"];
     
-    //写入电话短信配对提醒
-    [self pairPhoneAndMessage];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(500 * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isFindMyPeripheral"]) {
-            //写入防丢提醒
-            [self.myBleTool writePeripheralShakeWhenUnconnectWithOforOff:[[NSUserDefaults standardUserDefaults] boolForKey:@"isFindMyPeripheral"]];
-        }else {
-            [self.myBleTool writePeripheralShakeWhenUnconnectWithOforOff:NO];   //防丢置为NO，类似初始化
-        }
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(500 * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
-//            SedentaryModel *model = [self.myFmdbTool querySedentary].firstObject;
-//            if (model) {
-//                //写入久坐提醒
-//                [self.myBleTool writeSedentaryAlertWithSedentaryModel:model];
-//            }else {
-//                model.sedentaryAlert = NO;
-//                model.unDisturb = NO;
-//                model.disturbStartTime = @"12:00";
-//                model.disturbEndTime = @"14:00";
-//                model.sedentaryStartTime = @"09:00";
-//                model.sedentaryEndTime = @"18:00";
-//                model.stepInterval = 100;
-//                //写入久坐提醒
-//                [self.myBleTool writeSedentaryAlertWithSedentaryModel:model];
-//            }
-//            
-//            
-//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(500 * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
-//                NSMutableArray *clockArr = [self.myFmdbTool queryClockData];
-//                if (clockArr.count != 0) {
-//                    //写入闹钟数据
-//                    [self.myBleTool writeClockToPeripheral:ClockDataSetClock withClockArr:clockArr];
-//                }else {
-//                    ClockModel *model = [[ClockModel alloc] init];
-//                    for (NSInteger i = 0; i < 3; i ++) {
-//                        model.ID = i;
-//                        model.time = @"08:00";
-//                        model.isOpen = NO;
-//                        [clockArr addObject:model];
-//                    }
-//                    //写入闹钟数据
-//                    [self.myBleTool writeClockToPeripheral:ClockDataSetClock withClockArr:clockArr];
-//                }
-//                
-//            });
-//        });
-    });
-    
-    UIAlertView *view = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"tips", nil) message:[NSString stringWithFormat:NSLocalizedString(@"haveBindPerName", nil),device.deviceName] delegate:self cancelButtonTitle:NSLocalizedString(@"IKnow", nil) otherButtonTitles:nil, nil];
-    view.tag = 100;
-    [view show];
-    
-    [self.myBleTool writeTimeToPeripheral:[NSDate date]];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(300 * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
-        [self.myBleTool writeRequestVersion];
-    });
+    /** 修改状态栏的文本,隐藏二维码扫描,修改连接状态图,隐藏设备列表 */
+//    [self.bindStateLabel setText:device.deviceName];
+//    self.qrCodeButton.hidden = YES;
+//    self.peripheralList.hidden = YES;
+//    [self.bindButton setTitle:@"解除绑定" forState:UIControlStateNormal];
+//    [self.connectImageView setImage:[UIImage imageNamed:@"devicebinding_pic01_connect"]];
+    [self setBindView];
+    MDToast *connectToast = [[MDToast alloc] initWithText:[NSString stringWithFormat:@"已绑定设备:%@", device.deviceName] duration:1];
+    [connectToast show];
 }
 
 
 - (void)manridyBLEDidFailConnectDevice:(BleDevice *)device
 {
     self.navigationItem.rightBarButtonItem.enabled = YES;
-    _isConnected = NO;
+//    _isConnected = NO;
     UIAlertView *view = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"tips", nil) message:NSLocalizedString(@"bindErrorAndTryAgain", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"sure", nil) otherButtonTitles:nil, nil];
     view.tag = 101;
     [view show];
     
     [self deletAllRowsAtTableView];
-    [self.myBleTool stopScan];
+    [self.myBleMananger stopScan];
     
     [self.refreshImageView setHidden:NO];
     [self.peripheralList setHidden:YES];
@@ -444,14 +392,14 @@
 - (void)receiveChangePerNameSuccess:(BOOL)success
 {
     if (success) {
-        BleDevice *current = self.myBleTool.currentDev;
+        BleDevice *current = self.myBleMananger.currentDev;
         current.deviceName = self.changeName;
-        _isConnected = NO;
-        self.myBleTool.isReconnect = NO;
-        [self.myBleTool unConnectDevice];
+//        _isConnected = NO;
+        self.myBleMananger.isReconnect = NO;
+        [self.myBleMananger unConnectDevice];
         index = -1;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.myBleTool connectDevice:current];
+            [self.myBleMananger connectDevice:current];
         });
     }
 }
@@ -545,10 +493,16 @@
 - (UIView *)downView
 {
     if (!_downView) {
-        UIView *downView = [[UIView alloc] initWithFrame:CGRectMake(0, WIDTH * 269 / 320, WIDTH, self.view.frame.size.height - (WIDTH * 269 / 320))];
+        UIView *downView = [[UIView alloc] init];
         downView.backgroundColor = [UIColor whiteColor];
         
         [self.view addSubview:downView];
+        [downView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.view.mas_left);
+            make.right.equalTo(self.view.mas_right);
+            make.bottom.equalTo(self.view.mas_bottom);
+            make.height.equalTo(@(328 * VIEW_CONTROLLER_FRAME_WIDTH / 360));
+        }];
         _downView = downView;
     }
     
@@ -583,11 +537,11 @@
         MDButton *button = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
         [button setTitle:NSLocalizedString(@"绑定设备", nil) forState:UIControlStateNormal];
         [button setTitleColor:NAVIGATION_BAR_COLOR forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(bindPeripheral) forControlEvents:UIControlEventTouchUpInside];
+        [button addTarget:self action:@selector(bindPeripheral:) forControlEvents:UIControlEventTouchUpInside];
         button.layer.borderWidth = 1;
         button.layer.borderColor = TEXT_BLACK_COLOR_LEVEL1.CGColor;
         [button setBackgroundColor:CLEAR_COLOR];
-        button.alpha = 0;
+        button.hidden = YES;
         
         [self.downView addSubview:button];
         [button mas_makeConstraints:^(MASConstraintMaker *make) {

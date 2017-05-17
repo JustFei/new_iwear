@@ -30,8 +30,8 @@ static NSString * const AboutTableViewCellID = @"AboutTableViewCell";
     
     self.automaticallyAdjustsScrollViewInsets = YES;
     
-    self.view.backgroundColor = SETTING_BACKGROUND_COLOR;
-    self.tableView.backgroundColor = CLEAR_COLOR;
+    self.view.backgroundColor = self.navigationController.navigationBar.backgroundColor;
+    self.tableView.backgroundColor = SETTING_BACKGROUND_COLOR;
     
     UIView *headView = [UIView new];
     headView.backgroundColor = WHITE_COLOR;

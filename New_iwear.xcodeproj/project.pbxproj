@@ -10,6 +10,7 @@
 		100E49061EC998D400625A93 /* TrainingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 100E49051EC998D400625A93 /* TrainingViewController.m */; };
 		100E490A1EC9AD6A00625A93 /* TrainingTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 100E49091EC9AD6A00625A93 /* TrainingTableCell.m */; };
 		100E490D1EC9B88B00625A93 /* TrainingTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 100E490C1EC9B88B00625A93 /* TrainingTableModel.m */; };
+		109865BB1ECC5D200077797E /* UINavigationBar+Awesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 109865BA1ECC5D200077797E /* UINavigationBar+Awesome.m */; };
 		61B92AC401CFC6C37C77B005 /* libPods-New_iwear.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64350C29842B2F870FD1D38E /* libPods-New_iwear.a */; };
 		9C00DF881EC6D3CA005CB06F /* StepHisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C00DF871EC6D3CA005CB06F /* StepHisViewController.m */; };
 		9C00DF8D1EC6D93F005CB06F /* SleepHisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C00DF8C1EC6D93F005CB06F /* SleepHisViewController.m */; };
@@ -149,6 +150,8 @@
 		100E49091EC9AD6A00625A93 /* TrainingTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrainingTableCell.m; path = Training/TrainingTableCell.m; sourceTree = "<group>"; };
 		100E490B1EC9B88B00625A93 /* TrainingTableModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrainingTableModel.h; path = Training/TrainingTableModel.h; sourceTree = "<group>"; };
 		100E490C1EC9B88B00625A93 /* TrainingTableModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrainingTableModel.m; path = Training/TrainingTableModel.m; sourceTree = "<group>"; };
+		109865B91ECC5D200077797E /* UINavigationBar+Awesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Awesome.h"; sourceTree = "<group>"; };
+		109865BA1ECC5D200077797E /* UINavigationBar+Awesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Awesome.m"; sourceTree = "<group>"; };
 		64350C29842B2F870FD1D38E /* libPods-New_iwear.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-New_iwear.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C00DF861EC6D3CA005CB06F /* StepHisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StepHisViewController.h; path = History/StepHis/StepHisViewController.h; sourceTree = "<group>"; };
 		9C00DF871EC6D3CA005CB06F /* StepHisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StepHisViewController.m; path = History/StepHis/StepHisViewController.m; sourceTree = "<group>"; };
@@ -360,6 +363,15 @@
 				100E490C1EC9B88B00625A93 /* TrainingTableModel.m */,
 			);
 			name = Training;
+			sourceTree = "<group>";
+		};
+		109865B71ECC5D070077797E /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				109865B91ECC5D200077797E /* UINavigationBar+Awesome.h */,
+				109865BA1ECC5D200077797E /* UINavigationBar+Awesome.m */,
+			);
+			name = Category;
 			sourceTree = "<group>";
 		};
 		9C00DF851EC6D2BE005CB06F /* History */ = {
@@ -934,6 +946,7 @@
 				9C0496921EB8855700EDBEBB /* New_iwear.entitlements */,
 				9CDEAC5B1EB078EC00279EDA /* AppDelegate.h */,
 				9CDEAC5C1EB078EC00279EDA /* AppDelegate.m */,
+				109865B71ECC5D070077797E /* Category */,
 				100E49021EC9985100625A93 /* Training */,
 				9C00DF851EC6D2BE005CB06F /* History */,
 				9C0711AD1EC5500B00F41754 /* MainViewController */,
@@ -1233,6 +1246,7 @@
 				9C00DF881EC6D3CA005CB06F /* StepHisViewController.m in Sources */,
 				9C079AB81EBC747700D54AB3 /* InterfaceSelectionModel.m in Sources */,
 				9C9E80051EC2E203004840FD /* HeartRateModel.m in Sources */,
+				109865BB1ECC5D200077797E /* UINavigationBar+Awesome.m in Sources */,
 				9C3AE84D1EBDC62F0078CDAA /* WeChatViewController.m in Sources */,
 				9C0712211EC558E800F41754 /* BloodO2ContentView.m in Sources */,
 				9C0711B01EC5503A00F41754 /* MainViewController.m in Sources */,

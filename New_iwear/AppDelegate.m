@@ -35,12 +35,27 @@
     self.window.rootViewController = nc;
     
     self.stateBar = [[MDSnackbar alloc] init];
-    [self.stateBar setText:@"尚未绑定设备，请前往绑定设备"];
+    [self.stateBar setText:@"尚未绑定设备，请前往绑定设备，尚未绑定设备，请前往绑定设备，尚未绑定设备，请前往绑定设备"];
     [self.stateBar setActionTitle:@"绑定"];
     [self.stateBar setActionTitleColor:NAVIGATION_BAR_COLOR];
     //这里100秒是让bar长驻在底部
     [self.stateBar setDuration:100];
     [self.stateBar addTarget:self action:@selector(bindAction)];
+    self.stateBar.multiline = YES;
+    self.stateBar.swipeable = NO;
+    self.stateBar.maxWidth = 200;
+    
+    MDButton *cancelButton = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:nil];
+    [cancelButton setImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
+    [cancelButton addTarget:self action:@selector(cancelStateBarAction:) forControlEvents:UIControlEventTouchUpInside];
+    cancelButton.backgroundColor = RED_COLOR;
+    [self.stateBar addSubview:cancelButton];
+    [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.stateBar.mas_left).offset(16);
+//        make.top.equalTo(self.stateBar.mas_top).offset(10);
+        make.centerY.equalTo(self.stateBar.mas_centerY);
+    }];
+    
     [self.stateBar show];
     
     return YES;
@@ -53,6 +68,12 @@
     [(UINavigationController *)self.window.rootViewController pushViewController:vc animated:YES];
 }
 
+- (void)cancelStateBarAction:(MDButton *)sender
+{
+    if (self.stateBar.isShowing) {
+        [self.stateBar dismiss];
+    }
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

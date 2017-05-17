@@ -34,7 +34,7 @@ static NSString *const SedentaryReminderTableViewCellID = @"SedentaryReminderTab
     self.tableView.backgroundColor = CLEAR_COLOR;
     
     UIView *headView = [UIView new];
-    headView.backgroundColor = NAVIGATION_BAR_COLOR;
+    headView.backgroundColor = self.navigationController.navigationBar.backgroundColor;
     [self.view addSubview:headView];
     [headView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left);

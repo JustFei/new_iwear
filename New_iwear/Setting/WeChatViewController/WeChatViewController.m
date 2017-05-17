@@ -26,7 +26,7 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
     self.automaticallyAdjustsScrollViewInsets = YES;
-    self.view.backgroundColor = NAVIGATION_BAR_COLOR;
+    self.view.backgroundColor =  self.navigationController.navigationBar.backgroundColor;
     [self createUI];
 }
 

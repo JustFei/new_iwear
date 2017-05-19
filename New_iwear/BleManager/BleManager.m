@@ -16,7 +16,7 @@
 #import "ClockModel.h"
 #import <UserNotifications/UserNotifications.h>
 
-#define kServiceUUID              @"F000EFE0-0451-4000-0000-00000000B000"
+#define kServiceUUID              @"F000EFE0-0000-4000-0000-00000000B000"
 #define kWriteCharacteristicUUID  @"F000EFE1-0451-4000-0000-00000000B000"
 #define kNotifyCharacteristicUUID @"F000EFE3-0451-4000-0000-00000000B000"
 
@@ -52,6 +52,9 @@ static BleManager *bleManager = nil;
         _myCentralManager = [[CBCentralManager alloc]initWithDelegate:self queue:nil options:nil];
 //        _fmTool = [[AllBleFmdb alloc] init];
         self.notiContent = [[UNMutableNotificationContent alloc] init];
+        // 信号量初始化为1
+        self.semaphore = dispatch_semaphore_create(1);
+        self.sendMessageQueue = dispatch_get_global_queue(0, 0);
     }
     return self;
 }
@@ -179,9 +182,16 @@ static BleManager *bleManager = nil;
 //set time
 - (void)writeTimeToPeripheral:(NSDate *)currentDate
 {
-    NSDateFormatter *currentFormatter = [[NSDateFormatter alloc] init];
-    [currentFormatter setDateFormat:@"yyMMddHHmmssEEE"];
-    NSString *currentStr = [currentFormatter stringFromDate:currentDate];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDate *now;
+    NSDateComponents *comps = [[NSDateComponents alloc] init];
+    NSInteger unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekday |
+    NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
+    now=[NSDate date];
+    comps = [calendar components:unitFlags fromDate:now];
+    
+    NSString *currentStr = [NSString stringWithFormat:@"%02ld%02ld%02ld%02ld%02ld%02ld%02ld",[comps year] % 100 ,[comps month] ,[comps day] ,[comps hour] ,[comps minute] ,[comps second] ,[comps weekday] - 1];
+    //    NSLog(@"-----------weekday is %ld",(long)[comps weekday]);//在这里需要注意的是：星期日是数字1，星期一时数字2，以此类推。。。
     
     //传入时间和头，返回协议字符串
     NSString *protocolStr = [NSStringTool protocolAddInfo:currentStr head:@"00"];
@@ -752,9 +762,7 @@ static BleManager *bleManager = nil;
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error{
     
     //    DLog(@"Discovered characteristic %@", service.characteristics);
-    DLog(@"服务 %@,", service.UUID);
     for (CBCharacteristic *characteristic in service.characteristics) {
-        DLog(@"特征值： %@",characteristic.UUID);
         
         //保存写入特征
         if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:kWriteCharacteristicUUID]]) {
@@ -786,7 +794,7 @@ static BleManager *bleManager = nil;
     if (error) {
         DLog(@"Error changing notification state: %@",[error localizedDescription]);
     }else {
-        DLog(@"Success cahnging notification state: %d;value = %@",characteristic.isNotifying ,characteristic.value);
+        DLog(@"Success changing notification state: %d;value = %@",characteristic.isNotifying ,characteristic.value);
     }
 }
 
@@ -820,114 +828,61 @@ static BleManager *bleManager = nil;
         if ([headStr isEqualToString:@"00"] || [headStr isEqualToString:@"80"]) {
             //解析设置时间数据
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisSetTimeData:value WithHeadStr:headStr];
-            if ([self.receiveDelegate respondsToSelector:@selector(receiveSetTimeDataWithModel:)]) {
-                [self.receiveDelegate receiveSetTimeDataWithModel:model];
-            }
-            
+            [[NSNotificationCenter defaultCenter] postNotificationName:SET_TIME object:model];
         }else if ([headStr isEqualToString:@"01"] || [headStr isEqualToString:@"81"]) {
             //解析闹钟数据
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisClockData:value WithHeadStr:headStr];
-            if ([self.receiveDelegate respondsToSelector:@selector(receiveSetClockDataWithModel:)]) {
-                [self.receiveDelegate receiveSetClockDataWithModel:model];
-            }
-            
+            [[NSNotificationCenter defaultCenter] postNotificationName:SET_CLOCK object:model];
         }else if ([headStr isEqualToString:@"03"] || [headStr isEqualToString:@"83"]) {
             //解析获取的步数数据
             manridyModel *model =  [[AnalysisProcotolTool shareInstance] analysisGetSportData:value WithHeadStr:headStr];
-            if ([self.receiveDelegate respondsToSelector:@selector(receiveMotionDataWithModel:)]) {
-                [self.receiveDelegate receiveMotionDataWithModel:model];
-            }else {
-                //                [_fmTool saveMotionToDataBase:model];
-            }
-            
+            [[NSNotificationCenter defaultCenter] postNotificationName:GET_MOTION_DATA object:model];
         }else if ([headStr isEqualToString:@"04"] || [headStr isEqualToString:@"84"]) {
             //运动清零
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisSportZeroData:value WithHeadStr:headStr];
-            if ([self.receiveDelegate respondsToSelector:@selector(receiveDataWithModel:)]) {
-                [self.receiveDelegate receiveDataWithModel:model];
-            }
-            
+            [[NSNotificationCenter defaultCenter] postNotificationName:SET_MOTION_ZERO object:model];
         }else if ([headStr isEqualToString:@"05"] || [headStr isEqualToString:@"85"]) {
             //获取到历史的GPS数据信息
             //            manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisHistoryGPSData:value WithHeadStr:headStr];
-            if ([self.receiveDelegate respondsToSelector:@selector(receiveGPSWithModel:)]) {
-                //                [self.receiveDelegate receiveGPSWithModel:model];
-                //                [_fmTool saveGPSToDataBase:model];
-            }else {
-                //                [_fmTool saveGPSToDataBase:model];
-            }
+            //[[NSNotificationCenter defaultCenter] postNotificationName:GET_GPS_DATA object:model];
             
         }else if ([headStr isEqualToString:@"06"] || [headStr isEqualToString:@"86"]) {
             //用户信息推送
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisUserInfoData:value WithHeadStr:headStr];
-            if ([self.receiveDelegate respondsToSelector:@selector(receiveUserInfoWithModel:)]) {
-                [self.receiveDelegate receiveUserInfoWithModel:model];
-            }
-            
+            [[NSNotificationCenter defaultCenter] postNotificationName:SET_USER_INFO object:model];
         }else if ([headStr isEqualToString:@"07"] || [headStr isEqualToString:@"87"]) {
             //运动目标推送
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisSportTargetData:value WithHeadStr:headStr];
-            if ([self.receiveDelegate respondsToSelector:@selector(receiveMotionTargetWithModel:)]) {
-                [self.receiveDelegate receiveMotionTargetWithModel:model];
-            }
-            
+            [[NSNotificationCenter defaultCenter] postNotificationName:SET_MOTION_TARGET object:model];
         }else if ([headStr isEqualToString:@"08"] || [headStr isEqualToString:@"88"]) {
+            //询问设备是否配对成功
             manridyModel *model = [[AnalysisProcotolTool shareInstance]analysisPairData:value WithHeadStr:headStr];
-            if ([self.receiveDelegate respondsToSelector:@selector(receivePairWitheModel:)]) {
-                [self.receiveDelegate receivePairWitheModel:model];
-            }
-            
+            [[NSNotificationCenter defaultCenter] postNotificationName:GET_PAIR object:model];
         }else if ([headStr isEqualToString:@"09"] || [headStr isEqualToString:@"89"]) {
             //心率开关
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisHeartStateData:value WithHeadStr:headStr];
-            if ([self.receiveDelegate respondsToSelector:@selector(receiveHeartRateTestWithModel:)]) {
-                [self.receiveDelegate receiveHeartRateTestWithModel:model];
-            }
-            
+            [[NSNotificationCenter defaultCenter] postNotificationName:SET_HR_STATE object:model];
         }else if([headStr isEqualToString:@"0a"] || [headStr isEqualToString:@"0A"] || [headStr isEqualToString:@"8a"] || [headStr isEqualToString:@"8A"]) {
             //获取心率数据
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisHeartData:value WithHeadStr:headStr];
-            if ([self.receiveDelegate respondsToSelector:@selector(receiveHeartRateDataWithModel:)]) {
-                [self.receiveDelegate receiveHeartRateDataWithModel:model];
-            }
-            
+            [[NSNotificationCenter defaultCenter] postNotificationName:GET_HR_DATA object:model];
         }else if ([headStr isEqualToString:@"0c"] || [headStr isEqualToString:@"0C"] || [headStr isEqualToString:@"8c"] || [headStr isEqualToString:@"8C"]) {
             //获取睡眠
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisSleepData:value WithHeadStr: headStr];
-            if ([self.receiveDelegate respondsToSelector:@selector(receiveSleepInfoWithModel:)]) {
-                [self.receiveDelegate receiveSleepInfoWithModel:model];
-            }else {
-                //                [_fmTool saveSleepToDataBase:model];
-            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:GET_SLEEP_DATA object:model];
         }else if ([headStr isEqualToString:@"0d"] || [headStr isEqualToString:@"0D"] || [headStr isEqualToString:@"8d"] || [headStr isEqualToString:@"8D"]) {
             //上报GPS数据
             //            manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisGPSData:value WithHeadStr: headStr];
-            if ([self.receiveDelegate respondsToSelector:@selector(receiveGPSWithModel:)]) {
+            //if ([self.receiveDelegate respondsToSelector:@selector(receiveGPSWithModel:)]) {
                 //                [self.receiveDelegate receiveGPSWithModel:model];
                 //                [_fmTool saveGPSToDataBase:model];
-            }else {
+            //}else {
                 //                [_fmTool saveGPSToDataBase:model];
-            }
+            //}
         }else if ([headStr isEqualToString:@"0f"] || [headStr isEqualToString:@"0F"]) {
-            //判断是版本号还是电量
-            NSString *typeStr = [NSString stringWithFormat:@"%02x", hexBytes[1]];
-            if ([typeStr isEqualToString:@"06"]) {//电量
-                NSString *batteryStr = [NSString stringWithFormat:@"%x", hexBytes[8]];
-                DLog(@"电量：%@",batteryStr);
-            }else if ([typeStr isEqualToString:@"05"]) {//版本号
-                int maint = hexBytes[7];
-                int miint = hexBytes[8];
-                int reint = hexBytes[9];
-                
-                NSString *versionStr = [[[NSString stringWithFormat:@"%d", maint] stringByAppendingString:[NSString stringWithFormat:@".%d",miint]] stringByAppendingString:[NSString stringWithFormat:@".%d",reint]];
-                if ([self.receiveDelegate respondsToSelector:@selector(receiveVersionWithVersionStr:)]) {
-                    [self.receiveDelegate receiveVersionWithVersionStr:versionStr];
-                }
-            }else if ([typeStr isEqualToString:@"07"]) {//改名称
-                if ([self.receiveDelegate respondsToSelector:@selector(receiveChangePerNameSuccess:)]) {
-                    [self.receiveDelegate receiveChangePerNameSuccess:YES];
-                }
-            }
+            //设备维护指令
+            manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisFirmwareData:value WithHeadStr:headStr];
+            [[NSNotificationCenter defaultCenter] postNotificationName:SET_FIRMWARE object:model];
         }else if ([headStr isEqualToString:@"fc"] || [headStr isEqualToString:@"FC"]) {
             NSString *secondStr = [NSString stringWithFormat:@"%02x", hexBytes[1]];
             NSString *TTStr = [NSString stringWithFormat:@"%02x", hexBytes[3]];
@@ -942,39 +897,28 @@ static BleManager *bleManager = nil;
                 }
             }
         }else if ([headStr isEqualToString:@"10"]) {
-            if ([self.receiveDelegate respondsToSelector:@selector(receiveSearchFeedback)]) {
-                [self.receiveDelegate receiveSearchFeedback];
-            }
+            //查找设备回调
+            [[NSNotificationCenter defaultCenter] postNotificationName:GET_SEARCH_FEEDBACK object:nil];
         }else if ([headStr isEqualToString:@"11"]) {
             //获取血压
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisBloodData:value WithHeadStr:headStr];
-            if ([self.receiveDelegate respondsToSelector:@selector(receiveBloodDataWithModel:)]) {
-                [self.receiveDelegate receiveBloodDataWithModel:model];
-            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:GET_BP_DATA object:model];
         }else if ([headStr isEqualToString:@"12"]) {
             //获取血氧
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisBloodO2Data:value WithHeadStr:headStr];
-            if ([self.receiveDelegate respondsToSelector:@selector(receiveBloodO2DataWithModel:)]) {
-                [self.receiveDelegate receiveBloodO2DataWithModel:model];
-            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:GET_BO_DATA object:model];
         }else if ([headStr isEqualToString:@"19"]) {
             //开始拍照
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisTakePhoto:value WithHeadStr:headStr];
-            if ([self.receiveDelegate respondsToSelector:@selector(receiveTakePhoto:)]) {
-                [self.receiveDelegate receiveTakePhoto:model];
-            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:SET_TAKE_PHOTO object:model];
         }else if ([headStr isEqualToString:@"1A"] || [headStr isEqualToString:@"1a"]) {
             //分段计步数据
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisTakePhoto:value WithHeadStr:headStr];
-            if ([self.receiveDelegate respondsToSelector:@selector(receiveSegementStep:)]) {
-                [self.receiveDelegate receiveSegementStep:model];
-            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:GET_SEGEMENT_STEP object:model];
         }else if ([headStr isEqualToString:@"1B"] || [headStr isEqualToString:@"1b"]) {
-            //跑步数据
+            //分段跑步数据
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisTakePhoto:value WithHeadStr:headStr];
-            if ([self.receiveDelegate respondsToSelector:@selector(receiveSegementRun:)]) {
-                [self.receiveDelegate receiveSegementRun:model];
-            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:GET_SEGEMENT_RUN object:model];
         }
     }
 }

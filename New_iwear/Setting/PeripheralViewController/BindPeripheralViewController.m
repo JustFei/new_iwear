@@ -242,15 +242,26 @@
 
 - (void)synchronizeSettings
 {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        /** 同步时间 */
+        [self.myBleMananger writeTimeToPeripheral:[NSDate date]];
+        /** 注册时间通知 */
+        [[NSNotificationCenter defaultCenter]
+         addObserver:self selector:@selector(setTimeNoti:) name:SET_TIME object:nil];
+    });
+    
+    /** 获取硬件版本号*/
+//    [self.myBleMananger writeRequestVersion];
+    
     //写入电话短信配对提醒
-    [self pairPhoneAndMessage];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(500 * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isFindMyPeripheral"]) {
+    //[self pairPhoneAndMessage];
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(500 * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
+//        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isFindMyPeripheral"]) {
             //写入防丢提醒
-            [self.myBleMananger writePeripheralShakeWhenUnconnectWithOforOff:[[NSUserDefaults standardUserDefaults] boolForKey:@"isFindMyPeripheral"]];
-        }else {
-            [self.myBleMananger writePeripheralShakeWhenUnconnectWithOforOff:NO];   //防丢置为NO，类似初始化
-        }
+//            [self.myBleMananger writePeripheralShakeWhenUnconnectWithOforOff:[[NSUserDefaults standardUserDefaults] boolForKey:@"isFindMyPeripheral"]];
+//        }else {
+//            [self.myBleMananger writePeripheralShakeWhenUnconnectWithOforOff:NO];   //防丢置为NO，类似初始化
+ //       }
 //        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(500 * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
 //            SedentaryModel *model = [self.myFmdbTool querySedentary].firstObject;
 //            if (model) {
@@ -288,12 +299,13 @@
 //                
 //            });
 //        });
-    });
-    
-    [self.myBleMananger writeTimeToPeripheral:[NSDate date]];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(300 * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
-        [self.myBleMananger writeRequestVersion];
-    });
+//    });
+}
+
+- (void)setTimeNoti:(NSNotification *)noti
+{
+    manridyModel *model = [noti object];
+    DLog(@"%@", model);
 }
 
 #pragma mark - UITableViewDataSource && UITableViewDelegate
@@ -345,7 +357,9 @@
 //这里我使用peripheral.identifier作为设备的唯一标识，没有使用mac地址，如果出现id变化导致无法连接的情况，请转成用mac地址作为唯一标识。
 - (void)manridyBLEDidConnectDevice:(BleDevice *)device
 {
-    [self.hud hideAnimated:YES];
+    //[self.hud hideAnimated:YES];
+    self.hud.label.text = @"正在同步设置";
+    [self synchronizeSettings];
     [self.myBleMananger stopScan];
     
     [[NSUserDefaults standardUserDefaults] setValue:device.peripheral.identifier.UUIDString forKey:@"bindPeripheralID"];
@@ -353,11 +367,6 @@
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isBind"];
     
     /** 修改状态栏的文本,隐藏二维码扫描,修改连接状态图,隐藏设备列表 */
-//    [self.bindStateLabel setText:device.deviceName];
-//    self.qrCodeButton.hidden = YES;
-//    self.peripheralList.hidden = YES;
-//    [self.bindButton setTitle:@"解除绑定" forState:UIControlStateNormal];
-//    [self.connectImageView setImage:[UIImage imageNamed:@"devicebinding_pic01_connect"]];
     [self setBindView];
     MDToast *connectToast = [[MDToast alloc] initWithText:[NSString stringWithFormat:@"已绑定设备:%@", device.deviceName] duration:1];
     [connectToast show];

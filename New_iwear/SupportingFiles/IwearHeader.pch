@@ -8,6 +8,7 @@
 
 #import "ColorConstants.h"
 #import "FrameConstants.h"
+#import "TextConstants.h"
 #import "MaterialControls.h"
 #import "Log.h"
 #import "Masonry.h"

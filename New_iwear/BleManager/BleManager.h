@@ -125,77 +125,6 @@ typedef enum : NSUInteger {
 
 @end
 
-#pragma mark - 写入协议
-@protocol BleReceiveDelegate <NSObject>
-
-@optional
-
-/**
- *  同一返回数据的接口，所有数据均通过这个接口回调
- *
- */
-- (void)receiveDataWithModel:(manridyModel *)manridyModel;
-
-/** 不同数据类型的回调 */
-/** set time */
-- (void)receiveSetTimeDataWithModel:(manridyModel *)manridyModel;
-
-/** set clock */
-- (void)receiveSetClockDataWithModel:(manridyModel *)manridyModel;
-
-/** motion data */
-- (void)receiveMotionDataWithModel:(manridyModel *)manridyModel;
-
-/** motion zero */
-- (void)receiveSetMotionZeroWithModel:(manridyModel *)manridyModel;
-
-/** GPS data */
-- (void)receiveGPSWithModel:(manridyModel *)manridyModel;
-
-/** user info */
-- (void)receiveUserInfoWithModel:(manridyModel *)manridyModel;
-
-/** set motion target */
-- (void)receiveMotionTargetWithModel:(manridyModel *)manridyModel;
-
-/** set heart rate test state */
-- (void)receiveHeartRateTestWithModel:(manridyModel *)manridyModel;
-
-/** get heart rate data */
-- (void)receiveHeartRateDataWithModel:(manridyModel *)manridyModel;
-
-/** get sleepInfo */
-- (void)receiveSleepInfoWithModel:(manridyModel *)manridyModel;
-
-/** get search feedback */
-- (void)receiveSearchFeedback;
-
-/** get blood */
-- (void)receiveBloodDataWithModel:(manridyModel *)manridyModel;
-
-/** get bloodO2 */
-- (void)receiveBloodO2DataWithModel:(manridyModel *)manridyModel;
-
-/** get version */
-- (void)receiveVersionWithVersionStr:(NSString *)versionStr;
-
-/** get pair success? */
-- (void)receivePairWitheModel:(manridyModel *)manridyModel;
-
-/** change peripheral name success? */
-- (void)receiveChangePerNameSuccess:(BOOL)success;
-
-/** 拍照指令 */
-- (void)receiveTakePhoto:(manridyModel *)manridyModel;
-
-/** 分段计步 */
-- (void)receiveSegementStep:(manridyModel *)manridyModel;
-
-/** 分段跑步 */
-- (void)receiveSegementRun:(manridyModel *)manridyModel;
-
-@end
-
 #pragma mark - 设备请求查找手机
 @protocol BleReceiveSearchResquset <NSObject>
 
@@ -213,7 +142,6 @@ typedef enum : NSUInteger {
 @property (nonatomic ,assign) kBLEstate connectState; //support add observer ,abandon @readonly ,don't change it anyway.
 @property (nonatomic ,weak) id <BleDiscoverDelegate>discoverDelegate;
 @property (nonatomic ,weak) id <BleConnectDelegate>connectDelegate;
-@property (nonatomic ,weak) id <BleReceiveDelegate>receiveDelegate;
 @property (nonatomic ,weak) id <BleReceiveSearchResquset>searchDelegate;
 @property (nonatomic ,assign) BOOL isReconnect;
 @property(nonatomic, assign,) SystemBLEState systemBLEstate;

@@ -11,6 +11,7 @@
 		100E490A1EC9AD6A00625A93 /* TrainingTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 100E49091EC9AD6A00625A93 /* TrainingTableCell.m */; };
 		100E490D1EC9B88B00625A93 /* TrainingTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 100E490C1EC9B88B00625A93 /* TrainingTableModel.m */; };
 		109865BB1ECC5D200077797E /* UINavigationBar+Awesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 109865BA1ECC5D200077797E /* UINavigationBar+Awesome.m */; };
+		10C496451ECEE739000F5769 /* FirmwareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C496441ECEE739000F5769 /* FirmwareModel.m */; };
 		61B92AC401CFC6C37C77B005 /* libPods-New_iwear.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64350C29842B2F870FD1D38E /* libPods-New_iwear.a */; };
 		9C00DF881EC6D3CA005CB06F /* StepHisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C00DF871EC6D3CA005CB06F /* StepHisViewController.m */; };
 		9C00DF8D1EC6D93F005CB06F /* SleepHisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C00DF8C1EC6D93F005CB06F /* SleepHisViewController.m */; };
@@ -152,6 +153,9 @@
 		100E490C1EC9B88B00625A93 /* TrainingTableModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrainingTableModel.m; path = Training/TrainingTableModel.m; sourceTree = "<group>"; };
 		109865B91ECC5D200077797E /* UINavigationBar+Awesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Awesome.h"; sourceTree = "<group>"; };
 		109865BA1ECC5D200077797E /* UINavigationBar+Awesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Awesome.m"; sourceTree = "<group>"; };
+		10C496431ECEE739000F5769 /* FirmwareModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirmwareModel.h; sourceTree = "<group>"; };
+		10C496441ECEE739000F5769 /* FirmwareModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirmwareModel.m; sourceTree = "<group>"; };
+		10CE70B61ECEA5990018AD11 /* TextConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TextConstants.h; path = Constants/TextConstants.h; sourceTree = "<group>"; };
 		64350C29842B2F870FD1D38E /* libPods-New_iwear.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-New_iwear.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C00DF861EC6D3CA005CB06F /* StepHisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StepHisViewController.h; path = History/StepHis/StepHisViewController.h; sourceTree = "<group>"; };
 		9C00DF871EC6D3CA005CB06F /* StepHisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StepHisViewController.m; path = History/StepHis/StepHisViewController.m; sourceTree = "<group>"; };
@@ -795,6 +799,8 @@
 				9C9E80001EC2E203004840FD /* SportTargetModel.m */,
 				9C9E80011EC2E203004840FD /* TakePhotoModel.h */,
 				9C9E80021EC2E203004840FD /* TakePhotoModel.m */,
+				10C496431ECEE739000F5769 /* FirmwareModel.h */,
+				10C496441ECEE739000F5769 /* FirmwareModel.m */,
 			);
 			name = DataModel;
 			path = BleManager/DataModel;
@@ -979,8 +985,9 @@
 			isa = PBXGroup;
 			children = (
 				9CDEAC731EB07A9C00279EDA /* ColorConstants.h */,
-				9CDEAC741EB07A9C00279EDA /* Log.h */,
 				9C5CC3BC1EBC1B96009C07A5 /* FrameConstants.h */,
+				10CE70B61ECEA5990018AD11 /* TextConstants.h */,
+				9CDEAC741EB07A9C00279EDA /* Log.h */,
 			);
 			name = Constants;
 			sourceTree = "<group>";
@@ -1241,6 +1248,7 @@
 				9C9E7FE61EC2E1F1004840FD /* AnalysisProcotolTool.m in Sources */,
 				9C9E800E1EC2E203004840FD /* SportTargetModel.m in Sources */,
 				9C9E80081EC2E203004840FD /* SedentaryModel.m in Sources */,
+				10C496451ECEE739000F5769 /* FirmwareModel.m in Sources */,
 				9C4FBDBF1EB099140072E9CE /* RootViewController.m in Sources */,
 				9C9E801C1EC2E6AD004840FD /* BindPeripheralViewController.m in Sources */,
 				9C00DF881EC6D3CA005CB06F /* StepHisViewController.m in Sources */,

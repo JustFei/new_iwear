@@ -302,9 +302,6 @@ typedef enum : NSUInteger {
 /** 写入名称 */
 - (void)writePeripheralNameWithNameString:(NSString *)name;
 
-/** 临时写入保持连接 */
-- (void)writeToKeepConnect;
-
 /** 推送公制和英制单位
  ImperialSystem  YES = 英制
  NO  = 公制

@@ -421,10 +421,8 @@ static BleManager *bleManager = nil;
     
     NSString *protocolStr = [NSStringTool protocolAddInfo:info head:@"16"];
     DLog(@"久坐协议 = %@",protocolStr);
-    //写入操作
-    if (self.currentDev.peripheral && self.writeCharacteristic) {
-        [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:protocolStr] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-    }
+    
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
 
 //写入名称
@@ -448,19 +446,8 @@ static BleManager *bleManager = nil;
             break;
         }
     }
-    //写入操作
-    if (self.currentDev.peripheral && self.writeCharacteristic) {
-        [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:protocolStr] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-    }
-}
-
-//临时写入保持连接
-- (void)writeToKeepConnect
-{
-    //写入操作
-    if (self.currentDev.peripheral && self.writeCharacteristic) {
-        [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:@"fc0f00"] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-    }
+    
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
 
 /*推送公制和英制单位
@@ -469,95 +456,101 @@ static BleManager *bleManager = nil;
  */
 - (void)writeUnitToPeripheral:(BOOL)ImperialSystem
 {
-    if (self.currentDev.peripheral && self.writeCharacteristic) {
-        [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:ImperialSystem ? @"FC170001" : @"FC170000"] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-    }
+    NSString *protocolStr;
+    protocolStr = ImperialSystem ? @"FC170001" : @"FC170000";
+    
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
 
 /** 拍照部分 */
 - (void)writeCameraMode:(kCameraMode)mode
 {
-    if (self.currentDev.peripheral && self.writeCharacteristic) {
+    NSString *protocolStr;
         switch (mode) {
                 /** 打开设备的拍照模式 */
             case kCameraModeOpenCamera:
-                [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:@"FC1981"] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
+                protocolStr = @"FC1981";
                 break;
                 /** 完成拍照 */
             case kCameraModePhotoFinish:
-                [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:@"FC190080"] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
+                protocolStr = @"FC190080";
                 break;
                 /** 关闭设备的拍照模式 */
             case kCameraModeCloseCamera:
-                [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:@"FC1980"] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
+                protocolStr = @"FC1980";
                 break;
                 
             default:
                 break;
         }
-        
-    }
+    
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
 
 /** 分段计步获取 */
 - (void)writeSegementStepWithHistoryMode:(HistoryMode)mode
 {
-    if (self.currentDev.peripheral && self.writeCharacteristic) {
-        switch (mode) {
-            case HistoryModeData:
-                [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:@"FC1A02"] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-                break;
-            case HistoryModeCount:
-                [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:@"FC1A04"] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-                break;
-                
-            default:
-                break;
-        }
-    }
-}
-
-/** 分段跑步获取 */
-- (void)writeSegementRunWithHistoryMode:(HistoryMode)mode
-{
-    if (self.currentDev.peripheral && self.writeCharacteristic) {
-        switch (mode) {
-            case HistoryModeData:
-                [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:@"FC1B02"] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-                break;
-            case HistoryModeCount:
-                [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:@"FC1B04"] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-                break;
-            case HistoryModeCurrent:
-                [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:@"FC1B08"] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-                break;
-                
-            default:
-                break;
-        }
-    }
-}
-
-/** 窗口协议 */
-- (void)writeWindowRequset:(WindowRequestMode)mode
-{
+    NSString *protocolStr;
     switch (mode) {
-        case WindowRequestModeWindowCount:
-            [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:@"FC1C01"] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
+            /** 具体的历史数据 */
+        case HistoryModeData:
+            protocolStr = @"FC1A02";
             break;
-        case WindowRequestModeSearchWindow:
-            [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:@"FC1C0201"] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-            break;
-        case WindowRequestModeSetWindow:
-            [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:@"FC1C0200"] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-            break;
-        case WindowRequestModeWindowRelationship:
-            [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:@"FC1C04"] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
+            /** 历史数据条数 */
+        case HistoryModeCount:
+            protocolStr = @"FC1A04";
             break;
             
         default:
             break;
     }
+    
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
+}
+
+/** 分段跑步获取 */
+- (void)writeSegementRunWithHistoryMode:(HistoryMode)mode
+{
+    NSString *protocolStr;
+    switch (mode) {
+        case HistoryModeData:
+            protocolStr = @"FC1B02";
+            break;
+        case HistoryModeCount:
+            protocolStr = @"FC1B04";
+            break;
+        case HistoryModeCurrent:
+            protocolStr = @"FC1B08";
+            break;
+            
+        default:
+            break;
+    }
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
+}
+
+/** 窗口协议 */
+- (void)writeWindowRequset:(WindowRequestMode)mode
+{
+    NSString *protocolStr;
+    switch (mode) {
+        case WindowRequestModeWindowCount:
+            protocolStr = @"FC1C01";
+            break;
+        case WindowRequestModeSearchWindow:
+            protocolStr = @"FC1C0201";
+            break;
+        case WindowRequestModeSetWindow:
+            protocolStr = @"FC1C0200";
+            break;
+        case WindowRequestModeWindowRelationship:
+            protocolStr = @"FC1C04";
+            break;
+            
+        default:
+            break;
+    }
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
 
 #pragma mark - CBCentralManagerDelegate
@@ -821,7 +814,7 @@ static BleManager *bleManager = nil;
     if ([value bytes] != nil) {
         const unsigned char *hexBytes = [value bytes];
         
-        //命令字段
+        //命令头字段
         NSString *headStr = [NSString stringWithFormat:@"%02x", hexBytes[0]];
         
         if ([headStr isEqualToString:@"00"] || [headStr isEqualToString:@"80"]) {

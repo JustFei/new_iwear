@@ -31,6 +31,11 @@
 //@property (nonatomic ,strong) AllBleFmdb *fmTool;
 @property (nonatomic ,strong) UIAlertView *disConnectView;
 @property (nonatomic, strong) UNMutableNotificationContent *notiContent;
+/** 控制同步发送消息的信号量 */
+@property (nonatomic, strong) dispatch_semaphore_t semaphore;
+@property (nonatomic, strong) dispatch_queue_t sendMessageQueue;
+@property (nonatomic, strong) NSTimer *resendTimer;
+@property (nonatomic, assign) BOOL haveResendMessage;
 
 @end
 
@@ -88,6 +93,7 @@ static BleManager *bleManager = nil;
 }
 
 #pragma mark - action of connecting layer -连接层操作
+/** 判断有没有当前设备有没有连接的 */
 - (BOOL)retrievePeripherals
 {
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"peripheralUUID"]) {
@@ -110,6 +116,7 @@ static BleManager *bleManager = nil;
     }
 }
 
+/** 扫描设备 */
 - (void)scanDevice
 {
     [self.deviceArr removeAllObjects];
@@ -117,60 +124,71 @@ static BleManager *bleManager = nil;
     [_myCentralManager scanForPeripheralsWithServices:nil options:nil];
 }
 
+/** 停止扫描 */
 - (void)stopScan
 {
     [_myCentralManager stopScan];
 }
 
+/** 连接设备 */
 - (void)connectDevice:(BleDevice *)device
 {
+    if (!device) {
+        return;
+    }
     self.isReconnect = YES;
     self.currentDev = device;
-    //请求连接到此外设
     [_myCentralManager connectPeripheral:device.peripheral options:nil];
 }
 
+/** 断开设备连接 */
 - (void)unConnectDevice
 {
-    //    isDisconnect = 1;
     if (self.currentDev.peripheral) {
         [self.myCentralManager cancelPeripheralConnection:self.currentDev.peripheral];
     }
 }
 
-//- (void)reConnectDevice:(BOOL)isConnect
-//{
-//    isReconnect = isConnect;
-//}
-
+/** 检索已连接的外接设备 */
 - (NSArray *)retrieveConnectedPeripherals
 {
     return [_myCentralManager retrieveConnectedPeripheralsWithServices:@[[CBUUID UUIDWithString:kServiceUUID]]];
 }
 
 #pragma mark - data of write -写入数据操作
+#pragma mark - 统一做消息队列处理，发送
+- (void)addMessageToQueue:(NSData *)message
+{
+    //1.写入数据
+    dispatch_async(self.sendMessageQueue, ^{
+        if (self.currentDev.peripheral && self.writeCharacteristic) {
+            // wait操作-1，当别的消息进来就会阻塞，知道这条消息收到回调，signal+1后，才会继续执行。保证了消息的队列发送，保证稳定性。
+            __block long x = 0;
+            x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+            //NSLog(@"x == %ld", x);
+            [NSThread sleepForTimeInterval:0.01];
+            DLog(@"---%@", message);
+            [self.currentDev.peripheral writeValue:message forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
+#warning Resend Message Function
+            //self.haveResendMessage = YES;
+            //[self setResendTimerWithMessage:message];
+        }
+    });
+}
+
 //set time
 - (void)writeTimeToPeripheral:(NSDate *)currentDate
 {
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSDate *now;
-    NSDateComponents *comps = [[NSDateComponents alloc] init];
-    NSInteger unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekday |
-    NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
-    now=[NSDate date];
-    comps = [calendar components:unitFlags fromDate:now];
-    
-    NSString *currentStr = [NSString stringWithFormat:@"%02ld%02ld%02ld%02ld%02ld%02ld%02ld",[comps year] % 100 ,[comps month] ,[comps day] ,[comps hour] ,[comps minute] ,[comps second] ,[comps weekday] - 1];
-    //    NSLog(@"-----------weekday is %ld",(long)[comps weekday]);//在这里需要注意的是：星期日是数字1，星期一时数字2，以此类推。。。
+    NSDateFormatter *currentFormatter = [[NSDateFormatter alloc] init];
+    [currentFormatter setDateFormat:@"yyMMddHHmmssEEE"];
+    NSString *currentStr = [currentFormatter stringFromDate:currentDate];
     
     //传入时间和头，返回协议字符串
     NSString *protocolStr = [NSStringTool protocolAddInfo:currentStr head:@"00"];
     
     //写入操作
-    if (self.currentDev.peripheral && self.writeCharacteristic) {
-        [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:protocolStr] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-        DLog(@"time success");
-    }
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
+    DLog(@"时间设置成功");
 }
 
 //set clock
@@ -205,26 +223,19 @@ static BleManager *bleManager = nil;
         
         clockStateStr = [clockStateStr stringByAppendingString:clockDataStr];
         
-        DLog(@"闹钟的协议 == %@",clockStateStr);
-        
         //传入时间和头，返回协议字符串
-        NSString *protocolStr = [NSString stringWithFormat:@"FC0100%@0000",clockStateStr];
+        NSString *protocolStr = [NSString stringWithFormat:@"FC0100%@",clockStateStr];
         
         //写入操作
-        if (self.currentDev.peripheral && self.writeCharacteristic) {
-            [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:protocolStr] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-        }
-        
-        
+        [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
+        DLog(@"设置闹钟数据成功");
     }else {
         //传入时间和头，返回协议字符串
         NSString *protocolStr = [NSStringTool protocolAddInfo:@"01" head:@"01"];
         
         //写入操作
-        if (self.currentDev.peripheral && self.writeCharacteristic) {
-            [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:protocolStr] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-            DLog(@"clock success");
-        }
+        [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
+        DLog(@"获取闹钟数据成功");
     }
 }
 
@@ -234,10 +245,8 @@ static BleManager *bleManager = nil;
     NSString *protocolStr = [NSStringTool protocolAddInfo:[NSString stringWithFormat:@"%ld",(unsigned long)type] head:@"03"];
     
     //写入操作
-    if (self.currentDev.peripheral && self.writeCharacteristic) {
-        [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:protocolStr] forCharacteristic:self.writeCharacteristic type: CBCharacteristicWriteWithResponse];
-        DLog(@"motion success");
-    }
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
+    DLog(@"请求计步数据");
 }
 
 //set motionInfo zero
@@ -246,9 +255,8 @@ static BleManager *bleManager = nil;
     NSString *protocolStr = [NSStringTool protocolAddInfo:nil head:@"04"];
     
     //写入操作
-    if (self.currentDev.peripheral && self.writeCharacteristic) {
-        [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:protocolStr] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-    }
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
+    DLog(@"清空计步数据");
 }
 //get GPS data
 - (void)writeGPSToPeripheral
@@ -256,255 +264,108 @@ static BleManager *bleManager = nil;
     NSString *protocolStr = [NSStringTool protocolAddInfo:nil head:@"05"];
     
     //写入操作
-    if (self.currentDev.peripheral && self.writeCharacteristic) {
-        [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:protocolStr] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-        DLog(@"gps success");
-    }
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
+    DLog(@"gps 请求成功");
 }
 
 //set userInfo
 - (void)writeUserInfoToPeripheralWeight:(NSString *)weight andHeight:(NSString *)height
 {
-    NSString *userInfoStr = [weight stringByAppendingString:[NSString stringWithFormat:@",%@",height]];
+    NSString *protocolStr = [weight stringByAppendingString:[NSString stringWithFormat:@",%@",height]];
     
-    userInfoStr = [NSStringTool protocolAddInfo:userInfoStr head:@"06"];
+    protocolStr = [NSStringTool protocolAddInfo:protocolStr head:@"06"];
     
     //写入操作
-    if (self.currentDev.peripheral && self.writeCharacteristic) {
-        [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:userInfoStr] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-    }
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
 
 //set motion target
 - (void)writeMotionTargetToPeripheral:(NSString *)target
 {
-    NSString *targetStr = [NSStringTool protocolAddInfo:target head:@"07"];
+    NSString *protocolStr = [NSStringTool protocolAddInfo:target head:@"07"];
     
     //写入操作
-    if (self.currentDev.peripheral && self.writeCharacteristic) {
-        [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:targetStr] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-    }
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
 
 //set heart rate test state
 - (void)writeHeartRateTestStateToPeripheral:(HeartRateTestState)state
 {
-    switch (state) {
-        case HeartRateTestStateStop:
-            //stop heart rate test
-        {
-            NSString *stopStr = [NSStringTool protocolAddInfo:@"00" head:@"09"];
-            
-            if (self.currentDev.peripheral && self.writeCharacteristic) {
-                [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:stopStr] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-            }
-        }
-            break;
-        case HeartRateTestStateStart:
-            //start heart rate test
-        {
-            NSString *startStr = [NSStringTool protocolAddInfo:@"01" head:@"09"];
-            
-            if (self.currentDev.peripheral && self.writeCharacteristic) {
-                [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:startStr] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-            }
-        }
-            break;
-            
-        default:
-            break;
-    }
+    NSString *protocolStr;
+    protocolStr = state == HeartRateTestStateStop ? [NSStringTool protocolAddInfo:@"00" head:@"09"] : [NSStringTool protocolAddInfo:@"01" head:@"09"];
+    
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
 
 //get heart rate data
 - (void)writeHeartRateRequestToPeripheral:(HeartRateData)heartRateData
 {
-    switch (heartRateData) {
-        case HeartRateDataLastData:
-            //last data of heart rate
-        {
-            NSString *lastStr = [NSStringTool protocolAddInfo:@"00" head:@"0A"];
-            
-            if (self.currentDev.peripheral && self.writeCharacteristic) {
-                [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:lastStr] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-                DLog(@"heartRate success");
-            }
-        }
-            break;
-        case HeartRateDataHistoryData:
-            //history data of heart rate
-        {
-            NSString *historyStr = [NSStringTool protocolAddInfo:@"01" head:@"0A"];
-            
-            if (self.currentDev.peripheral && self.writeCharacteristic) {
-                [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:historyStr] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-            }
-        }
-            break;
-            
-        default:
-            break;
-    }
+    NSString *protocolStr;
+    protocolStr = heartRateData == HeartRateDataLastData ? [NSStringTool protocolAddInfo:@"00" head:@"0A"] : [NSStringTool protocolAddInfo:@"01" head:@"0A"];
+    
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
 
 //get sleepInfo
 - (void)writeSleepRequestToperipheral:(SleepData)sleepData
 {
-    NSString *sleepStr;
-    switch (sleepData) {
-        case SleepDataLastData:
-            //last data of sleep
-            sleepStr = [NSStringTool protocolAddInfo:@"00" head:@"0C"];
-            DLog(@"sleep success");
-            
-            break;
-        case SleepDataHistoryData:
-            //history data of sleep
-            sleepStr = [NSStringTool protocolAddInfo:@"01" head:@"0C"];
-            
-            break;
-            
-        default:
-            break;
-    }
+    NSString *protocolStr;
+    protocolStr = sleepData == SleepDataLastData ? [NSStringTool protocolAddInfo:@"00" head:@"0C"] : [NSStringTool protocolAddInfo:@"01" head:@"0C"];
     
-    //写入操作
-    if (self.currentDev.peripheral && self.writeCharacteristic) {
-        [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:sleepStr] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-    }
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
 
-//photo and message remind
+//phone and message remind
 - (void)writePhoneAndMessageRemindToPeripheral:(Remind *)remindModel
 {
-    NSString *remindStr;
-    remindStr = [NSStringTool protocolForRemind:remindModel];
-    if (self.currentDev.peripheral && self.writeCharacteristic) {
-        [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:remindStr] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-        DLog(@"电话短信提醒协议 == %@",remindStr);
-    }
+    NSString *protocolStr;
+    protocolStr = [NSStringTool protocolForRemind:remindModel];
+    
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
 
 //search my peripheral
 - (void)writeSearchPeripheralWithONorOFF:(BOOL)state
 {
-    NSString *searchStr;
-    if (state) {
-        //开始查找
-        searchStr = @"FC100003";
-    }else {
-        searchStr = @"FC100000";
-    }
-    
-    while (1) {
-        if (searchStr.length < 40) {
-            searchStr = [searchStr stringByAppendingString:@"00"];
-        }else {
-            break;
-        }
-    }
-    DLog(@"search == %@",searchStr);
-    //写入操作
-    if (self.currentDev.peripheral && self.writeCharacteristic) {
-        [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:searchStr] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-    }
+    NSString *protocolStr;
+    protocolStr = state ? @"FC100003" : @"FC100000";
+
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
 
 //设备断开后震动提醒
 - (void)writePeripheralShakeWhenUnconnectWithOforOff:(BOOL)state
 {
-    NSString *searchStr;
-    if (state) {
-        //设备开启丢失模式
-        searchStr = @"FC100201";
-    }else {
-        //设备关闭丢失模式
-        searchStr = @"FC100200";
-    }
+    NSString *protocolStr;
+    protocolStr = state ? @"FC100201" : @"FC100200";
     
-    while (1) {
-        if (searchStr.length < 40) {
-            searchStr = [searchStr stringByAppendingString:@"00"];
-        }else {
-            break;
-        }
-    }
-    DLog(@"防丢协议 == %@",searchStr);
-    //写入操作
-    if (self.currentDev.peripheral && self.writeCharacteristic) {
-        [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:searchStr] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-    }
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
 
 //stop peripheral
 - (void)writeStopPeripheralRemind
 {
-    NSString *stopStr = @"1001";
+    NSString *protocolStr = @"1001";
     
-    while (1) {
-        if (stopStr.length < 40) {
-            stopStr = [stopStr stringByAppendingString:@"00"];
-        }else {
-            break;
-        }
-    }
-    if (self.currentDev.peripheral && self.writeCharacteristic) {
-        [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:stopStr] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-    }
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
 
 //get blood data
 - (void)writeBloodToPeripheral:(BloodData)bloodData
 {
-    NSString *bloodStr;
-    switch (bloodData) {
-        case BloodDataLastData:
-            //last data of sleep
-            bloodStr = [NSStringTool protocolAddInfo:@"00" head:@"11"];
-            DLog(@"sleep success");
-            
-            break;
-        case BloodDataHistoryData:
-            //history data of sleep
-            bloodStr = [NSStringTool protocolAddInfo:@"01" head:@"11"];
-            
-            break;
-            
-        default:
-            break;
-    }
+    NSString *protocolStr;
+    protocolStr = bloodData == BloodDataLastData ? [NSStringTool protocolAddInfo:@"00" head:@"11"] : [NSStringTool protocolAddInfo:@"01" head:@"11"];
     
-    //写入操作
-    if (self.currentDev.peripheral && self.writeCharacteristic) {
-        [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:bloodStr] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-    }
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
 
 //get blood O2 data
 - (void)writeBloodO2ToPeripheral:(BloodO2Data)bloodO2Data
 {
-    NSString *bloodStr;
-    switch (bloodO2Data) {
-        case BloodO2DataLastData:
-            //last data of sleep
-            bloodStr = [NSStringTool protocolAddInfo:@"00" head:@"12"];
-            DLog(@"sleep success");
-            
-            break;
-        case BloodO2DataHistoryData:
-            //history data of sleep
-            bloodStr = [NSStringTool protocolAddInfo:@"01" head:@"12"];
-            
-            break;
-            
-        default:
-            break;
-    }
+    NSString *protocolStr;
+    protocolStr = bloodO2Data == BloodO2DataLastData ? [NSStringTool protocolAddInfo:@"00" head:@"12"] : [NSStringTool protocolAddInfo:@"01" head:@"12"];
     
-    //写入操作
-    if (self.currentDev.peripheral && self.writeCharacteristic) {
-        [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:bloodStr] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-    }
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
 
 /** get version from peripheral */
@@ -512,10 +373,7 @@ static BleManager *bleManager = nil;
 {
     NSString *protocolStr = [NSStringTool protocolAddInfo:@"" head:@"0f"];
     
-    //写入操作
-    if (self.currentDev.peripheral && self.writeCharacteristic) {
-        [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:protocolStr] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-    }
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
 
 //set sedentary alert
@@ -572,7 +430,6 @@ static BleManager *bleManager = nil;
 //写入名称
 - (void)writePeripheralNameWithNameString:(NSString *)name
 {
-    
     NSString *lengthInterval = [NSStringTool ToHex:name.length / 2];
     if (lengthInterval.length < 2) {
         while (1) {
@@ -678,6 +535,28 @@ static BleManager *bleManager = nil;
             default:
                 break;
         }
+    }
+}
+
+/** 窗口协议 */
+- (void)writeWindowRequset:(WindowRequestMode)mode
+{
+    switch (mode) {
+        case WindowRequestModeWindowCount:
+            [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:@"FC1C01"] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
+            break;
+        case WindowRequestModeSearchWindow:
+            [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:@"FC1C0201"] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
+            break;
+        case WindowRequestModeSetWindow:
+            [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:@"FC1C0200"] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
+            break;
+        case WindowRequestModeWindowRelationship:
+            [self.currentDev.peripheral writeValue:[NSStringTool hexToBytes:@"FC1C04"] forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
+            break;
+            
+        default:
+            break;
     }
 }
 

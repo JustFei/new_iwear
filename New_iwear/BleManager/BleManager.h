@@ -76,6 +76,20 @@ typedef enum : NSUInteger {
     HistoryModeCurrent,
 } HistoryMode;
 
+/**
+ 历史数据模式
+ WindowRequestModeWindowCount：查询窗口数量
+ WindowRequestModeSearchWindow：查询窗口
+ WindowRequestModeSetWindow：设置窗口
+ WindowRequestModeWindowRelationship：获取窗口关系
+ */
+typedef enum : NSUInteger {
+    WindowRequestModeWindowCount = 0,
+    WindowRequestModeSearchWindow,
+    WindowRequestModeSetWindow,
+    WindowRequestModeWindowRelationship
+} WindowRequestMode;
+
 #pragma mark - 扫描设备协议
 @protocol BleDiscoverDelegate <NSObject>
 
@@ -261,7 +275,7 @@ typedef enum : NSUInteger {
 /** get sleepInfo */
 - (void)writeSleepRequestToperipheral:(SleepData)sleepData;
 
-/** photo and message remind */
+/** phone and message remind */
 - (void)writePhoneAndMessageRemindToPeripheral:(Remind *)remindModel;
 
 /** search my peripheral */
@@ -305,5 +319,8 @@ typedef enum : NSUInteger {
 
 /** 分段跑步获取 */
 - (void)writeSegementRunWithHistoryMode:(HistoryMode)mode;
+
+/** 窗口协议 */
+- (void)writeWindowRequset:(WindowRequestMode)mode;
 
 @end

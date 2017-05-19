@@ -220,7 +220,7 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
         case ViewControllerTypeHR:
         {
             self.title = @"心率记录";
-            self.navigationController.navigationBar.barTintColor = HR_HISTORY_BACKGROUND_COLOR;
+            [self.navigationController.navigationBar setBackgroundColor:HR_HISTORY_BACKGROUND_COLOR];
             view1.layer.borderColor = HR_HISTORY_BACKGROUND_COLOR.CGColor;
             view2.layer.borderColor = HR_HISTORY_BACKGROUND_COLOR.CGColor;
             view3.layer.borderColor = HR_HISTORY_BACKGROUND_COLOR.CGColor;
@@ -230,7 +230,7 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
         case ViewControllerTypeBP:
         {
             self.title = @"血压记录";
-            self.navigationController.navigationBar.barTintColor = BP_HISTORY_BACKGROUND_COLOR;
+            [self.navigationController.navigationBar setBackgroundColor:BP_HISTORY_BACKGROUND_COLOR];
             view1.layer.borderColor = BP_HISTORY_BACKGROUND_COLOR.CGColor;
             view2.layer.borderColor = BP_HISTORY_BACKGROUND_COLOR.CGColor;
             view3.layer.borderColor = BP_HISTORY_BACKGROUND_COLOR.CGColor;
@@ -240,7 +240,7 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
         case ViewControllerTypeBO:
         {
             self.title = @"血氧记录";
-            self.navigationController.navigationBar.barTintColor = BO_HISTORY_BACKGROUND_COLOR;
+            [self.navigationController.navigationBar setBackgroundColor:BO_HISTORY_BACKGROUND_COLOR];
             view1.layer.borderColor = BO_HISTORY_BACKGROUND_COLOR.CGColor;
             view2.layer.borderColor = BO_HISTORY_BACKGROUND_COLOR.CGColor;
             view3.layer.borderColor = BO_HISTORY_BACKGROUND_COLOR.CGColor;

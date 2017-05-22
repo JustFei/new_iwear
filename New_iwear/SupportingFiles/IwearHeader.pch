@@ -14,6 +14,8 @@
 #import "Masonry.h"
 #import "AlertTool.h"
 #import "MBProgressHUD.h"
+#import "AppDelegate.h"
+#import "BleManager.h"
 #import "New_iwear-Bridging-Header.h"
 #import "New_iwear-Swift.h"
 

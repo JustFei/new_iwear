@@ -9,9 +9,11 @@
 #import "TakePhotoViewController.h"
 #import "CameraViewController.h"
 
-@interface TakePhotoViewController ()
+@interface TakePhotoViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 @property (nonatomic, strong) MDButton *takePhotoButton;
+@property (nonatomic, strong) UIImagePickerController *imagePicker;
+
 
 @end
 
@@ -24,6 +26,11 @@
     self.view.backgroundColor = SETTING_BACKGROUND_COLOR;
     
     [self createUI];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)createUI
@@ -86,10 +93,82 @@
 
 - (void)takePhotoAction:(MDButton *)sender
 {
-    CameraViewController *vc = [[CameraViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
+        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
+    }else {
+        [[NSNotificationCenter defaultCenter]
+         addObserver:self selector:@selector(setTakePhoto:) name:SET_TAKE_PHOTO object:nil];
+        [[BleManager shareInstance] writeCameraMode:kCameraModeOpenCamera];
+        
+        //页面跳转
+        [self presentViewController:self.imagePicker animated:YES completion:nil];
+    }
+    
+    /** 由于自定义相机的优化不好，暂时先调用系统的 */
+//    CameraViewController *vc = [[CameraViewController alloc] init];
+//    [self.navigationController pushViewController:vc animated:YES];
 }
 
+#pragma mark - observer
+- (void)setTakePhoto:(NSNotification *)noti
+{
+    manridyModel *model = [noti object];
+    if (model.takePhotoModel.takePhotoAction == YES) {
+        [self.imagePicker takePicture];
+    }
+}
 
+//PickerImage完成后的代理方法
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    //定义一个newPhoto，用来存放我们选择的图片。
+    UIImage *newPhoto = [info objectForKey:@"UIImagePickerControllerEditedImage"];
+    [self saveImageToPhotoAlbum:newPhoto];
+    //退出设备的相机模式
+    [[BleManager shareInstance] writeCameraMode:kCameraModeCloseCamera];
+    //关闭当前界面，即回到主界面去
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    //调一下 cancel
+    [self takePhotoAction:nil];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    //退出设备的相机模式
+    [[BleManager shareInstance] writeCameraMode:kCameraModeCloseCamera];
+}
+
+#pragma - 保存至相册
+- (void)saveImageToPhotoAlbum:(UIImage*)savedImage
+{
+    UIImageWriteToSavedPhotosAlbum(savedImage, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+}
+
+// 指定回调方法
+- (void)image: (UIImage *) image didFinishSavingWithError: (NSError *) error contextInfo: (void *) contextInfo
+
+{
+    NSString *msg = nil ;
+    if(error != NULL){
+        msg = @"保存图片失败" ;
+    }else{
+        msg = @"保存图片成功" ;
+    }
+    MDToast *toast = [[MDToast alloc] initWithText:msg duration:1.5];
+    [toast show];
+}
+
+#pragma mark - lazy
+- (UIImagePickerController *)imagePicker
+{
+    if (!_imagePicker) {
+        _imagePicker = [[UIImagePickerController alloc]init];
+        _imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        _imagePicker.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
+        _imagePicker.delegate = self;
+    }
+    
+    return _imagePicker;
+}
 
 @end

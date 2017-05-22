@@ -34,6 +34,11 @@ static NSString *const ClockTableViewCellID = @"ClockTableViewCell";
     self.tableView.backgroundColor = SETTING_BACKGROUND_COLOR;
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)backViewController
 {
     [self.navigationController popViewControllerAnimated:YES];

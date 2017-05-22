@@ -28,8 +28,6 @@ static NSString *const SedentaryReminderTableViewCellID = @"SedentaryReminderTab
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
-//    self.automaticallyAdjustsScrollViewInsets = YES;
-    
     self.view.backgroundColor = SETTING_BACKGROUND_COLOR;
     self.tableView.backgroundColor = CLEAR_COLOR;
     
@@ -69,6 +67,11 @@ static NSString *const SedentaryReminderTableViewCellID = @"SedentaryReminderTab
     }];
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - Action
 - (void)backViewController
 {
@@ -102,6 +105,11 @@ static NSString *const SedentaryReminderTableViewCellID = @"SedentaryReminderTab
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
+        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
+    }else {
+        //do some thing
+    }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section

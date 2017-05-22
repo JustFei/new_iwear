@@ -33,6 +33,11 @@ static NSString * const UnitsSettingTableViewCellID = @"UnitsSettingTableViewCel
     self.tableView.backgroundColor = CLEAR_COLOR;
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - Action
 - (void)backViewController
 {
@@ -54,6 +59,16 @@ static NSString * const UnitsSettingTableViewCellID = @"UnitsSettingTableViewCel
 {
     UnitsSettingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:UnitsSettingTableViewCellID forIndexPath:indexPath];
     NSArray *sectionArr = self.dataArr[indexPath.section];
+    
+    //将数据源中的选择项改变
+    cell.unitsSettingSelectBlock = ^{
+        for (int index = 0; index < sectionArr.count; index ++) {
+            UnitsSettingModel *mod = sectionArr[index];
+            mod.isSelect = index == indexPath.row ? YES : NO ;
+        }
+        [self.tableView reloadData];
+    };
+    
     cell.model = sectionArr[indexPath.row];
     
     return cell;
@@ -89,6 +104,14 @@ static NSString * const UnitsSettingTableViewCellID = @"UnitsSettingTableViewCel
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [_tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    //点击 cell 同样实现点击按钮的功能
+    NSArray *sectionArr = self.dataArr[indexPath.section];
+    for (int index = 0; index < sectionArr.count; index ++) {
+        UnitsSettingModel *mod = sectionArr[index];
+        mod.isSelect = index == indexPath.row ? YES : NO ;
+    }
+    [self.tableView reloadData];
 }
 
 #pragma mark - lazy

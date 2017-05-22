@@ -69,6 +69,11 @@ static NSString * const PhoneReminderTableViewCellID = @"PhoneReminderTableViewC
     }];
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - Action
 - (void)backViewController
 {

@@ -23,7 +23,7 @@ typedef enum : NSUInteger {
 
 static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 
-@interface UserInfoViewController () <UITableViewDelegate ,UITableViewDataSource ,UITextFieldDelegate ,UINavigationControllerDelegate ,UIImagePickerControllerDelegate ,UIAlertViewDelegate ,UIPickerViewDelegate ,UIPickerViewDataSource ,BleReceiveDelegate>
+@interface UserInfoViewController () <UITableViewDelegate ,UITableViewDataSource ,UITextFieldDelegate ,UINavigationControllerDelegate ,UIImagePickerControllerDelegate ,UIAlertViewDelegate ,UIPickerViewDelegate ,UIPickerViewDataSource>
 {
     NSArray *_userArr;
 }
@@ -573,7 +573,7 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 {
     if (!_myBleTool) {
         _myBleTool = [BleManager shareInstance];
-        _myBleTool.receiveDelegate = self;
+//        _myBleTool.receiveDelegate = self;
     }
     
     return _myBleTool;

@@ -69,6 +69,11 @@ static NSString * const MessageReminderTableViewCellID = @"MessageReminderTableV
     }];
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - Action
 - (void)backViewController
 {

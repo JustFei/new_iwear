@@ -20,16 +20,13 @@
 #define kWriteCharacteristicUUID  @"F000EFE1-0451-4000-0000-00000000B000"
 #define kNotifyCharacteristicUUID @"F000EFE3-0451-4000-0000-00000000B000"
 
-#define kCurrentVersion @"1.0"
-
-
 @interface BleManager () <UNUserNotificationCenterDelegate>
 
 @property (nonatomic ,strong) CBCharacteristic *notifyCharacteristic;
 @property (nonatomic ,strong) CBCharacteristic *writeCharacteristic;
 @property (nonatomic ,strong) NSMutableArray *deviceArr;
 //@property (nonatomic ,strong) AllBleFmdb *fmTool;
-@property (nonatomic ,strong) UIAlertView *disConnectView;
+//@property (nonatomic ,strong) UIAlertView *disConnectView;
 @property (nonatomic, strong) UNMutableNotificationContent *notiContent;
 /** 控制同步发送消息的信号量 */
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;
@@ -89,12 +86,6 @@ static BleManager *bleManager = nil;
     return self;
 }
 
-#pragma mark - get sdk version -获取SDK版本号
-- (NSString *)getManridyBleSDKVersion
-{
-    return kCurrentVersion;
-}
-
 #pragma mark - action of connecting layer -连接层操作
 /** 判断有没有当前设备有没有连接的 */
 - (BOOL)retrievePeripherals
@@ -103,7 +94,7 @@ static BleManager *bleManager = nil;
         NSString *uuidStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"peripheralUUID"];
         NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:uuidStr];
         NSArray *arr = [_myCentralManager retrievePeripheralsWithIdentifiers: @[uuid]];
-        DLog(@"当前已连接的设备%@,有几个%ld",arr ,(unsigned long)arr.count);
+        DLog(@"当前已连接的设备%@,有%ld个",arr.firstObject ,(unsigned long)arr.count);
         if (arr.count != 0) {
             CBPeripheral *per = (CBPeripheral *)arr.firstObject;
             per.delegate = self;
@@ -593,9 +584,6 @@ static BleManager *bleManager = nil;
             message = NSLocalizedString(@"phoneNotOpenBLE", nil);
             self.systemBLEstate = 4;
             DLog(@"message == %@",message);
-            AlertTool *aTool = [AlertTool alertWithTitle:NSLocalizedString(@"tips", nil) message:message style:UIAlertControllerStyleAlert];
-            [aTool addAction:[AlertAction actionWithTitle:NSLocalizedString(@"IKnow", nil) style:AlertToolStyleDefault handler:nil]];
-            [aTool show];
         }
             break;
         case 5:
@@ -656,7 +644,7 @@ static BleManager *bleManager = nil;
     //AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     //[delegate.mainVc showFunctionView];
     
-    [self.disConnectView dismissWithClickedButtonIndex:0 animated:NO];
+//    [self.disConnectView dismissWithClickedButtonIndex:0 animated:NO];
 }
 
 //连接失败
@@ -677,14 +665,14 @@ static BleManager *bleManager = nil;
     if ([self.connectDelegate respondsToSelector:@selector(manridyBLEDidDisconnectDevice:)]) {
         [self.connectDelegate manridyBLEDidDisconnectDevice:self.currentDev];
     }
-    
+    [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
     if (self.isReconnect) {
         DLog(@"需要断线重连");
         [self.myCentralManager connectPeripheral:self.currentDev.peripheral options:nil];
         
-        self.disConnectView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"tips", nil) message:NSLocalizedString(@"bleReConnect", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"IKnow", nil) otherButtonTitles:nil, nil];
-        self.disConnectView.tag = 103;
-        [self.disConnectView show];
+//        self.disConnectView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"tips", nil) message:NSLocalizedString(@"bleReConnect", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"IKnow", nil) otherButtonTitles:nil, nil];
+//        self.disConnectView.tag = 103;
+//        [self.disConnectView show];
         
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isFindMyPeripheral"]) {
             BOOL isFindMyPeripheral = [[NSUserDefaults standardUserDefaults] boolForKey:@"isFindMyPeripheral"];
@@ -697,15 +685,6 @@ static BleManager *bleManager = nil;
                 
             }
         }
-        
-        //AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-//        delegate.mainVc.haveNewStep = YES;
-//        delegate.mainVc.haveNewHeartRate = YES;
-//        delegate.mainVc.haveNewSleep = YES;
-//        delegate.mainVc.haveNewBP = YES;
-//        delegate.mainVc.haveNewBO = YES;
-//        [delegate.mainVc hiddenFunctionView];
-        
     }else {
         self.currentDev = nil;
     }
@@ -821,7 +800,8 @@ static BleManager *bleManager = nil;
 {
     if ([value bytes] != nil) {
         const unsigned char *hexBytes = [value bytes];
-        
+        // signal操作+1
+        dispatch_semaphore_signal(self.semaphore);
         //命令头字段
         NSString *headStr = [NSString stringWithFormat:@"%02x", hexBytes[0]];
         
@@ -883,19 +863,6 @@ static BleManager *bleManager = nil;
             //设备维护指令
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisFirmwareData:value WithHeadStr:headStr];
             [[NSNotificationCenter defaultCenter] postNotificationName:SET_FIRMWARE object:model];
-        }else if ([headStr isEqualToString:@"fc"] || [headStr isEqualToString:@"FC"]) {
-            NSString *secondStr = [NSString stringWithFormat:@"%02x", hexBytes[1]];
-            NSString *TTStr = [NSString stringWithFormat:@"%02x", hexBytes[3]];
-            if ([secondStr isEqualToString:@"10"]) {
-                if ([self.searchDelegate respondsToSelector:@selector(receivePeripheralRequestToRemindPhoneWithState:)]) {
-                    if ([TTStr isEqualToString:@"00"]) {
-                        [self.searchDelegate receivePeripheralRequestToRemindPhoneWithState:NO];
-                    }else {
-                        [self.searchDelegate receivePeripheralRequestToRemindPhoneWithState:YES];
-                    }
-                    
-                }
-            }
         }else if ([headStr isEqualToString:@"10"]) {
             //查找设备回调
             [[NSNotificationCenter defaultCenter] postNotificationName:GET_SEARCH_FEEDBACK object:nil];
@@ -919,6 +886,16 @@ static BleManager *bleManager = nil;
             //分段跑步数据
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisTakePhoto:value WithHeadStr:headStr];
             [[NSNotificationCenter defaultCenter] postNotificationName:GET_SEGEMENT_RUN object:model];
+        }else if ([headStr isEqualToString:@"fc"] || [headStr isEqualToString:@"FC"]) {
+            NSString *secondStr = [NSString stringWithFormat:@"%02x", hexBytes[1]];
+            NSString *TTStr = [NSString stringWithFormat:@"%02x", hexBytes[3]];
+            if ([secondStr isEqualToString:@"10"]) {
+                //设备查找手机，需要全局监听。有 yes 和 no 两种状态
+                [[NSNotificationCenter defaultCenter] postNotificationName:SET_FIND_PHONE object:nil];
+            }else if ([secondStr isEqualToString:@"19"]) {
+                manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisTakePhoto:value WithHeadStr:headStr];
+                [[NSNotificationCenter defaultCenter] postNotificationName:SET_TAKE_PHOTO object:model];
+            }
         }
     }
 }

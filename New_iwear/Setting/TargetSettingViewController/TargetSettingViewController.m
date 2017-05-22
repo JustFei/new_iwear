@@ -34,6 +34,11 @@ static NSString * const TargetSettingTableViewCellID = @"TargetSettingTableViewC
     self.tableView.backgroundColor = CLEAR_COLOR;
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - Action
 - (void)backViewController
 {
@@ -67,6 +72,11 @@ static NSString * const TargetSettingTableViewCellID = @"TargetSettingTableViewC
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
+        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
+    }else {
+        //show data picker
+    }
 }
 
 #pragma mark - lazy

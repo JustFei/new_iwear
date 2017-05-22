@@ -36,6 +36,11 @@ static NSString *const timeFormatterCollectionViewHeaderID = @"timeFormatterColl
     self.collectionView.backgroundColor = CLEAR_COLOR;
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - Action
 - (void)backViewController
 {
@@ -93,6 +98,25 @@ static NSString *const timeFormatterCollectionViewHeaderID = @"timeFormatterColl
     }];
     
     return headerView;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
+        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
+    }else {
+        [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+        InterfaceSelectionModel *model = self.dataArr[indexPath.row];
+        if (model.selectMode == SelectModeUnchoose) {
+            return;
+        }
+        model.selectMode = model.selectMode == SelectModeSelected ? SelectModeUnselected : SelectModeSelected;
+        NSMutableArray *mutArr = [NSMutableArray arrayWithArray:self.dataArr];
+        [mutArr replaceObjectAtIndex:indexPath.row withObject:model];
+        self.dataArr = mutArr;
+        NSArray *indexPathArr = @[indexPath];
+        [self.collectionView reloadItemsAtIndexPaths:indexPathArr];
+    }
 }
 
 #pragma mark - lazy

@@ -11,7 +11,7 @@
 @interface UnitsSettingTableViewCell ()
 
 @property (nonatomic, strong) UILabel *nameLabel;
-@property (nonatomic, strong) UIButton *selectButton;
+@property (nonatomic, strong) MDButton *selectButton;
 
 @end
 
@@ -32,7 +32,8 @@
             make.centerY.equalTo(self.mas_centerY);
         }];
         
-        _selectButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _selectButton = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
+        [_selectButton addTarget:self action:@selector(selectAction:) forControlEvents:UIControlEventTouchUpInside];
         [_selectButton setImage:[UIImage imageNamed:@"ic_radiobuttonoff"] forState:UIControlStateNormal];
         [_selectButton setImage:[UIImage imageNamed:@"ic_radiobuttonon_color"] forState:UIControlStateSelected];
         [self addSubview:_selectButton];
@@ -53,6 +54,18 @@
         [self.nameLabel setText:model.name];
         self.selectButton.selected = model.isSelect;
         [self.nameLabel setTextColor:model.isSelect ? NAVIGATION_BAR_COLOR : TEXT_BLACK_COLOR_LEVEL4 ];
+    }
+}
+
+#pragma mark - Action
+- (void)selectAction:(MDButton *)sender
+{
+    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
+        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
+    }else {
+        if (self.unitsSettingSelectBlock) {
+            self.unitsSettingSelectBlock();
+        }
     }
 }
 

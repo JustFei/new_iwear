@@ -22,7 +22,10 @@
 #define GET_HR_DATA @"GetHRData"
 #define GET_SLEEP_DATA @"GetSleepData"
 #define SET_FIRMWARE @"SetFirmware"
+//设备确认查找到时反馈
 #define GET_SEARCH_FEEDBACK @"GetSearchFeedBack"
+//设备查找手机(此处需要全局监听)
+#define SET_FIND_PHONE @"SetFindPhone"
 #define GET_BP_DATA @"GetBPData"
 #define GET_BO_DATA @"GetBOData"
 #define SET_TAKE_PHOTO @"SetTakePhoto"

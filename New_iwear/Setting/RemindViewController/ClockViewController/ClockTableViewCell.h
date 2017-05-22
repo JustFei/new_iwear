@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ClockModel.h"
 
-@interface ClockTableViewCell : UITableViewCell
+@interface ClockTableViewCell : MDTableViewCell
 
 @property (nonatomic, strong) ClockModel *model;
 

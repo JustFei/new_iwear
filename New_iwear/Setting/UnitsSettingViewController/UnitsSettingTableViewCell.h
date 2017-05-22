@@ -9,8 +9,11 @@
 #import <MaterialControls/MaterialControls.h>
 #import "UnitsSettingModel.h"
 
+typedef void(^UnitsSettingSelectBlock)(void);
+
 @interface UnitsSettingTableViewCell : MDTableViewCell
 
 @property (nonatomic, strong) UnitsSettingModel *model;
+@property (nonatomic, copy) UnitsSettingSelectBlock unitsSettingSelectBlock;
 
 @end

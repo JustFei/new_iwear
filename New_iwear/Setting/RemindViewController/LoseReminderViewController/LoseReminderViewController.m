@@ -34,6 +34,11 @@ static NSString * const LoseReminderTableViewCellID = @"LoseReminderTableViewCel
     self.tableView.backgroundColor = CLEAR_COLOR;
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - Action
 - (void)backViewController
 {

@@ -103,17 +103,21 @@ static NSString *const interfaceCollectionViewHeaderID = @"interfaceCollectionVi
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-    InterfaceSelectionModel *model = self.dataArr[indexPath.row];
-    if (model.selectMode == SelectModeUnchoose) {
-        return;
+    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
+        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
+    }else {
+        [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+        InterfaceSelectionModel *model = self.dataArr[indexPath.row];
+        if (model.selectMode == SelectModeUnchoose) {
+            return;
+        }
+        model.selectMode = model.selectMode == SelectModeSelected ? SelectModeUnselected : SelectModeSelected;
+        NSMutableArray *mutArr = [NSMutableArray arrayWithArray:self.dataArr];
+        [mutArr replaceObjectAtIndex:indexPath.row withObject:model];
+        self.dataArr = mutArr;
+        NSArray *indexPathArr = @[indexPath];
+        [self.collectionView reloadItemsAtIndexPaths:indexPathArr];
     }
-    model.selectMode = model.selectMode == SelectModeSelected ? SelectModeUnselected : SelectModeSelected;
-    NSMutableArray *mutArr = [NSMutableArray arrayWithArray:self.dataArr];
-    [mutArr replaceObjectAtIndex:indexPath.row withObject:model];
-    self.dataArr = mutArr;
-    NSArray *indexPathArr = @[indexPath];
-    [self.collectionView reloadItemsAtIndexPaths:indexPathArr];
 }
 
 #pragma mark - lazy

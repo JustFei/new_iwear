@@ -111,9 +111,11 @@
 #pragma mark - Action
 - (void)switchAction:(MDButton *)sender
 {
-    [sender setSelected:!sender.selected];
-//    [self.timeButton setTitleColor:sender.selected ? TEXT_BLACK_COLOR_LEVEL4 : TEXT_BLACK_COLOR_LEVEL3  forState:UIControlStateNormal];
-//    [self.timeButton setEnabled:sender.selected];
+    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
+        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
+    }else {
+        [sender setSelected:!sender.selected];
+    }
 }
 
 @end

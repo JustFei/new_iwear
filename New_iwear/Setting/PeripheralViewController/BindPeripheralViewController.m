@@ -13,7 +13,7 @@
 
 #define WIDTH self.view.frame.size.width
 
-@interface BindPeripheralViewController () <UITableViewDelegate ,UITableViewDataSource ,BleDiscoverDelegate ,BleConnectDelegate ,BleReceiveDelegate ,UIAlertViewDelegate, UITextFieldDelegate>
+@interface BindPeripheralViewController () <UITableViewDelegate ,UITableViewDataSource ,BleDiscoverDelegate ,BleConnectDelegate ,UIAlertViewDelegate, UITextFieldDelegate>
 {
     /** 设备信息数据源 */
     NSMutableArray *_dataArr;
@@ -88,7 +88,6 @@
     _myBleMananger = [BleManager shareInstance];
     _myBleMananger.connectDelegate = self;
     _myBleMananger.discoverDelegate = self;
-    _myBleMananger.receiveDelegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -357,8 +356,8 @@
 //这里我使用peripheral.identifier作为设备的唯一标识，没有使用mac地址，如果出现id变化导致无法连接的情况，请转成用mac地址作为唯一标识。
 - (void)manridyBLEDidConnectDevice:(BleDevice *)device
 {
-    //[self.hud hideAnimated:YES];
-    self.hud.label.text = @"正在同步设置";
+    [self.hud hideAnimated:YES];
+//    self.hud.label.text = @"正在同步设置";
     [self synchronizeSettings];
     [self.myBleMananger stopScan];
     

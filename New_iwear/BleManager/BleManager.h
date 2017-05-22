@@ -139,11 +139,11 @@ typedef enum : NSUInteger {
 
 /** 当前连接的设备 */
 @property (nonatomic ,strong) BleDevice *currentDev;
-@property (nonatomic ,assign) kBLEstate connectState; //support add observer ,abandon @readonly ,don't change it anyway.
 @property (nonatomic ,weak) id <BleDiscoverDelegate>discoverDelegate;
 @property (nonatomic ,weak) id <BleConnectDelegate>connectDelegate;
 @property (nonatomic ,weak) id <BleReceiveSearchResquset>searchDelegate;
 @property (nonatomic ,assign) BOOL isReconnect;
+@property (nonatomic ,assign) kBLEstate connectState; //support add observer ,abandon @readonly ,don't change it anyway.
 @property(nonatomic, assign,) SystemBLEState systemBLEstate;
 @property (nonatomic ,strong) CBCentralManager *myCentralManager;
 
@@ -170,7 +170,7 @@ typedef enum : NSUInteger {
 - (NSArray *)retrieveConnectedPeripherals;
 
 #pragma mark - 获取SDK版本号
-- (NSString *)getManridyBleSDKVersion;
+//- (NSString *)getManridyBleSDKVersion;
 
 #pragma mark - 写入/请求相关数据
 /** set time */
@@ -231,8 +231,8 @@ typedef enum : NSUInteger {
 - (void)writePeripheralNameWithNameString:(NSString *)name;
 
 /** 推送公制和英制单位
- ImperialSystem  YES = 英制
- NO  = 公制
+ ImperialSystem   YES = 英制
+                  NO  = 公制
  */
 - (void)writeUnitToPeripheral:(BOOL)ImperialSystem;
 

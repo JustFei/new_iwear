@@ -29,6 +29,7 @@
         _timeButton.backgroundColor = CLEAR_COLOR;
         [_timeButton.titleLabel setFont:[UIFont systemFontOfSize:23]];
         [_timeButton setTitleColor:TEXT_BLACK_COLOR_LEVEL4 forState:UIControlStateNormal];
+        [_timeButton addTarget:self action:@selector(changeTime:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_timeButton];
         [_timeButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.mas_centerY);
@@ -82,11 +83,24 @@
 }
 
 #pragma mark - Action
+- (void)changeTime:(MDButton *)sender
+{
+    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
+        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
+    }else {
+        //show time picker
+    }
+}
+
 - (void)switchAction:(MDButton *)sender
 {
-    [sender setSelected:!sender.selected];
-    [self.timeButton setTitleColor:sender.selected ? TEXT_BLACK_COLOR_LEVEL4 : TEXT_BLACK_COLOR_LEVEL3  forState:UIControlStateNormal];
-    [self.timeButton setEnabled:sender.selected];
+    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
+        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
+    }else {
+        [sender setSelected:!sender.selected];
+        [self.timeButton setTitleColor:sender.selected ? TEXT_BLACK_COLOR_LEVEL4 : TEXT_BLACK_COLOR_LEVEL3  forState:UIControlStateNormal];
+        [self.timeButton setEnabled:sender.selected];
+    }
 }
 
 @end

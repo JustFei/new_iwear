@@ -12,6 +12,8 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
+/** 用来判断是否显示状态栏 */
+- (void)showTheStateBar;
 
 @end
 

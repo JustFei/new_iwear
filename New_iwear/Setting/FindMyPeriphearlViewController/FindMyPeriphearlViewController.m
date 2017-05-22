@@ -11,6 +11,8 @@
 @interface FindMyPeriphearlViewController ()
 
 @property (nonatomic, strong) MDButton *findBtn;
+@property (nonatomic, strong) MDToast *timeToast;
+@property (nonatomic, strong) NSTimer *findTimer;
 
 @end
 
@@ -23,6 +25,11 @@
     self.view.backgroundColor = SETTING_BACKGROUND_COLOR;
     
     [self createUI];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)createUI
@@ -55,7 +62,7 @@
     self.findBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:nil];
     [self.findBtn setImage:[UIImage imageNamed:@"find_bracelet"] forState:UIControlStateNormal];
     [self.findBtn setBackgroundColor:CLEAR_COLOR];
-    [self.findBtn addTarget:self action:@selector(takePhotoAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.findBtn addTarget:self action:@selector(findPerAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.findBtn];
     [self.findBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.mas_centerX);
@@ -93,9 +100,54 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)takePhotoAction:(MDButton *)sender
+- (void)findPerAction:(MDButton *)sender
 {
-    DLog(@"开始查找手环");
+    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
+        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
+    }else {
+        self.findBtn.enabled = NO;
+        [[NSNotificationCenter defaultCenter]
+         addObserver:self selector:@selector(stopFindTimer:) name:GET_SEARCH_FEEDBACK object:nil];
+        [[BleManager shareInstance] writeSearchPeripheralWithONorOFF:YES];
+        [self.timeToast show];
+        __block int time = 10;
+        self.findTimer = [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+            self.timeToast.text = [NSString stringWithFormat:@"正在查找设备：%d", time];
+            time = time - 1;
+            if (time  == 0) {
+                self.timeToast.text = @"设备未响应，请稍后重试";
+                [self endTimerAndDismissToast];
+                return ;
+            }
+        }];
+    }
+}
+
+- (void)stopFindTimer:(NSNotification *)noti
+{
+    self.timeToast.text = @"设备已找到";
+    [self endTimerAndDismissToast];
+}
+
+- (void)endTimerAndDismissToast
+{
+    [self.findTimer invalidate];
+    self.findTimer = nil;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.timeToast dismiss];
+        self.timeToast = nil;
+        self.findBtn.enabled = YES;
+    });
+}
+
+#pragma mark - lazy
+- (MDToast *)timeToast
+{
+    if (!_timeToast) {
+        _timeToast = [[MDToast alloc] initWithText:@"正在查找设备..." duration:15];
+    }
+    
+    return _timeToast;
 }
 
 @end

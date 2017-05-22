@@ -9,10 +9,14 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 #import "BindPeripheralViewController.h"
+#import "BleManager.h"
 
-@interface AppDelegate ()
-
+@interface AppDelegate () < BleConnectDelegate, BleDiscoverDelegate, BleReceiveSearchResquset >
+{
+    BOOL _isBind;
+}
 @property (nonatomic, strong) MDSnackbar *stateBar;
+@property (nonatomic ,strong) BleManager *myBleManager;
 
 @end
 
@@ -34,33 +38,27 @@
      @{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont systemFontOfSize:15]}];
     self.window.rootViewController = nc;
     
-    self.stateBar = [[MDSnackbar alloc] init];
-    [self.stateBar setText:@"尚未绑定设备，请前往绑定设备，尚未绑定设备，请前往绑定设备，尚未绑定设备，请前往绑定设备"];
-    [self.stateBar setActionTitle:@"绑定"];
-    [self.stateBar setActionTitleColor:NAVIGATION_BAR_COLOR];
-    //这里100秒是让bar长驻在底部
-    [self.stateBar setDuration:100];
-    [self.stateBar addTarget:self action:@selector(bindAction)];
-    self.stateBar.multiline = YES;
-    self.stateBar.swipeable = NO;
-    self.stateBar.maxWidth = 200;
-    
-    MDButton *cancelButton = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:nil];
-    [cancelButton setImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
-    [cancelButton addTarget:self action:@selector(cancelStateBarAction:) forControlEvents:UIControlEventTouchUpInside];
-    cancelButton.backgroundColor = RED_COLOR;
-    [self.stateBar addSubview:cancelButton];
-    [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.stateBar.mas_left).offset(16);
-//        make.top.equalTo(self.stateBar.mas_top).offset(10);
-        make.centerY.equalTo(self.stateBar.mas_centerY);
-    }];
-    
-    [self.stateBar show];
+    self.myBleManager = [BleManager shareInstance];
+    self.myBleManager.discoverDelegate = self;
+    self.myBleManager.connectDelegate = self;
+    self.myBleManager.searchDelegate = self;
+    //监听state变化的状态
+    [self.myBleManager addObserver:self forKeyPath:@"systemBLEstate" options: NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
+    [self.myBleManager addObserver:self forKeyPath:@"connectState" options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
     
     return YES;
 }
 
+/** 跳转到蓝牙设置界面 */
+- (void)pushToBleSet
+{
+//    NSURL *url = [NSURL URLWithString:@"prefs:root=Bluetooth"];
+//    if ([[UIApplication sharedApplication]canOpenURL:url]) {
+//        [[UIApplication sharedApplication]openURL:url];
+//    }
+}
+
+/** 跳转到 bindPeripheral 界面 */
 - (void)bindAction
 {
     [self.stateBar dismiss];
@@ -68,6 +66,7 @@
     [(UINavigationController *)self.window.rootViewController pushViewController:vc animated:YES];
 }
 
+/** 取消通知栏 */
 - (void)cancelStateBarAction:(MDButton *)sender
 {
     if (self.stateBar.isShowing) {
@@ -75,30 +74,135 @@
     }
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+#pragma mark - 监听系统蓝牙状态
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    DLog(@"监听到%@对象的%@属性发生了改变， %@", object, keyPath, change[@"new"]);
+    if ([keyPath isEqualToString:@"systemBLEstate"]) {
+        NSString *new = change[@"new"];
+        switch (new.integerValue) {
+            case 4:
+            {
+                self.stateBar.text = NSLocalizedString(@"手机蓝牙未打开", nil);
+//                [self.stateBar setActionTitle:@"设置"];
+//                [self.stateBar addTarget:self action:@selector(pushToBleSet)];
+                [self.stateBar show];
+            }
+                break;
+            case 5:
+            {
+                if (self.myBleManager.connectState == kBLEstateDisConnected) {
+                    [self isBindPeripheral];
+                }
+            }
+                
+                break;
+                
+            default:
+                break;
+        }
+    }else if ([keyPath isEqualToString:@"connectState"]) {
+        NSString *new = change[@"new"];
+        
+    }
 }
 
-
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+/** 用来判断是否显示状态栏 */
+- (void)showTheStateBar
+{
+    if (self.myBleManager.systemBLEstate == 4) {
+        self.stateBar.text = NSLocalizedString(@"手机蓝牙未打开", nil);
+        [self.stateBar show];
+    }else if (self.myBleManager.systemBLEstate == 5) {
+        [self isBindPeripheral];
+    }
 }
 
-
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+/** 判断是否绑定 */
+- (void)isBindPeripheral
+{
+    _isBind = [[NSUserDefaults standardUserDefaults] boolForKey:@"isBind"];
+    DLog(@"有没有绑定设备 == %d",_isBind);
+    if (_isBind) {
+        if (self.stateBar.isShowing) {
+            [self.stateBar dismiss];
+            self.stateBar = nil;
+        }
+        self.stateBar.text = @"正在连接中";
+        [self.stateBar show];
+        [self connectBLE];
+    }else {
+        if (self.stateBar.isShowing) {
+            [self.stateBar dismiss];
+            self.stateBar = nil;
+        }
+        self.stateBar.text = @"未绑定设备";
+        self.stateBar.actionTitle = @"绑定";
+        [self.stateBar addTarget:self action:@selector(bindAction)];
+        [self.stateBar show];
+    }
 }
 
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+/** 连接已绑定的设备 */
+- (void)connectBLE
+{
+    BOOL systemConnect = [self.myBleManager retrievePeripherals];
+    if (!systemConnect) {
+        [self.myBleManager scanDevice];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.myBleManager stopScan];
+            
+            if (self.myBleManager.connectState == kBLEstateDisConnected) {
+                //[self.mainVc.stepView.stepLabel setText:@"未连接上设备，点击重试"];
+            }
+        });
+    }
 }
 
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    //    [self.myBleManager removeObserver:self forKeyPath:@"systemBLEstate"];
+}
 
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+#pragma mark - bleConnectDelegate
+- (void)manridyBLEDidConnectDevice:(BleDevice *)device
+{
+    //    [self.mainVc showFunctionView];
+    self.stateBar.text = @"连接成功";
+    
+//    self 
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.stateBar dismiss];
+        
+    });
+}
+
+#pragma mark - lazy
+- (MDSnackbar *)stateBar
+{
+    if (!_stateBar) {
+        _stateBar = [[MDSnackbar alloc] init];
+        [_stateBar setActionTitleColor:NAVIGATION_BAR_COLOR];
+        
+        //这里100秒是让bar长驻在底部
+        [_stateBar setDuration:1000];
+        _stateBar.multiline = YES;
+        
+        MDButton *cancelButton = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:nil];
+        [cancelButton setImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
+        [cancelButton addTarget:self action:@selector(cancelStateBarAction:) forControlEvents:UIControlEventTouchUpInside];
+        cancelButton.backgroundColor = RED_COLOR;
+        [_stateBar addSubview:cancelButton];
+        [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_stateBar.mas_left).offset(16);
+            //        make.top.equalTo(self.stateBar.mas_top).offset(10);
+            make.centerY.equalTo(_stateBar.mas_centerY);
+        }];
+    }
+    
+    return _stateBar;
 }
 
 

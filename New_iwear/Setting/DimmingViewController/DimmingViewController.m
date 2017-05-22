@@ -9,7 +9,9 @@
 #import "DimmingViewController.h"
 
 @interface DimmingViewController ()
-
+{
+    float _currentDim;
+}
 @property (nonatomic, strong) UILabel *currentDimLabel;
 @property (nonatomic, strong) MDSlider *slider;
 @property (nonatomic, strong) MDButton *subtractBtn;
@@ -32,6 +34,11 @@
     self.view.backgroundColor = SETTING_BACKGROUND_COLOR;
     
     [self createUI];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)createUI
@@ -79,6 +86,7 @@
         make.width.equalTo(@(225 * VIEW_CONTROLLER_FRAME_WIDTH / 375));
         make.height.equalTo(@10);
     }];
+    _currentDim = _slider.value;
 
     _subtractBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:nil];
     [_subtractBtn setTitle:@"-" forState:UIControlStateNormal];
@@ -120,25 +128,39 @@
 }
 
 - (void)sliderValueChanged:(id)sender {
-    self.currentDimLabel.text =
-    [NSString stringWithFormat:@"%0.f%%", _slider.value];
+    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
+        self.slider.value = _currentDim;
+        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
+    }else {
+        _currentDim = self.slider.value;
+        self.currentDimLabel.text =
+        [NSString stringWithFormat:@"%0.f%%", _slider.value];
+    }
 }
 
 - (void)subtractAction:(MDButton *)sender
 {
-    if (self.slider.value >= 10) {
-        self.slider.value = self.slider.value - 10.f;
-    }else if (self.slider.value >= 0 && self.slider.value < 10) {
-        self.slider.value = 0.f;
+    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
+        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
+    }else {
+        if (self.slider.value >= 10) {
+            self.slider.value = self.slider.value - 10.f;
+        }else if (self.slider.value >= 0 && self.slider.value < 10) {
+            self.slider.value = 0.f;
+        }
     }
 }
 
 - (void)plusAction:(MDButton *)sender
 {
-    if (self.slider.value <= 90) {
-        self.slider.value = self.slider.value + 10.f;
-    }else if (self.slider.value > 90 && self.slider.value <= 100) {
-        self.slider.value = 100.f;
+    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
+        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
+    }else {
+        if (self.slider.value <= 90) {
+            self.slider.value = self.slider.value + 10.f;
+        }else if (self.slider.value > 90 && self.slider.value <= 100) {
+            self.slider.value = 100.f;
+        }
     }
 }
 

@@ -9,8 +9,11 @@
 #import <MaterialControls/MaterialControls.h>
 #import "SedentaryReminderModel.h"
 
+typedef void(^SwitchChangeBlock)(void);
+
 @interface SedentaryReminderTableViewCell : MDTableViewCell
 
 @property (nonatomic, strong) SedentaryReminderModel *model;
+@property (nonatomic, copy) SwitchChangeBlock switchChangeBlock;
 
 @end

@@ -396,8 +396,8 @@ static BleManager *bleManager = nil;
     }else {
 #warning change T2T1 time
         //001e
-        T2T1 = @"001e" ;    //30分钟提醒间隔
-        //T2T1 = @"003c" ;    //60分钟提醒间隔
+        //T2T1 = @"001e" ;    //30分钟提醒间隔
+        T2T1 = @"003c" ;    //60分钟提醒间隔
         IHIM = [sedentaryModel.sedentaryStartTime stringByReplacingOccurrencesOfString:@":" withString:@""];
         IhIm = [sedentaryModel.sedentaryEndTime stringByReplacingOccurrencesOfString:@":" withString:@""];
         SHSM = [sedentaryModel.disturbStartTime stringByReplacingOccurrencesOfString:@":" withString:@""];
@@ -874,7 +874,10 @@ static BleManager *bleManager = nil;
             //获取血氧
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisBloodO2Data:value WithHeadStr:headStr];
             [[NSNotificationCenter defaultCenter] postNotificationName:GET_BO_DATA object:model];
-        }else if ([headStr isEqualToString:@"19"]) {
+        }else if ([headStr isEqualToString:@"16"] || [headStr isEqualToString:@"86"]) {
+            //久坐提醒成功
+            [[NSNotificationCenter defaultCenter] postNotificationName:GET_SEDENTARY_DATA object:nil userInfo:@{@"success":[headStr isEqualToString:@"16"]? @YES : @NO}];
+        }if ([headStr isEqualToString:@"19"]) {
             //开始拍照
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisTakePhoto:value WithHeadStr:headStr];
             [[NSNotificationCenter defaultCenter] postNotificationName:SET_TAKE_PHOTO object:model];

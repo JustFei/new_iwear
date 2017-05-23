@@ -88,7 +88,10 @@
     if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
         [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
     }else {
-        //show time picker
+        //显示时间选择器
+        if (self.timeButtonActionBlock) {
+            self.timeButtonActionBlock();
+        }
     }
 }
 
@@ -100,7 +103,12 @@
         [sender setSelected:!sender.selected];
         [self.timeButton setTitleColor:sender.selected ? TEXT_BLACK_COLOR_LEVEL4 : TEXT_BLACK_COLOR_LEVEL3  forState:UIControlStateNormal];
         [self.timeButton setEnabled:sender.selected];
+        if (self.timeSwitchActionBlock) {
+            self.timeSwitchActionBlock();
+        }
     }
 }
+
+
 
 @end

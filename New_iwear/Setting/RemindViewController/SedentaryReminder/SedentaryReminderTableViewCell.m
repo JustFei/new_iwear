@@ -114,7 +114,10 @@
     if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
         [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
     }else {
-        [sender setSelected:!sender.selected];
+//        [sender setSelected:!sender.selected];
+        if (self.switchChangeBlock) {
+            self.switchChangeBlock();
+        }
     }
 }
 

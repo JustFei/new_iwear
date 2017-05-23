@@ -15,6 +15,7 @@ static NSString * const LoseReminderTableViewCellID = @"LoseReminderTableViewCel
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *dataArr;
+@property (nonatomic, strong) MBProgressHUD *hud;
 
 @end
 
@@ -27,6 +28,10 @@ static NSString * const LoseReminderTableViewCellID = @"LoseReminderTableViewCel
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
+    
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"保存", nil) style:UIBarButtonItemStylePlain target:self action:@selector(saveLoseAction)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
     self.automaticallyAdjustsScrollViewInsets = YES;
     
@@ -45,6 +50,34 @@ static NSString * const LoseReminderTableViewCellID = @"LoseReminderTableViewCel
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)saveLoseAction
+{
+    [self.hud showAnimated:YES];
+
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self selector:@selector(setPairNoti:) name:GET_PAIR object:nil];
+    [[BleManager shareInstance] writePeripheralShakeWhenUnconnectWithOforOff:((SedentaryReminderModel *)self.dataArr.firstObject).switchIsOpen];
+}
+
+- (void)setPairNoti:(NSNotification *)noti
+{
+    [self.hud hideAnimated:YES];
+    manridyModel *model = [noti object];
+    if (model.isReciveDataRight) {
+        if (model.pairSuccess) {
+            MDToast *sucToast = [[MDToast alloc] initWithText:@"配对成功" duration:1.5];
+            [sucToast show];
+        }else {
+            MDToast *sucToast = [[MDToast alloc] initWithText:@"配对失败，请配对设备，否则无法使用该功能" duration:3];
+            [sucToast show];
+        }
+    }else {
+        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存失败" duration:1.5];
+        [sucToast show];
+    }
+}
+
+
 #pragma mark - UITableViewDelegate && UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -60,7 +93,13 @@ static NSString * const LoseReminderTableViewCellID = @"LoseReminderTableViewCel
 {
     SedentaryReminderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:LoseReminderTableViewCellID];
     
-    cell.model = self.dataArr[indexPath.row];
+    SedentaryReminderModel *model = self.dataArr[indexPath.row];
+    cell.switchChangeBlock = ^{
+        model.switchIsOpen = !model.switchIsOpen;
+        [tableView reloadData];
+    };
+    
+    cell.model = model;
     return cell;
 }
 

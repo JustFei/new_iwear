@@ -15,6 +15,7 @@ static NSString * const MessageReminderTableViewCellID = @"MessageReminderTableV
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *dataArr;
+@property (nonatomic, strong) MBProgressHUD *hud;
 
 @end
 
@@ -28,7 +29,9 @@ static NSString * const MessageReminderTableViewCellID = @"MessageReminderTableV
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
-    //    self.automaticallyAdjustsScrollViewInsets = YES;
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"保存", nil) style:UIBarButtonItemStylePlain target:self action:@selector(saveMessageAction)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
     self.view.backgroundColor = SETTING_BACKGROUND_COLOR;
     self.tableView.backgroundColor = CLEAR_COLOR;
@@ -80,6 +83,38 @@ static NSString * const MessageReminderTableViewCellID = @"MessageReminderTableV
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)saveMessageAction
+{
+    [self.hud showAnimated:YES];
+    BOOL phone = [[NSUserDefaults standardUserDefaults] boolForKey:@"phoneSwtch"];
+    BOOL message = ((SedentaryReminderModel *)self.dataArr.firstObject).switchIsOpen;
+    Remind *model = [[Remind alloc] init];
+    model.phone = phone;
+    model.message = message;
+    
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self selector:@selector(setPairNoti:) name:GET_PAIR object:nil];
+    [[BleManager shareInstance] writePhoneAndMessageRemindToPeripheral:model];
+}
+
+- (void)setPairNoti:(NSNotification *)noti
+{
+    [self.hud hideAnimated:YES];
+    manridyModel *model = [noti object];
+    if (model.isReciveDataRight) {
+        if (model.pairSuccess) {
+            MDToast *sucToast = [[MDToast alloc] initWithText:@"配对成功" duration:1.5];
+            [sucToast show];
+        }else {
+            MDToast *sucToast = [[MDToast alloc] initWithText:@"配对失败，请配对设备，否则无法使用该功能" duration:3];
+            [sucToast show];
+        }
+    }else {
+        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存失败" duration:1.5];
+        [sucToast show];
+    }
+}
+
 #pragma mark - UITableViewDelegate && UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -94,8 +129,13 @@ static NSString * const MessageReminderTableViewCellID = @"MessageReminderTableV
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SedentaryReminderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MessageReminderTableViewCellID];
+    SedentaryReminderModel *model = self.dataArr[indexPath.row];
+    cell.switchChangeBlock = ^{
+        model.switchIsOpen = !model.switchIsOpen;
+        [tableView reloadData];
+    };
     
-    cell.model = self.dataArr[indexPath.row];
+    cell.model = model;
     return cell;
 }
 
@@ -157,5 +197,13 @@ static NSString * const MessageReminderTableViewCellID = @"MessageReminderTableV
     return _dataArr;
 }
 
-
+- (MBProgressHUD *)hud
+{
+    if (!_hud) {
+        _hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        _hud.mode = MBProgressHUDModeIndeterminate;
+    }
+    
+    return _hud;
+}
 @end

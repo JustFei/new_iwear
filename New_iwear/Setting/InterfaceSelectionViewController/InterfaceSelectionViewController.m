@@ -157,8 +157,8 @@ static NSString *const interfaceCollectionViewHeaderID = @"interfaceCollectionVi
 - (NSArray *)dataArr
 {
     if (!_dataArr) {
-        NSArray *nameArr = @[@"待机",@"计步",@"运动",@"心率",@"睡眠",@"查找",@"闹钟",@"关机"];
-        NSArray *imageArr = @[@"selection_standby",@"selection_sport",@"selection_step",@"selection_heartrate",@"selection_sleep",@"selection_find",@"selection_alarmclock",@"selection_turnoff"];
+        NSArray *nameArr = @[@"待机",@"计步",@"运动",@"心率",@"睡眠",@"查找",@"闹钟",@"关于",@"关机"];
+        NSArray *imageArr = @[@"selection_standby",@"selection_sport",@"selection_step",@"selection_heartrate",@"selection_sleep",@"selection_find",@"selection_alarmclock",@"selection_about",@"selection_turnoff"];
         NSMutableArray *mutArr = [NSMutableArray array];
         for (int i = 0; i < nameArr.count; i ++) {
             InterfaceSelectionModel *model = [[InterfaceSelectionModel alloc] init];

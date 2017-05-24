@@ -47,7 +47,7 @@ static NSString * const MessageReminderTableViewCellID = @"MessageReminderTableV
     }];
     
     UIImageView *headImageView = [[UIImageView alloc] init];
-    [headImageView setImage:[UIImage imageNamed:@""]];
+    [headImageView setImage:[UIImage imageNamed:@"message_pic"]];
     [headView addSubview:headImageView];
     [headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(headView.mas_centerX);

@@ -566,6 +566,17 @@ static BleManager *bleManager = nil;
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
 
+/**
+ 时间格式设置
+ YES = 12 时
+ NO = 24 时
+ */
+- (void)writeTimeFormatterToPeripheral:(BOOL)twelveFormatter
+{
+    NSString *protocolStr = [NSString stringWithFormat:@"fc1800%@", twelveFormatter ? @"01" : @"00"];
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
+}
+
 #pragma mark - CBCentralManagerDelegate
 //检查设备蓝牙开关的状态
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central
@@ -844,8 +855,8 @@ static BleManager *bleManager = nil;
             [[NSNotificationCenter defaultCenter] postNotificationName:SET_USER_INFO object:model];
         }else if ([headStr isEqualToString:@"07"] || [headStr isEqualToString:@"87"]) {
             //运动目标推送
-            manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisSportTargetData:value WithHeadStr:headStr];
-            [[NSNotificationCenter defaultCenter] postNotificationName:SET_MOTION_TARGET object:model];
+//            manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisSportTargetData:value WithHeadStr:headStr];
+            [[NSNotificationCenter defaultCenter] postNotificationName:SET_MOTION_TARGET object:nil userInfo:@{@"success":[headStr isEqualToString:@"18"]? @YES : @NO}];
         }else if ([headStr isEqualToString:@"08"] || [headStr isEqualToString:@"88"]) {
             //询问设备是否配对成功
             manridyModel *model = [[AnalysisProcotolTool shareInstance]analysisPairData:value WithHeadStr:headStr];
@@ -887,9 +898,15 @@ static BleManager *bleManager = nil;
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisBloodO2Data:value WithHeadStr:headStr];
             [[NSNotificationCenter defaultCenter] postNotificationName:GET_BO_DATA object:model];
         }else if ([headStr isEqualToString:@"16"] || [headStr isEqualToString:@"86"]) {
-            //久坐提醒成功
+            //久坐提醒设置是否成功
             [[NSNotificationCenter defaultCenter] postNotificationName:GET_SEDENTARY_DATA object:nil userInfo:@{@"success":[headStr isEqualToString:@"16"]? @YES : @NO}];
-        }if ([headStr isEqualToString:@"19"]) {
+        }else if ([headStr isEqualToString:@"17"] || [headStr isEqualToString:@"87"]) {
+            //单位设置是否成功
+            [[NSNotificationCenter defaultCenter] postNotificationName:SET_UNITS_DATA object:nil userInfo:@{@"success":[headStr isEqualToString:@"16"]? @YES : @NO}];
+        }else if ([headStr isEqualToString:@"18"] || [headStr isEqualToString:@"88"]) {
+            //单位设置是否成功
+            [[NSNotificationCenter defaultCenter] postNotificationName:SET_TIME_FORMATTER object:nil userInfo:@{@"success":[headStr isEqualToString:@"18"]? @YES : @NO}];
+        }else if ([headStr isEqualToString:@"19"]) {
             //开始拍照
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisTakePhoto:value WithHeadStr:headStr];
             [[NSNotificationCenter defaultCenter] postNotificationName:SET_TAKE_PHOTO object:model];

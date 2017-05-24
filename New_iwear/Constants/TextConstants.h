@@ -9,7 +9,8 @@
 #ifndef TextConstants_h
 #define TextConstants_h
 
-/** 通知中心的名字 */
+#pragma mark - 通知中心的名字
+//设置时间
 #define SET_TIME @"SetTime"
 //设置闹钟
 #define SET_CLOCK @"SetClock"
@@ -49,5 +50,22 @@
 #define GET_SEGEMENT_RUN @"GetSegementRun"
 //久坐提醒
 #define GET_SEDENTARY_DATA @"GetSedentaryData"
+//单位设置
+#define SET_UNITS_DATA @"SetUnitsData"
+//时间格式设置
+#define SET_TIME_FORMATTER @"SetTimeFormatter"
+
+
+#pragma mark - NSUserDefault 保存的信息的名字
+//长度单位
+#define LONG_MEASURE @"LongMeasure"             //yes：英制，no：公制
+//重量单位
+#define HUNDRED_WEIGHT @"HundredWeight"         //yes：英制，no：公制
+//时间制式
+#define TIME_FORMATTER @"TimeFormatter"         //yes：12时，no：24时
+//运动目标
+#define MOTION_TARGET @"MotionTarget"
+//睡眠目标
+#define SLEEP_TARGET @"SleepTarget"
 
 #endif /* TextConstants_h */

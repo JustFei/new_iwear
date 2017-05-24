@@ -150,7 +150,6 @@
         }else if (self.slider.value >= 0 && self.slider.value < 10) {
             self.slider.value = 0.f;
         }
-//        [self writeVlaueToPer:self.slider.value];
     }
 }
 
@@ -164,7 +163,6 @@
         }else if (self.slider.value > 90 && self.slider.value <= 100) {
             self.slider.value = 100.f;
         }
-//        [self writeVlaueToPer:self.slider.value];
     }
 }
 

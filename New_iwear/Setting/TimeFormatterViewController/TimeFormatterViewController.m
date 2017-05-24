@@ -7,15 +7,16 @@
 //
 
 #import "TimeFormatterViewController.h"
-#import "InterfaceSelectionCollectionViewCell.h"
+#import "UnitsSettingTableViewCell.h"
+//#import "InterfaceSelectionCollectionViewCell.h"
 
-static NSString *const timeFormatterCollectionViewCellID = @"timeFormatterCollectionViewCell";
-static NSString *const timeFormatterCollectionViewHeaderID = @"timeFormatterCollectionViewHeader";
+static NSString * const TimeFormatterSettingTableViewCellID = @"TimeFormatterSettingTableViewCell";
 
-@interface TimeFormatterViewController () < UICollectionViewDelegate, UICollectionViewDataSource >
+@interface TimeFormatterViewController () < UITableViewDelegate, UITableViewDataSource >
 
-@property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *dataArr;
+@property (nonatomic, strong) MBProgressHUD *hud;
 
 @end
 
@@ -30,10 +31,16 @@ static NSString *const timeFormatterCollectionViewHeaderID = @"timeFormatterColl
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"保存", nil) style:UIBarButtonItemStylePlain target:self action:@selector(saveTimeFormatterAction)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    
     self.automaticallyAdjustsScrollViewInsets = YES;
     
     self.view.backgroundColor = SETTING_BACKGROUND_COLOR;
-    self.collectionView.backgroundColor = CLEAR_COLOR;
+    self.tableView.backgroundColor = CLEAR_COLOR;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setTimeFormatterWeatherSuccess:) name:SET_TIME_FORMATTER object:nil];
 }
 
 - (void)dealloc
@@ -47,130 +54,140 @@ static NSString *const timeFormatterCollectionViewHeaderID = @"timeFormatterColl
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - UICollectionVIewDelegate && UICollectionViewDataSource
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+- (void)saveTimeFormatterAction
+{
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    UnitsSettingModel *model = ((NSArray*)self.dataArr.firstObject).firstObject;
+    
+    [[BleManager shareInstance] writeTimeFormatterToPeripheral:model.isSelect];
+}
+
+- (void)setTimeFormatterWeatherSuccess:(NSNotification *)noti
+{
+    BOOL isFirst = noti.userInfo[@"success"];//success 里保存这设置是否成功
+    NSLog(@"isFirst:%d",isFirst);
+    //这里不能直接写 if (isFirst),必须如下写法
+    if (isFirst == 1) {
+        [self.hud hideAnimated:YES];
+        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
+        [sucToast show];
+        UnitsSettingModel *model = ((NSArray *)self.dataArr.firstObject).firstObject;//12小时制
+        //保存设置到本地
+        //长度单位
+        [[NSUserDefaults standardUserDefaults] setBool:model.isSelect forKey:TIME_FORMATTER];
+    }else {
+        //做失败处理
+        [self.hud hideAnimated:YES];
+        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存失败，稍后再试" duration:1.5];
+        [sucToast show];
+    }
+}
+
+#pragma mark - UITableViewDelegate && UITableViewDataSource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return self.dataArr.count;
 }
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return ((NSArray *)self.dataArr[section]).count;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    InterfaceSelectionCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:timeFormatterCollectionViewCellID forIndexPath:indexPath];
+    UnitsSettingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TimeFormatterSettingTableViewCellID forIndexPath:indexPath];
+    NSArray *sectionArr = self.dataArr[indexPath.section];
     
-    //    [cell setNeedsDisplay];
-    cell.model = self.dataArr[indexPath.row];
+    //将数据源中的选择项改变
+    cell.unitsSettingSelectBlock = ^{
+        for (int index = 0; index < sectionArr.count; index ++) {
+            UnitsSettingModel *mod = sectionArr[index];
+            mod.isSelect = index == indexPath.row ? YES : NO ;
+        }
+        [self.tableView reloadData];
+    };
+    
+    cell.model = sectionArr[indexPath.row];
+    
     return cell;
 }
 
-//这个方法是返回 Header的大小 size
--(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(VIEW_CONTROLLER_BOUNDS_WIDTH, 56);
+    return 48;
 }
 
-//这个也是最重要的方法 获取Header的 方法。
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:timeFormatterCollectionViewHeaderID forIndexPath:indexPath];
-    UILabel *tipLabel = [[UILabel alloc] init];
-    [tipLabel setText:@"选择需要在设备上显示的界面"];
-    [tipLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
-    [tipLabel setFont:[UIFont systemFontOfSize:14]];
-    [headerView addSubview:tipLabel];
-    [tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    return 56;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *headerView = [[UIView alloc] init];
+    headerView.backgroundColor = CLEAR_COLOR;
+    UILabel *sectionTitleLabel = [[UILabel alloc] init];
+    [sectionTitleLabel setText:@"选择需要在设备上显示的界面"];
+    [sectionTitleLabel setFont:[UIFont systemFontOfSize:14]];
+    [sectionTitleLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+    [headerView addSubview:sectionTitleLabel];
+    [sectionTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(headerView.mas_left).offset(16);
         make.centerY.equalTo(headerView.mas_centerY).offset(4);
-    }];
-    
-    UIView *lineView = [[UIView alloc] init];
-    lineView.backgroundColor = TEXT_BLACK_COLOR_LEVEL1;
-    [headerView addSubview:lineView];
-    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(headerView.mas_left);
-        make.right.equalTo(headerView.mas_right);
-        make.bottom.equalTo(headerView.mas_bottom);
-        make.height.equalTo(@1);
     }];
     
     return headerView;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
-        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
-    }else {
-        [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-        InterfaceSelectionModel *model = self.dataArr[indexPath.row];
-        if (model.selectMode == SelectModeUnchoose) {
-            return;
-        }
-        model.selectMode = model.selectMode == SelectModeSelected ? SelectModeUnselected : SelectModeSelected;
-        NSMutableArray *mutArr = [NSMutableArray arrayWithArray:self.dataArr];
-        [mutArr replaceObjectAtIndex:indexPath.row withObject:model];
-        self.dataArr = mutArr;
-        NSArray *indexPathArr = @[indexPath];
-        [self.collectionView reloadItemsAtIndexPaths:indexPathArr];
+    [_tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    //点击 cell 同样实现点击按钮的功能
+    NSArray *sectionArr = self.dataArr[indexPath.section];
+    for (int index = 0; index < sectionArr.count; index ++) {
+        UnitsSettingModel *mod = sectionArr[index];
+        mod.isSelect = index == indexPath.row ? YES : NO ;
     }
+    [self.tableView reloadData];
 }
 
 #pragma mark - lazy
-- (UICollectionView *)collectionView
+- (UITableView *)tableView
 {
-    if (!_collectionView) {
-        // 设置流水布局
-        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
-        // 定义大小
-        layout.itemSize = CGSizeMake(88 * VIEW_CONTROLLER_FRAME_WIDTH / 375, 176 * VIEW_CONTROLLER_FRAME_WIDTH / 375);
-        // 设置最小行间距
-        layout.minimumLineSpacing = 4;
-        // 设置垂直间距
-        layout.minimumInteritemSpacing = 4;
-        layout.sectionInset = UIEdgeInsetsMake(4, 43 * VIEW_CONTROLLER_FRAME_WIDTH / 375, 4, 43 * VIEW_CONTROLLER_FRAME_WIDTH / 375);
-        // 设置滚动方向（默认垂直滚动）
-        layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    if (!_tableView) {
+        _tableView = [[UITableView alloc] initWithFrame:VIEW_CONTROLLER_BOUNDS style:UITableViewStylePlain];
+        [_tableView registerClass:NSClassFromString(@"UnitsSettingTableViewCell") forCellReuseIdentifier:TimeFormatterSettingTableViewCellID];
+        UIView *footview = [[UIView alloc] init];
+        _tableView.tableFooterView = footview;
+        _tableView.scrollEnabled = NO;
+        _tableView.separatorInset = UIEdgeInsetsMake(0, 16, 0, 16);
         
-        _collectionView = [[UICollectionView alloc] initWithFrame:VIEW_CONTROLLER_BOUNDS collectionViewLayout:layout];
-        /** 注册cell */
-        [_collectionView registerClass:NSClassFromString(@"InterfaceSelectionCollectionViewCell") forCellWithReuseIdentifier:timeFormatterCollectionViewCellID];
-        /** 注册 header */
-        [_collectionView registerClass:NSClassFromString(@"UICollectionReusableView") forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:timeFormatterCollectionViewHeaderID];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
         
-        _collectionView.showsVerticalScrollIndicator = NO;
-        _collectionView.delegate = self;
-        _collectionView.dataSource = self;
-        [self.view addSubview:_collectionView];
+        [self.view addSubview:_tableView];
     }
     
-    return _collectionView;
+    return _tableView;
 }
 
 - (NSArray *)dataArr
 {
     if (!_dataArr) {
-        NSArray *nameArr = @[@"12时",@"24时",@"石英"];
-        NSMutableArray *mutArr = [NSMutableArray array];
-        for (int i = 0; i < nameArr.count; i ++) {
-            InterfaceSelectionModel *model = [[InterfaceSelectionModel alloc] init];
-            model.functionName = nameArr[i];
-            model.functionImageName = @"interface_camera";
-            if (i == 0 || i == 2) {
-                model.selectMode = SelectModeUnselected;
-            }else if (i == 1) {
-                model.selectMode = SelectModeSelected;
-            }
-            
-            [mutArr addObject:model];
+        NSArray *sec1 = @[@"12时", @"24时"];
+        NSMutableArray *mutArr1 = [NSMutableArray array];
+        for (int index = 0; index < sec1.count; index ++) {
+            UnitsSettingModel *model = [[UnitsSettingModel alloc] init];
+            model.name = sec1[index];
+            model.isSelect = index == 0 ? YES : NO;
+            [mutArr1 addObject:model];
         }
-        
-        _dataArr = [NSArray arrayWithArray:mutArr];
+        _dataArr = @[mutArr1];
     }
     
     return _dataArr;
 }
+
 @end

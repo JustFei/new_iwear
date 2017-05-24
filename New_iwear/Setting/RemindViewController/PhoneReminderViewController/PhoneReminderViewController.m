@@ -37,7 +37,7 @@ static NSString * const PhoneReminderTableViewCellID = @"PhoneReminderTableViewC
     self.tableView.backgroundColor = CLEAR_COLOR;
     
     UIView *headView = [UIView new];
-    headView.backgroundColor =  self.navigationController.navigationBar.backgroundColor;;
+    headView.backgroundColor =  self.navigationController.navigationBar.backgroundColor;
     [self.view addSubview:headView];
     [headView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left);
@@ -47,7 +47,7 @@ static NSString * const PhoneReminderTableViewCellID = @"PhoneReminderTableViewC
     }];
     
     UIImageView *headImageView = [[UIImageView alloc] init];
-    [headImageView setImage:[UIImage imageNamed:@""]];
+    [headImageView setImage:[UIImage imageNamed:@"call-reminder_pic"]];
     [headView addSubview:headImageView];
     [headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(headView.mas_centerX);

@@ -15,6 +15,7 @@ static NSString * const UnitsSettingTableViewCellID = @"UnitsSettingTableViewCel
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *dataArr;
+@property (nonatomic, strong) MBProgressHUD *hud;
 
 @end
 
@@ -28,9 +29,15 @@ static NSString * const UnitsSettingTableViewCellID = @"UnitsSettingTableViewCel
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"保存", nil) style:UIBarButtonItemStylePlain target:self action:@selector(saveUnitsAction)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    
     self.automaticallyAdjustsScrollViewInsets = YES;
     self.view.backgroundColor = SETTING_BACKGROUND_COLOR;
     self.tableView.backgroundColor = CLEAR_COLOR;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setUnitsWeatherSuccess:) name:SET_UNITS_DATA object:nil];
 }
 
 - (void)dealloc
@@ -42,6 +49,47 @@ static NSString * const UnitsSettingTableViewCellID = @"UnitsSettingTableViewCel
 - (void)backViewController
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)saveUnitsAction
+{
+    NSArray *arr1 = self.dataArr.firstObject;
+    UnitsSettingModel *model = arr1.lastObject;//英制的选择
+    
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    [self.hud showAnimated:YES];
+    [[BleManager shareInstance] writeUnitToPeripheral:model.isSelect];
+}
+
+/*推送公制和英制单位
+ isSelect
+ YES = 英制
+ NO  = 公制
+ */
+- (void)setUnitsWeatherSuccess:(NSNotification *)noti
+{
+    BOOL isFirst = noti.userInfo[@"success"];//success 里保存这设置是否成功
+    NSLog(@"isFirst:%d",isFirst);
+    //这里不能直接写 if (isFirst),必须如下写法
+    if (isFirst == 1) {
+        [self.hud hideAnimated:YES];
+        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
+        [sucToast show];
+        NSArray *arr1 = self.dataArr.firstObject;
+        NSArray *arr2 = self.dataArr.lastObject;
+        UnitsSettingModel *heightModel = arr1.lastObject;
+        UnitsSettingModel *weightModel = arr2.lastObject;
+        //保存设置到本地
+        //长度单位
+        [[NSUserDefaults standardUserDefaults] setBool:heightModel.isSelect forKey:LONG_MEASURE];
+        //重量单位
+        [[NSUserDefaults standardUserDefaults] setBool:weightModel.isSelect forKey:HUNDRED_WEIGHT];
+    }else {
+        //做失败处理
+        [self.hud hideAnimated:YES];
+        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存失败，稍后再试" duration:1.5];
+        [sucToast show];
+    }
 }
 
 #pragma mark - UITableViewDelegate && UITableViewDataSource

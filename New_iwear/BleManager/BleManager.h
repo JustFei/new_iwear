@@ -251,4 +251,11 @@ typedef enum : NSUInteger {
 /** 窗口协议 */
 - (void)writeWindowRequset:(WindowRequestMode)mode;
 
+/** 
+ 时间格式设置
+ YES = 12 时
+ NO = 24 时
+ */
+- (void)writeTimeFormatterToPeripheral:(BOOL)twelveFormatter;
+
 @end

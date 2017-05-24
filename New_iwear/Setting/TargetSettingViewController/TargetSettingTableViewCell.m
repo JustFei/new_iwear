@@ -61,7 +61,7 @@
         _model = model;
         [self.titleLabel setText:model.title];
         [self.nameLabel setText:model.name];
-        [self.targetLabel setText:model.target];
+        [self.targetLabel setText:[model.target stringByAppendingString:model.mode == TargetModeMotion ? @"步" : @"小时"]];
     }
 }
 

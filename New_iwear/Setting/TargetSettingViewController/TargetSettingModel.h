@@ -8,8 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum : NSUInteger {
+    TargetModeMotion = 0,
+    TargetModeSleep
+} TargetMode;
+
 @interface TargetSettingModel : NSObject
 
+@property (nonatomic, assign) TargetMode mode;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *target;

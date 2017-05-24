@@ -30,8 +30,10 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
     self.automaticallyAdjustsScrollViewInsets = YES;
-    
     self.view.backgroundColor = SETTING_BACKGROUND_COLOR;
+    
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self selector:@selector(weatheSuccess:) name:SET_FIRMWARE object:nil];
     
     [self createUI];
 }
@@ -132,10 +134,10 @@
         self.slider.value = _currentDim;
         [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
     }else {
-        _currentDim = self.slider.value;
-        self.currentDimLabel.text =
-        [NSString stringWithFormat:@"%0.f%%", _slider.value];
+        _currentDim = _slider.value;
+        self.currentDimLabel.text = [NSString stringWithFormat:@"%0.f%%", _slider.value];
     }
+    [self writeVlaueToPer:self.slider.value];
 }
 
 - (void)subtractAction:(MDButton *)sender
@@ -148,6 +150,7 @@
         }else if (self.slider.value >= 0 && self.slider.value < 10) {
             self.slider.value = 0.f;
         }
+//        [self writeVlaueToPer:self.slider.value];
     }
 }
 
@@ -160,6 +163,28 @@
             self.slider.value = self.slider.value + 10.f;
         }else if (self.slider.value > 90 && self.slider.value <= 100) {
             self.slider.value = 100.f;
+        }
+//        [self writeVlaueToPer:self.slider.value];
+    }
+}
+
+- (void)writeVlaueToPer:(float)value
+{
+    [[BleManager shareInstance] writeDimmingToPeripheral:value];
+}
+
+- (void)weatheSuccess:(NSNotification *)noti
+{
+    manridyModel *model = [noti object];
+    if (model.receiveDataType == ReturnModelTypeFirwmave){
+        //这里不能直接写 if (isFirst),必须如下写法
+        if (model.firmwareModel.mode == FirmwareModeSetLCD) {
+            MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
+            [sucToast show];
+        }else {
+            //做失败处理
+            MDToast *sucToast = [[MDToast alloc] initWithText:@"保存失败，稍后再试" duration:1.5];
+            [sucToast show];
         }
     }
 }

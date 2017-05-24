@@ -377,6 +377,18 @@ static BleManager *bleManager = nil;
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
 
+/** 设置设备亮度 */
+- (void)writeDimmingToPeripheral:(float)value
+{
+    NSString *dim = [NSStringTool ToHex:value];
+    if (dim.length < 2) {
+        dim = [NSString stringWithFormat:@"0%@", dim];
+    }
+    NSString *protocolStr = [NSString stringWithFormat:@"fc0f04%@", dim];
+    
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
+}
+
 //set sedentary alert
 - (void)writeSedentaryAlertWithSedentaryModel:(SedentaryModel *)sedentaryModel
 {

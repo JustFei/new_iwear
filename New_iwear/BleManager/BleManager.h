@@ -173,58 +173,61 @@ typedef enum : NSUInteger {
 //- (NSString *)getManridyBleSDKVersion;
 
 #pragma mark - 写入/请求相关数据
-/** set time */
+/** 设置时间 */
 - (void)writeTimeToPeripheral:(NSDate *)currentDate;
 
-/** set clock */
+/** 设置闹钟 */
 - (void)writeClockToPeripheral:(ClockData)state withClockArr:(NSMutableArray *)clockArr;
 
-/** get motionInfo */
+/** 计步信息 */
 - (void)writeMotionRequestToPeripheralWithMotionType:(MotionType)type;
 
-/** set motionInfo zero */
+/** 清空计步 */
 - (void)writeMotionZeroToPeripheral;
 
-/** get GPS data */
+/** GPS 数据 */
 - (void)writeGPSToPeripheral;
 
-/** set userInfo */
+/** 设置用户信息：身高体重 */
 - (void)writeUserInfoToPeripheralWeight:(NSString *)weight andHeight:(NSString *)height;
 
-/** set motion target */
+/** 设置运动目标 */
 - (void)writeMotionTargetToPeripheral:(NSString *)target;
 
-/** set heart rate test state */
+/** 心率开关 */
 - (void)writeHeartRateTestStateToPeripheral:(HeartRateTestState)state;
 
-/** get heart rate data */
+/** 心率数据 */
 - (void)writeHeartRateRequestToPeripheral:(HeartRateData)heartRateData;
 
-/** get sleepInfo */
+/** 睡眠数据 */
 - (void)writeSleepRequestToperipheral:(SleepData)sleepData;
 
-/** phone and message remind */
+/** 电话短信提醒 */
 - (void)writePhoneAndMessageRemindToPeripheral:(Remind *)remindModel;
 
-/** search my peripheral */
+/** 查找我的设备 */
 - (void)writeSearchPeripheralWithONorOFF:(BOOL)state;
 
-/** peripheral shake when unconnect */
+/** 防丢提醒 */
 - (void)writePeripheralShakeWhenUnconnectWithOforOff:(BOOL)state;
 
-/** stop peripheral */
+/** 停止设备提醒 */
 - (void)writeStopPeripheralRemind;
 
-/** get blood data */
+/** 血压数据 */
 - (void)writeBloodToPeripheral:(BloodData)bloodData;
 
-/** get blood O2 data */
+/** 血氧数据 */
 - (void)writeBloodO2ToPeripheral:(BloodO2Data)bloodO2Data;
 
-/** get version from peripheral */
+/** 获取设备版本号 */
 - (void)writeRequestVersion;
 
-/** set sedentary alert */
+/** 设置设备亮度 */
+- (void)writeDimmingToPeripheral:(float)value;
+
+/** 设置久坐提醒 */
 - (void)writeSedentaryAlertWithSedentaryModel:(SedentaryModel *)sedentaryModel;
 
 /** 写入名称 */

@@ -15,6 +15,7 @@ static NSString * const AboutTableViewCellID = @"AboutTableViewCell";
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *dataArr;
+@property (nonatomic, strong) NSArray *vcArr;
 
 @end
 
@@ -84,6 +85,7 @@ static NSString * const AboutTableViewCellID = @"AboutTableViewCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -126,6 +128,15 @@ static NSString * const AboutTableViewCellID = @"AboutTableViewCell";
     }
     
     return _dataArr;
+}
+
+- (NSArray *)vcArr
+{
+    if (!_vcArr) {
+        _vcArr = @[@"VersionUpdateViewController",@"",@""];
+    }
+    
+    return _vcArr;
 }
 
 @end

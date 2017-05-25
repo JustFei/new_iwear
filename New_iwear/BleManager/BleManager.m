@@ -920,7 +920,7 @@ static BleManager *bleManager = nil;
             [[NSNotificationCenter defaultCenter] postNotificationName:GET_SEGEMENT_RUN object:model];
         }else if ([headStr isEqualToString:@"fc"] || [headStr isEqualToString:@"FC"]) {
             NSString *secondStr = [NSString stringWithFormat:@"%02x", hexBytes[1]];
-            NSString *TTStr = [NSString stringWithFormat:@"%02x", hexBytes[3]];
+//            NSString *TTStr = [NSString stringWithFormat:@"%02x", hexBytes[3]];
             if ([secondStr isEqualToString:@"10"]) {
                 //设备查找手机，需要全局监听。有 yes 和 no 两种状态
                 [[NSNotificationCenter defaultCenter] postNotificationName:SET_FIND_PHONE object:nil];

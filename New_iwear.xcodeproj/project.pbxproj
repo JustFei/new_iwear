@@ -10,6 +10,9 @@
 		100E49061EC998D400625A93 /* TrainingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 100E49051EC998D400625A93 /* TrainingViewController.m */; };
 		100E490A1EC9AD6A00625A93 /* TrainingTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 100E49091EC9AD6A00625A93 /* TrainingTableCell.m */; };
 		100E490D1EC9B88B00625A93 /* TrainingTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 100E490C1EC9B88B00625A93 /* TrainingTableModel.m */; };
+		1032CA4F1ED6CC330084693D /* VersionUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032CA4E1ED6CC330084693D /* VersionUpdateViewController.m */; };
+		1032CA5A1ED6D1B80084693D /* VersionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032CA571ED6D1B80084693D /* VersionModel.m */; };
+		1032CA5B1ED6D1B80084693D /* VersionUpdateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032CA591ED6D1B80084693D /* VersionUpdateTableViewCell.m */; };
 		109865BB1ECC5D200077797E /* UINavigationBar+Awesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 109865BA1ECC5D200077797E /* UINavigationBar+Awesome.m */; };
 		10C496451ECEE739000F5769 /* FirmwareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C496441ECEE739000F5769 /* FirmwareModel.m */; };
 		10EE89141ED6B67A007A3CE4 /* QRCodeScanningVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EE890A1ED6B67A007A3CE4 /* QRCodeScanningVC.m */; };
@@ -157,6 +160,12 @@
 		100E49091EC9AD6A00625A93 /* TrainingTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrainingTableCell.m; path = Training/TrainingTableCell.m; sourceTree = "<group>"; };
 		100E490B1EC9B88B00625A93 /* TrainingTableModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrainingTableModel.h; path = Training/TrainingTableModel.h; sourceTree = "<group>"; };
 		100E490C1EC9B88B00625A93 /* TrainingTableModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrainingTableModel.m; path = Training/TrainingTableModel.m; sourceTree = "<group>"; };
+		1032CA4D1ED6CC330084693D /* VersionUpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VersionUpdateViewController.h; path = VersionUpdateViewController/VersionUpdateViewController.h; sourceTree = "<group>"; };
+		1032CA4E1ED6CC330084693D /* VersionUpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VersionUpdateViewController.m; path = VersionUpdateViewController/VersionUpdateViewController.m; sourceTree = "<group>"; };
+		1032CA561ED6D1B80084693D /* VersionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VersionModel.h; path = VersionUpdateViewController/VersionModel.h; sourceTree = "<group>"; };
+		1032CA571ED6D1B80084693D /* VersionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VersionModel.m; path = VersionUpdateViewController/VersionModel.m; sourceTree = "<group>"; };
+		1032CA581ED6D1B80084693D /* VersionUpdateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VersionUpdateTableViewCell.h; path = VersionUpdateViewController/VersionUpdateTableViewCell.h; sourceTree = "<group>"; };
+		1032CA591ED6D1B80084693D /* VersionUpdateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VersionUpdateTableViewCell.m; path = VersionUpdateViewController/VersionUpdateTableViewCell.m; sourceTree = "<group>"; };
 		109865B91ECC5D200077797E /* UINavigationBar+Awesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Awesome.h"; sourceTree = "<group>"; };
 		109865BA1ECC5D200077797E /* UINavigationBar+Awesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Awesome.m"; sourceTree = "<group>"; };
 		10C496431ECEE739000F5769 /* FirmwareModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirmwareModel.h; sourceTree = "<group>"; };
@@ -384,6 +393,19 @@
 				100E490C1EC9B88B00625A93 /* TrainingTableModel.m */,
 			);
 			name = Training;
+			sourceTree = "<group>";
+		};
+		1032CA4C1ED6CBBC0084693D /* VersionUpdateViewController */ = {
+			isa = PBXGroup;
+			children = (
+				1032CA4D1ED6CC330084693D /* VersionUpdateViewController.h */,
+				1032CA4E1ED6CC330084693D /* VersionUpdateViewController.m */,
+				1032CA561ED6D1B80084693D /* VersionModel.h */,
+				1032CA571ED6D1B80084693D /* VersionModel.m */,
+				1032CA581ED6D1B80084693D /* VersionUpdateTableViewCell.h */,
+				1032CA591ED6D1B80084693D /* VersionUpdateTableViewCell.m */,
+			);
+			name = VersionUpdateViewController;
 			sourceTree = "<group>";
 		};
 		109865B71ECC5D070077797E /* Category */ = {
@@ -958,6 +980,7 @@
 				9CD631201EC06E84005EECE1 /* AboutViewController.m */,
 				9CD631221EC06F7B005EECE1 /* AboutTableViewCell.h */,
 				9CD631231EC06F7B005EECE1 /* AboutTableViewCell.m */,
+				1032CA4C1ED6CBBC0084693D /* VersionUpdateViewController */,
 			);
 			name = AboutViewController;
 			sourceTree = "<group>";
@@ -1303,8 +1326,10 @@
 				9C347BC71EC371EC001CFE6F /* UserInfoSettingModel.m in Sources */,
 				9C87EB281EC5B6BD0051C59D /* test.swift in Sources */,
 				9CE95A651EC1BE5900E88B47 /* SedentaryReminderModel.m in Sources */,
+				1032CA5A1ED6D1B80084693D /* VersionModel.m in Sources */,
 				9C079AAB1EBC612500D54AB3 /* SettingCellModel.m in Sources */,
 				9CD6311A1EC05BB2005EECE1 /* TargetSettingTableViewCell.m in Sources */,
+				1032CA4F1ED6CC330084693D /* VersionUpdateViewController.m in Sources */,
 				9C0817831EB9AB9300C1845F /* SettingTableViewCell.m in Sources */,
 				9C9E7FCE1EC2B224004840FD /* ClockModel.m in Sources */,
 				9CD6310B1EC019A2005EECE1 /* UnitsSettingTableViewCell.m in Sources */,
@@ -1330,6 +1355,7 @@
 				9C3AE83C1EBD7A200078CDAA /* RemindViewController.m in Sources */,
 				9C9E7FDA1EC2C4C2004840FD /* LoseReminderViewController.m in Sources */,
 				9C9E80071EC2E203004840FD /* Remind.m in Sources */,
+				1032CA5B1ED6D1B80084693D /* VersionUpdateTableViewCell.m in Sources */,
 				9C9E800F1EC2E203004840FD /* TakePhotoModel.m in Sources */,
 				10EE89141ED6B67A007A3CE4 /* QRCodeScanningVC.m in Sources */,
 				9C3AE8461EBDB46B0078CDAA /* RemindMoreViewController.m in Sources */,

@@ -14,7 +14,7 @@
 - (instancetype)initWith:(CBPeripheral *)cbPeripheral andAdvertisementData:(NSDictionary *)advertisementData andRSSI:(NSNumber *)RSSI
 {
     BleDevice *per = [[BleDevice alloc] init];
-    NSString *advName = [advertisementData objectForKey:@"kCBAdvDataLocalName"];
+//    NSString *advName = [advertisementData objectForKey:@"kCBAdvDataLocalName"];
     per.peripheral = cbPeripheral;
     per.deviceName = cbPeripheral.name;
     per.uuidString = [advertisementData objectForKey:@"kCBAdvDataServiceUUIDs"];

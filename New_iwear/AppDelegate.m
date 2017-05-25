@@ -44,7 +44,7 @@
     self.myBleManager.searchDelegate = self;
     //监听state变化的状态
     [self.myBleManager addObserver:self forKeyPath:@"systemBLEstate" options: NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
-    [self.myBleManager addObserver:self forKeyPath:@"connectState" options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
+//    [self.myBleManager addObserver:self forKeyPath:@"connectState" options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
     
     return YES;
 }
@@ -101,10 +101,11 @@
             default:
                 break;
         }
-    }else if ([keyPath isEqualToString:@"connectState"]) {
-        NSString *new = change[@"new"];
-        
     }
+//    else if ([keyPath isEqualToString:@"connectState"]) {
+//        NSString *new = change[@"new"];
+//        
+//    }
 }
 
 /** 用来判断是否显示状态栏 */

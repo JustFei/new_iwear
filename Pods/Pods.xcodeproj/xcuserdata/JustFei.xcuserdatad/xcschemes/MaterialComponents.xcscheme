@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0B548419BEE5379DD899E782153CC73C"
+               BlueprintIdentifier = "AB6F38476E0F739D444BEAFDB469E851"
                BuildableName = "libMaterialComponents.a"
                BlueprintName = "MaterialComponents"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0B548419BEE5379DD899E782153CC73C"
+            BlueprintIdentifier = "AB6F38476E0F739D444BEAFDB469E851"
             BuildableName = "libMaterialComponents.a"
             BlueprintName = "MaterialComponents"
             ReferencedContainer = "container:Pods.xcodeproj">
@@ -60,15 +60,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0B548419BEE5379DD899E782153CC73C"
-            BuildableName = "libMaterialComponents.a"
-            BlueprintName = "MaterialComponents"
-            ReferencedContainer = "container:Pods.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

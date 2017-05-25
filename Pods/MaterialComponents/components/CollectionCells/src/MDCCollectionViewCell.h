@@ -14,6 +14,8 @@
  limitations under the License.
  */
 
+#import "MaterialInk.h"
+
 #import <UIKit/UIKit.h>
 
 /** The available cell accessory view types. Based on UITableViewCellAccessoryType. */
@@ -30,6 +32,12 @@ typedef NS_ENUM(NSUInteger, MDCCollectionViewCellAccessoryType) {
   /** An info button accessory view. */
   MDCCollectionViewCellAccessoryDetailButton
 };
+
+// String key for accessibility hint of selected cells.
+FOUNDATION_EXPORT NSString *_Nonnull const kSelectedCellAccessibilityHintKey;
+
+// String key for accessibility hint of deselected cells.
+FOUNDATION_EXPORT NSString *_Nonnull const kDeselectedCellAccessibilityHintKey;
 
 /**
  The MDCCollectionViewCell class provides an implementation of UICollectionViewCell that
@@ -93,5 +101,8 @@ typedef NS_ENUM(NSUInteger, MDCCollectionViewCellAccessoryType) {
  @param animated YES the transition will be animated; otherwise, NO.
  */
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated;
+
+/** View containing the ink effect. */
+@property(nonatomic, strong, nullable) MDCInkView *inkView;
 
 @end

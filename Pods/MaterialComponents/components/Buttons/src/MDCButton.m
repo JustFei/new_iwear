@@ -18,6 +18,7 @@
 
 #import "MDFTextAccessibility.h"
 #import "MaterialInk.h"
+#import "MaterialMath.h"
 #import "MaterialShadowElevations.h"
 #import "MaterialShadowLayer.h"
 #import "MaterialTypography.h"
@@ -50,16 +51,11 @@ static NSString *const MDCButtonAccessibilityLabelsKey = @"MDCButtonAccessibilit
 
 static const NSTimeInterval MDCButtonAnimationDuration = 0.2;
 
-// http://www.google.com/design/spec/components/buttons.html#buttons-main-buttons
+// https://material.io/guidelines/components/buttons.html#buttons-main-buttons
 static const CGFloat MDCButtonDisabledAlpha = 0.1f;
 
-// Blue 500 from http://www.google.com/design/spec/style/color.html#color-color-palette .
+// Blue 500 from https://material.io/guidelines/style/color.html#color-color-palette .
 static const uint32_t MDCButtonDefaultBackgroundColor = 0x2196F3;
-
-// Checks whether the provided floating point number is exactly zero.
-static inline BOOL MDCButtonFloatIsExactlyZero(CGFloat value) {
-  return (value == 0.f);
-}
 
 // Creates a UIColor from a 24-bit RGB color encoded as an integer.
 static inline UIColor *MDCColorFromRGB(uint32_t rgbValue) {
@@ -102,6 +98,8 @@ static NSAttributedString *uppercaseAttributedString(NSAttributedString *string)
   // Cached accessibility settings.
   NSMutableDictionary<NSNumber *, NSString *> *_accessibilityLabelForState;
   NSString *_accessibilityLabelExplicitValue;
+
+  BOOL _mdc_adjustsFontForContentSizeCategory;
 }
 @property(nonatomic, strong) MDCInkView *inkView;
 @end
@@ -272,6 +270,10 @@ static NSAttributedString *uppercaseAttributedString(NSAttributedString *string)
 
 - (void)dealloc {
   [self removeTarget:self action:NULL forControlEvents:UIControlEventAllEvents];
+
+  [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                  name:UIContentSizeCategoryDidChangeNotification
+                                                object:nil];
 }
 
 - (void)setCustomTitleColor:(UIColor *)customTitleColor {
@@ -616,7 +618,7 @@ static NSAttributedString *uppercaseAttributedString(NSAttributedString *string)
 }
 
 - (BOOL)shouldHaveOpaqueBackground {
-  BOOL isFlatButton = MDCButtonFloatIsExactlyZero([self elevationForState:UIControlStateNormal]);
+  BOOL isFlatButton = MDCCGFloatIsExactlyZero([self elevationForState:UIControlStateNormal]);
   return !isFlatButton;
 }
 
@@ -674,6 +676,32 @@ static NSAttributedString *uppercaseAttributedString(NSAttributedString *string)
                                                  options:options];
     [self setTitleColor:color forState:UIControlStateNormal];
   }
+}
+
+- (BOOL)mdc_adjustsFontForContentSizeCategory {
+  return _mdc_adjustsFontForContentSizeCategory;
+}
+
+- (void)mdc_setAdjustsFontForContentSizeCategory:(BOOL)adjusts {
+  _mdc_adjustsFontForContentSizeCategory = adjusts;
+  if (_mdc_adjustsFontForContentSizeCategory) {
+    UIFont *font = [UIFont mdc_preferredFontForMaterialTextStyle:MDCFontTextStyleButton];
+    self.titleLabel.font = font;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(contentSizeCategoryDidChange:)
+                                                 name:UIContentSizeCategoryDidChangeNotification
+                                               object:nil];
+  } else {
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIContentSizeCategoryDidChangeNotification
+                                                  object:nil];
+  }
+}
+
+- (void)contentSizeCategoryDidChange:(NSNotification *)notification {
+  UIFont *font = [UIFont mdc_preferredFontForMaterialTextStyle:MDCFontTextStyleButton];
+  self.titleLabel.font = font;
+  [self sizeToFit];
 }
 
 #pragma mark - Deprecations

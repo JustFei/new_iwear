@@ -9,6 +9,8 @@
 #import "BindPeripheralViewController.h"
 #import "BleManager.h"
 #import "BleDevice.h"
+#import <AVFoundation/AVFoundation.h>
+#import "QRCodeScanningVC.h"
 //#import "FMDBManager.h"
 
 #define WIDTH self.view.frame.size.width
@@ -19,8 +21,8 @@
     NSMutableArray *_dataArr;
     /** 点击的索引 */
     NSInteger index;
-    /** 是否连接 */
-//    BOOL _isConnected;
+    /** 扫描到的 mac 地址 */
+    NSString *QRMacAddress;
 }
 
 @property (nonatomic ,weak) UIView *downView;
@@ -111,6 +113,7 @@
     [self.peripheralList setHidden:YES];
     [self.refreshImageView setHidden:YES];
     [self.bindStateLabel setText:[[NSUserDefaults standardUserDefaults] objectForKey:@"bindPeripheralName"]];
+    [self.qrCodeButton setHidden:YES];
 }
 
 - (void)setUnBindView
@@ -122,6 +125,7 @@
     [self.peripheralList setHidden:YES];
     [self.refreshImageView setHidden:NO];
     [self.bindStateLabel setText:@"未绑定设备"];
+    [self.qrCodeButton setHidden:NO];
 }
 
 #pragma mark - Action
@@ -195,9 +199,70 @@
     }
 }
 
-- (void)qrAction:(MDButton *)sender
+- (void)scanQR:(UIButton *)sender
 {
-    
+    // 1、 获取摄像设备
+    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    if (device) {
+        AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+        if (status == AVAuthorizationStatusNotDetermined) {
+            [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+                if (granted) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        QRCodeScanningVC *vc = [[QRCodeScanningVC alloc] init];
+                        [self.navigationController pushViewController:vc animated:YES];
+                    });
+                    
+                    SGQRCodeLog(@"当前线程 - - %@", [NSThread currentThread]);
+                    // 用户第一次同意了访问相机权限
+                    SGQRCodeLog(@"用户第一次同意了访问相机权限");
+                    
+                } else {
+                    
+                    // 用户第一次拒绝了访问相机权限
+                    SGQRCodeLog(@"用户第一次拒绝了访问相机权限");
+                }
+            }];
+        } else if (status == AVAuthorizationStatusAuthorized) { // 用户允许当前应用访问相机
+            QRCodeScanningVC *vc = [[QRCodeScanningVC alloc] init];
+            vc.scanResult = ^(NSString *result) {
+                NSLog(@"macAddress == %@", result);
+                result = [result lowercaseString];
+                QRMacAddress = result;
+                [self.myBleMananger scanDevice];
+                self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                self.hud.mode = MBProgressHUDModeIndeterminate;
+                [self.hud.label setText:NSLocalizedString(@"绑定中", nil)];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    if (self.myBleMananger.connectState == kBLEstateDisConnected) {
+                        [self.myBleMananger stopScan];
+                        [self.hud.label setText:@"绑定失败，请重试"];
+                        [self.hud hideAnimated:YES afterDelay:1.5];
+                    }
+                });
+            };
+            [self.navigationController pushViewController:vc animated:YES];
+        } else if (status == AVAuthorizationStatusDenied) { // 用户拒绝当前应用访问相机
+            UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"⚠️ 警告" message:@"请去-> [设置 - 隐私 - 相机 - SGQRCodeExample] 打开访问开关" preferredStyle:(UIAlertControllerStyleAlert)];
+            UIAlertAction *alertA = [UIAlertAction actionWithTitle:@"确定" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+                
+            }];
+            
+            [alertC addAction:alertA];
+            [self presentViewController:alertC animated:YES completion:nil];
+            
+        } else if (status == AVAuthorizationStatusRestricted) {
+            NSLog(@"因为系统原因, 无法访问相册");
+        }
+    } else {
+        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"未检测到您的摄像头" preferredStyle:(UIAlertControllerStyleAlert)];
+        UIAlertAction *alertA = [UIAlertAction actionWithTitle:@"确定" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        
+        [alertC addAction:alertA];
+        [self presentViewController:alertC animated:YES completion:nil];
+    }
 }
 
 - (void)deletAllRowsAtTableView
@@ -344,6 +409,11 @@
 {
     if (![_dataArr containsObject:device]) {
         [_dataArr addObject:device];
+        
+        if (QRMacAddress.length > 0) {
+            [QRMacAddress isEqualToString:device.macAddress] ? [self.myBleMananger connectDevice:device] : NSLog(@"不匹配");
+        }
+        
         NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
         
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:_dataArr.count - 1 inSection:0];
@@ -486,7 +556,7 @@
     if (!_qrCodeButton) {
         _qrCodeButton = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
         [_qrCodeButton setImage:[UIImage imageNamed:@"devicebinding_scan"] forState:UIControlStateNormal];
-        [_qrCodeButton addTarget:self action:@selector(qrAction:) forControlEvents:UIControlEventTouchUpInside];
+        [_qrCodeButton addTarget:self action:@selector(scanQR:) forControlEvents:UIControlEventTouchUpInside];
         
         [self.view addSubview:_qrCodeButton];
         [_qrCodeButton mas_makeConstraints:^(MASConstraintMaker *make) {

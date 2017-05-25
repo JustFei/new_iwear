@@ -1,12 +1,9 @@
 /*
- Copyright 2016-present the Material Components for iOS authors. All Rights Reserved.
-
+ Copyright 2017-present the Material Components for iOS authors. All Rights Reserved.
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
-
  http://www.apache.org/licenses/LICENSE-2.0
-
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,17 +11,19 @@
  limitations under the License.
  */
 
-#import "MDCCollectionViewCell.h"
+#import <UIKit/UIKit.h>
 
-#import "MaterialInk.h"
+#import "MDCFontTextStyle.h"
+
+@interface UIFont (MaterialTypography)
 
 /**
- This class adds an ink view as a cell subview. Must be used with an ink controller in order to
- fully implement ink behavior.
- */
-@interface MDCCollectionViewCell (Ink)
+ Returns an instance of the font associated with the Material text style and scaled based on the
+ content size category.
 
-/** View containing the ink effect. */
-@property(nonatomic, strong, nullable) MDCInkView *inkView;
+ @param style The Material font text style for which to return a font.
+ @return The font associated with the specified style.
+ */
++ (nonnull UIFont *)mdc_preferredFontForMaterialTextStyle:(MDCFontTextStyle)style;
 
 @end

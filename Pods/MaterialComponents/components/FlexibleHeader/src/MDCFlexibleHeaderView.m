@@ -55,8 +55,8 @@ static const CGFloat kMaxAnchorLengthQuickSwipe = 25;
 // view finishes decelerating with the header partially shifted.
 static const CGFloat kMinimumVisibleProportion = 0.25;
 
-static inline MDCFlexibleHeaderShiftBehavior
- ShiftBehaviorForCurrentAppContext(MDCFlexibleHeaderShiftBehavior intendedShiftBehavior) {
+static inline MDCFlexibleHeaderShiftBehavior ShiftBehaviorForCurrentAppContext(
+    MDCFlexibleHeaderShiftBehavior intendedShiftBehavior) {
   if ([[[NSBundle mainBundle] bundlePath] hasSuffix:@".appex"] &&
       intendedShiftBehavior == MDCFlexibleHeaderShiftBehaviorEnabledWithStatusBar) {
     return MDCFlexibleHeaderShiftBehaviorEnabled;
@@ -267,7 +267,6 @@ static NSString *const MDCFlexibleHeaderDelegateKey = @"MDCFlexibleHeaderDelegat
   if (self.delegate) {
     [aCoder encodeConditionalObject:self.delegate forKey:MDCFlexibleHeaderDelegateKey];
   }
-
 }
 
 - (void)commonMDCFlexibleHeaderViewInit {
@@ -276,13 +275,13 @@ static NSString *const MDCFlexibleHeaderDelegateKey = @"MDCFlexibleHeaderDelegat
   _statusBarShifter.enabled = [self fhv_shouldAllowShifting];
 
   NSPointerFunctionsOptions options =
-  (NSPointerFunctionsWeakMemory | NSPointerFunctionsObjectPointerPersonality);
+      (NSPointerFunctionsWeakMemory | NSPointerFunctionsObjectPointerPersonality);
   _forwardingViews = [NSHashTable hashTableWithOptions:options];
 
   NSPointerFunctionsOptions keyOptions =
-  (NSPointerFunctionsWeakMemory | NSPointerFunctionsObjectPointerPersonality);
+      (NSPointerFunctionsWeakMemory | NSPointerFunctionsObjectPointerPersonality);
   NSPointerFunctionsOptions valueOptions =
-  (NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPointerPersonality);
+      (NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPointerPersonality);
   _trackedScrollViews = [NSMapTable mapTableWithKeyOptions:keyOptions valueOptions:valueOptions];
 
   _headerContentImportance = MDCFlexibleHeaderContentImportanceDefault;
@@ -308,10 +307,13 @@ static NSString *const MDCFlexibleHeaderDelegateKey = @"MDCFlexibleHeaderDelegat
 
   _contentView = [[UIView alloc] initWithFrame:self.bounds];
   _contentView.autoresizingMask =
-  (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+      (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
   [super addSubview:_contentView];
 
-  self.backgroundColor = [UIColor lightGrayColor];
+  if (![MDCFlexibleHeaderView appearance].backgroundColor) {
+    self.backgroundColor = [UIColor lightGrayColor];
+  }
+
   _defaultShadowLayer.backgroundColor = self.backgroundColor.CGColor;
 
   self.layer.shadowColor = [[UIColor blackColor] CGColor];
@@ -368,15 +370,14 @@ static NSString *const MDCFlexibleHeaderDelegateKey = @"MDCFlexibleHeaderDelegat
   [super layoutSubviews];
 
   [self fhv_updateShadowPath];
+  [CATransaction begin];
   BOOL disableActions = [CATransaction disableActions];
   [CATransaction setDisableActions:YES];
   _defaultShadowLayer.frame = self.bounds;
   _customShadowLayer.frame = self.bounds;
   _shadowLayer.frame = self.bounds;
-  [_defaultShadowLayer layoutIfNeeded];
-  [_customShadowLayer layoutIfNeeded];
-  [_shadowLayer layoutIfNeeded];
   [CATransaction setDisableActions:disableActions];
+  [CATransaction commit];
 }
 
 - (void)willMoveToSuperview:(UIView *)newSuperview {
@@ -876,16 +877,42 @@ static NSString *const MDCFlexibleHeaderDelegateKey = @"MDCFlexibleHeaderDelegat
 
 #pragma mark Gestures
 
+// TODO(#1254): Re-enable sanity check assert on viewDidPan
+// This function is a temporary inclusion to stop an assert from triggering on iOS 10.3b until
+// we determine the cause. Remove once #1254 is closed.
+#if DEBUG
+static BOOL isRunningiOS10_3OrAbove() {
+  static dispatch_once_t onceToken;
+  static BOOL isRunningiOS10_3OrAbove;
+  dispatch_once(&onceToken, ^{
+    NSProcessInfo *info = [NSProcessInfo processInfo];
+    if ([info respondsToSelector:@selector(isOperatingSystemAtLeastVersion:)]) {
+      isRunningiOS10_3OrAbove = [info isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){
+                                                                          .majorVersion = 10,
+                                                                          .minorVersion = 3,
+                                                                          .patchVersion = 0,
+                                                                      }];
+    }
+  });
+  return isRunningiOS10_3OrAbove;
+}
+#endif
+
 #if DEBUG
 - (void)fhv_scrollViewDidPan:(UIPanGestureRecognizer *)pan {
   if (pan.state == UIGestureRecognizerStateEnded && [self fhv_canShiftOffscreen]) {
     // You _must_ implement the target content offset method in your UIScrollViewDelegate.
     // Not implementing the target content offset method can allow the status bar to get into an
     // indeterminate state and may cause your app to be rejected.
-    NSAssert(_didAdjustTargetContentOffset, @"%@ isn't invoking %@'s %@.",
-             NSStringFromClass([_trackingScrollView class]), NSStringFromClass([self class]),
-             NSStringFromSelector(
-                 @selector(trackingScrollViewWillEndDraggingWithVelocity:targetContentOffset:)));
+
+    // TODO(#1254): Re-enable sanity check assert on viewDidPan
+    // To re-enable, remove isRunningiOS10_3OrAbove() function and always assert.
+    if (!isRunningiOS10_3OrAbove()) {
+      NSAssert(_didAdjustTargetContentOffset, @"%@ isn't invoking %@'s %@.",
+               NSStringFromClass([_trackingScrollView class]), NSStringFromClass([self class]),
+               NSStringFromSelector(
+                   @selector(trackingScrollViewWillEndDraggingWithVelocity:targetContentOffset:)));
+    }
   }
 }
 #endif
@@ -922,7 +949,8 @@ static NSString *const MDCFlexibleHeaderDelegateKey = @"MDCFlexibleHeaderDelegat
                                                   action:@selector(fhv_scrollViewDidPan:)];
   [trackingScrollView.panGestureRecognizer addTarget:self action:@selector(fhv_scrollViewDidPan:)];
 
-#if 0   // TODO(featherless): https://github.com/material-components/material-components-ios/issues/214
+#if 0   // TODO(featherless):
+        // https://github.com/material-components/material-components-ios/issues/214
   // Verify existence of a delegate.
   NSAssert(!trackingScrollView || trackingScrollView.delegate,
            @"The provided tracking scroll view %@ has no delegate. Without a delegate, %@ will not"

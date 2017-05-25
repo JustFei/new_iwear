@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B951D5D087C9C6565BE47DF8E635DC48"
+               BlueprintIdentifier = "706FB48F9AAD875CE7885B4705A5B53E"
                BuildableName = "libPods-New_iwear.a"
                BlueprintName = "Pods-New_iwear"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B951D5D087C9C6565BE47DF8E635DC48"
+            BlueprintIdentifier = "706FB48F9AAD875CE7885B4705A5B53E"
             BuildableName = "libPods-New_iwear.a"
             BlueprintName = "Pods-New_iwear"
             ReferencedContainer = "container:Pods.xcodeproj">
@@ -60,15 +60,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B951D5D087C9C6565BE47DF8E635DC48"
-            BuildableName = "libPods-New_iwear.a"
-            BlueprintName = "Pods-New_iwear"
-            ReferencedContainer = "container:Pods.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

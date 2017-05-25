@@ -1,9 +1,24 @@
 PODS:
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
+    - AFNetworking/NSURLSession
   - FMDB (2.6.2):
     - FMDB/standard (= 2.6.2)
   - FMDB/standard (2.6.2)
   - Masonry (1.0.2)
-  - MaterialComponents/AppBar (19.0.4):
+  - MaterialComponents/AppBar (23.3.0):
     - MaterialComponents/FlexibleHeader
     - MaterialComponents/HeaderStackView
     - MaterialComponents/NavigationBar
@@ -12,16 +27,17 @@ PODS:
     - MaterialComponents/ShadowElevations
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Typography
-  - MaterialComponents/ButtonBar (19.0.4):
+  - MaterialComponents/ButtonBar (23.3.0):
     - MaterialComponents/Buttons
     - MaterialComponents/private/RTL
-  - MaterialComponents/Buttons (19.0.4):
+  - MaterialComponents/Buttons (23.3.0):
     - MaterialComponents/Ink
+    - MaterialComponents/private/Math
     - MaterialComponents/ShadowElevations
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Typography
     - MDFTextAccessibility
-  - MaterialComponents/CollectionCells (19.0.4):
+  - MaterialComponents/CollectionCells (23.3.0):
     - MaterialComponents/CollectionLayoutAttributes
     - MaterialComponents/Ink
     - MaterialComponents/private/Icons/ic_check
@@ -30,53 +46,59 @@ PODS:
     - MaterialComponents/private/Icons/ic_info
     - MaterialComponents/private/Icons/ic_radio_button_unchecked
     - MaterialComponents/private/Icons/ic_reorder
+    - MaterialComponents/private/Math
     - MaterialComponents/private/RTL
     - MaterialComponents/Typography
-  - MaterialComponents/CollectionLayoutAttributes (19.0.4)
-  - MaterialComponents/Collections (19.0.4):
+  - MaterialComponents/CollectionLayoutAttributes (23.3.0)
+  - MaterialComponents/Collections (23.3.0):
     - MaterialComponents/CollectionCells
     - MaterialComponents/CollectionLayoutAttributes
     - MaterialComponents/Ink
     - MaterialComponents/ShadowElevations
     - MaterialComponents/ShadowLayer
     - MaterialComponents/Typography
-  - MaterialComponents/FlexibleHeader (19.0.4):
+  - MaterialComponents/FlexibleHeader (23.3.0):
     - MaterialComponents/private/Application
     - MDFTextAccessibility
-  - MaterialComponents/HeaderStackView (19.0.4)
-  - MaterialComponents/Ink (19.0.4)
-  - MaterialComponents/NavigationBar (19.0.4):
+  - MaterialComponents/HeaderStackView (23.3.0)
+  - MaterialComponents/Ink (23.3.0)
+  - MaterialComponents/NavigationBar (23.3.0):
     - MaterialComponents/ButtonBar
+    - MaterialComponents/private/Math
     - MaterialComponents/private/RTL
     - MaterialComponents/Typography
-  - MaterialComponents/private/Application (19.0.4)
-  - MaterialComponents/private/Icons/Base (19.0.4)
-  - MaterialComponents/private/Icons/ic_arrow_back (19.0.4):
+    - MDFTextAccessibility
+  - MaterialComponents/private/Application (23.3.0)
+  - MaterialComponents/private/Icons/Base (23.3.0)
+  - MaterialComponents/private/Icons/ic_arrow_back (23.3.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_check (19.0.4):
+  - MaterialComponents/private/Icons/ic_check (23.3.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_check_circle (19.0.4):
+  - MaterialComponents/private/Icons/ic_check_circle (23.3.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_chevron_right (19.0.4):
+  - MaterialComponents/private/Icons/ic_chevron_right (23.3.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_info (19.0.4):
+  - MaterialComponents/private/Icons/ic_info (23.3.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_radio_button_unchecked (19.0.4):
+  - MaterialComponents/private/Icons/ic_radio_button_unchecked (23.3.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/Icons/ic_reorder (19.0.4):
+  - MaterialComponents/private/Icons/ic_reorder (23.3.0):
     - MaterialComponents/private/Icons/Base
-  - MaterialComponents/private/RTL (19.0.4)
-  - MaterialComponents/ShadowElevations (19.0.4)
-  - MaterialComponents/ShadowLayer (19.0.4)
-  - MaterialComponents/Typography (19.0.4)
+  - MaterialComponents/private/Math (23.3.0)
+  - MaterialComponents/private/RTL (23.3.0)
+  - MaterialComponents/ShadowElevations (23.3.0)
+  - MaterialComponents/ShadowLayer (23.3.0)
+  - MaterialComponents/Typography (23.3.0):
+    - MaterialComponents/private/Application
   - MaterialControls (1.2.2)
   - MBProgressHUD (1.0.0)
-  - MDFTextAccessibility (1.1.4)
+  - MDFTextAccessibility (1.2.0)
   - PNChart (0.8.9):
     - UICountingLabel (~> 1.2.0)
   - UICountingLabel (1.2.0)
 
 DEPENDENCIES:
+  - AFNetworking (~> 3.1.0)
   - FMDB (~> 2.6.2)
   - Masonry (~> 1.0.2)
   - MaterialComponents/AppBar
@@ -87,15 +109,16 @@ DEPENDENCIES:
   - PNChart (~> 0.8.9)
 
 SPEC CHECKSUMS:
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
-  MaterialComponents: bd2bbd4e8631c6a560100848c7d2a864e61b6716
+  MaterialComponents: f6461aa016750c92a5ef436692d2a5eff67a9a66
   MaterialControls: 1c6b29e78d3a13d8dd6a67ed31b6d26eb5de8f72
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
-  MDFTextAccessibility: aa897b2675bc614c01a331053af680deea692148
+  MDFTextAccessibility: 94098925e0853551c5a311ce7c1ecefbe297cdb6
   PNChart: 84774d225c2126ded6c93d4dbe6ae98c3a73c2d2
   UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
 
-PODFILE CHECKSUM: e2b0197581e35912042254094324aac03733b5ea
+PODFILE CHECKSUM: c674f56f9dc0f8e6f53518c74db425f7e9678899
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.2.1

@@ -12,7 +12,13 @@
 		100E490D1EC9B88B00625A93 /* TrainingTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 100E490C1EC9B88B00625A93 /* TrainingTableModel.m */; };
 		109865BB1ECC5D200077797E /* UINavigationBar+Awesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 109865BA1ECC5D200077797E /* UINavigationBar+Awesome.m */; };
 		10C496451ECEE739000F5769 /* FirmwareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C496441ECEE739000F5769 /* FirmwareModel.m */; };
-		61B92AC401CFC6C37C77B005 /* libPods-New_iwear.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64350C29842B2F870FD1D38E /* libPods-New_iwear.a */; };
+		10EE89141ED6B67A007A3CE4 /* QRCodeScanningVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EE890A1ED6B67A007A3CE4 /* QRCodeScanningVC.m */; };
+		10EE89151ED6B67A007A3CE4 /* SGQRCode.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 10EE890B1ED6B67A007A3CE4 /* SGQRCode.bundle */; };
+		10EE89161ED6B67A007A3CE4 /* SGQRCodeConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EE890D1ED6B67A007A3CE4 /* SGQRCodeConst.m */; };
+		10EE89171ED6B67A007A3CE4 /* SGQRCodeScanningVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EE890F1ED6B67A007A3CE4 /* SGQRCodeScanningVC.m */; };
+		10EE89181ED6B67A007A3CE4 /* SGQRCodeScanningView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EE89111ED6B67A007A3CE4 /* SGQRCodeScanningView.m */; };
+		10EE89191ED6B67A007A3CE4 /* UIImage+SGHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EE89131ED6B67A007A3CE4 /* UIImage+SGHelper.m */; };
+		198962F584B552B32F9FE8B6 /* libPods-New_iwear.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C32990811920916592BCFF4A /* libPods-New_iwear.a */; };
 		9C00DF881EC6D3CA005CB06F /* StepHisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C00DF871EC6D3CA005CB06F /* StepHisViewController.m */; };
 		9C00DF8D1EC6D93F005CB06F /* SleepHisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C00DF8C1EC6D93F005CB06F /* SleepHisViewController.m */; };
 		9C00DF911EC6DB1A005CB06F /* HeartRateHisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C00DF901EC6DB1A005CB06F /* HeartRateHisViewController.m */; };
@@ -156,7 +162,17 @@
 		10C496431ECEE739000F5769 /* FirmwareModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirmwareModel.h; sourceTree = "<group>"; };
 		10C496441ECEE739000F5769 /* FirmwareModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirmwareModel.m; sourceTree = "<group>"; };
 		10CE70B61ECEA5990018AD11 /* TextConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TextConstants.h; path = Constants/TextConstants.h; sourceTree = "<group>"; };
-		64350C29842B2F870FD1D38E /* libPods-New_iwear.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-New_iwear.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		10EE89091ED6B67A007A3CE4 /* QRCodeScanningVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCodeScanningVC.h; sourceTree = "<group>"; };
+		10EE890A1ED6B67A007A3CE4 /* QRCodeScanningVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRCodeScanningVC.m; sourceTree = "<group>"; };
+		10EE890B1ED6B67A007A3CE4 /* SGQRCode.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SGQRCode.bundle; sourceTree = "<group>"; };
+		10EE890C1ED6B67A007A3CE4 /* SGQRCodeConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGQRCodeConst.h; sourceTree = "<group>"; };
+		10EE890D1ED6B67A007A3CE4 /* SGQRCodeConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGQRCodeConst.m; sourceTree = "<group>"; };
+		10EE890E1ED6B67A007A3CE4 /* SGQRCodeScanningVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGQRCodeScanningVC.h; sourceTree = "<group>"; };
+		10EE890F1ED6B67A007A3CE4 /* SGQRCodeScanningVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGQRCodeScanningVC.m; sourceTree = "<group>"; };
+		10EE89101ED6B67A007A3CE4 /* SGQRCodeScanningView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGQRCodeScanningView.h; sourceTree = "<group>"; };
+		10EE89111ED6B67A007A3CE4 /* SGQRCodeScanningView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGQRCodeScanningView.m; sourceTree = "<group>"; };
+		10EE89121ED6B67A007A3CE4 /* UIImage+SGHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+SGHelper.h"; sourceTree = "<group>"; };
+		10EE89131ED6B67A007A3CE4 /* UIImage+SGHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+SGHelper.m"; sourceTree = "<group>"; };
 		9C00DF861EC6D3CA005CB06F /* StepHisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StepHisViewController.h; path = History/StepHis/StepHisViewController.h; sourceTree = "<group>"; };
 		9C00DF871EC6D3CA005CB06F /* StepHisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StepHisViewController.m; path = History/StepHis/StepHisViewController.m; sourceTree = "<group>"; };
 		9C00DF8B1EC6D93F005CB06F /* SleepHisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SleepHisViewController.h; path = History/SleepHis/SleepHisViewController.h; sourceTree = "<group>"; };
@@ -340,6 +356,7 @@
 		9CE95A681EC1CBF700E88B47 /* ClockReminderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClockReminderViewController.m; path = Setting/RemindViewController/ClockViewController/ClockReminderViewController.m; sourceTree = "<group>"; };
 		9E1C62936127CBA2AB2484EB /* Pods-New_iwear.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-New_iwear.release.xcconfig"; path = "Pods/Target Support Files/Pods-New_iwear/Pods-New_iwear.release.xcconfig"; sourceTree = "<group>"; };
 		C009A0B0C823B2EBDFED3C4D /* Pods-New_iwear.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-New_iwear.debug.xcconfig"; path = "Pods/Target Support Files/Pods-New_iwear/Pods-New_iwear.debug.xcconfig"; sourceTree = "<group>"; };
+		C32990811920916592BCFF4A /* libPods-New_iwear.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-New_iwear.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -349,7 +366,7 @@
 			files = (
 				9C87EB291EC5B7100051C59D /* Charts.framework in Frameworks */,
 				9C0496941EB8855700EDBEBB /* HealthKit.framework in Frameworks */,
-				61B92AC401CFC6C37C77B005 /* libPods-New_iwear.a in Frameworks */,
+				198962F584B552B32F9FE8B6 /* libPods-New_iwear.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,6 +393,24 @@
 				109865BA1ECC5D200077797E /* UINavigationBar+Awesome.m */,
 			);
 			name = Category;
+			sourceTree = "<group>";
+		};
+		10EE89081ED6B67A007A3CE4 /* QRCode */ = {
+			isa = PBXGroup;
+			children = (
+				10EE89091ED6B67A007A3CE4 /* QRCodeScanningVC.h */,
+				10EE890A1ED6B67A007A3CE4 /* QRCodeScanningVC.m */,
+				10EE890B1ED6B67A007A3CE4 /* SGQRCode.bundle */,
+				10EE890C1ED6B67A007A3CE4 /* SGQRCodeConst.h */,
+				10EE890D1ED6B67A007A3CE4 /* SGQRCodeConst.m */,
+				10EE890E1ED6B67A007A3CE4 /* SGQRCodeScanningVC.h */,
+				10EE890F1ED6B67A007A3CE4 /* SGQRCodeScanningVC.m */,
+				10EE89101ED6B67A007A3CE4 /* SGQRCodeScanningView.h */,
+				10EE89111ED6B67A007A3CE4 /* SGQRCodeScanningView.m */,
+				10EE89121ED6B67A007A3CE4 /* UIImage+SGHelper.h */,
+				10EE89131ED6B67A007A3CE4 /* UIImage+SGHelper.m */,
+			);
+			path = QRCode;
 			sourceTree = "<group>";
 		};
 		9C00DF851EC6D2BE005CB06F /* History */ = {
@@ -952,6 +987,7 @@
 				9C0496921EB8855700EDBEBB /* New_iwear.entitlements */,
 				9CDEAC5B1EB078EC00279EDA /* AppDelegate.h */,
 				9CDEAC5C1EB078EC00279EDA /* AppDelegate.m */,
+				10EE89081ED6B67A007A3CE4 /* QRCode */,
 				109865B71ECC5D070077797E /* Category */,
 				100E49021EC9985100625A93 /* Training */,
 				9C00DF851EC6D2BE005CB06F /* History */,
@@ -1061,7 +1097,7 @@
 			children = (
 				9C6D07141EC5B48C0000FAE6 /* MaterialControls.framework */,
 				9C0496931EB8855700EDBEBB /* HealthKit.framework */,
-				64350C29842B2F870FD1D38E /* libPods-New_iwear.a */,
+				C32990811920916592BCFF4A /* libPods-New_iwear.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1097,7 +1133,7 @@
 		9CDEAC4D1EB078EC00279EDA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = manridy;
 				TargetAttributes = {
 					9CDEAC541EB078EC00279EDA = {
@@ -1172,6 +1208,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				10EE89151ED6B67A007A3CE4 /* SGQRCode.bundle in Resources */,
 				9C0817751EB9AB1800C1845F /* SettingPeripheralTableViewCell.xib in Resources */,
 				9CDEAC6B1EB078EC00279EDA /* LaunchScreen.storyboard in Resources */,
 				9C0817841EB9AB9300C1845F /* SettingTableViewCell.xib in Resources */,
@@ -1194,7 +1231,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		89A874E97FEB2154485F783D /* [CP] Embed Pods Frameworks */ = {
@@ -1241,7 +1278,9 @@
 				9C00DF941EC6E7BB005CB06F /* HRTableViewCell.m in Sources */,
 				9C00DF8D1EC6D93F005CB06F /* SleepHisViewController.m in Sources */,
 				9CD631241EC06F7B005EECE1 /* AboutTableViewCell.m in Sources */,
+				10EE89181ED6B67A007A3CE4 /* SGQRCodeScanningView.m in Sources */,
 				9C9E800C1EC2E203004840FD /* SleepModel.m in Sources */,
+				10EE89191ED6B67A007A3CE4 /* UIImage+SGHelper.m in Sources */,
 				9C08178E1EB9D69A00C1845F /* SettingHeaderView.m in Sources */,
 				9CA1C86C1EC2E944007DB83A /* AlertTool.m in Sources */,
 				9C9E80151EC2E283004840FD /* UserInfoModel.m in Sources */,
@@ -1275,6 +1314,7 @@
 				9C4FBDB11EB081760072E9CE /* SecondViewController.m in Sources */,
 				9CD6310F1EC01E58005EECE1 /* UnitsSettingModel.m in Sources */,
 				9C9E7FCA1EC2AC9E004840FD /* ClockTableViewCell.m in Sources */,
+				10EE89171ED6B67A007A3CE4 /* SGQRCodeScanningVC.m in Sources */,
 				9C07122C1EC558E800F41754 /* StepContentView.m in Sources */,
 				9C9E800D1EC2E203004840FD /* SportModel.m in Sources */,
 				9C9E7FD21EC2C06B004840FD /* MessageReminderViewController.m in Sources */,
@@ -1291,6 +1331,7 @@
 				9C9E7FDA1EC2C4C2004840FD /* LoseReminderViewController.m in Sources */,
 				9C9E80071EC2E203004840FD /* Remind.m in Sources */,
 				9C9E800F1EC2E203004840FD /* TakePhotoModel.m in Sources */,
+				10EE89141ED6B67A007A3CE4 /* QRCodeScanningVC.m in Sources */,
 				9C3AE8461EBDB46B0078CDAA /* RemindMoreViewController.m in Sources */,
 				9CD631171EC05A06005EECE1 /* TargetSettingViewController.m in Sources */,
 				9C9E80061EC2E203004840FD /* manridyModel.m in Sources */,
@@ -1316,6 +1357,7 @@
 				9CD631131EC0556B005EECE1 /* TimeFormatterViewController.m in Sources */,
 				9C4FBDB61EB081A00072E9CE /* FirstViewController.m in Sources */,
 				9C0496901EB87DC400EDBEBB /* SettingViewController.m in Sources */,
+				10EE89161ED6B67A007A3CE4 /* SGQRCodeConst.m in Sources */,
 				100E49061EC998D400625A93 /* TrainingViewController.m in Sources */,
 				9C079ABC1EBC8D6300D54AB3 /* TakePhotoViewController.m in Sources */,
 				9C9E7FDE1EC2E117004840FD /* BleManager.m in Sources */,
@@ -1352,6 +1394,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1399,6 +1442,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1432,6 +1476,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1440,7 +1485,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C009A0B0C823B2EBDFED3C4D /* Pods-New_iwear.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = New_iwear/New_iwear.entitlements;
@@ -1458,6 +1502,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "New_iwear/New_iwear-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				WARNING_CFLAGS = "-Wno-documentation";
 			};
 			name = Debug;
 		};
@@ -1465,7 +1510,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9E1C62936127CBA2AB2484EB /* Pods-New_iwear.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = New_iwear/New_iwear.entitlements;
@@ -1482,6 +1526,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "New_iwear/New_iwear-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				WARNING_CFLAGS = "-Wno-documentation";
 			};
 			name = Release;
 		};

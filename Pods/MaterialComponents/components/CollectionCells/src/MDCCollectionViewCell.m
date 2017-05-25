@@ -38,6 +38,18 @@ static const UIEdgeInsets kAccessoryInsetDefault = {0, 16.0f, 0, 16.0f};
 static const uint32_t kCellGrayColor = 0x626262;
 static const uint32_t kCellRedColor = 0xF44336;
 
+// File name of the bundle (without the '.bundle' extension) containing resources.
+static NSString *const kResourceBundleName = @"MaterialCollectionCells";
+
+// String table name containing localized strings.
+static NSString *const kStringTableName = @"MaterialCollectionCells";
+
+NSString *const kSelectedCellAccessibilityHintKey =
+    @"MaterialCollectionCellsAccessibilitySelectedHint";
+
+NSString *const kDeselectedCellAccessibilityHintKey =
+    @"MaterialCollectionCellsAccessibilityDeselectedHint";
+
 // To be used as accessory view when an accessory type is set. It has no particular functionalities
 // other than being a private class defined here, to check if an accessory view was set via an
 // accessory type, or if the user of MDCCollectionViewCell set a custom accessory view.
@@ -56,6 +68,8 @@ static const uint32_t kCellRedColor = 0xF44336;
   UIImageView *_editingReorderImageView;
   UIImageView *_editingSelectorImageView;
 }
+
+@synthesize inkView = _inkView;
 
 - (instancetype)initWithFrame:(CGRect)frame {
   self = [super initWithFrame:frame];
@@ -106,6 +120,8 @@ static const uint32_t kCellRedColor = 0xF44336;
 
   // Reset cells hidden during swipe deletion.
   self.hidden = NO;
+
+  [self.inkView cancelAllAnimationsAnimated:NO];
 }
 
 - (void)layoutSubviews {
@@ -255,6 +271,27 @@ static const uint32_t kCellRedColor = 0xF44336;
   return CGRectMake(originX, originY, size.width, size.height);
 }
 
+- (MDCInkView *)inkView {
+  if (!_inkView) {
+    _inkView = [[MDCInkView alloc] initWithFrame:self.bounds];
+    [self addSubview:_inkView];
+  }
+  return _inkView;
+}
+
+- (void)setInkView:(MDCInkView *)inkView {
+  if (inkView == _inkView) {
+    return;
+  }
+  if (_inkView) {
+    [_inkView removeFromSuperview];
+  }
+  if (inkView) {
+    [self addSubview:inkView];
+  }
+  _inkView = inkView;
+}
+
 #pragma mark - Separator
 
 - (void)setShouldHideSeparator:(BOOL)shouldHideSeparator {
@@ -337,8 +374,8 @@ static const uint32_t kCellRedColor = 0xF44336;
       CGAffineTransform transform = _editingReorderImageView.transform;
       _editingReorderImageView.transform = CGAffineTransformIdentity;
       CGSize size = _editingReorderImageView.image.size;
-      CGRect frame = CGRectMake(0, (CGRectGetHeight(self.bounds) - size.height) / 2,
-                                size.width, size.height);
+      CGRect frame =
+          CGRectMake(0, (CGRectGetHeight(self.bounds) - size.height) / 2, size.width, size.height);
       _editingReorderImageView.frame = MDCRectFlippedForRTL(
           frame, CGRectGetWidth(self.bounds), self.mdc_effectiveUserInterfaceLayoutDirection);
       _editingReorderImageView.transform = transform;
@@ -453,7 +490,24 @@ static const uint32_t kCellRedColor = 0xF44336;
   return accessibilityTraits;
 }
 
+- (NSString *)accessibilityHint {
+  if (_attr.shouldShowSelectorStateMask) {
+    NSString *localizedHintKey =
+        self.selected ? kSelectedCellAccessibilityHintKey : kDeselectedCellAccessibilityHintKey;
+    return [[self class] localizedStringWithKey:localizedHintKey];
+  }
+  return nil;
+}
+
 #pragma mark - Private
+
++ (NSString *)localizedStringWithKey:(NSString *)key {
+  NSBundle *containingBundle = [NSBundle bundleForClass:self];
+  NSURL *resourceBundleURL =
+      [containingBundle URLForResource:kResourceBundleName withExtension:@"bundle"];
+  NSBundle *resourceBundle = [NSBundle bundleWithURL:resourceBundleURL];
+  return [resourceBundle localizedStringForKey:key value:nil table:kStringTableName];
+}
 
 - (CGRect)contentViewFrame {
   CGFloat leadingPadding =

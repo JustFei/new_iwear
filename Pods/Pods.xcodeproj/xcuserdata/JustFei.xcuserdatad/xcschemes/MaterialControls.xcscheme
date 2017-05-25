@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "47E7EC26FD88E63517D5068CE9CCA8EC"
+               BlueprintIdentifier = "85CF5C89AB7799B7EE09C050667C784D"
                BuildableName = "libMaterialControls.a"
                BlueprintName = "MaterialControls"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "47E7EC26FD88E63517D5068CE9CCA8EC"
+            BlueprintIdentifier = "85CF5C89AB7799B7EE09C050667C784D"
             BuildableName = "libMaterialControls.a"
             BlueprintName = "MaterialControls"
             ReferencedContainer = "container:Pods.xcodeproj">
@@ -60,15 +60,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "47E7EC26FD88E63517D5068CE9CCA8EC"
-            BuildableName = "libMaterialControls.a"
-            BlueprintName = "MaterialControls"
-            ReferencedContainer = "container:Pods.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

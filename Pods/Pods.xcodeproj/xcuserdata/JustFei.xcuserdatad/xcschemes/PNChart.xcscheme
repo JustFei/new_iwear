@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "11929A53A8AD141288485C2968E5803E"
+               BlueprintIdentifier = "9D4A1B69057B2ACDCF903EC15F099E33"
                BuildableName = "libPNChart.a"
                BlueprintName = "PNChart"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "11929A53A8AD141288485C2968E5803E"
+            BlueprintIdentifier = "9D4A1B69057B2ACDCF903EC15F099E33"
             BuildableName = "libPNChart.a"
             BlueprintName = "PNChart"
             ReferencedContainer = "container:Pods.xcodeproj">
@@ -60,15 +60,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "11929A53A8AD141288485C2968E5803E"
-            BuildableName = "libPNChart.a"
-            BlueprintName = "PNChart"
-            ReferencedContainer = "container:Pods.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

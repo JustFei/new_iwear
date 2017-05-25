@@ -8,5 +8,7 @@ pod 'MaterialControls', '~> 1.2.2'
 pod 'MBProgressHUD', '~> 1.0.0'
 pod 'FMDB', '~> 2.6.2'
 pod 'PNChart', '~> 0.8.9'
+pod 'AFNetworking', '~> 3.1.0'
+
 end
 

@@ -15,6 +15,9 @@
 //int转换16进制
 + (NSString *)ToHex:(long long int)tmpid;
 
+//二进制转16进制
++ (NSString *)getBinaryByhex:(NSString *)hex binary:(NSString *)binary;
+
 //NSString转换为NSdata，这样就省去了一个一个字节去写入
 + (NSData *)hexToBytes:(NSString *)str;
 

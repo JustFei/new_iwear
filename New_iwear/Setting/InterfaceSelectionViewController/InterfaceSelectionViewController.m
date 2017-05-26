@@ -16,6 +16,7 @@ static NSString *const interfaceCollectionViewHeaderID = @"interfaceCollectionVi
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSArray *dataArr;
+@property (nonatomic, strong) MBProgressHUD *hud;
 
 @end
 
@@ -39,6 +40,12 @@ static NSString *const interfaceCollectionViewHeaderID = @"interfaceCollectionVi
     
     self.view.backgroundColor = SETTING_BACKGROUND_COLOR;
     self.collectionView.backgroundColor = CLEAR_COLOR;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setWindowWhetherSuccess:) name:SET_WINDOW object:nil];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Action
@@ -49,7 +56,34 @@ static NSString *const interfaceCollectionViewHeaderID = @"interfaceCollectionVi
 
 - (void)saveAction
 {
-    
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [[BleManager shareInstance] writeWindowRequset:WindowRequestModeSetWindow withDataArr:self.dataArr];
+}
+
+- (void)setWindowWhetherSuccess:(NSNotification *)noti
+{
+    BOOL isFirst = noti.userInfo[@"success"];//success 里保存这设置是否成功
+    NSLog(@"isFirst:%d",isFirst);
+    //这里不能直接写 if (isFirst),必须如下写法
+    if (isFirst == 1) {
+        //保存设置到本地
+        NSMutableArray *saveMutArr = [NSMutableArray array];
+        for (InterfaceSelectionModel *model in self.dataArr) {
+            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:model];
+            [saveMutArr addObject:data];
+        }
+        //这里只能保存不可变数组，所以要转换
+        NSArray *saveArr = [NSArray arrayWithArray:saveMutArr];
+        [[NSUserDefaults standardUserDefaults] setObject:saveArr forKey:WINDOW_SETTING];
+        [self.hud hideAnimated:YES];
+        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
+        [sucToast show];
+    }else {
+        //做失败处理
+        [self.hud hideAnimated:YES];
+        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存失败，稍后再试" duration:1.5];
+        [sucToast show];
+    }
 }
 
 #pragma mark - UICollectionVIewDelegate && UICollectionViewDataSource
@@ -157,26 +191,72 @@ static NSString *const interfaceCollectionViewHeaderID = @"interfaceCollectionVi
 - (NSArray *)dataArr
 {
     if (!_dataArr) {
-        NSArray *nameArr = @[@"待机",@"计步",@"运动",@"心率",@"睡眠",@"查找",@"闹钟",@"关于",@"关机"];
-        NSArray *imageArr = @[@"selection_standby",@"selection_sport",@"selection_step",@"selection_heartrate",@"selection_sleep",@"selection_find",@"selection_alarmclock",@"selection_about",@"selection_turnoff"];
-        NSMutableArray *mutArr = [NSMutableArray array];
-        for (int i = 0; i < nameArr.count; i ++) {
-            InterfaceSelectionModel *model = [[InterfaceSelectionModel alloc] init];
-            model.functionName = nameArr[i];
-            model.functionImageName = imageArr[i];
-            if (i == 0) {
-                model.selectMode = SelectModeUnchoose;
-            }else {
-                model.selectMode = SelectModeSelected;
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:WINDOW_SETTING]) {
+            NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:WINDOW_SETTING];
+            NSMutableArray *mutArr = [NSMutableArray array];
+            for (NSData *data in arr) {
+                InterfaceSelectionModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+                [mutArr addObject:model];
+            }
+            _dataArr = mutArr;
+        }else {
+            NSArray *nameArr = @[@"待机",@"计步",@"运动",@"心率",@"睡眠",@"查找",@"闹钟",@"关于",@"关机"];
+            NSArray *imageArr = @[@"selection_standby",@"selection_sport",@"selection_step",@"selection_heartrate",@"selection_sleep",@"selection_find",@"selection_alarmclock",@"selection_about",@"selection_turnoff"];
+            NSMutableArray *mutArr = [NSMutableArray array];
+            for (int i = 0; i < nameArr.count; i ++) {
+                InterfaceSelectionModel *model = [[InterfaceSelectionModel alloc] init];
+                model.functionName = nameArr[i];
+                model.functionImageName = imageArr[i];
+                
+                switch (i) {
+                    case 0:
+                        model.windowID = 80;
+                        break;
+                    case 1:
+                        model.windowID = 81;
+                        break;
+                    case 2:
+                        model.windowID = 82;
+                        break;
+                    case 3:
+                        model.windowID = 83;
+                        break;
+                    case 4:
+                        model.windowID = 84;
+                        break;
+                    case 5:
+                        model.windowID = 87;
+                        break;
+                    case 6:
+                        model.windowID = 89;
+                        break;
+                    case 7:
+                        model.windowID = 86;
+                        break;
+                    case 8:
+                        model.windowID = 85;
+                        break;
+                        
+                    default:
+                        break;
+                }
+                
+                
+                if (i == 0) {
+                    model.selectMode = SelectModeUnchoose;
+                }else {
+                    model.selectMode = SelectModeSelected;
+                }
+                
+                [mutArr addObject:model];
             }
             
-            [mutArr addObject:model];
+            _dataArr = [NSArray arrayWithArray:mutArr];
         }
-        
-        _dataArr = [NSArray arrayWithArray:mutArr];
     }
     
     return _dataArr;
 }
+
 
 @end

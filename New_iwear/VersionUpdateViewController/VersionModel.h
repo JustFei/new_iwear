@@ -13,4 +13,6 @@
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *version;
 
++ (instancetype)modelWithTitle:(NSString *)title andVersion:(NSString *)version;
+
 @end

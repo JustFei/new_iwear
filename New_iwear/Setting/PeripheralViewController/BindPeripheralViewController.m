@@ -162,7 +162,7 @@
             BleDevice *device = _dataArr[index];
             [self.myBleMananger connectDevice:device];
             self.myBleMananger.isReconnect = YES;
-            self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             self.hud.mode = MBProgressHUDModeIndeterminate;
             [self.hud.label setText:NSLocalizedString(@"绑定中", nil)];
         }else {
@@ -230,7 +230,7 @@
                 result = [result lowercaseString];
                 QRMacAddress = result;
                 [self.myBleMananger scanDevice];
-                self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                 self.hud.mode = MBProgressHUDModeIndeterminate;
                 [self.hud.label setText:NSLocalizedString(@"绑定中", nil)];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

@@ -249,7 +249,7 @@ typedef enum : NSUInteger {
 - (void)writeSegementRunWithHistoryMode:(HistoryMode)mode;
 
 /** 窗口协议 */
-- (void)writeWindowRequset:(WindowRequestMode)mode;
+- (void)writeWindowRequset:(WindowRequestMode)mode withDataArr:(NSArray *)dataArr;
 
 /** 
  时间格式设置

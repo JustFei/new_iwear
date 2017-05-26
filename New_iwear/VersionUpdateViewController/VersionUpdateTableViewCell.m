@@ -22,6 +22,8 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.backgroundColor = CLEAR_COLOR;
+        
         _titleLabel = [[UILabel alloc] init];
         [_titleLabel setFont:[UIFont systemFontOfSize:14]];
         [_titleLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];

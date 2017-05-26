@@ -30,6 +30,8 @@ static NSString *const VersionUpdateTableViewCellID = @"VersionUpdateTableViewCe
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
+    self.tableView.backgroundColor = CLEAR_COLOR;
+    self.view.backgroundColor = SETTING_BACKGROUND_COLOR;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -50,6 +52,11 @@ static NSString *const VersionUpdateTableViewCellID = @"VersionUpdateTableViewCe
     return cell;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 48;
+}
+
 #pragma mark - Action
 - (void)backViewController
 {
@@ -62,6 +69,9 @@ static NSString *const VersionUpdateTableViewCellID = @"VersionUpdateTableViewCe
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         [_tableView registerClass:NSClassFromString(VersionUpdateTableViewCellID) forCellReuseIdentifier:VersionUpdateTableViewCellID];
+        _tableView.allowsSelection = NO;
+        _tableView.scrollEnabled = NO;
+        _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         
@@ -75,6 +85,21 @@ static NSString *const VersionUpdateTableViewCellID = @"VersionUpdateTableViewCe
     }
     
     return _tableView;
+}
+
+- (NSArray *)dataArr
+{
+    if (!_dataArr) {
+        NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+        NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+        VersionModel *model0 = [VersionModel modelWithTitle:@"软件版本" andVersion:app_Version];
+        NSString *hardware_Version = [[NSUserDefaults standardUserDefaults] objectForKey:HARDWARE_VERSION];
+        VersionModel *model1 = [VersionModel modelWithTitle:@"硬件版本" andVersion:hardware_Version == nil ? @"" : hardware_Version];
+        
+        _dataArr = @[model0, model1];
+    }
+    
+    return _dataArr;
 }
 
 @end

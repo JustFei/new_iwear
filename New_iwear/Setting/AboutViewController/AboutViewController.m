@@ -85,7 +85,8 @@ static NSString * const AboutTableViewCellID = @"AboutTableViewCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
+    id pushVC = [[NSClassFromString(self.vcArr[indexPath.row]) alloc] init];
+    [self.navigationController pushViewController:pushVC animated:YES];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section

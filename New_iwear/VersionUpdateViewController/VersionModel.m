@@ -10,4 +10,13 @@
 
 @implementation VersionModel
 
++ (instancetype)modelWithTitle:(NSString *)title andVersion:(NSString *)version
+{
+    VersionModel *model = [[VersionModel alloc] init];
+    model.title = title;
+    model.version = version;
+    
+    return model;
+}
+
 @end

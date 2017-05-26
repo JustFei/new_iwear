@@ -11,10 +11,10 @@
 #import "manridyModel.h"
 #import "NSStringTool.h"
 #import "AnalysisProcotolTool.h"
-//#import "AllBleFmdb.h"
 #import "AppDelegate.h"
 #import "ClockModel.h"
 #import <UserNotifications/UserNotifications.h>
+#import "InterfaceSelectionModel.h"
 
 #define kServiceUUID              @"F000EFE0-0000-4000-0000-00000000B000"
 #define kWriteCharacteristicUUID  @"F000EFE1-0451-4000-0000-00000000B000"
@@ -543,20 +543,51 @@ static BleManager *bleManager = nil;
 }
 
 /** 窗口协议 */
-- (void)writeWindowRequset:(WindowRequestMode)mode
+- (void)writeWindowRequset:(WindowRequestMode)mode withDataArr:(NSArray *)dataArr
 {
     NSString *protocolStr;
     switch (mode) {
-        case WindowRequestModeWindowCount:
+        case WindowRequestModeWindowCount:              //查询窗口数量
             protocolStr = @"FC1C01";
             break;
-        case WindowRequestModeSearchWindow:
+        case WindowRequestModeSearchWindow:             //查询窗口
+            protocolStr = @"FC1C02000000818283848586878889";
+            break;
+        case WindowRequestModeSetWindow:                //设置窗口
+        {
             protocolStr = @"FC1C0201";
+            NSString *EHEL = @"";
+            NSString *winID = @"";
+            for (int index = 1; index <= dataArr.count; index ++) {
+                InterfaceSelectionModel *model = dataArr[dataArr.count - index];
+                EHEL = [EHEL stringByAppendingString:model.selectMode == SelectModeUnselected ? @"0" : @"1"];
+                InterfaceSelectionModel *model1 = dataArr[index - 1];
+                winID = [winID stringByAppendingString:[NSString stringWithFormat:@"%ld", model1.windowID]];
+            }
+            if (EHEL.length % 4 != 0) {
+                int count = 4 - EHEL.length % 4;
+                for (int i = 0; i < count; i ++) {
+                    EHEL = [@"0" stringByAppendingString:EHEL];
+                }
+            }
+            //二进制转换为16进制
+            EHEL = [NSStringTool getBinaryByhex:nil binary:EHEL];
+            if (EHEL.length == 4) {
+                protocolStr = [protocolStr stringByAppendingString:EHEL];
+            }else if (EHEL.length > 4) {
+                DLog(@"出错了");
+                return;
+            }else if (EHEL.length < 4) {
+                NSInteger count = 4 - EHEL.length;
+                for (int i = 0; i < count; i ++) {
+                    EHEL = [@"0" stringByAppendingString:EHEL];
+                }
+                protocolStr = [protocolStr stringByAppendingString:EHEL];
+            }
+            protocolStr = [protocolStr stringByAppendingString:winID];
+        }
             break;
-        case WindowRequestModeSetWindow:
-            protocolStr = @"FC1C0200";
-            break;
-        case WindowRequestModeWindowRelationship:
+        case WindowRequestModeWindowRelationship:       //获取窗口关系
             protocolStr = @"FC1C04";
             break;
             
@@ -875,13 +906,7 @@ static BleManager *bleManager = nil;
             [[NSNotificationCenter defaultCenter] postNotificationName:GET_SLEEP_DATA object:model];
         }else if ([headStr isEqualToString:@"0d"] || [headStr isEqualToString:@"0D"] || [headStr isEqualToString:@"8d"] || [headStr isEqualToString:@"8D"]) {
             //上报GPS数据
-            //            manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisGPSData:value WithHeadStr: headStr];
-            //if ([self.receiveDelegate respondsToSelector:@selector(receiveGPSWithModel:)]) {
-                //                [self.receiveDelegate receiveGPSWithModel:model];
-                //                [_fmTool saveGPSToDataBase:model];
-            //}else {
-                //                [_fmTool saveGPSToDataBase:model];
-            //}
+
         }else if ([headStr isEqualToString:@"0f"] || [headStr isEqualToString:@"0F"]) {
             //设备维护指令
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisFirmwareData:value WithHeadStr:headStr];
@@ -918,6 +943,11 @@ static BleManager *bleManager = nil;
             //分段跑步数据
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisTakePhoto:value WithHeadStr:headStr];
             [[NSNotificationCenter defaultCenter] postNotificationName:GET_SEGEMENT_RUN object:model];
+        }else if ([headStr isEqualToString:@"1C"] || [headStr isEqualToString:@"1c"]) {
+            //设置窗口成功
+            NSString *ENStr = [NSString stringWithFormat:@"%02x", hexBytes[1]];
+            NSString *SZStr = [NSString stringWithFormat:@"%02x", hexBytes[2]];
+            [[NSNotificationCenter defaultCenter] postNotificationName:SET_WINDOW object:nil userInfo:@{@"success":[ENStr isEqualToString:@"02"] && [SZStr isEqualToString:@"01"]? @YES : @NO}];
         }else if ([headStr isEqualToString:@"fc"] || [headStr isEqualToString:@"FC"]) {
             NSString *secondStr = [NSString stringWithFormat:@"%02x", hexBytes[1]];
 //            NSString *TTStr = [NSString stringWithFormat:@"%02x", hexBytes[3]];

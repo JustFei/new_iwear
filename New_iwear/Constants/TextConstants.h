@@ -54,6 +54,8 @@
 #define SET_UNITS_DATA @"SetUnitsData"
 //时间格式设置
 #define SET_TIME_FORMATTER @"SetTimeFormatter"
+//窗口设置
+#define SET_WINDOW @"SetWindow"
 
 
 #pragma mark - NSUserDefault 保存的信息的名字
@@ -67,5 +69,9 @@
 #define MOTION_TARGET @"MotionTarget"
 //睡眠目标
 #define SLEEP_TARGET @"SleepTarget"
+//硬件版本号
+#define HARDWARE_VERSION @"HardwareVersion"  
+//窗口设置保存
+#define WINDOW_SETTING @"WindowSetting"
 
 #endif /* TextConstants_h */

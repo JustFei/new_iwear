@@ -200,7 +200,7 @@ static NSString * const MessageReminderTableViewCellID = @"MessageReminderTableV
 - (MBProgressHUD *)hud
 {
     if (!_hud) {
-        _hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         _hud.mode = MBProgressHUDModeIndeterminate;
     }
     

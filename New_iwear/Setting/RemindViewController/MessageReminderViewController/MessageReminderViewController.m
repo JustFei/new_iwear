@@ -188,7 +188,7 @@ static NSString * const MessageReminderTableViewCellID = @"MessageReminderTableV
     if (!_dataArr) {
         SedentaryReminderModel *model = [[SedentaryReminderModel alloc] init];
         model.title = @"开启短信提醒";
-        model.switchIsOpen = YES;
+        model.switchIsOpen = NO;
         model.whetherHaveSwitch = YES;
         model.subTitle = @"手机来短信时，手表会振动提醒";
         _dataArr = @[model];

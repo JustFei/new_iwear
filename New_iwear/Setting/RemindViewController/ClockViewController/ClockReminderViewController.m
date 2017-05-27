@@ -66,6 +66,15 @@ static NSString *const ClockTableViewCellID = @"ClockTableViewCell";
     [self.hud hideAnimated:YES];
     manridyModel *model = [noti object];
     if (model.isReciveDataRight) {
+        //保存设置到本地
+        NSMutableArray *saveMutArr = [NSMutableArray array];
+        for (ClockModel *model in self.dataArr) {
+            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:model];
+            [saveMutArr addObject:data];
+        }
+        //这里只能保存不可变数组，所以要转换
+        NSArray *saveArr = [NSArray arrayWithArray:saveMutArr];
+        [[NSUserDefaults standardUserDefaults] setObject:saveArr forKey:CLOCK_SETTING];
         MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
         [sucToast show];
     }else {
@@ -217,16 +226,26 @@ static NSString *const ClockTableViewCellID = @"ClockTableViewCell";
 - (NSArray *)dataArr
 {
     if (!_dataArr) {
-        NSArray *timeArr = @[@"08:00", @"08:30", @"09:00", @"09:30", @"10:00"];
-        NSMutableArray *mutArr = [NSMutableArray array];
-        for (int index = 0; index < timeArr.count; index ++) {
-            ClockModel *model = [[ClockModel alloc] init];
-            model.time = timeArr[index];
-            model.isOpen = NO;
-            [mutArr addObject:model];
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:CLOCK_SETTING]) {
+            NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:CLOCK_SETTING];
+            NSMutableArray *mutArr = [NSMutableArray array];
+            for (NSData *data in arr) {
+                ClockModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+                [mutArr addObject:model];
+            }
+            _dataArr = mutArr;
+        }else {
+            NSArray *timeArr = @[@"08:00", @"08:30", @"09:00", @"09:30", @"10:00"];
+            NSMutableArray *mutArr = [NSMutableArray array];
+            for (int index = 0; index < timeArr.count; index ++) {
+                ClockModel *model = [[ClockModel alloc] init];
+                model.time = timeArr[index];
+                model.isOpen = NO;
+                [mutArr addObject:model];
+            }
+            
+            _dataArr = [NSArray arrayWithArray:mutArr];
         }
-        
-        _dataArr = [NSArray arrayWithArray:mutArr];
     }
     
     return _dataArr;

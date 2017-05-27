@@ -181,13 +181,6 @@
             [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"peripheralUUID"];
             [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"isBind"];
             
-            /** 解除绑定的UI */
-//            self.navigationItem.rightBarButtonItem.enabled = YES;
-//            [self.bindStateLabel setText:@"未绑定设备"];
-//            self.qrCodeButton.hidden = NO;
-//            self.refreshImageView.hidden = NO;
-//            [sender setTitle:@"绑定设备" forState:UIControlStateNormal];
-//            sender.hidden = YES;
             [self setUnBindView];
             MDToast *disconnectToast = [[MDToast alloc] initWithText:@"解绑成功" duration:1];
             [disconnectToast show];

@@ -72,6 +72,15 @@ static NSString * const UnitsSettingTableViewCellID = @"UnitsSettingTableViewCel
     NSLog(@"isFirst:%d",isFirst);
     //这里不能直接写 if (isFirst),必须如下写法
     if (isFirst == 1) {
+        //保存设置到本地
+        NSMutableArray *saveMutArr = [NSMutableArray array];
+        for (UnitsSettingModel *model in self.dataArr) {
+            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:model];
+            [saveMutArr addObject:data];
+        }
+        //这里只能保存不可变数组，所以要转换
+        NSArray *saveArr = [NSArray arrayWithArray:saveMutArr];
+        [[NSUserDefaults standardUserDefaults] setObject:saveArr forKey:UNITS_SETTING];
         [self.hud hideAnimated:YES];
         MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
         [sucToast show];
@@ -185,23 +194,33 @@ static NSString * const UnitsSettingTableViewCellID = @"UnitsSettingTableViewCel
 - (NSArray *)dataArr
 {
     if (!_dataArr) {
-        NSArray *sec1 = @[@"公制(米/公里)", @"英制(英寸/英尺/英里)"];
-        NSArray *sec2 = @[@"公制(公斤/千克)",@"英制(磅)"];
-        NSMutableArray *mutArr1 = [NSMutableArray array];
-        NSMutableArray *mutArr2 = [NSMutableArray array];
-        for (int index = 0; index < sec1.count; index ++) {
-            UnitsSettingModel *model = [[UnitsSettingModel alloc] init];
-            model.name = sec1[index];
-            model.isSelect = index == 0 ? YES : NO;
-            [mutArr1 addObject:model];
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:UNITS_SETTING]) {
+            NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:UNITS_SETTING];
+            NSMutableArray *mutArr = [NSMutableArray array];
+            for (NSData *data in arr) {
+                UnitsSettingModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+                [mutArr addObject:model];
+            }
+            _dataArr = mutArr;
+        }else {
+            NSArray *sec1 = @[@"公制(米/公里)", @"英制(英寸/英尺/英里)"];
+            NSArray *sec2 = @[@"公制(公斤/千克)",@"英制(磅)"];
+            NSMutableArray *mutArr1 = [NSMutableArray array];
+            NSMutableArray *mutArr2 = [NSMutableArray array];
+            for (int index = 0; index < sec1.count; index ++) {
+                UnitsSettingModel *model = [[UnitsSettingModel alloc] init];
+                model.name = sec1[index];
+                model.isSelect = index == 0 ? YES : NO;
+                [mutArr1 addObject:model];
+            }
+            for (int index = 0; index < sec2.count; index ++) {
+                UnitsSettingModel *model = [[UnitsSettingModel alloc] init];
+                model.name = sec2[index];
+                model.isSelect = index == 0 ? YES : NO;
+                [mutArr2 addObject:model];
+            }
+            _dataArr = @[mutArr1, mutArr2];
         }
-        for (int index = 0; index < sec2.count; index ++) {
-            UnitsSettingModel *model = [[UnitsSettingModel alloc] init];
-            model.name = sec2[index];
-            model.isSelect = index == 0 ? YES : NO;
-            [mutArr2 addObject:model];
-        }
-        _dataArr = @[mutArr1, mutArr2];
     }
     
     return _dataArr;

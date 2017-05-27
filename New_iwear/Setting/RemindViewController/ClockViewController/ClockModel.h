@@ -16,7 +16,6 @@ typedef enum : NSUInteger {
 @interface ClockModel : NSObject < NSCoding >
 
 @property (assign, nonatomic) NSInteger ID;
-
 @property (nonatomic, copy) NSString *time;
 @property (nonatomic, assign) BOOL isOpen;
 

@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "New_iwear/AppDelegate.m"
-            timestampString = "517131600.061676"
+            timestampString = "517567951.432737"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
             landmarkName = "-pushToBleSet"
             landmarkType = "7">
          </BreakpointContent>
@@ -41,13 +41,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "New_iwear/Setting/RemindViewController/ClockViewController/ClockReminderViewController.m"
-            timestampString = "517222282.690765"
+            filePath = "New_iwear/Setting/SettingViewController/SettingViewController.m"
+            timestampString = "517574967.989117"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "-saveClockAction"
+            startingLineNumber = "251"
+            endingLineNumber = "251"
+            landmarkName = "-groupFirstDataSourceArr"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "New_iwear/Setting/SettingViewController/SettingViewController.m"
+            timestampString = "517574967.989117"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "249"
+            endingLineNumber = "249"
+            landmarkName = "-groupFirstDataSourceArr"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -68,6 +68,16 @@ static NSString * const TimeFormatterSettingTableViewCellID = @"TimeFormatterSet
     NSLog(@"isFirst:%d",isFirst);
     //这里不能直接写 if (isFirst),必须如下写法
     if (isFirst == 1) {
+        //保存设置到本地
+        NSMutableArray *saveMutArr = [NSMutableArray array];
+        for (UnitsSettingModel *model in self.dataArr) {
+            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:model];
+            [saveMutArr addObject:data];
+        }
+        //这里只能保存不可变数组，所以要转换
+        NSArray *saveArr = [NSArray arrayWithArray:saveMutArr];
+        [[NSUserDefaults standardUserDefaults] setObject:saveArr forKey:TIME_FORMATTER_SETTING];
+        
         [self.hud hideAnimated:YES];
         MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
         [sucToast show];
@@ -176,15 +186,25 @@ static NSString * const TimeFormatterSettingTableViewCellID = @"TimeFormatterSet
 - (NSArray *)dataArr
 {
     if (!_dataArr) {
-        NSArray *sec1 = @[@"12时", @"24时"];
-        NSMutableArray *mutArr1 = [NSMutableArray array];
-        for (int index = 0; index < sec1.count; index ++) {
-            UnitsSettingModel *model = [[UnitsSettingModel alloc] init];
-            model.name = sec1[index];
-            model.isSelect = index == 0 ? YES : NO;
-            [mutArr1 addObject:model];
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:TIME_FORMATTER_SETTING]) {
+            NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:TIME_FORMATTER_SETTING];
+            NSMutableArray *mutArr = [NSMutableArray array];
+            for (NSData *data in arr) {
+                UnitsSettingModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+                [mutArr addObject:model];
+            }
+            _dataArr = mutArr;
+        }else {
+            NSArray *sec1 = @[@"12时", @"24时"];
+            NSMutableArray *mutArr1 = [NSMutableArray array];
+            for (int index = 0; index < sec1.count; index ++) {
+                UnitsSettingModel *model = [[UnitsSettingModel alloc] init];
+                model.name = sec1[index];
+                model.isSelect = index == 0 ? YES : NO;
+                [mutArr1 addObject:model];
+            }
+            _dataArr = @[mutArr1];
         }
-        _dataArr = @[mutArr1];
     }
     
     return _dataArr;

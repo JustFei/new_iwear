@@ -75,16 +75,19 @@ static NSString * const TargetSettingTableViewCellID = @"TargetSettingTableViewC
     NSLog(@"isFirst:%d",isFirst);
     //这里不能直接写 if (isFirst),必须如下写法
     if (isFirst == 1) {
+        //保存设置到本地
+        NSMutableArray *saveMutArr = [NSMutableArray array];
+        for (TargetSettingModel *model in self.dataArr) {
+            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:model];
+            [saveMutArr addObject:data];
+        }
+        //这里只能保存不可变数组，所以要转换
+        NSArray *saveArr = [NSArray arrayWithArray:saveMutArr];
+        [[NSUserDefaults standardUserDefaults] setObject:saveArr forKey:TARGET_SETTING];
+        
         [self.hud hideAnimated:YES];
         MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
         [sucToast show];
-        TargetSettingModel *motionModel = self.dataArr.firstObject;//运动
-        TargetSettingModel *sleepModel = self.dataArr.lastObject;//睡眠
-        //保存设置到本地
-        //运动目标
-        [[NSUserDefaults standardUserDefaults] setObject:motionModel.target forKey:MOTION_TARGET];
-        //睡眠目标
-        [[NSUserDefaults standardUserDefaults] setObject:sleepModel.target forKey:SLEEP_TARGET];
     }else {
         //做失败处理
         [self.hud hideAnimated:YES];
@@ -250,16 +253,28 @@ static NSString * const TargetSettingTableViewCellID = @"TargetSettingTableViewC
 - (NSArray *)dataArr
 {
     if (!_dataArr) {
-        TargetSettingModel *model1 = [[TargetSettingModel alloc] init];
-        model1.title = @"运动目标";
-        model1.name = @"每天步行";
-        model1.target = @"8000";
-        
-        TargetSettingModel *model2 = [[TargetSettingModel alloc] init];
-        model2.title = @"睡眠目标";
-        model2.name = @"每天睡眠";
-        model2.target = @"8";
-        _dataArr = @[model1, model2];
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:TARGET_SETTING]) {
+            NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:TARGET_SETTING];
+            NSMutableArray *mutArr = [NSMutableArray array];
+            for (NSData *data in arr) {
+                TargetSettingModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+                [mutArr addObject:model];
+            }
+            _dataArr = mutArr;
+        }else {
+            TargetSettingModel *model1 = [[TargetSettingModel alloc] init];
+            model1.title = @"运动目标";
+            model1.name = @"每天步行";
+            model1.target = @"8000";
+            model1.mode = TargetModeMotion;
+            
+            TargetSettingModel *model2 = [[TargetSettingModel alloc] init];
+            model2.title = @"睡眠目标";
+            model2.name = @"每天睡眠";
+            model2.target = @"8";
+            model2.mode = TargetModeSleep;
+            _dataArr = @[model1, model2];
+        }
     }
     
     return _dataArr;

@@ -289,11 +289,11 @@ static NSString *const SedentaryReminderTableViewCellID = @"SedentaryReminderTab
                 SedentaryReminderModel *model = [[SedentaryReminderModel alloc] init];
                 model.title = titleArr[index];
                 if (index == 0 || index == 3) {
-                    model.switchIsOpen = YES;
+                    model.switchIsOpen = NO;
                     model.whetherHaveSwitch = YES;
                     model.subTitle = index == 3 ? @"12:00~14:00不进行提醒" : @"";
                 }else {
-                    model.time = index == 1 ? @"08:30" : @"19:30";
+                    model.time = index == 1 ? @"09:00" : @"18:00";
                     model.whetherHaveSwitch = NO;
                 }
                 [mutArr addObject:model];

@@ -92,6 +92,9 @@
         make.left.equalTo(self.view.mas_left).offset(16);
         make.top.equalTo(takePhotoLabel.mas_bottom).offset(35);
     }];
+    
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self selector:@selector(stopFindTimer:) name:GET_SEARCH_FEEDBACK object:nil];
 }
 
 #pragma mark - Action
@@ -106,8 +109,7 @@
         [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
     }else {
         self.findBtn.enabled = NO;
-        [[NSNotificationCenter defaultCenter]
-         addObserver:self selector:@selector(stopFindTimer:) name:GET_SEARCH_FEEDBACK object:nil];
+        
         [[BleManager shareInstance] writeSearchPeripheralWithONorOFF:YES];
         [self.timeToast show];
         __block int time = 10;
@@ -125,8 +127,16 @@
 
 - (void)stopFindTimer:(NSNotification *)noti
 {
-    self.timeToast.text = @"设备已找到";
-    [self endTimerAndDismissToast];
+    BOOL isFirst = noti.userInfo[@"success"];//success 里保存这设置是否成功
+    NSLog(@"isFirst:%d",isFirst);
+    //这里不能直接写 if (isFirst),必须如下写法
+    if (isFirst == 1) {
+        self.timeToast.text = @"设备已找到";
+        [self endTimerAndDismissToast];
+    }else {
+        self.timeToast.text = @"错误";
+        [self endTimerAndDismissToast];
+    }
 }
 
 - (void)endTimerAndDismissToast

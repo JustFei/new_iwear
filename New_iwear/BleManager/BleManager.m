@@ -913,7 +913,13 @@ static BleManager *bleManager = nil;
             [[NSNotificationCenter defaultCenter] postNotificationName:SET_FIRMWARE object:model];
         }else if ([headStr isEqualToString:@"10"]) {
             //查找设备回调
-            [[NSNotificationCenter defaultCenter] postNotificationName:GET_SEARCH_FEEDBACK object:nil];
+            NSString *DDStr = [NSString stringWithFormat:@"%02x", hexBytes[1]];
+//            NSString *SZStr = [NSString stringWithFormat:@"%02x", hexBytes[2]];
+            if ([DDStr isEqualToString:@"00"]) {    //设备确认查找到的返回
+                [[NSNotificationCenter defaultCenter] postNotificationName:GET_SEARCH_FEEDBACK object:nil userInfo:@{@"success" : @YES}];
+            }else if ([DDStr isEqualToString:@"02"]) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:LOST_PERIPHERAL_SWITCH object:nil userInfo:@{@"success": @YES}];
+            }
         }else if ([headStr isEqualToString:@"11"]) {
             //获取血压
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisBloodData:value WithHeadStr:headStr];

@@ -13,7 +13,7 @@ typedef enum : NSUInteger {
     TargetModeSleep
 } TargetMode;
 
-@interface TargetSettingModel : NSObject
+@interface TargetSettingModel : NSObject < NSCoding >
 
 @property (nonatomic, assign) TargetMode mode;
 @property (nonatomic, copy) NSString *title;

@@ -38,6 +38,8 @@
 #define GET_SEARCH_FEEDBACK @"GetSearchFeedBack"
 //设备查找手机(此处需要全局监听)
 #define SET_FIND_PHONE @"SetFindPhone"
+//设备防丢开关
+#define LOST_PERIPHERAL_SWITCH @"LostPeripheralSwitch"
 //血压
 #define GET_BP_DATA @"GetBPData"
 //血氧
@@ -65,15 +67,28 @@
 #define HUNDRED_WEIGHT @"HundredWeight"         //yes：英制，no：公制
 //时间制式
 #define TIME_FORMATTER @"TimeFormatter"         //yes：12时，no：24时
-//运动目标
-#define MOTION_TARGET @"MotionTarget"
-//睡眠目标
-#define SLEEP_TARGET @"SleepTarget"
+////运动目标
+//#define MOTION_TARGET @"MotionTarget"
+////睡眠目标
+//#define SLEEP_TARGET @"SleepTarget"
 //硬件版本号
 #define HARDWARE_VERSION @"HardwareVersion"  
 //窗口设置保存
 #define WINDOW_SETTING @"WindowSetting"
 //久坐设置保存
 #define SEDENTARY_SETTING @"SedentarySetting"
+//闹钟设置保存
+#define CLOCK_SETTING @"ClockSetting"
+//防丢设置保存
+#define LOST_SETTING @"LostSetting"
+//亮度设置保存
+#define DIMMING_SETTING @"DimmingSetting"
+//单位设置保存
+#define UNITS_SETTING @"UnitsSetting"
+//时间格式设置保存
+#define TIME_FORMATTER_SETTING @"TimeFormatterSetting"
+//目标设置保存
+#define TARGET_SETTING @"TargetSetting"
+
 
 #endif /* TextConstants_h */

@@ -46,13 +46,19 @@ static NSString *const settingHeaderID = @"settingHeader";
     
     self.automaticallyAdjustsScrollViewInsets = YES;
     [self healthKit];
-    self.tableView.backgroundColor = SETTING_BACKGROUND_COLOR;
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [self.tableView reloadData];
     [[self.navigationController.navigationBar subviews].firstObject setAlpha:1];
     [self.navigationController.navigationBar setBackgroundColor:self.naviBarColor];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    self.groupFirstDataSourceArr = nil;
 }
 
 #pragma mark - Action
@@ -167,19 +173,6 @@ static NSString *const settingHeaderID = @"settingHeader";
     
 }
 
-/** 重载 ScrollView 代理方法来让 HeaderView 跟着 tableView 一起滑动 */
-//-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-//    
-//    CGFloat sectionHeaderHeight = 225;
-//    if (scrollView.contentOffset.y <= sectionHeaderHeight && scrollView.contentOffset.y> 0) {
-//        scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
-//    }else{
-//        if(scrollView.contentOffset.y >= sectionHeaderHeight){
-//            scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
-//        }
-//    }
-//}
-
 - (void)healthKit
 {
     self.hkStore = [[HKHealthStore alloc] init];
@@ -238,6 +231,7 @@ static NSString *const settingHeaderID = @"settingHeader";
         /** 偏移掉表头的 64 个像素 */
         _tableView.contentInset = UIEdgeInsetsMake(- 64, 0, 0, 0);
         _tableView.backgroundColor = CLEAR_COLOR;
+        _tableView.backgroundColor = SETTING_BACKGROUND_COLOR;
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.allowsMultipleSelection = NO;
         
@@ -254,10 +248,14 @@ static NSString *const settingHeaderID = @"settingHeader";
 {
     if (!_groupFirstDataSourceArr) {
         PeripheralCellModel *model = [[PeripheralCellModel alloc] init];
-        model.peripheralName = @"X9Plus";
-        model.isBind = YES;
-        model.isConnect = YES;
-        model.battery = 90;
+        model.peripheralName = [[NSUserDefaults standardUserDefaults] objectForKey:@"bindPeripheralName"] ? [[NSUserDefaults standardUserDefaults] objectForKey:@"bindPeripheralName"] : @"未绑定";
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isBind"]) {
+            model.isBind = [[NSUserDefaults standardUserDefaults] boolForKey:@"isBind"];
+        }else {
+            model.isBind = NO;
+        }
+        model.isConnect = [BleManager shareInstance].connectState == kBLEstateDidConnected ? YES : NO;
+        model.battery = 0;
         _groupFirstDataSourceArr = @[model];
     }
     

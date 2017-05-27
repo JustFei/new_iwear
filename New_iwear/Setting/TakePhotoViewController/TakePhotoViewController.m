@@ -99,7 +99,10 @@
         [[NSNotificationCenter defaultCenter]
          addObserver:self selector:@selector(setTakePhoto:) name:SET_TAKE_PHOTO object:nil];
         [[BleManager shareInstance] writeCameraMode:kCameraModeOpenCamera];
-        
+        self.imagePicker = [[UIImagePickerController alloc]init];
+        self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        self.imagePicker.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
+        self.imagePicker.delegate = self;
         //页面跳转
         [self presentViewController:self.imagePicker animated:YES completion:nil];
     }
@@ -134,6 +137,7 @@
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
+    [picker dismissViewControllerAnimated:YES completion:nil];
     //退出设备的相机模式
     [[BleManager shareInstance] writeCameraMode:kCameraModeCloseCamera];
 }
@@ -159,16 +163,16 @@
 }
 
 #pragma mark - lazy
-- (UIImagePickerController *)imagePicker
-{
-    if (!_imagePicker) {
-        _imagePicker = [[UIImagePickerController alloc]init];
-        _imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        _imagePicker.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
-        _imagePicker.delegate = self;
-    }
-    
-    return _imagePicker;
-}
+//- (UIImagePickerController *)imagePicker
+//{
+//    if (!_imagePicker) {
+//        _imagePicker = [[UIImagePickerController alloc]init];
+//        _imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+//        _imagePicker.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
+//        _imagePicker.delegate = self;
+//    }
+//    
+//    return _imagePicker;
+//}
 
 @end

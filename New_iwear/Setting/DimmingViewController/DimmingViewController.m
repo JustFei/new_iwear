@@ -66,7 +66,7 @@
     }];
     
     _currentDimLabel = [[UILabel alloc] init];
-    [_currentDimLabel setText:@"100%"];
+    
     [_currentDimLabel setTextColor:COLOR_WITH_HEX(0x2196f3, 1)];
     [_currentDimLabel setFont:[UIFont systemFontOfSize:16]];
     [self.view addSubview:_currentDimLabel];
@@ -80,7 +80,6 @@
     _slider.maximumValue = 100;
     _slider.step = 10;
     _slider.enabledValueLabel = YES;
-    [_slider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:_slider];
     [_slider mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.mas_centerX);
@@ -88,6 +87,18 @@
         make.width.equalTo(@(225 * VIEW_CONTROLLER_FRAME_WIDTH / 375));
         make.height.equalTo(@10);
     }];
+    
+    if ([[NSUserDefaults standardUserDefaults] floatForKey:DIMMING_SETTING]) {
+        float value = [[NSUserDefaults standardUserDefaults] floatForKey:DIMMING_SETTING];
+        [_currentDimLabel setText:[NSString stringWithFormat:@"%0.f%%", value]];
+        _slider.value = value;
+    }else {
+        [_currentDimLabel setText:@"90%"];
+        _slider.value = 90;
+    }
+    
+    [_slider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
+    
     _currentDim = _slider.value;
 
     _subtractBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:nil];
@@ -177,6 +188,7 @@
     if (model.receiveDataType == ReturnModelTypeFirwmave){
         //这里不能直接写 if (isFirst),必须如下写法
         if (model.firmwareModel.mode == FirmwareModeSetLCD) {
+            [[NSUserDefaults standardUserDefaults] setFloat:self.slider.value forKey:DIMMING_SETTING];
             MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
             [sucToast show];
         }else {

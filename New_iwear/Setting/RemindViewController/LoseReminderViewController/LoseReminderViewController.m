@@ -37,6 +37,8 @@ static NSString * const LoseReminderTableViewCellID = @"LoseReminderTableViewCel
     
     self.view.backgroundColor = SETTING_BACKGROUND_COLOR;
     self.tableView.backgroundColor = CLEAR_COLOR;
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self selector:@selector(wheatherSuccess:) name:LOST_PERIPHERAL_SWITCH object:nil];
 }
 
 - (void)dealloc
@@ -54,29 +56,26 @@ static NSString * const LoseReminderTableViewCellID = @"LoseReminderTableViewCel
 {
     [self.hud showAnimated:YES];
 
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self selector:@selector(setPairNoti:) name:GET_PAIR object:nil];
     [[BleManager shareInstance] writePeripheralShakeWhenUnconnectWithOforOff:((SedentaryReminderModel *)self.dataArr.firstObject).switchIsOpen];
 }
 
-- (void)setPairNoti:(NSNotification *)noti
+- (void)wheatherSuccess:(NSNotification *)noti
 {
-    [self.hud hideAnimated:YES];
-    manridyModel *model = [noti object];
-    if (model.isReciveDataRight) {
-        if (model.pairSuccess) {
-            MDToast *sucToast = [[MDToast alloc] initWithText:@"配对成功" duration:1.5];
-            [sucToast show];
-        }else {
-            MDToast *sucToast = [[MDToast alloc] initWithText:@"配对失败，请配对设备，否则无法使用该功能" duration:3];
-            [sucToast show];
-        }
+    BOOL isFirst = noti.userInfo[@"success"];//success 里保存这设置是否成功
+    NSLog(@"isFirst:%d",isFirst);
+    //这里不能直接写 if (isFirst),必须如下写法
+    if (isFirst == 1) {
+        //保存设置到本地
+        SedentaryReminderModel *model = self.dataArr.firstObject;
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:model];
+        [[NSUserDefaults standardUserDefaults] setObject:data forKey:LOST_SETTING];
+        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
+        [sucToast show];
     }else {
         MDToast *sucToast = [[MDToast alloc] initWithText:@"保存失败" duration:1.5];
         [sucToast show];
     }
 }
-
 
 #pragma mark - UITableViewDelegate && UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -150,12 +149,18 @@ static NSString * const LoseReminderTableViewCellID = @"LoseReminderTableViewCel
 - (NSArray *)dataArr
 {
     if (!_dataArr) {
-        SedentaryReminderModel *model = [[SedentaryReminderModel alloc] init];
-        model.title = @"开启防丢提醒";
-        model.switchIsOpen = YES;
-        model.whetherHaveSwitch = YES;
-        model.subTitle = @"连接断开时振动";
-        _dataArr = @[model];
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:LOST_SETTING]) {
+            NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:LOST_SETTING];
+            SedentaryReminderModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+            _dataArr = @[model];
+        }else {
+            SedentaryReminderModel *model = [[SedentaryReminderModel alloc] init];
+            model.title = @"开启防丢提醒";
+            model.switchIsOpen = NO;
+            model.whetherHaveSwitch = YES;
+            model.subTitle = @"连接断开时振动";
+            _dataArr = @[model];
+        }
     }
     
     return _dataArr;

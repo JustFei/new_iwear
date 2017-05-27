@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UnitsSettingModel : NSObject
+@interface UnitsSettingModel : NSObject < NSCoding >
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, assign) BOOL isSelect;

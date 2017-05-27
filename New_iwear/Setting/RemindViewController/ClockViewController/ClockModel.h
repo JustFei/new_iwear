@@ -13,7 +13,7 @@ typedef enum : NSUInteger {
     ClockDataGetClock,
 } ClockData;
 
-@interface ClockModel : NSObject
+@interface ClockModel : NSObject < NSCoding >
 
 @property (assign, nonatomic) NSInteger ID;
 

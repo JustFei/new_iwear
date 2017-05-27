@@ -217,7 +217,7 @@ static NSString *const ClockTableViewCellID = @"ClockTableViewCell";
 - (NSArray *)dataArr
 {
     if (!_dataArr) {
-        NSArray *timeArr = @[@"08:00", @"08:30", @"09:00"];
+        NSArray *timeArr = @[@"08:00", @"08:30", @"09:00", @"09:30", @"10:00"];
         NSMutableArray *mutArr = [NSMutableArray array];
         for (int index = 0; index < timeArr.count; index ++) {
             ClockModel *model = [[ClockModel alloc] init];

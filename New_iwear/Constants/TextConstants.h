@@ -73,5 +73,7 @@
 #define HARDWARE_VERSION @"HardwareVersion"  
 //窗口设置保存
 #define WINDOW_SETTING @"WindowSetting"
+//久坐设置保存
+#define SEDENTARY_SETTING @"SedentarySetting"
 
 #endif /* TextConstants_h */

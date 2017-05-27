@@ -12,20 +12,20 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [aCoder encodeObject:@(self.windowID) forKey:@"windowID"];
+    [aCoder encodeInteger:self.windowID forKey:@"windowID"];
     [aCoder encodeObject:self.functionName forKey:@"functionName"];
     [aCoder encodeObject:self.functionImageName forKey:@"functionImageName"];
-    [aCoder encodeObject:@(self.selectMode) forKey:@"selectMode"];
+    [aCoder encodeInteger:self.selectMode forKey:@"selectMode"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
     if (self) {
-        self.windowID = (NSInteger)[aDecoder decodeObjectForKey:@"windowID"];
+        self.windowID = [aDecoder decodeIntegerForKey:@"windowID"];
         self.functionName = [aDecoder decodeObjectForKey:@"functionName"];
         self.functionImageName = [aDecoder decodeObjectForKey:@"functionImageName"];
-        self.selectMode = (NSInteger)[aDecoder decodeObjectForKey:@"selectMode"];
+        self.selectMode = [aDecoder decodeIntegerForKey:@"selectMode"];
     }
     return self;
 }

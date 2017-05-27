@@ -125,6 +125,14 @@ static NSString *const SedentaryReminderTableViewCellID = @"SedentaryReminderTab
     NSLog(@"isFirst:%d",isFirst);
     //这里不能直接写 if (isFirst),必须如下写法
     if (isFirst == 1) {
+        NSMutableArray *saveMutArr = [NSMutableArray array];
+        for (SedentaryModel *model in self.dataArr) {
+            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:model];
+            [saveMutArr addObject:data];
+        }
+        //这里只能保存不可变数组，所以要转换
+        NSArray *saveArr = [NSArray arrayWithArray:saveMutArr];
+        [[NSUserDefaults standardUserDefaults] setObject:saveArr forKey:SEDENTARY_SETTING];
         [self.hud hideAnimated:YES];
         MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
         [sucToast show];
@@ -266,23 +274,32 @@ static NSString *const SedentaryReminderTableViewCellID = @"SedentaryReminderTab
 - (NSArray *)dataArr
 {
     if (!_dataArr) {
-        NSArray *titleArr = @[@"开始久坐提醒", @"开始时间", @"结束时间", @"午休时间"];
-        NSMutableArray *mutArr = [NSMutableArray array];
-        for (int index = 0; index < titleArr.count; index ++) {
-            SedentaryReminderModel *model = [[SedentaryReminderModel alloc] init];
-            model.title = titleArr[index];
-            if (index == 0 || index == 3) {
-                model.switchIsOpen = YES;
-                model.whetherHaveSwitch = YES;
-                model.subTitle = index == 3 ? @"12:00~14:00不进行提醒" : @"";
-            }else {
-                model.time = index == 1 ? @"08:30" : @"19:30";
-                model.timeState = index == 1 ? @"上午" : @"下午";
-                model.whetherHaveSwitch = NO;
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:SEDENTARY_SETTING]) {
+            NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:SEDENTARY_SETTING];
+            NSMutableArray *mutArr = [NSMutableArray array];
+            for (NSData *data in arr) {
+                SedentaryModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+                [mutArr addObject:model];
             }
-            [mutArr addObject:model];
+            _dataArr = mutArr;
+        }else {
+            NSArray *titleArr = @[@"开始久坐提醒", @"开始时间", @"结束时间", @"午休时间"];
+            NSMutableArray *mutArr = [NSMutableArray array];
+            for (int index = 0; index < titleArr.count; index ++) {
+                SedentaryReminderModel *model = [[SedentaryReminderModel alloc] init];
+                model.title = titleArr[index];
+                if (index == 0 || index == 3) {
+                    model.switchIsOpen = YES;
+                    model.whetherHaveSwitch = YES;
+                    model.subTitle = index == 3 ? @"12:00~14:00不进行提醒" : @"";
+                }else {
+                    model.time = index == 1 ? @"08:30" : @"19:30";
+                    model.whetherHaveSwitch = NO;
+                }
+                [mutArr addObject:model];
+            }
+            _dataArr = [NSArray arrayWithArray:mutArr];
         }
-        _dataArr = [NSArray arrayWithArray:mutArr];
     }
     
     return _dataArr;

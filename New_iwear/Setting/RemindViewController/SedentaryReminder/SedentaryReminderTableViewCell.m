@@ -102,7 +102,6 @@
         }else {
             self.switchButton.hidden = YES;
             [self.timeLabel setText:model.time];
-            [self.timeStateLabel setText:model.timeState];
             [self.arrowImageView setImage:[UIImage imageNamed:@"ic_chevron_right"]];
         }
     }

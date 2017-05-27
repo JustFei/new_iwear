@@ -29,11 +29,17 @@
  篮球运动界面	16
  */
 
-typedef enum : NSUInteger {
+//typedef enum : NSUInteger {
+//    SelectModeUnselected,   //未选择的
+//    SelectModeSelected,     //选择的
+//    SelectModeUnchoose,     //不可选择的，即必须存在的
+//} SelectMode;
+
+typedef NS_ENUM(NSInteger, SelectMode) {
     SelectModeUnselected,   //未选择的
     SelectModeSelected,     //选择的
     SelectModeUnchoose,     //不可选择的，即必须存在的
-} SelectMode;
+};
 
 @interface InterfaceSelectionModel : NSObject < NSCoding >
 

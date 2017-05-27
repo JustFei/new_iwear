@@ -8,12 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SedentaryReminderModel : NSObject
+@interface SedentaryReminderModel : NSObject < NSCoding >
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *subTitle;
 @property (nonatomic, copy) NSString *time;
-@property (nonatomic, copy) NSString *timeState;
 @property (nonatomic, assign) BOOL whetherHaveSwitch;
 @property (nonatomic, assign) BOOL switchIsOpen;
 

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface RemindModel : NSObject
+@interface RemindModel : NSObject < NSCoding >
 
 @property (nonatomic, copy) NSString *functionName;
 @property (nonatomic, copy) NSString *headImageName;

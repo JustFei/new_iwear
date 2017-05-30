@@ -31,9 +31,9 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 @property (nonatomic, weak) UIImageView *headImageView;
 @property (nonatomic, weak) UITextField *userNameTextField;
 @property (nonatomic, weak) UITableView *infoTableView;
-@property (nonatomic, weak) UIButton *saveButton;
-@property (nonatomic, strong) FMDBManager *myFmdbTool;
-@property (nonatomic, strong) BleManager *myBleTool;
+//@property (nonatomic, weak) UIButton *saveButton;
+//@property (nonatomic, strong) FMDBManager *myFmdbTool;
+//@property (nonatomic, strong) BleManager *myBleTool;
 @property (nonatomic, strong) MBProgressHUD *hud;
 @property (nonatomic, strong) NSArray *dataArr;
 @property (nonatomic, assign) BOOL isMetric;
@@ -59,7 +59,7 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
     self.navigationItem.title = @"用户信息";
     self.view.backgroundColor = SETTING_BACKGROUND_COLOR;
     
-    _userArr = [self.myFmdbTool queryAllUserInfo];
+//    _userArr = [self.myFmdbTool queryAllUserInfo];
     
     if (_userArr.count == 0) {
         [self setInitUI];
@@ -115,13 +115,13 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 
 - (void)setSaveUI:(NSArray *)userArr
 {
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"currentusername"]) {
-        DLog(@"hello == %@",[[NSUserDefaults standardUserDefaults] objectForKey:@"currentusername"]);
-        [self.userNameTextField setText:[[NSUserDefaults standardUserDefaults] objectForKey:@"currentusername"]];
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:USER_NAME_SETTING]) {
+        DLog(@"hello == %@",[[NSUserDefaults standardUserDefaults] objectForKey:USER_NAME_SETTING]);
+        [self.userNameTextField setText:[[NSUserDefaults standardUserDefaults] objectForKey:USER_NAME_SETTING]];
     }
     
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userheadimage"]) {
-        NSData *imageData = [[NSUserDefaults standardUserDefaults] objectForKey:@"userheadimage"];
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:USER_HEADIMAGE_SETTING]) {
+        NSData *imageData = [[NSUserDefaults standardUserDefaults] objectForKey:USER_HEADIMAGE_SETTING];
         [self.headImageView setImage:[UIImage imageWithData:imageData]];
     }else {
         self.headImageView.backgroundColor = [UIColor whiteColor];
@@ -302,30 +302,36 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 - (void)saveUserInfo
 {
     [self.view endEditing:YES];
-    
-//     && self.steplengthTextField.text != nil && self.steplengthTextField.text.length != 0
-//    if (self.userNameTextField.text != nil && self.userNameTextField.text.length != 0 && self.ageTextField.text != nil && self.ageTextField.text.length != 0 && self.heightTextField.text != nil && self.heightTextField.text.length != 0 && self.weightTextField.text != nil && self.weightTextField.text.length != 0) {
+    UserInfoSettingModel *modelWeight = self.dataArr[2];
+    //保存用户名
+    [[NSUserDefaults standardUserDefaults] setObject:self.userNameTextField.text forKey:USER_NAME_SETTING];
+    //保存用户头像
+    NSData *imageData = UIImagePNGRepresentation(self.headImageView.image);
+    [[NSUserDefaults standardUserDefaults] setObject:imageData forKey:USER_HEADIMAGE_SETTING];
+    //保存用户的其他基本信息
+    [[BleManager shareInstance] writeUserInfoToPeripheralWeight:@"" andHeight:@""];
+    MDToast *toast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
+    [toast show];
     
 //        [self.myBleTool writeUserInfoToPeripheralWeight:self.weightTextField.text andHeight:self.heightTextField.text];
     
 //        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 //        self.hud.mode = MBProgressHUDModeIndeterminate;
-//        
+    
 //        NSArray *userArr = [self.myFmdbTool queryAllUserInfo];
-//        
-//        //计算出在英制和公制下的身高体重
+    
+        //计算出在英制和公制下的身高体重
 //        NSInteger height = self.isMetric ? self.heightTextField.text.integerValue : [UnitsTool cmAndInch:self.heightTextField.text.integerValue withMode:ImperialToMetric];
 //        NSInteger weight = self.isMetric ? self.weightTextField.text.integerValue : [UnitsTool kgAndLb:self.weightTextField.text.integerValue withMode:ImperialToMetric];
 //        
 //        UserInfoModel *model = [UserInfoModel userInfoModelWithUserName:self.userNameTextField.text andGender:self.genderLabel.text andAge:self.ageTextField.text.integerValue andHeight:height andWeight:weight andStepLength:self.steplengthTextField.text.integerValue andStepTarget:0 andSleepTarget:0];
-//       
+    
 //        if (userArr.count == 0) {
 //           BOOL isSuccess = [self.myFmdbTool insertUserInfoModel:model];
 //            if (isSuccess) {
 //                self.hud.label.text = NSLocalizedString(@"saveSuccess", nil);
 //                
-//                NSData *imageData = UIImagePNGRepresentation(self.headImageView.image);
-//                [[NSUserDefaults standardUserDefaults] setObject:imageData forKey:@"userheadimage"];
+//                
 //                
 //                [self.hud hideAnimated:YES afterDelay:1];
 //            }else {
@@ -338,7 +344,7 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 //                self.hud.label.text = NSLocalizedString(@"changeSuccess", nil);
 //                
 //                NSData *imageData = UIImagePNGRepresentation(self.headImageView.image);
-//                [[NSUserDefaults standardUserDefaults] setObject:imageData forKey:@"userheadimage"];
+//                [[NSUserDefaults standardUserDefaults] setObject:imageData forKey:USER_HEADIMAGE_SETTING];
 //                
 //                [self.hud hideAnimated:YES afterDelay:1];
 //            }else {
@@ -346,18 +352,15 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 //                [self.hud hideAnimated:YES afterDelay:1];
 //            }
 //        }
-//        
-//        [[NSUserDefaults standardUserDefaults] setObject:self.userNameTextField.text forKey:@"currentusername"];
-//        
-//        DLog(@"gang gang set == %@",[[NSUserDefaults standardUserDefaults] objectForKey:@"currentusername"]);
+    
+    
+//        DLog(@"gang gang set == %@",[[NSUserDefaults standardUserDefaults] objectForKey:USER_NAME_SETTING]);
 //        
 ////    }else {
 //        AlertTool *vc = [AlertTool alertWithTitle:NSLocalizedString(@"tips", nil) message:NSLocalizedString(@"infoNotComplete", nil) style:UIAlertControllerStyleAlert];
 //        [vc addAction:[AlertAction actionWithTitle:NSLocalizedString(@"IKnow", nil) style:AlertToolStyleDefault handler:nil]];
 //        
 //        [vc show];
-         
-//    }
 }
 
 #pragma mark - UIPickerViewDelegate && UIPickerViewDataSource
@@ -492,7 +495,12 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
     if (!_headImageView) {
         UIImageView *imageView = [[UIImageView alloc] init];
         imageView.backgroundColor = CLEAR_COLOR;
-        imageView.image = [UIImage imageNamed:@"set_head"];
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:USER_HEADIMAGE_SETTING]) {
+            NSData *imageData = [[NSUserDefaults standardUserDefaults] objectForKey:USER_HEADIMAGE_SETTING];
+            [imageView setImage:[UIImage imageWithData:imageData]];
+        }else {
+            [imageView setImage:[UIImage imageNamed:@"set_head"]];
+        }
         imageView.userInteractionEnabled = YES;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setHeadImage)];
         [imageView addGestureRecognizer:tap];
@@ -519,7 +527,7 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 {
     if (!_userNameTextField) {
         UITextField *textField = [[UITextField alloc] init];
-        textField.placeholder = NSLocalizedString(@"请输入用户名", nil);
+        textField.placeholder = [[NSUserDefaults standardUserDefaults] objectForKey:USER_NAME_SETTING] ? [[NSUserDefaults standardUserDefaults] objectForKey:USER_NAME_SETTING] : @"用户名";
         
 //        [textField setValue:WHITE_COLOR forKeyPath:@"_placeholderLabel.textColor"];
         textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
@@ -559,25 +567,25 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
     return _infoTableView;
 }
 
-- (FMDBManager *)myFmdbTool
-{
-    if (!_myFmdbTool) {
-        _myFmdbTool = [[FMDBManager alloc] initWithPath:@"UserList"];
-        [[NSUserDefaults standardUserDefaults] setObject:self.userNameTextField.text forKey:@""];
-    }
-    
-    return _myFmdbTool;
-}
+//- (FMDBManager *)myFmdbTool
+//{
+//    if (!_myFmdbTool) {
+//        _myFmdbTool = [[FMDBManager alloc] initWithPath:@"UserList"];
+//        [[NSUserDefaults standardUserDefaults] setObject:self.userNameTextField.text forKey:@""];
+//    }
+//    
+//    return _myFmdbTool;
+//}
 
-- (BleManager *)myBleTool
-{
-    if (!_myBleTool) {
-        _myBleTool = [BleManager shareInstance];
-//        _myBleTool.receiveDelegate = self;
-    }
-    
-    return _myBleTool;
-}
+//- (BleManager *)myBleTool
+//{
+//    if (!_myBleTool) {
+//        _myBleTool = [BleManager shareInstance];
+////        _myBleTool.receiveDelegate = self;
+//    }
+//    
+//    return _myBleTool;
+//}
 
 - (NSArray *)dataArr
 {

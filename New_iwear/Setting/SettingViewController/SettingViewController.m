@@ -44,7 +44,7 @@ static NSString *const settingHeaderID = @"settingHeader";
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
-    self.automaticallyAdjustsScrollViewInsets = YES;
+    
     [self healthKit];
     
 }
@@ -52,13 +52,14 @@ static NSString *const settingHeaderID = @"settingHeader";
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.tableView reloadData];
+    self.automaticallyAdjustsScrollViewInsets = YES;
     [[self.navigationController.navigationBar subviews].firstObject setAlpha:1];
     [self.navigationController.navigationBar setBackgroundColor:self.naviBarColor];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    self.groupFirstDataSourceArr = nil;
+    self.tableView = nil;
 }
 
 #pragma mark - Action

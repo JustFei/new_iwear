@@ -89,6 +89,10 @@
 #define TIME_FORMATTER_SETTING @"TimeFormatterSetting"
 //目标设置保存
 #define TARGET_SETTING @"TargetSetting"
+//用户名保存
+#define USER_NAME_SETTING @"UserNameSetting"
+//用户头像保存
+#define USER_HEADIMAGE_SETTING @"UserHeadimageSetting"
 
 
 #endif /* TextConstants_h */

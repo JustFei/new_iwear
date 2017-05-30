@@ -14,7 +14,17 @@
 - (void)drawRect:(CGRect)rect
 {
     _headImageView = [[UIImageView alloc] init];
-    [_headImageView setImage:[UIImage imageNamed:@"set_head"]];
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:USER_HEADIMAGE_SETTING]) {
+        NSData *imageData = [[NSUserDefaults standardUserDefaults] objectForKey:USER_HEADIMAGE_SETTING];
+        [_headImageView setImage:[UIImage imageWithData:imageData]];
+    }else {
+        [_headImageView setImage:[UIImage imageNamed:@"set_head"]];
+    }
+    _headImageView.layer.masksToBounds = YES;
+    _headImageView.layer.borderWidth = 1;
+    _headImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+    _headImageView.layer.cornerRadius = 40;
+    
     [self addSubview:_headImageView];
     [_headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.mas_centerX);
@@ -24,7 +34,7 @@
     }];
     
     _userNameLabel = [[UILabel alloc] init];
-    [_userNameLabel setText:@"cecboy"];
+    [_userNameLabel setText:[[NSUserDefaults standardUserDefaults] objectForKey:USER_NAME_SETTING] ? [[NSUserDefaults standardUserDefaults] objectForKey:USER_NAME_SETTING] : @"用户名"];
     [_userNameLabel setTextColor:TEXT_BLACK_COLOR_LEVEL1];
     [_userNameLabel setFont:[UIFont systemFontOfSize:16]];
     [self addSubview:_userNameLabel];

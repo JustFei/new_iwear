@@ -227,6 +227,9 @@ typedef enum : NSUInteger {
 /** 设置设备亮度 */
 - (void)writeDimmingToPeripheral:(float)value;
 
+/** 获取电量 */
+- (void)writeGetElectricity;
+
 /** 设置久坐提醒 */
 - (void)writeSedentaryAlertWithSedentaryModel:(SedentaryModel *)sedentaryModel;
 

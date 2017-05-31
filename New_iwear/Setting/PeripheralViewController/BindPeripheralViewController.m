@@ -503,7 +503,7 @@
         /** 同步硬件版本号 */
         [self.myBleMananger writeRequestVersion];
         /** 同步获取电量 */
-//        self.myBleMananger
+        [self.myBleMananger writeGetElectricity];
         /** 同步界面选择 */
         [self writeUserInterface];
         /** 同步久坐提醒 */
@@ -531,7 +531,7 @@
 {
     DLog(@"noti.name == %@", noti.name)
     _asynCount ++;
-    if (_asynCount == 11) {
+    if (_asynCount == 12) {
         self.hud.label.text = @"同步完成";
         [self.hud hideAnimated:YES afterDelay:1.5];
     }

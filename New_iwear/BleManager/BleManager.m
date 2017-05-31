@@ -394,6 +394,15 @@ static BleManager *bleManager = nil;
     DLog(@"同步亮度");
 }
 
+/** 获取电量 */
+- (void)writeGetElectricity
+{
+    NSString *protocolStr = @"0f06";
+    
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
+    DLog(@"同步电量");
+}
+
 //set sedentary alert
 - (void)writeSedentaryAlertWithSedentaryModel:(SedentaryModel *)sedentaryModel
 {

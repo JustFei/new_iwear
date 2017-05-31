@@ -93,6 +93,8 @@
 #define USER_NAME_SETTING @"UserNameSetting"
 //用户头像保存
 #define USER_HEADIMAGE_SETTING @"UserHeadimageSetting"
+//用户其他信息保存
+#define USER_INFO_SETTING @"UserInfoSetting"
 
 
 #endif /* TextConstants_h */

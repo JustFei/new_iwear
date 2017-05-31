@@ -31,18 +31,16 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 @property (nonatomic, weak) UIImageView *headImageView;
 @property (nonatomic, weak) UITextField *userNameTextField;
 @property (nonatomic, weak) UITableView *infoTableView;
-//@property (nonatomic, weak) UIButton *saveButton;
-//@property (nonatomic, strong) FMDBManager *myFmdbTool;
-//@property (nonatomic, strong) BleManager *myBleTool;
-@property (nonatomic, strong) MBProgressHUD *hud;
 @property (nonatomic, strong) NSArray *dataArr;
 @property (nonatomic, assign) BOOL isMetric;
-@property (nonatomic ,assign) PickerType pickerType;
-@property (nonatomic ,strong) UIPickerView *infoPickerView;
-@property (nonatomic ,strong) NSArray *genderArr;
-@property (nonatomic ,strong) NSArray *ageArr;
-@property (nonatomic ,strong) NSArray *heightArr;
-@property (nonatomic ,strong) NSArray *weightArr;
+@property (nonatomic, assign) PickerType pickerType;
+@property (nonatomic, strong) UIPickerView *infoPickerView;
+@property (nonatomic, copy) NSString *currentTitle;
+@property (nonatomic, strong) NSArray *genderArr;
+@property (nonatomic, strong) NSArray *ageArr;
+@property (nonatomic, strong) NSArray *heightArr;
+@property (nonatomic, strong) NSArray *weightArr;
+@property (nonatomic, strong) UserInfoModel *infoModel;
 
 @end
 
@@ -54,7 +52,7 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
     // Do any additional setup after loading the view.
     self.isMetric = [self isMetricOrImperialSystem];
     
-    _genderArr = @[NSLocalizedString(@"male", nil),NSLocalizedString(@"Female", nil)];
+//    _genderArr = @[NSLocalizedString(@"male", nil),NSLocalizedString(@"Female", nil)];
     
     self.navigationItem.title = @"用户信息";
     self.view.backgroundColor = SETTING_BACKGROUND_COLOR;
@@ -197,95 +195,79 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 - (void)showInfoPickerView:(NSString *)infoText
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"\n\n\n\n\n\n\n\n\n\n" message:nil preferredStyle:(UIAlertControllerStyleActionSheet)];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        self.currentTitle = @"";
+    }];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        //self.isChange = YES;
-        //获取到该cell的label对象，修改text
-//        if (self.title) {
-//            self.infoLabel.text = self.title;
-//            self.title = nil;
-//            switch (self.pickerType) {
-//                case PickerTypeGender:
-//                {
-//                    if ([self.infoLabel.text isEqualToString:@"男"]) {
-//                        self.changeModel.gender = 0;
-//                    }else if ([self.infoLabel.text isEqualToString:@"女"]) {
-//                        self.changeModel.gender = 1;
-//                    }else if ([self.infoLabel.text isEqualToString:@"未选择"]) {
-//                        self.changeModel.gender = -1;
-//                    }
-//                }
-//                    break;
-//                case PickerTypeBirthday:
-//                {
-//                    self.changeModel.birthday = self.infoLabel.text;
-//                }
-//                    break;
-//                case PickerTypeHeight:
-//                {
-//                    self.changeModel.height = self.infoLabel.text.integerValue;
-//                }
-//                    break;
-//                case PickerTypeWeight:
-//                {
-//                    self.changeModel.weight = self.infoLabel.text.integerValue;
-//                }
-//                    break;
-//                case PickerTypeMotionTarget:
-//                {
-//                    self.changeModel.stepTarget = self.infoLabel.text.integerValue;
-//                }
-//                    break;
-//                    
-//                default:
-//                    break;
-//            }
-//        }
+        if (!self.infoModel) {
+            self.infoModel = [[UserInfoModel alloc] init];
+        }
+        
+        switch (self.pickerType) {
+            case PickerTypeGender:
+            {
+                NSInteger index = [self.genderArr indexOfObject:self.currentTitle];
+                self.infoModel.gender = index;
+            }
+                break;
+            case PickerTypeAge:
+                self.infoModel.age = self.currentTitle.integerValue;
+                break;
+            case PickerTypeHeight:
+                self.infoModel.height = self.currentTitle.integerValue;
+                break;
+            case PickerTypeWeight:
+                self.infoModel.weight = self.currentTitle.integerValue;
+                break;
+                
+            default:
+                break;
+        }
+        self.dataArr = nil;
+        [self.infoTableView reloadData];
     }];
     [alert addAction:cancelAction];
     [alert addAction:okAction];
     
+    self.infoPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, alert.view.frame.size.width - 30, 216)];
+    self.infoPickerView.dataSource = self;
+    self.infoPickerView.delegate = self;
     switch (self.pickerType) {
         case PickerTypeGender:
         {
-            self.infoPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, alert.view.frame.size.width - 30, 216)];
-            self.infoPickerView.dataSource = self;
-            self.infoPickerView.delegate = self;
-//            NSInteger index = [self.genderArr indexOfObject:infoText];
-            NSInteger index = 0;
+            NSInteger index;
+            if (![infoText isEqualToString:@"请选择"]) {
+                index = self.infoModel.gender;
+            }else {
+                index = 0;
+            }
+             //= self.infoModel.gender ? 0 : [self.genderArr indexOfObject:infoText];
             [self.infoPickerView selectRow:index inComponent:0 animated:NO];
             [alert.view addSubview:self.infoPickerView];
         }
             break;
         case PickerTypeAge:
         {
-            self.infoPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, alert.view.frame.size.width - 30, 216)];
-            self.infoPickerView.dataSource = self;
-            self.infoPickerView.delegate = self;
-            //            NSInteger index = [self.heightArr indexOfObject:infoText];
-            NSInteger index = 0;
+            NSInteger index;
+            if (![infoText isEqualToString:@"请选择"]) {
+                index = [self.ageArr indexOfObject:infoText];
+            }else {
+                index = 0;
+            }
             [self.infoPickerView selectRow:index inComponent:0 animated:NO];
             [alert.view addSubview:self.infoPickerView];
         }
             break;
         case PickerTypeHeight:
         {
-            self.infoPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, alert.view.frame.size.width - 30, 216)];
-            self.infoPickerView.dataSource = self;
-            self.infoPickerView.delegate = self;
-//            NSInteger index = [self.heightArr indexOfObject:infoText];
-            NSInteger index = 0;
+            NSInteger index = [infoText isEqualToString:@"请选择"] ? 0 : [self.heightArr indexOfObject:infoText];
             [self.infoPickerView selectRow:index inComponent:0 animated:NO];
             [alert.view addSubview:self.infoPickerView];
         }
             break;
         case PickerTypeWeight:
         {
-            self.infoPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, alert.view.frame.size.width - 30, 216)];
-            self.infoPickerView.dataSource = self;
-            self.infoPickerView.delegate = self;
-//            NSInteger index = [self.weightArr indexOfObject:infoText];
-            NSInteger index = 0;
+            NSInteger index = [infoText isEqualToString:@"请选择"] ? 0 : [self.weightArr indexOfObject:infoText];
             [self.infoPickerView selectRow:index inComponent:0 animated:NO];
             [alert.view addSubview:self.infoPickerView];
         }
@@ -420,25 +402,24 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 }
 
 // 当用户选中UIPickerViewDataSource中指定列和列表项时激发该方法
-
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 
 {
     switch (self.pickerType) {
         case PickerTypeGender:
-            self.title = self.genderArr[row];
+            self.currentTitle = self.genderArr[row];
             break;
             
         case PickerTypeAge:
-            self.title = self.ageArr[row];
+            self.currentTitle = self.ageArr[row];
             break;
             
         case PickerTypeHeight:
-            self.title = self.heightArr[row];
+            self.currentTitle = self.heightArr[row];
             break;
             
         case PickerTypeWeight:
-            self.title = self.weightArr[row];
+            self.currentTitle = self.weightArr[row];
             break;
             
         default:
@@ -591,7 +572,16 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 {
     if (!_dataArr) {
         NSArray *nameArr = @[NSLocalizedString(@"性别", nil),NSLocalizedString(@"年龄", nil),NSLocalizedString(@"身高", nil),NSLocalizedString(@"体重", nil)];
-        NSArray *fieldPlaceholdeArr = @[@"男",NSLocalizedString(@"请输入年龄", nil),NSLocalizedString(@"请输入身高", nil),NSLocalizedString(@"请输入体重", nil)];
+        NSArray *fieldPlaceholdeArr;
+        if (self.infoModel) {
+            fieldPlaceholdeArr = @[self.infoModel.gender ? @"女" : @"男",
+                                   self.infoModel.age ? [NSString stringWithFormat:@"%ld", self.infoModel.age] : @"请选择",
+                                   self.infoModel.height ? [NSString stringWithFormat:@"%ld", self.infoModel.height] : @"请选择",
+                                   self.infoModel.weight ? [NSString stringWithFormat:@"%ld", self.infoModel.weight] : @"请选择"];
+        }else {
+            fieldPlaceholdeArr = @[@"请选择",@"请选择",@"请选择",@"请选择"];
+        }
+        
         NSArray *unitArr = @[@"",NSLocalizedString(@"岁", nil),self.isMetric ? @"(cm)" : @"(In)",self.isMetric ? @"(kg)" : @"(lb)"];
         NSMutableArray *mutArr = [NSMutableArray array];
         for (int index = 0; index < nameArr.count; index ++) {
@@ -607,6 +597,16 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
     }
     
     return _dataArr;
+}
+
+- (UserInfoModel *)infoModel
+{
+    if (!_infoModel) {
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:USER_INFO_SETTING]) {
+            _infoModel = [[NSUserDefaults standardUserDefaults] objectForKey:USER_INFO_SETTING];
+        }
+    }
+    return _infoModel;
 }
 
 - (NSArray *)genderArr

@@ -29,6 +29,7 @@
         self.userName = [aDecoder decodeObjectForKey:@"userName"];
         self.gender = [aDecoder decodeIntegerForKey:@"gender"];
         self.age = [aDecoder decodeIntegerForKey:@"age"];
+        self.height = [aDecoder decodeIntegerForKey:@"height"];
         self.weight = [aDecoder decodeIntegerForKey:@"weight"];
         self.stepLength = [aDecoder decodeIntegerForKey:@"stepLength"];
         self.stepTarget = [aDecoder decodeIntegerForKey:@"stepTarget"];

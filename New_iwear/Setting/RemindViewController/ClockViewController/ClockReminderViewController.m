@@ -68,13 +68,19 @@ static NSString *const ClockTableViewCellID = @"ClockTableViewCell";
     if (model.isReciveDataRight) {
         //保存设置到本地
         NSMutableArray *saveMutArr = [NSMutableArray array];
+        BOOL clockIsOpen = NO;
         for (ClockModel *model in self.dataArr) {
             NSData *data = [NSKeyedArchiver archivedDataWithRootObject:model];
             [saveMutArr addObject:data];
+            if (model.isOpen) {
+                clockIsOpen = model.isOpen;
+            }
         }
         //这里只能保存不可变数组，所以要转换
         NSArray *saveArr = [NSArray arrayWithArray:saveMutArr];
         [[NSUserDefaults standardUserDefaults] setObject:saveArr forKey:CLOCK_SETTING];
+        //保存下 colock 开关的状态
+        [[NSUserDefaults standardUserDefaults] setBool:clockIsOpen forKey:CLOCK_ISOPEN];
         MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
         [sucToast show];
     }else {

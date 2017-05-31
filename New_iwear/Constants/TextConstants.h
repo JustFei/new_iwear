@@ -79,6 +79,12 @@
 #define SEDENTARY_SETTING @"SedentarySetting"
 //闹钟设置保存
 #define CLOCK_SETTING @"ClockSetting"
+//闹钟是否开启保存
+#define CLOCK_ISOPEN @"ClockIsOpen"
+//短信提醒开关保存
+#define MESSAGE_SWITCH_SETTING @"MessageSwitchSetting"
+//电话提醒开关保存
+#define PHONE_SWITCH_SETTING @"PhoneSwitchSetting"
 //防丢设置保存
 #define LOST_SETTING @"LostSetting"
 //亮度设置保存

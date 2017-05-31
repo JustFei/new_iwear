@@ -9,6 +9,7 @@
 #import "RemindViewController.h"
 #import "RemindCollectionViewCell.h"
 #import "RemindMoreViewController.h"
+#import "SedentaryReminderModel.h"
 
 static NSString * const RemindCollectionViewCellID = @"RemindCollectionViewCell";
 static NSString * const RemindCollectionViewFooterID = @"RemindCollectionViewFooter";
@@ -35,7 +36,19 @@ static NSString * const RemindCollectionViewFooterID = @"RemindCollectionViewFoo
     self.automaticallyAdjustsScrollViewInsets = YES;
     
     self.view.backgroundColor = SETTING_BACKGROUND_COLOR;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
     self.collectionView.backgroundColor = CLEAR_COLOR;
+    [self.collectionView reloadData];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [self.collectionView removeFromSuperview];
+    self.collectionView = nil;
+    self.dataArr = nil;
 }
 
 #pragma mark - Action
@@ -153,6 +166,41 @@ static NSString * const RemindCollectionViewFooterID = @"RemindCollectionViewFoo
             model.functionName = nameArr[i];
             model.headImageName = imageArr[i];
             model.isOpen = NO;
+            switch (i) {
+                case 0:
+                    if ([[NSUserDefaults standardUserDefaults] boolForKey:PHONE_SWITCH_SETTING]) {
+                        model.isOpen = [[NSUserDefaults standardUserDefaults] boolForKey:PHONE_SWITCH_SETTING];
+                    }else {
+                        model.isOpen = NO;
+                    }
+                    break;
+                case 1:
+                    if ([[NSUserDefaults standardUserDefaults] boolForKey:MESSAGE_SWITCH_SETTING]) {
+                        model.isOpen = [[NSUserDefaults standardUserDefaults] boolForKey:MESSAGE_SWITCH_SETTING];
+                    }else {
+                        model.isOpen = NO;
+                    }
+                    break;
+                case 2:
+                    if ([[NSUserDefaults standardUserDefaults] objectForKey:SEDENTARY_SETTING]) {
+                        NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:SEDENTARY_SETTING];
+                        SedentaryReminderModel *sedModel = [NSKeyedUnarchiver unarchiveObjectWithData:arr.firstObject];
+                        model.isOpen = sedModel.switchIsOpen;
+                    }else {
+                        model.isOpen = NO;
+                    }
+                    break;
+                case 3:
+                    if ([[NSUserDefaults standardUserDefaults] boolForKey:CLOCK_ISOPEN]) {
+                        model.isOpen = [[NSUserDefaults standardUserDefaults] boolForKey:CLOCK_ISOPEN];
+                    }else {
+                        model.isOpen = NO;
+                    }
+                    break;
+                    
+                default:
+                    break;
+            }
             
             [mutArr addObject:model];
         }

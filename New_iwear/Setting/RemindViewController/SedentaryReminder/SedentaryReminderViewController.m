@@ -278,7 +278,7 @@ static NSString *const SedentaryReminderTableViewCellID = @"SedentaryReminderTab
             NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:SEDENTARY_SETTING];
             NSMutableArray *mutArr = [NSMutableArray array];
             for (NSData *data in arr) {
-                SedentaryModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+                SedentaryReminderModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
                 [mutArr addObject:model];
             }
             _dataArr = mutArr;

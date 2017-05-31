@@ -86,7 +86,7 @@ static NSString * const PhoneReminderTableViewCellID = @"PhoneReminderTableViewC
 - (void)savePhoneAction
 {
     [self.hud showAnimated:YES];
-    BOOL message = [[NSUserDefaults standardUserDefaults] boolForKey:@"messageSwtch"];
+    BOOL message = [[NSUserDefaults standardUserDefaults] boolForKey:MESSAGE_SWITCH_SETTING];
     BOOL phone = ((SedentaryReminderModel *)self.dataArr.firstObject).switchIsOpen;
     Remind *model = [[Remind alloc] init];
     model.phone = phone;
@@ -105,6 +105,8 @@ static NSString * const PhoneReminderTableViewCellID = @"PhoneReminderTableViewC
         if (model.pairSuccess) {
             MDToast *sucToast = [[MDToast alloc] initWithText:@"配对成功" duration:1.5];
             [sucToast show];
+            //保存选项至本地
+            [[NSUserDefaults standardUserDefaults] setBool:((SedentaryReminderModel *)self.dataArr.firstObject).switchIsOpen forKey:PHONE_SWITCH_SETTING];
         }else {
             MDToast *sucToast = [[MDToast alloc] initWithText:@"配对失败，请配对设备，否则无法使用该功能" duration:3];
             [sucToast show];

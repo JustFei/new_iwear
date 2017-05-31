@@ -56,8 +56,12 @@ static NSString *const interfaceCollectionViewHeaderID = @"interfaceCollectionVi
 
 - (void)saveAction
 {
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [[BleManager shareInstance] writeWindowRequset:WindowRequestModeSetWindow withDataArr:self.dataArr];
+    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
+        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
+    }else {
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [[BleManager shareInstance] writeWindowRequset:WindowRequestModeSetWindow withDataArr:self.dataArr];
+    }
 }
 
 - (void)setWindowWhetherSuccess:(NSNotification *)noti

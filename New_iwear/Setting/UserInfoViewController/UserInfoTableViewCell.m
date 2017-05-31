@@ -67,7 +67,7 @@
             [self.centerLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         }else {
             [self.centerLabel setText:model.placeHoldText];
-            [self.centerLabel setTextColor:TEXT_BLACK_COLOR_LEVEL2];
+            [self.centerLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         }
     }
 }

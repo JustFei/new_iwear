@@ -161,7 +161,7 @@ static BleManager *bleManager = nil;
             x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
             //NSLog(@"x == %ld", x);
             [NSThread sleepForTimeInterval:0.01];
-            DLog(@"---%@", message);
+            DLog(@"---%@---", message);
             [self.currentDev.peripheral writeValue:message forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
 #warning Resend Message Function
             //self.haveResendMessage = YES;
@@ -189,14 +189,13 @@ static BleManager *bleManager = nil;
     
     //写入操作
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
-    DLog(@"时间设置成功");
+    DLog(@"同步时间");
 }
 
 //set clock
 - (void)writeClockToPeripheral:(ClockData)state withClockArr:(NSMutableArray *)clockArr
 {
     if (state == ClockDataSetClock) {
-        DLog(@"设置闹钟");
         
         NSString *clockStateStr = [[NSString alloc] init];
         NSString *clockDataStr = [[NSString alloc] init];
@@ -229,7 +228,7 @@ static BleManager *bleManager = nil;
         
         //写入操作
         [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
-        DLog(@"设置闹钟数据成功");
+        DLog(@"同步闹钟");
     }else {
         //传入时间和头，返回协议字符串
         NSString *protocolStr = [NSStringTool protocolAddInfo:@"01" head:@"01"];
@@ -278,6 +277,7 @@ static BleManager *bleManager = nil;
     
     //写入操作
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
+    DLog(@"同步用户信息");
 }
 
 //set motion target
@@ -287,6 +287,7 @@ static BleManager *bleManager = nil;
     
     //写入操作
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
+    DLog(@"同步计步目标");
 }
 
 //set heart rate test state
@@ -323,6 +324,7 @@ static BleManager *bleManager = nil;
     protocolStr = [NSStringTool protocolForRemind:remindModel];
     
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
+    DLog(@"设置同步电话短信");
 }
 
 //search my peripheral
@@ -341,6 +343,7 @@ static BleManager *bleManager = nil;
     protocolStr = state ? @"FC100201" : @"FC100200";
     
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
+    DLog(@"同步防丢");
 }
 
 //stop peripheral
@@ -375,6 +378,7 @@ static BleManager *bleManager = nil;
     NSString *protocolStr = [NSStringTool protocolAddInfo:@"" head:@"0f"];
     
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
+    DLog(@"同步版本号");
 }
 
 /** 设置设备亮度 */
@@ -387,6 +391,7 @@ static BleManager *bleManager = nil;
     NSString *protocolStr = [NSString stringWithFormat:@"fc0f04%@", dim];
     
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
+    DLog(@"同步亮度");
 }
 
 //set sedentary alert
@@ -433,7 +438,7 @@ static BleManager *bleManager = nil;
     
     
     NSString *protocolStr = [NSStringTool protocolAddInfo:info head:@"16"];
-    DLog(@"久坐协议 = %@",protocolStr);
+    DLog(@"同步久坐");
     
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
@@ -473,6 +478,7 @@ static BleManager *bleManager = nil;
     protocolStr = ImperialSystem ? @"FC170001" : @"FC170000";
     
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
+    DLog(@"同步单位");
 }
 
 /** 拍照部分 */
@@ -595,6 +601,7 @@ static BleManager *bleManager = nil;
             break;
     }
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
+    DLog(@"同步界面选择");
 }
 
 /**
@@ -606,6 +613,7 @@ static BleManager *bleManager = nil;
 {
     NSString *protocolStr = [NSString stringWithFormat:@"fc1800%@", twelveFormatter ? @"01" : @"00"];
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
+    DLog(@"同步时间格式");
 }
 
 #pragma mark - CBCentralManagerDelegate
@@ -882,12 +890,10 @@ static BleManager *bleManager = nil;
             
         }else if ([headStr isEqualToString:@"06"] || [headStr isEqualToString:@"86"]) {
             //用户信息推送
-            manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisUserInfoData:value WithHeadStr:headStr];
-            [[NSNotificationCenter defaultCenter] postNotificationName:SET_USER_INFO object:model];
+            [[NSNotificationCenter defaultCenter] postNotificationName:SET_USER_INFO object:nil userInfo:@{@"success":[headStr isEqualToString:@"06"]? @YES : @NO}];
         }else if ([headStr isEqualToString:@"07"] || [headStr isEqualToString:@"87"]) {
             //运动目标推送
-//            manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisSportTargetData:value WithHeadStr:headStr];
-            [[NSNotificationCenter defaultCenter] postNotificationName:SET_MOTION_TARGET object:nil userInfo:@{@"success":[headStr isEqualToString:@"18"]? @YES : @NO}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:SET_MOTION_TARGET object:nil userInfo:@{@"success":[headStr isEqualToString:@"07"]? @YES : @NO}];
         }else if ([headStr isEqualToString:@"08"] || [headStr isEqualToString:@"88"]) {
             //询问设备是否配对成功
             manridyModel *model = [[AnalysisProcotolTool shareInstance]analysisPairData:value WithHeadStr:headStr];

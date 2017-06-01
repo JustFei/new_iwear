@@ -159,13 +159,9 @@ static BleManager *bleManager = nil;
             // wait操作-1，当别的消息进来就会阻塞，知道这条消息收到回调，signal+1后，才会继续执行。保证了消息的队列发送，保证稳定性。
             __block long x = 0;
             x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
-            //NSLog(@"x == %ld", x);
-            [NSThread sleepForTimeInterval:0.01];
+            [NSThread sleepForTimeInterval:0.5];
             DLog(@"---%@---", message);
             [self.currentDev.peripheral writeValue:message forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-#warning Resend Message Function
-            //self.haveResendMessage = YES;
-            //[self setResendTimerWithMessage:message];
         }
     });
 }
@@ -397,7 +393,7 @@ static BleManager *bleManager = nil;
 /** 获取电量 */
 - (void)writeGetElectricity
 {
-    NSString *protocolStr = @"0f06";
+    NSString *protocolStr = @"fc0f06";
     
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
     DLog(@"同步电量");
@@ -577,7 +573,7 @@ static BleManager *bleManager = nil;
                 InterfaceSelectionModel *model = dataArr[dataArr.count - index];
                 EHEL = [EHEL stringByAppendingString:model.selectMode == SelectModeUnselected ? @"0" : @"1"];
                 InterfaceSelectionModel *model1 = dataArr[index - 1];
-                winID = [winID stringByAppendingString:[NSString stringWithFormat:@"%ld", model1.windowID]];
+                winID = [winID stringByAppendingString:[NSString stringWithFormat:@"%ld", (long)model1.windowID]];
             }
             if (EHEL.length % 4 != 0) {
                 int count = 4 - EHEL.length % 4;
@@ -874,12 +870,12 @@ static BleManager *bleManager = nil;
         // signal操作+1
         dispatch_semaphore_signal(self.semaphore);
         //命令头字段
-        NSString *headStr = [NSString stringWithFormat:@"%02x", hexBytes[0]];
+        NSString *headStr = [[NSString stringWithFormat:@"%02x", hexBytes[0]] localizedLowercaseString];
         
         if ([headStr isEqualToString:@"00"] || [headStr isEqualToString:@"80"]) {
             //解析设置时间数据
-            manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisSetTimeData:value WithHeadStr:headStr];
-            [[NSNotificationCenter defaultCenter] postNotificationName:SET_TIME object:model];
+//            manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisSetTimeData:value WithHeadStr:headStr];
+            [[NSNotificationCenter defaultCenter] postNotificationName:SET_TIME object:nil userInfo:@{@"success":[headStr isEqualToString:@"00"]? @YES : @NO}];
         }else if ([headStr isEqualToString:@"01"] || [headStr isEqualToString:@"81"]) {
             //解析闹钟数据
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisClockData:value WithHeadStr:headStr];
@@ -911,22 +907,22 @@ static BleManager *bleManager = nil;
             //心率开关
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisHeartStateData:value WithHeadStr:headStr];
             [[NSNotificationCenter defaultCenter] postNotificationName:SET_HR_STATE object:model];
-        }else if([headStr isEqualToString:@"0a"] || [headStr isEqualToString:@"0A"] || [headStr isEqualToString:@"8a"] || [headStr isEqualToString:@"8A"]) {
+        }else if([headStr isEqualToString:@"0a"] || [headStr isEqualToString:@"8a"]) {
             //获取心率数据
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisHeartData:value WithHeadStr:headStr];
             [[NSNotificationCenter defaultCenter] postNotificationName:GET_HR_DATA object:model];
-        }else if ([headStr isEqualToString:@"0c"] || [headStr isEqualToString:@"0C"] || [headStr isEqualToString:@"8c"] || [headStr isEqualToString:@"8C"]) {
+        }else if ([headStr isEqualToString:@"0c"] || [headStr isEqualToString:@"8c"]) {
             //获取睡眠
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisSleepData:value WithHeadStr: headStr];
             [[NSNotificationCenter defaultCenter] postNotificationName:GET_SLEEP_DATA object:model];
-        }else if ([headStr isEqualToString:@"0d"] || [headStr isEqualToString:@"0D"] || [headStr isEqualToString:@"8d"] || [headStr isEqualToString:@"8D"]) {
+        }else if ([headStr isEqualToString:@"0d"] || [headStr isEqualToString:@"8d"]) {
             //上报GPS数据
 
-        }else if ([headStr isEqualToString:@"0f"] || [headStr isEqualToString:@"0F"]) {
+        }else if ([headStr isEqualToString:@"0f"] || [headStr isEqualToString:@"8f"]) {
             //设备维护指令
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisFirmwareData:value WithHeadStr:headStr];
             [[NSNotificationCenter defaultCenter] postNotificationName:SET_FIRMWARE object:model];
-        }else if ([headStr isEqualToString:@"10"]) {
+        }else if ([headStr isEqualToString:@"10"] || [headStr isEqualToString:@"90"]) {
             //查找设备回调
             NSString *DDStr = [NSString stringWithFormat:@"%02x", hexBytes[1]];
 //            NSString *SZStr = [NSString stringWithFormat:@"%02x", hexBytes[2]];
@@ -935,41 +931,41 @@ static BleManager *bleManager = nil;
             }else if ([DDStr isEqualToString:@"02"]) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:LOST_PERIPHERAL_SWITCH object:nil userInfo:@{@"success": @YES}];
             }
-        }else if ([headStr isEqualToString:@"11"]) {
+        }else if ([headStr isEqualToString:@"11"] || [headStr isEqualToString:@"91"]) {
             //获取血压
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisBloodData:value WithHeadStr:headStr];
             [[NSNotificationCenter defaultCenter] postNotificationName:GET_BP_DATA object:model];
-        }else if ([headStr isEqualToString:@"12"]) {
+        }else if ([headStr isEqualToString:@"12"] || [headStr isEqualToString:@"92"]) {
             //获取血氧
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisBloodO2Data:value WithHeadStr:headStr];
             [[NSNotificationCenter defaultCenter] postNotificationName:GET_BO_DATA object:model];
-        }else if ([headStr isEqualToString:@"16"] || [headStr isEqualToString:@"86"]) {
+        }else if ([headStr isEqualToString:@"16"] || [headStr isEqualToString:@"96"]) {
             //久坐提醒设置是否成功
             [[NSNotificationCenter defaultCenter] postNotificationName:GET_SEDENTARY_DATA object:nil userInfo:@{@"success":[headStr isEqualToString:@"16"]? @YES : @NO}];
-        }else if ([headStr isEqualToString:@"17"] || [headStr isEqualToString:@"87"]) {
+        }else if ([headStr isEqualToString:@"17"] || [headStr isEqualToString:@"97"]) {
             //单位设置是否成功
-            [[NSNotificationCenter defaultCenter] postNotificationName:SET_UNITS_DATA object:nil userInfo:@{@"success":[headStr isEqualToString:@"16"]? @YES : @NO}];
-        }else if ([headStr isEqualToString:@"18"] || [headStr isEqualToString:@"88"]) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:SET_UNITS_DATA object:nil userInfo:@{@"success":[headStr isEqualToString:@"17"]? @YES : @NO}];
+        }else if ([headStr isEqualToString:@"18"] || [headStr isEqualToString:@"98"]) {
             //单位设置是否成功
             [[NSNotificationCenter defaultCenter] postNotificationName:SET_TIME_FORMATTER object:nil userInfo:@{@"success":[headStr isEqualToString:@"18"]? @YES : @NO}];
-        }else if ([headStr isEqualToString:@"19"]) {
+        }else if ([headStr isEqualToString:@"19"] || [headStr isEqualToString:@"99"]) {
             //开始拍照
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisTakePhoto:value WithHeadStr:headStr];
             [[NSNotificationCenter defaultCenter] postNotificationName:SET_TAKE_PHOTO object:model];
-        }else if ([headStr isEqualToString:@"1A"] || [headStr isEqualToString:@"1a"]) {
+        }else if ([headStr isEqualToString:@"1a"] || [headStr isEqualToString:@"9a"]) {
             //分段计步数据
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisTakePhoto:value WithHeadStr:headStr];
             [[NSNotificationCenter defaultCenter] postNotificationName:GET_SEGEMENT_STEP object:model];
-        }else if ([headStr isEqualToString:@"1B"] || [headStr isEqualToString:@"1b"]) {
+        }else if ([headStr isEqualToString:@"1b"] || [headStr isEqualToString:@"9b"]) {
             //分段跑步数据
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisTakePhoto:value WithHeadStr:headStr];
             [[NSNotificationCenter defaultCenter] postNotificationName:GET_SEGEMENT_RUN object:model];
-        }else if ([headStr isEqualToString:@"1C"] || [headStr isEqualToString:@"1c"]) {
+        }else if ([headStr isEqualToString:@"1c"] || [headStr isEqualToString:@"9c"]) {
             //设置窗口成功
             NSString *ENStr = [NSString stringWithFormat:@"%02x", hexBytes[1]];
             NSString *SZStr = [NSString stringWithFormat:@"%02x", hexBytes[2]];
             [[NSNotificationCenter defaultCenter] postNotificationName:SET_WINDOW object:nil userInfo:@{@"success":[ENStr isEqualToString:@"02"] && [SZStr isEqualToString:@"01"]? @YES : @NO}];
-        }else if ([headStr isEqualToString:@"fc"] || [headStr isEqualToString:@"FC"]) {
+        }else if ([headStr isEqualToString:@"fc"]) {
             NSString *secondStr = [NSString stringWithFormat:@"%02x", hexBytes[1]];
 //            NSString *TTStr = [NSString stringWithFormat:@"%02x", hexBytes[3]];
             if ([secondStr isEqualToString:@"10"]) {

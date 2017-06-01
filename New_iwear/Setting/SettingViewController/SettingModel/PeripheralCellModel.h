@@ -17,6 +17,6 @@
 /** 是否连接 */
 @property (nonatomic, assign) BOOL isConnect;
 /** 电量 */
-@property (nonatomic, assign) NSInteger battery;
+@property (nonatomic, copy) NSString *battery;
 
 @end

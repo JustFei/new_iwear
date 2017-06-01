@@ -62,6 +62,7 @@ static NSString *const settingHeaderID = @"settingHeader";
     //移除 tableview，在 viewWillAppear 中重新创建
     [self.tableView removeFromSuperview];
     self.tableView = nil;
+    self.groupFirstDataSourceArr = nil;
 }
 
 #pragma mark - Action
@@ -258,7 +259,7 @@ static NSString *const settingHeaderID = @"settingHeader";
             model.isBind = NO;
         }
         model.isConnect = [BleManager shareInstance].connectState == kBLEstateDidConnected ? YES : NO;
-        model.battery = 0;
+        model.battery = [[NSUserDefaults standardUserDefaults] objectForKey:ELECTRICITY_INFO_SETTING] ? [[NSUserDefaults standardUserDefaults] objectForKey:ELECTRICITY_INFO_SETTING] : @"--";
         _groupFirstDataSourceArr = @[model];
     }
     

@@ -101,6 +101,7 @@
 #define USER_HEADIMAGE_SETTING @"UserHeadimageSetting"
 //用户其他信息保存
 #define USER_INFO_SETTING @"UserInfoSetting"
-
+//电量信息保存
+#define ELECTRICITY_INFO_SETTING @"ElectricityInfoSetting"
 
 #endif /* TextConstants_h */

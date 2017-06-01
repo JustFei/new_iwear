@@ -105,14 +105,13 @@
                              GET_SEDENTARY_DATA,
                              LOST_PERIPHERAL_SWITCH,
                              SET_CLOCK,
-                             DIMMING_SETTING,
                              SET_UNITS_DATA,
                              SET_TIME_FORMATTER,
                              SET_MOTION_TARGET,
                              SET_USER_INFO];
     for (NSString *keyWord in observerArr) {
         [[NSNotificationCenter defaultCenter]
-         addObserver:self selector:@selector(setTimeNoti:) name:keyWord object:nil];
+         addObserver:self selector:@selector(setNotificationObserver:) name:keyWord object:nil];
     }
 }
 
@@ -125,7 +124,7 @@
 
 - (void)dealloc
 {
-    //remove all observer;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)setBindView
@@ -491,7 +490,9 @@
     if ([[NSUserDefaults standardUserDefaults] objectForKey:USER_INFO_SETTING]) {
         NSData *infoData = [[NSUserDefaults standardUserDefaults] objectForKey:USER_INFO_SETTING];
         UserInfoModel *infoModel = [NSKeyedUnarchiver unarchiveObjectWithData:infoData];
-        [self.myBleMananger writeUserInfoToPeripheralWeight:[NSString stringWithFormat:@"%ld",infoModel.weight] andHeight:[NSString stringWithFormat:@"%ld", infoModel.height]];
+        [self.myBleMananger writeUserInfoToPeripheralWeight:[NSString stringWithFormat:@"%ld",(long)infoModel.weight] andHeight:[NSString stringWithFormat:@"%ld", infoModel.height]];
+    }else {
+        [self.myBleMananger writeUserInfoToPeripheralWeight:@"60" andHeight:@"170"];
     }
 }
 
@@ -513,7 +514,7 @@
         /** 同步闹钟提醒 */
         [self writeClockReminder];
         /** 同步亮度调节 */
-        [self.myBleMananger writeDimmingToPeripheral:[[NSUserDefaults standardUserDefaults] floatForKey:DIMMING_SETTING]];
+        [self.myBleMananger writeDimmingToPeripheral:[[NSUserDefaults standardUserDefaults] floatForKey:DIMMING_SETTING] ? [[NSUserDefaults standardUserDefaults] floatForKey:DIMMING_SETTING] : 90];
         /** 同步单位设置 */
         [self writeUnitsSetting];
         /** 同步时间格式设置 */
@@ -527,16 +528,66 @@
     });
 }
 
-- (void)setTimeNoti:(NSNotification *)noti
+/**
+ SET_TIME,
+ SET_FIRMWARE,
+ SET_WINDOW,
+ GET_SEDENTARY_DATA,
+ LOST_PERIPHERAL_SWITCH,
+ SET_CLOCK,
+ SET_UNITS_DATA,
+ SET_TIME_FORMATTER,
+ SET_MOTION_TARGET,
+ SET_USER_INFO;
+ */
+
+- (void)setNotificationObserver:(NSNotification *)noti
 {
-    DLog(@"noti.name == %@", noti.name)
-    _asynCount ++;
+    DLog(@"asynCount == %ld noti.name == %@",_asynCount ,noti.name);
+    
+    if ([noti.name isEqualToString:SET_TIME] || [noti.name isEqualToString:SET_WINDOW] || [noti.name isEqualToString:GET_SEDENTARY_DATA] || [noti.name isEqualToString:LOST_PERIPHERAL_SWITCH] || [noti.name isEqualToString:SET_UNITS_DATA] || [noti.name isEqualToString:SET_TIME_FORMATTER] || [noti.name isEqualToString:SET_MOTION_TARGET] || [noti.name isEqualToString:SET_USER_INFO]) {
+        BOOL isFirst = noti.userInfo[@"success"];
+        if (isFirst == 1)
+        {
+            _asynCount ++;
+        }
+            else [self asynFail];
+    }else if ([noti.name isEqualToString:SET_FIRMWARE]) {
+        // 版本号,电量,亮度
+        manridyModel *model = [noti object];
+        if (model.isReciveDataRight == ResponsEcorrectnessDataRgith) {
+            if (model.receiveDataType == ReturnModelTypeFirwmave) {
+                switch (model.firmwareModel.mode) {
+                    case FirmwareModeGetVersion:
+                        //版本号
+                        [[NSUserDefaults standardUserDefaults] setObject:model.firmwareModel.version forKey:HARDWARE_VERSION];
+                        break;
+                    case FirmwareModeGetElectricity:
+                        //电量
+                        [[NSUserDefaults standardUserDefaults] setObject:model.firmwareModel.PerElectricity forKey:ELECTRICITY_INFO_SETTING];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            _asynCount ++;
+        }else [self asynFail];
+    }else if ([noti.name isEqualToString:SET_CLOCK]) {
+        manridyModel *model = [noti object];
+        if (model.isReciveDataRight == ResponsEcorrectnessDataRgith) _asynCount ++;
+        else [self asynFail];
+    }
     if (_asynCount == 12) {
         self.hud.label.text = @"同步完成";
         [self.hud hideAnimated:YES afterDelay:1.5];
     }
-//    manridyModel *model = [noti object];
-//    DLog(@"%@", model);
+}
+
+- (void)asynFail
+{
+    self.hud.label.text = @"同步失败";
+    [self.hud hideAnimated:YES afterDelay:1.5];
 }
 
 #pragma mark - UITableViewDataSource && UITableViewDelegate

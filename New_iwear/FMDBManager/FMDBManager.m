@@ -521,7 +521,7 @@ static FMDatabase *_fmdb;
 #pragma mark - UserInfoData
 - (BOOL)insertUserInfoModel:(UserInfoModel *)model
 {
-    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO UserInfoData(username, gender, age, height, weight, steplength) VALUES ('%@', '%@', '%ld', '%ld', '%ld', '%ld');", model.userName, model.gender, (long)model.age, model.height, model.weight, model.stepLength];
+    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO UserInfoData(username, gender, age, height, weight, steplength) VALUES ('%@', '%lu', '%ld', '%ld', '%ld', '%ld');", model.userName, (unsigned long)model.gender, (long)model.age, model.height, model.weight, model.stepLength];
     
     BOOL result = [_fmdb executeUpdate:insertSql];
     if (result) {
@@ -554,7 +554,7 @@ static FMDatabase *_fmdb;
         
         UserInfoModel *model = [UserInfoModel userInfoModelWithUserName:userName andGender:gender andAge:age andHeight:height andWeight:weight andStepLength:steplength andStepTarget:stepTarget andSleepTarget:sleepTarget];
         
-        DLog(@"%@,%@,%ld,%ld,%ld,%ld",model.userName ,model.gender ,model.age ,model.height ,model.weight ,model.stepLength);
+        DLog(@"%@,%lu,%ld,%ld,%ld,%ld",model.userName ,(unsigned long)model.gender ,(long)model.age ,model.height ,model.weight ,model.stepLength);
         
         [arrM addObject:model];
     }

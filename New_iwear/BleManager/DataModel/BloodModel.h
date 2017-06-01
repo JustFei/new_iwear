@@ -11,6 +11,7 @@
 typedef enum : NSUInteger {
     BloodDataLastData = 0,
     BloodDataHistoryData,
+    BloodDataHistoryCount
 } BloodData;
 
 @interface BloodModel : NSObject

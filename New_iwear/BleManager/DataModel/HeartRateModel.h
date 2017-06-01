@@ -11,6 +11,7 @@
 typedef enum : NSUInteger {
     HeartRateDataLastData = 0,
     HeartRateDataHistoryData,
+    HeartRateDataHistoryCount
 } HeartRateData;
 
 @interface HeartRateModel : NSObject

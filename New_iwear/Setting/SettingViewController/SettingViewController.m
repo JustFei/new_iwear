@@ -10,7 +10,7 @@
 #import "SettingPeripheralTableViewCell.h"
 #import "SettingTableViewCell.h"
 #import "SettingHeaderView.h"
-#import <HealthKit/HealthKit.h>
+//#import <HealthKit/HealthKit.h>
 
 static NSString *const periperlCellID = @"peripheralCell";
 static NSString *const settingCellID = @"settingCell";
@@ -20,7 +20,7 @@ static NSString *const settingHeaderID = @"settingHeader";
 {
     BOOL _isAuthorization;
 }
-@property (nonatomic, strong) HKHealthStore *hkStore;
+//@property (nonatomic, strong) HKHealthStore *hkStore;
 @property (nonatomic, strong) UITableView *tableView;
 /** 第一组 cell 的数据源 */
 @property (nonatomic, strong) NSArray *groupFirstDataSourceArr;
@@ -45,13 +45,12 @@ static NSString *const settingHeaderID = @"settingHeader";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
     self.automaticallyAdjustsScrollViewInsets = YES;
-    [self healthKit];
+//    [self healthKit];
     
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-//    [self.tableView.tableHeaderView reloadInputViews];
     [self.tableView reloadData];
     [[self.navigationController.navigationBar subviews].firstObject setAlpha:1];
     [self.navigationController.navigationBar setBackgroundColor:self.naviBarColor];
@@ -177,45 +176,45 @@ static NSString *const settingHeaderID = @"settingHeader";
     
 }
 
-- (void)healthKit
-{
-    self.hkStore = [[HKHealthStore alloc] init];
-    
-    // 查询是否设备是否支持HealthKit框架（官方暂不提供是否授权的接口）
-    
-    [HKHealthStore isHealthDataAvailable];
-    
-    // 查询是否支持写入授权（允许返回YES）
-    
-    switch ([self.hkStore authorizationStatusForType:[HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount]])
-    
-    {
-            
-        case 0:
-            
-            NSLog(@"用户尚未作出选择，关于是否该应用程序可以保存指定类型的对象");
-            
-            break;
-            
-        case 1:
-            
-            _isAuthorization = NO;
-            
-            NSLog(@"此应用程序不允许保存指定类型的对象");
-            
-            break;
-            
-        case 2:
-            
-            NSLog(@"此应用程序被授权保存指定类型的对象");
-            
-            break;
-            
-        default:
-            
-            break;
-    }
-}
+//- (void)healthKit
+//{
+//    self.hkStore = [[HKHealthStore alloc] init];
+//    
+//    // 查询是否设备是否支持HealthKit框架（官方暂不提供是否授权的接口）
+//    
+//    [HKHealthStore isHealthDataAvailable];
+//    
+//    // 查询是否支持写入授权（允许返回YES）
+//    
+//    switch ([self.hkStore authorizationStatusForType:[HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount]])
+//    
+//    {
+//            
+//        case 0:
+//            
+//            NSLog(@"用户尚未作出选择，关于是否该应用程序可以保存指定类型的对象");
+//            
+//            break;
+//            
+//        case 1:
+//            
+//            _isAuthorization = NO;
+//            
+//            NSLog(@"此应用程序不允许保存指定类型的对象");
+//            
+//            break;
+//            
+//        case 2:
+//            
+//            NSLog(@"此应用程序被授权保存指定类型的对象");
+//            
+//            break;
+//            
+//        default:
+//            
+//            break;
+//    }
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

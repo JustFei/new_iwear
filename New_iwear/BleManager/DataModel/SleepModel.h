@@ -11,6 +11,7 @@
 typedef enum : NSUInteger {
     SleepDataLastData = 0,
     SleepDataHistoryData,
+    SleepDataHistoryCount
 } SleepData;
 
 @interface SleepModel : NSObject

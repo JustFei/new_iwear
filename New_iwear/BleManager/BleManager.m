@@ -299,7 +299,20 @@ static BleManager *bleManager = nil;
 - (void)writeHeartRateRequestToPeripheral:(HeartRateData)heartRateData
 {
     NSString *protocolStr;
-    protocolStr = heartRateData == HeartRateDataLastData ? [NSStringTool protocolAddInfo:@"00" head:@"0A"] : [NSStringTool protocolAddInfo:@"01" head:@"0A"];
+    switch (heartRateData) {
+        case HeartRateDataLastData:
+            protocolStr = [NSStringTool protocolAddInfo:@"00" head:@"0A"];
+            break;
+        case HeartRateDataHistoryData:
+            protocolStr = [NSStringTool protocolAddInfo:@"01" head:@"0A"];
+            break;
+        case HeartRateDataHistoryCount:
+            protocolStr = [NSStringTool protocolAddInfo:@"02" head:@"0A"];
+            break;
+            
+        default:
+            break;
+    }
     
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
@@ -308,7 +321,20 @@ static BleManager *bleManager = nil;
 - (void)writeSleepRequestToperipheral:(SleepData)sleepData
 {
     NSString *protocolStr;
-    protocolStr = sleepData == SleepDataLastData ? [NSStringTool protocolAddInfo:@"00" head:@"0C"] : [NSStringTool protocolAddInfo:@"01" head:@"0C"];
+    switch (sleepData) {
+        case SleepDataLastData:
+            protocolStr = [NSStringTool protocolAddInfo:@"00" head:@"0C"];
+            break;
+        case SleepDataHistoryData:
+            protocolStr = [NSStringTool protocolAddInfo:@"01" head:@"0C"];
+            break;
+        case SleepDataHistoryCount:
+            protocolStr = [NSStringTool protocolAddInfo:@"02" head:@"0C"];
+            break;
+            
+        default:
+            break;
+    }
     
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
@@ -354,7 +380,20 @@ static BleManager *bleManager = nil;
 - (void)writeBloodToPeripheral:(BloodData)bloodData
 {
     NSString *protocolStr;
-    protocolStr = bloodData == BloodDataLastData ? [NSStringTool protocolAddInfo:@"00" head:@"11"] : [NSStringTool protocolAddInfo:@"01" head:@"11"];
+    switch (bloodData) {
+        case BloodDataLastData:
+            protocolStr = [NSStringTool protocolAddInfo:@"00" head:@"11"];
+            break;
+        case BloodDataHistoryData:
+            protocolStr = [NSStringTool protocolAddInfo:@"01" head:@"11"];
+            break;
+        case BloodDataHistoryCount:
+            protocolStr = [NSStringTool protocolAddInfo:@"02" head:@"11"];
+            break;
+            
+        default:
+            break;
+    }
     
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
@@ -363,7 +402,20 @@ static BleManager *bleManager = nil;
 - (void)writeBloodO2ToPeripheral:(BloodO2Data)bloodO2Data
 {
     NSString *protocolStr;
-    protocolStr = bloodO2Data == BloodO2DataLastData ? [NSStringTool protocolAddInfo:@"00" head:@"12"] : [NSStringTool protocolAddInfo:@"01" head:@"12"];
+    switch (bloodO2Data) {
+        case BloodO2DataLastData:
+            protocolStr = [NSStringTool protocolAddInfo:@"00" head:@"12"];
+            break;
+        case BloodO2DataHistoryData:
+            protocolStr = [NSStringTool protocolAddInfo:@"01" head:@"12"];
+            break;
+        case BloodO2DataHistoryCount:
+            protocolStr = [NSStringTool protocolAddInfo:@"02" head:@"12"];
+            break;
+            
+        default:
+            break;
+    }
     
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }

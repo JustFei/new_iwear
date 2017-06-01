@@ -13,6 +13,7 @@
 		1032CA4F1ED6CC330084693D /* VersionUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032CA4E1ED6CC330084693D /* VersionUpdateViewController.m */; };
 		1032CA5A1ED6D1B80084693D /* VersionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032CA571ED6D1B80084693D /* VersionModel.m */; };
 		1032CA5B1ED6D1B80084693D /* VersionUpdateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032CA591ED6D1B80084693D /* VersionUpdateTableViewCell.m */; };
+		10814B2E1EDFE88C004C9B4F /* SyncTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 10814B2D1EDFE88C004C9B4F /* SyncTool.m */; };
 		109865BB1ECC5D200077797E /* UINavigationBar+Awesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 109865BA1ECC5D200077797E /* UINavigationBar+Awesome.m */; };
 		10C496451ECEE739000F5769 /* FirmwareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C496441ECEE739000F5769 /* FirmwareModel.m */; };
 		10EE89141ED6B67A007A3CE4 /* QRCodeScanningVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EE890A1ED6B67A007A3CE4 /* QRCodeScanningVC.m */; };
@@ -166,6 +167,8 @@
 		1032CA571ED6D1B80084693D /* VersionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VersionModel.m; path = VersionUpdateViewController/VersionModel.m; sourceTree = "<group>"; };
 		1032CA581ED6D1B80084693D /* VersionUpdateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VersionUpdateTableViewCell.h; path = VersionUpdateViewController/VersionUpdateTableViewCell.h; sourceTree = "<group>"; };
 		1032CA591ED6D1B80084693D /* VersionUpdateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VersionUpdateTableViewCell.m; path = VersionUpdateViewController/VersionUpdateTableViewCell.m; sourceTree = "<group>"; };
+		10814B2C1EDFE88C004C9B4F /* SyncTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SyncTool.h; path = New_iwear/SyncTool/SyncTool.h; sourceTree = SOURCE_ROOT; };
+		10814B2D1EDFE88C004C9B4F /* SyncTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SyncTool.m; path = New_iwear/SyncTool/SyncTool.m; sourceTree = SOURCE_ROOT; };
 		109865B91ECC5D200077797E /* UINavigationBar+Awesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Awesome.h"; sourceTree = "<group>"; };
 		109865BA1ECC5D200077797E /* UINavigationBar+Awesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Awesome.m"; sourceTree = "<group>"; };
 		10C496431ECEE739000F5769 /* FirmwareModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirmwareModel.h; sourceTree = "<group>"; };
@@ -406,6 +409,16 @@
 				1032CA591ED6D1B80084693D /* VersionUpdateTableViewCell.m */,
 			);
 			name = VersionUpdateViewController;
+			sourceTree = "<group>";
+		};
+		10814B2A1EDFE82F004C9B4F /* SyncTool */ = {
+			isa = PBXGroup;
+			children = (
+				10814B2C1EDFE88C004C9B4F /* SyncTool.h */,
+				10814B2D1EDFE88C004C9B4F /* SyncTool.m */,
+			);
+			name = SyncTool;
+			path = UnitsTool;
 			sourceTree = "<group>";
 		};
 		109865B71ECC5D070077797E /* Category */ = {
@@ -918,6 +931,7 @@
 			children = (
 				9CA1C8691EC2E944007DB83A /* AlertTool */,
 				9CB616131EC316FB008914F5 /* UnitsTool */,
+				10814B2A1EDFE82F004C9B4F /* SyncTool */,
 			);
 			name = Tool;
 			sourceTree = "<group>";
@@ -1376,6 +1390,7 @@
 				100E490A1EC9AD6A00625A93 /* TrainingTableCell.m in Sources */,
 				9C3AE8351EBD770B0078CDAA /* FindMyPeriphearlViewController.m in Sources */,
 				9CE95A5E1EC154C200E88B47 /* SedentaryReminderViewController.m in Sources */,
+				10814B2E1EDFE88C004C9B4F /* SyncTool.m in Sources */,
 				100E490D1EC9B88B00625A93 /* TrainingTableModel.m in Sources */,
 				9CDEAC5A1EB078EC00279EDA /* main.m in Sources */,
 				9C0817741EB9AB1800C1845F /* SettingPeripheralTableViewCell.m in Sources */,

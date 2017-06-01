@@ -455,6 +455,11 @@ static AnalysisProcotolTool *analysisProcotolTool = nil;
             model.heartRateModel.sumDataCount = sumStr;
             model.heartRateModel.currentDataCount = currentStr;
             model.heartRateModel.heartRateState = HeartRateDataHistoryData;
+        }else if ([TyStr isEqualToString:@"02"]) {
+            model.heartRateModel.heartRateState = HeartRateDataHistoryCount;
+            NSData *AL = [data subdataWithRange:NSMakeRange(2, 1)];
+            int ALinterger = [NSStringTool parseIntFromData:AL];
+            model.heartRateModel.sumDataCount = [NSString stringWithFormat:@"%d", ALinterger];
         }
         
         NSData *time = [data subdataWithRange:NSMakeRange(6, 6)];
@@ -514,6 +519,11 @@ static AnalysisProcotolTool *analysisProcotolTool = nil;
             model.sleepModel.currentDataCount = currentVale;
             model.sleepModel.sleepState = SleepDataHistoryData;
             DLog(@"analysis : sumCount == %d,currentCount == %d",sumVale ,currentVale);
+        }else if ([TyStr isEqualToString:@"02"]) {
+            model.sleepModel.sleepState = SleepDataHistoryCount;
+            NSData *AL = [data subdataWithRange:NSMakeRange(2, 1)];
+            int ALinterger = [NSStringTool parseIntFromData:AL];
+            model.sleepModel.sumDataCount = ALinterger;
         }
 //        0c010100 16113020 30161201 090602a4 00500000
         NSData *startTime = [data subdataWithRange:NSMakeRange(4, 5)];

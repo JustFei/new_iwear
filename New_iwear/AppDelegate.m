@@ -10,6 +10,7 @@
 #import "MainViewController.h"
 #import "BindPeripheralViewController.h"
 #import "BleManager.h"
+#import "SyncTool.h"
 
 @interface AppDelegate () < BleConnectDelegate, BleDiscoverDelegate, BleReceiveSearchResquset >
 {
@@ -174,7 +175,12 @@
     
 //    self 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.stateBar dismiss];
+        self.stateBar.text = @"正在同步数据";
+        [[SyncTool shareInstance] syncData];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            self.stateBar.text = @"同步完成";
+            [self.stateBar dismiss];
+        });
         
     });
 }

@@ -718,6 +718,11 @@ union LAT{
             model.bloodModel.sumCount = sumStr;
             model.bloodModel.currentCount = currentStr;
             model.bloodModel.bloodState = BloodDataHistoryData;
+        }else if ([TyStr isEqualToString:@"02"]) {
+            model.bloodModel.bloodState = BloodDataHistoryCount;
+            NSData *AL = [data subdataWithRange:NSMakeRange(2, 1)];
+            int ALinterger = [NSStringTool parseIntFromData:AL];
+            model.bloodModel.sumCount = [NSString stringWithFormat:@"%d", ALinterger];
         }
         NSData *year = [data subdataWithRange:NSMakeRange(6, 1)];
         NSString *yearStr = [NSStringTool convertToNSStringWithNSData:year];
@@ -760,7 +765,7 @@ union LAT{
     return model;
 }
 
-//解析血氧数据（12|92）
+#pragma mark -解析血氧数据（12|92）
 - (manridyModel *)analysisBloodO2Data:(NSData *)data WithHeadStr:(NSString *)head
 {
     manridyModel *model = [[manridyModel alloc] init];
@@ -785,6 +790,11 @@ union LAT{
             model.bloodO2Model.sumCount = sumStr;
             model.bloodO2Model.currentCount = currentStr;
             model.bloodO2Model.bloodO2State = BloodO2DataHistoryData;
+        }else if ([TyStr isEqualToString:@"02"]) {
+            model.bloodO2Model.bloodO2State = BloodO2DataHistoryCount;
+            NSData *AL = [data subdataWithRange:NSMakeRange(2, 1)];
+            int ALinterger = [NSStringTool parseIntFromData:AL];
+            model.bloodO2Model.sumCount = [NSString stringWithFormat:@"%d", ALinterger];
         }
         NSData *year = [data subdataWithRange:NSMakeRange(6, 1)];
         NSString *yearStr = [NSStringTool convertToNSStringWithNSData:year];

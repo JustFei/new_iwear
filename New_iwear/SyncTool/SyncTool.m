@@ -13,7 +13,7 @@
     BOOL _syncDataIng;      //判断数据是否在同步中
     BOOL _syncSettingIng;   //判断设置是否在同步中
 }
-
+@property (nonatomic, assign) NSInteger sumCount;
 
 @end
 
@@ -74,52 +74,78 @@ static SyncTool *_syncTool = nil;
     }
     
     _syncDataIng = YES;
+    //初始化计数器
+    self.sumCount = 0;
     
     //计步历史条数
     [[BleManager shareInstance] writeMotionRequestToPeripheralWithMotionType:MotionTypeCountOfData];
-    //睡眠历史条数
-    [[BleManager shareInstance] writeSleepRequestToperipheral:SleepDataHistoryCount];
-    //心率历史条数
-    [[BleManager shareInstance] writeHeartRateRequestToPeripheral:HeartRateDataHistoryCount];
-    //血压历史条数
-    [[BleManager shareInstance] writeBloodToPeripheral:BloodDataHistoryCount];
-    //血氧历史条数
-    [[BleManager shareInstance] writeBloodO2ToPeripheral:BloodO2DataHistoryCount];
+    
+    
+    
+    
     //计步历史
-    [[BleManager shareInstance] writeMotionRequestToPeripheralWithMotionType:MotionTypeDataInPeripheral];
-    //睡眠历史
-    [[BleManager shareInstance] writeSleepRequestToperipheral:SleepDataHistoryData];
-    //心率历史
-    [[BleManager shareInstance] writeHeartRateRequestToPeripheral:HeartRateDataHistoryData];
-    //血压历史
-    [[BleManager shareInstance] writeBloodToPeripheral:BloodDataHistoryData];
-    //血氧历史
-    [[BleManager shareInstance] writeBloodO2ToPeripheral:BloodO2DataHistoryData];
+//    [[BleManager shareInstance] writeMotionRequestToPeripheralWithMotionType:MotionTypeDataInPeripheral];
+//    //睡眠历史
+//    [[BleManager shareInstance] writeSleepRequestToperipheral:SleepDataHistoryData];
+//    //心率历史
+//    [[BleManager shareInstance] writeHeartRateRequestToPeripheral:HeartRateDataHistoryData];
+//    //血压历史
+//    [[BleManager shareInstance] writeBloodToPeripheral:BloodDataHistoryData];
+//    //血氧历史
+//    [[BleManager shareInstance] writeBloodO2ToPeripheral:BloodO2DataHistoryData];
 }
 
 - (void)getMotionCount:(NSNotification *)noti
 {
-    
+    manridyModel *model = [noti object];
+    if (model.sportModel.motionType == MotionTypeCountOfData) {
+        self.sumCount = self.sumCount + model.sportModel.sumDataCount;
+        DLog(@"sumCount == %ld", self.sumCount);
+        //睡眠历史条数
+        [[BleManager shareInstance] writeSleepRequestToperipheral:SleepDataHistoryCount];
+    }
 }
 
 - (void)getSleepCount:(NSNotification *)noti
 {
-    
+    manridyModel *model = [noti object];
+    if (model.sleepModel.sleepState == SleepDataHistoryCount) {
+        self.sumCount = self.sumCount + model.sleepModel.sumDataCount;
+        DLog(@"sumCount == %ld", self.sumCount);
+        //心率历史条数
+        [[BleManager shareInstance] writeHeartRateRequestToPeripheral:HeartRateDataHistoryCount];
+    }
 }
 
 - (void)getHRCount:(NSNotification *)noti
 {
-    
+    manridyModel *model = [noti object];
+    if (model.heartRateModel.heartRateState == HeartRateDataHistoryCount) {
+        self.sumCount = self.sumCount + model.heartRateModel.sumDataCount.integerValue;
+        DLog(@"sumCount == %ld", self.sumCount);
+        //血压历史条数
+        [[BleManager shareInstance] writeBloodToPeripheral:BloodDataHistoryCount];
+    }
 }
 
 - (void)getBPCount:(NSNotification *)noti
 {
-    
+    manridyModel *model = [noti object];
+    if (model.bloodModel.bloodState == BloodDataHistoryCount) {
+        self.sumCount = self.sumCount + model.bloodModel.sumCount.integerValue;
+        DLog(@"sumCount == %ld", self.sumCount);
+        //血氧历史条数
+        [[BleManager shareInstance] writeBloodO2ToPeripheral:BloodO2DataHistoryCount];
+    }
 }
 
 - (void)getBOCount:(NSNotification *)noti
 {
-    
+    manridyModel *model = [noti object];
+    if (model.bloodO2Model.bloodO2State == BloodO2DataHistoryCount) {
+        self.sumCount = self.sumCount + model.bloodO2Model.sumCount.integerValue;
+        DLog(@"sumCount == %ld", self.sumCount);
+    }
 }
 
 

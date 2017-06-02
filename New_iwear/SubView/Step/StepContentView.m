@@ -12,7 +12,7 @@
 #import "UnitsTool.h"
 #import "BleManager.h"
 #import "PNChart.h"
-//#import "FMDBTool.h"
+#import "TargetSettingModel.h"
 #import "StepDataModel.h"
 
 @interface StepContentView () < PNChartDelegate >
@@ -44,6 +44,8 @@
     if (self) {
         self.frame = frame;
         
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getMotionData:) name:GET_MOTION_DATA object:nil];
+        
         _upView = [[UIView alloc] init];
         _upView.backgroundColor = STEP_CURRENT_BACKGROUND_COLOR;
         [self addSubview:_upView];
@@ -61,13 +63,13 @@
             make.height.equalTo(@(220 * VIEW_FRAME_WIDTH / 360));
         }];
         [self.stepCircleChart strokeChart];
-        [self.stepCircleChart updateChartByCurrent:@(0.75)];
+        [self.stepCircleChart updateChartByCurrent:@(0)];
         
         [self.stepLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.stepCircleChart.mas_centerX);
             make.centerY.equalTo(self.stepCircleChart.mas_centerY);
         }];
-        [self.stepLabel setText:@"28965"];
+        [self.stepLabel setText:@"--"];
         
         UILabel *todayLabel = [[UILabel alloc] init];
         [todayLabel setText:@"今日步数"];
@@ -248,14 +250,14 @@
     return self;
 }
 
-- (void)drawProgress:(CGFloat )progress
-{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        [self.stepCircleChart strokeChart];
-    });
-    [self.stepCircleChart updateChartByCurrent:@(progress)];
-}
+//- (void)drawProgress:(CGFloat )progress
+//{
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        [self.stepCircleChart strokeChart];
+//    });
+//    
+//}
 
 #pragma mark - PNChartDelegate
 
@@ -274,6 +276,27 @@
     [[self findViewController:self].navigationController pushViewController:vc animated:YES];
 }
 
+- (void)getMotionData:(NSNotification *)noti
+{
+    manridyModel *model = [noti object];
+    if (model.sportModel.motionType == MotionTypeStepAndkCal) {
+        if ([model.sportModel.stepNumber isEqualToString:@"0"]) {
+            [self.stepLabel setText:@"--"];
+        }else {
+            [self.stepLabel setText:[NSString stringWithFormat:@"%@", model.sportModel.stepNumber]];
+            float progress;
+            if ([[NSUserDefaults standardUserDefaults] objectForKey:TARGET_SETTING]) {
+                NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:TARGET_SETTING];
+                TargetSettingModel *stepTargetModel = [NSKeyedUnarchiver unarchiveObjectWithData:arr.firstObject];
+                progress = model.sportModel.stepNumber.floatValue / stepTargetModel.target.floatValue;
+            }else {
+                progress = model.sportModel.stepNumber.floatValue / 10000.f;
+            }
+            
+            [self.stepCircleChart updateChartByCurrent:@(progress)];
+        }
+    }
+}
 
 #pragma mark - 懒加载
 - (PNCircleChart *)stepCircleChart

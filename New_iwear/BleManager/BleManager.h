@@ -17,11 +17,13 @@
 /**
  心率测试开关
  HeartRateTestStateStop：停止心率测量
- HeartRateTestStateStart：开始心率测量
+ HeartRateTestStateStart：开始心率测量（持续测量）
+ HeartRateDataStateSingle：单次测量心率
  */
 typedef enum : NSUInteger {
     HeartRateTestStateStop = 0,
     HeartRateTestStateStart,
+    HeartRateDataStateSingle
 } HeartRateTestState;
 
 /**

@@ -23,7 +23,7 @@
 }
 
 @property (nonatomic, strong) UIView *upView;
-@property (nonatomic, strong) UILabel *stepLabel;
+@property (nonatomic, strong) UILabel *BOLabel;
 @property (nonatomic, strong) UILabel *lastTimeLabel;
 @property (nonatomic, strong) UILabel *avageBOLabel;
 @property (nonatomic, strong) UILabel *lowBOLabel;
@@ -43,6 +43,8 @@
     if (self) {
         self.frame = frame;
         
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBOData:) name:GET_BO_DATA object:nil];
+        
         _upView = [[UIView alloc] init];
         _upView.backgroundColor = BO_HISTORY_BACKGROUND_COLOR;
         [self addSubview:_upView];
@@ -60,13 +62,13 @@
             make.height.equalTo(@(220 * VIEW_FRAME_WIDTH / 360));
         }];
         [self.boCircleChart strokeChart];
-        [self.boCircleChart updateChartByCurrent:@(0.75)];
+        [self.boCircleChart updateChartByCurrent:@(0)];
         
-        [self.stepLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.BOLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.boCircleChart.mas_centerX);
             make.centerY.equalTo(self.boCircleChart.mas_centerY);
         }];
-        [self.stepLabel setText:@"98.5"];
+        [self.BOLabel setText:@"--"];
         
         UILabel *todayLabel = [[UILabel alloc] init];
         [todayLabel setText:@"上次测量结果"];
@@ -75,7 +77,7 @@
         [self addSubview:todayLabel];
         [todayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.boCircleChart.mas_centerX);
-            make.bottom.equalTo(self.stepLabel.mas_top).offset(-18 * VIEW_FRAME_WIDTH / 360);
+            make.bottom.equalTo(self.BOLabel.mas_top).offset(-18 * VIEW_FRAME_WIDTH / 360);
         }];
         
         UIImageView *headImageView = [[UIImageView alloc] init];
@@ -90,9 +92,9 @@
         lineView.backgroundColor = WHITE_COLOR;
         [self addSubview:lineView];
         [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.stepLabel.mas_bottom).offset(13 * VIEW_FRAME_WIDTH / 360);
+            make.top.equalTo(self.BOLabel.mas_bottom).offset(13 * VIEW_FRAME_WIDTH / 360);
             make.centerX.equalTo(self.boCircleChart.mas_centerX);
-            make.width.equalTo(self.stepLabel.mas_width).offset(-6 * VIEW_FRAME_WIDTH / 360);
+            make.width.equalTo(self.BOLabel.mas_width).offset(-6 * VIEW_FRAME_WIDTH / 360);
             make.height.equalTo(@1);
         }];
         
@@ -262,6 +264,20 @@
     
 }
 
+- (void)getBOData:(NSNotification *)noti
+{
+    manridyModel *model = [noti object];
+    if (model.bloodO2Model.bloodO2State == BloodO2DataHistoryData || model.bloodO2Model.bloodO2State == BloodO2DataUpload) {
+        if ([model.bloodO2Model.integerString isEqualToString:@"0"] && [model.bloodO2Model.floatString isEqualToString:@"0"]) {
+            [self.BOLabel setText:@"--"];
+        }else {
+            [self.BOLabel setText:[NSString stringWithFormat:@"%@.%@", model.bloodO2Model.integerString, model.bloodO2Model.floatString]];
+            float progress = self.BOLabel.text.floatValue / 100.f;
+            [self.boCircleChart updateChartByCurrent:@(progress)];
+        }
+    }
+}
+
 
 #pragma mark - 懒加载
 - (PNCircleChart *)boCircleChart
@@ -276,17 +292,17 @@
     return _boCircleChart;
 }
 
-- (UILabel *)stepLabel
+- (UILabel *)BOLabel
 {
-    if (!_stepLabel) {
-        _stepLabel = [[UILabel alloc] init];
-        [_stepLabel setTextColor:WHITE_COLOR];
-        [_stepLabel setFont:[UIFont systemFontOfSize:50]];
+    if (!_BOLabel) {
+        _BOLabel = [[UILabel alloc] init];
+        [_BOLabel setTextColor:WHITE_COLOR];
+        [_BOLabel setFont:[UIFont systemFontOfSize:50]];
         
-        [self addSubview:_stepLabel];
+        [self addSubview:_BOLabel];
     }
     
-    return _stepLabel;
+    return _BOLabel;
 }
 
 - (UILabel *)lastTimeLabel

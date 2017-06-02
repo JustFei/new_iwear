@@ -23,7 +23,7 @@
 }
 
 @property (nonatomic, strong) UIView *upView;
-@property (nonatomic, strong) UILabel *stepLabel;
+@property (nonatomic, strong) UILabel *hrLabel;
 @property (nonatomic, strong) MDButton *singleTestButton;
 @property (nonatomic, strong) UILabel *averageHR;
 @property (nonatomic, strong) UILabel *minHR;
@@ -43,6 +43,8 @@
     if (self) {
         self.frame = frame;
         
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getHrData:) name:GET_HR_DATA object:nil];
+        
         _upView = [[UIView alloc] init];
         _upView.backgroundColor = HR_CURRENT_BACKGROUND_COLOR;
         [self addSubview:_upView];
@@ -60,13 +62,13 @@
             make.height.equalTo(@(220 * VIEW_FRAME_WIDTH / 360));
         }];
         [self.hrCircleChart strokeChart];
-        [self.hrCircleChart updateChartByCurrent:@(0.75)];
+        [self.hrCircleChart updateChartByCurrent:@(0)];
         
-        [self.stepLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.hrLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.hrCircleChart.mas_centerX);
             make.centerY.equalTo(self.hrCircleChart.mas_centerY);
         }];
-        [self.stepLabel setText:@"28965"];
+        [self.hrLabel setText:@"--"];
         
         UILabel *todayLabel = [[UILabel alloc] init];
         [todayLabel setText:@"上次测量结果"];
@@ -75,7 +77,7 @@
         [self addSubview:todayLabel];
         [todayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.hrCircleChart.mas_centerX);
-            make.bottom.equalTo(self.stepLabel.mas_top).offset(-18 * VIEW_FRAME_WIDTH / 360);
+            make.bottom.equalTo(self.hrLabel.mas_top).offset(-18 * VIEW_FRAME_WIDTH / 360);
         }];
         
         UIImageView *headImageView = [[UIImageView alloc] init];
@@ -90,13 +92,13 @@
         lineView.backgroundColor = WHITE_COLOR;
         [self addSubview:lineView];
         [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.stepLabel.mas_bottom).offset(13 * VIEW_FRAME_WIDTH / 360);
+            make.top.equalTo(self.hrLabel.mas_bottom).offset(13 * VIEW_FRAME_WIDTH / 360);
             make.centerX.equalTo(self.hrCircleChart.mas_centerX);
-            make.width.equalTo(self.stepLabel.mas_width).offset(-6 * VIEW_FRAME_WIDTH / 360);
+            make.width.equalTo(self.hrLabel.mas_width).offset(-6 * VIEW_FRAME_WIDTH / 360);
             make.height.equalTo(@1);
         }];
         
-        [self.singleTestButton setTitle:@"单次测量" forState:UIControlStateNormal];
+        [self.singleTestButton setTitle:@"测量" forState:UIControlStateNormal];
         [self.singleTestButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.hrCircleChart.mas_centerX);
             make.top.equalTo(lineView.mas_bottom).offset(8 * VIEW_FRAME_WIDTH / 360);
@@ -253,20 +255,36 @@
     return self;
 }
 
-- (void)drawProgress:(CGFloat )progress
-{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        [self.hrCircleChart strokeChart];
-    });
-    [self.hrCircleChart updateChartByCurrent:@(progress)];
-}
+//- (void)drawProgress:(CGFloat )progress
+//{
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        [self.hrCircleChart strokeChart];
+//    });
+//    [self.hrCircleChart updateChartByCurrent:@(progress)];
+//}
 
 #pragma mark - PNChartDelegate
 
 
 
 #pragma mark - Action
+- (void)testHR:(MDButton *)sender
+{
+    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
+        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
+    }else {
+        if ([sender.titleLabel.text isEqualToString:@"测量"]) {
+            [[BleManager shareInstance] writeHeartRateTestStateToPeripheral:HeartRateDataStateSingle];
+            [sender setTitle:@"停止" forState:UIControlStateNormal];
+        }else {
+            [[BleManager shareInstance] writeHeartRateTestStateToPeripheral:HeartRateTestStateStop];
+            [sender setTitle:@"测量" forState:UIControlStateNormal];
+        }
+        
+    }
+}
+
 - (void)showHisVC:(MDButton *)sender
 {
     HeartRateHisViewController *vc = [[HeartRateHisViewController alloc] init];
@@ -277,6 +295,20 @@
 - (void)showTrainingVC:(MDButton *)sender
 {
     
+}
+
+- (void)getHrData:(NSNotification *)noti
+{
+    manridyModel *model = [noti object];
+    if (model.heartRateModel.heartRateState == HeartRateDataContinuous || model.heartRateModel.heartRateState == HeartRateDataUpload) {
+        if ([model.heartRateModel.heartRate isEqualToString:@"0"]) {
+            [self.hrLabel setText:@"--"];
+        }else {
+            [self.hrLabel setText:model.heartRateModel.heartRate];
+            float progress = model.heartRateModel.heartRate.floatValue / 200.f;
+            [self.hrCircleChart updateChartByCurrent:@(progress)];
+        }
+    }
 }
 
 #pragma mark - 懒加载
@@ -292,17 +324,17 @@
     return _hrCircleChart;
 }
 
-- (UILabel *)stepLabel
+- (UILabel *)hrLabel
 {
-    if (!_stepLabel) {
-        _stepLabel = [[UILabel alloc] init];
-        [_stepLabel setTextColor:WHITE_COLOR];
-        [_stepLabel setFont:[UIFont systemFontOfSize:50]];
+    if (!_hrLabel) {
+        _hrLabel = [[UILabel alloc] init];
+        [_hrLabel setTextColor:WHITE_COLOR];
+        [_hrLabel setFont:[UIFont systemFontOfSize:50]];
         
-        [self addSubview:_stepLabel];
+        [self addSubview:_hrLabel];
     }
     
-    return _stepLabel;
+    return _hrLabel;
 }
 
 - (MDButton *)singleTestButton
@@ -312,6 +344,7 @@
         [_singleTestButton setTitleColor:WHITE_COLOR forState:UIControlStateNormal];
         [_singleTestButton.titleLabel setFont:[UIFont systemFontOfSize:14]];
         _singleTestButton.backgroundColor = CLEAR_COLOR;
+        [_singleTestButton addTarget:self action:@selector(testHR:) forControlEvents:UIControlEventTouchUpInside];
         
         [self addSubview:_singleTestButton];
     }

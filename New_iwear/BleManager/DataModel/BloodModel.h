@@ -11,7 +11,8 @@
 typedef enum : NSUInteger {
     BloodDataLastData = 0,
     BloodDataHistoryData,
-    BloodDataHistoryCount
+    BloodDataHistoryCount,
+    BloodDataUpload             //测量完成时的实时上报
 } BloodData;
 
 @interface BloodModel : NSObject

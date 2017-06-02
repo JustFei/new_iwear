@@ -178,7 +178,7 @@
         self.stateBar.text = @"正在同步数据";
         [[SyncTool shareInstance] syncData];
         [SyncTool shareInstance].syncDataCurrentCountBlock = ^(NSInteger progress) {
-            DLog(@"progress == %ld", progress);
+//            DLog(@"progress == %ld", progress);
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.stateBar setText:[NSString stringWithFormat:@"正在同步数据 %ld%%", progress]];
                 if (progress == 100) {

@@ -290,7 +290,21 @@ static BleManager *bleManager = nil;
 - (void)writeHeartRateTestStateToPeripheral:(HeartRateTestState)state
 {
     NSString *protocolStr;
-    protocolStr = state == HeartRateTestStateStop ? [NSStringTool protocolAddInfo:@"00" head:@"09"] : [NSStringTool protocolAddInfo:@"01" head:@"09"];
+    switch (state) {
+        case HeartRateTestStateStop:
+            protocolStr = [NSStringTool protocolAddInfo:@"00" head:@"09"];
+            break;
+        case HeartRateTestStateStart:
+            protocolStr = [NSStringTool protocolAddInfo:@"01" head:@"09"];
+            break;
+        case HeartRateDataStateSingle:
+            protocolStr = [NSStringTool protocolAddInfo:@"02" head:@"09"];
+            break;
+            
+        default:
+            break;
+    }
+//    protocolStr = state == HeartRateTestStateStop ?  : [NSStringTool protocolAddInfo:@"01" head:@"09"];
     
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }

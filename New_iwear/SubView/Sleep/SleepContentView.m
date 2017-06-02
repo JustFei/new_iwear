@@ -60,13 +60,13 @@
             make.height.equalTo(@(220 * VIEW_FRAME_WIDTH / 360));
         }];
         [self.sleepCircleChart strokeChart];
-        [self.sleepCircleChart updateChartByCurrent:@(0.75)];
+        [self.sleepCircleChart updateChartByCurrent:@(0)];
         
         [self.stepLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.sleepCircleChart.mas_centerX);
             make.centerY.equalTo(self.sleepCircleChart.mas_centerY);
         }];
-        [self.stepLabel setText:@"28965"];
+        [self.stepLabel setText:@"--"];
         
         UILabel *todayLabel = [[UILabel alloc] init];
         [todayLabel setText:@"今日睡眠"];

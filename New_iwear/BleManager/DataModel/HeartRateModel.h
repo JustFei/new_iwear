@@ -11,7 +11,9 @@
 typedef enum : NSUInteger {
     HeartRateDataLastData = 0,
     HeartRateDataHistoryData,
-    HeartRateDataHistoryCount
+    HeartRateDataHistoryCount,
+    HeartRateDataContinuous,     //持续测量
+    HeartRateDataUpload         //测量完成时实时上报的数据
 } HeartRateData;
 
 @interface HeartRateModel : NSObject

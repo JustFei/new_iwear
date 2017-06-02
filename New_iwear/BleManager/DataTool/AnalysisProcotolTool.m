@@ -460,6 +460,10 @@ static AnalysisProcotolTool *analysisProcotolTool = nil;
             NSData *AL = [data subdataWithRange:NSMakeRange(2, 2)];
             int ALinterger = [NSStringTool parseIntFromData:AL];
             model.heartRateModel.sumDataCount = [NSString stringWithFormat:@"%d", ALinterger];
+        }else if ([TyStr isEqualToString:@"03"]) {
+            model.heartRateModel.heartRateState = HeartRateDataUpload;
+        }if ([TyStr isEqualToString:@"04"]) {
+            model.heartRateModel.heartRateState = HeartRateDataContinuous;
         }
         
         NSData *time = [data subdataWithRange:NSMakeRange(6, 6)];
@@ -723,6 +727,8 @@ union LAT{
             NSData *AL = [data subdataWithRange:NSMakeRange(2, 2)];
             int ALinterger = [NSStringTool parseIntFromData:AL];
             model.bloodModel.sumCount = [NSString stringWithFormat:@"%d", ALinterger];
+        }else if ([TyStr isEqualToString:@"03"]) {
+            model.bloodModel.bloodState = BloodDataUpload;
         }
         NSData *year = [data subdataWithRange:NSMakeRange(6, 1)];
         NSString *yearStr = [NSStringTool convertToNSStringWithNSData:year];
@@ -795,6 +801,8 @@ union LAT{
             NSData *AL = [data subdataWithRange:NSMakeRange(2, 2)];
             int ALinterger = [NSStringTool parseIntFromData:AL];
             model.bloodO2Model.sumCount = [NSString stringWithFormat:@"%d", ALinterger];
+        }else if ([TyStr isEqualToString:@"03"]) {
+            model.bloodO2Model.bloodO2State = BloodO2DataUpload;
         }
         NSData *year = [data subdataWithRange:NSMakeRange(6, 1)];
         NSString *yearStr = [NSStringTool convertToNSStringWithNSData:year];

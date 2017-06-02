@@ -11,4 +11,6 @@
 
 @interface BloodO2ContentView : UIView 
 
+- (void)updateUI;
+
 @end

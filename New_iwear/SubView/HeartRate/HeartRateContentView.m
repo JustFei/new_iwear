@@ -44,6 +44,7 @@
         self.frame = frame;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getHrData:) name:GET_HR_DATA object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getHRTestState:) name:SET_HR_STATE object:nil];
         
         _upView = [[UIView alloc] init];
         _upView.backgroundColor = HR_CURRENT_BACKGROUND_COLOR;
@@ -309,6 +310,19 @@
             [self.hrCircleChart updateChartByCurrent:@(progress)];
         }
     }
+}
+
+- (void)getHRTestState:(NSNotification *)noti
+{
+    
+}
+
+/** 更新视图 */
+- (void)updateUI
+{
+    /**
+     1.更新最近心率记录的折线图
+     */
 }
 
 #pragma mark - 懒加载

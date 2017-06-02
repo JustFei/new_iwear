@@ -10,7 +10,6 @@
 
 @interface StepContentView : UIView 
 
-- (void)drawProgress:(CGFloat )progress;
-//- (void)showChartView;
+- (void)updateUI;
 
 @end

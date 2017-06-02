@@ -260,6 +260,14 @@
     
 }
 
+/** 更新视图 */
+- (void)updateUI
+{
+    /**
+     1.更新当天睡眠记录的柱状图
+     */
+}
+
 #pragma mark - 懒加载
 - (PNCircleChart *)sleepCircleChart
 {

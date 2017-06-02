@@ -278,6 +278,13 @@
     }
 }
 
+/** 更新视图 */
+- (void)updateUI
+{
+    /**
+     1.更新血氧记录的折线图
+     */
+}
 
 #pragma mark - 懒加载
 - (PNCircleChart *)boCircleChart

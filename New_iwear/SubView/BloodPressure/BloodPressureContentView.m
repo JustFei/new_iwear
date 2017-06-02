@@ -276,6 +276,13 @@
     }
 }
 
+/** 更新视图 */
+- (void)updateUI
+{
+    /**
+     1.更新血压记录的柱状图
+     */
+}
 
 #pragma mark - 懒加载
 - (PNCircleChart *)bpCircleChart

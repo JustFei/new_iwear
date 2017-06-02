@@ -10,10 +10,10 @@
 #import "StepHisViewController.h"
 #import "TrainingViewController.h"
 #import "UnitsTool.h"
-#import "BleManager.h"
 #import "PNChart.h"
 #import "TargetSettingModel.h"
 #import "StepDataModel.h"
+#import "FMDBManager.h"
 
 @interface StepContentView () < PNChartDelegate >
 {
@@ -26,13 +26,16 @@
 @property (nonatomic, strong) UIView *upView;
 @property (nonatomic, strong) UILabel *stepLabel;
 @property (nonatomic, strong) UILabel *mileageAndkCalLabel;
+@property (nonatomic, strong) UIView *view1;
 @property (nonatomic, strong) UILabel *view1StepLabel;
 @property (nonatomic, strong) UILabel *view2MileageLabel;
 @property (nonatomic, strong) UILabel *view3kCalLabel;
 @property (nonatomic, strong) PNCircleChart *stepCircleChart;
-@property (nonatomic ,strong) BleManager *myBleManager;
-@property (nonatomic ,strong) NSMutableArray *dateArr;
-@property (nonatomic ,strong) NSMutableArray *dataArr;
+@property (nonatomic, strong) PNBarChart *stepBarChart;
+@property (nonatomic, strong) BleManager *myBleManager;
+@property (nonatomic, strong) NSMutableArray *dateArr;
+@property (nonatomic, strong) NSMutableArray *dataArr;
+@property (nonatomic, strong) FMDBManager *myFmdbManager;
 
 @end
 
@@ -125,11 +128,11 @@
             make.bottom.equalTo(hisBtn.mas_bottom);
         }];
         
-        UIView *view1 = [[UIView alloc] init];
-        view1.layer.borderWidth = 1;
-        view1.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
-        [self addSubview:view1];
-        [view1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.view1 = [[UIView alloc] init];
+        self.view1.layer.borderWidth = 1;
+        self.view1.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
+        [self addSubview:self.view1];
+        [self.view1 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_upView.mas_bottom).offset(8);
             make.left.equalTo(self.mas_left).offset(-1);
             make.height.equalTo(@72);
@@ -140,9 +143,9 @@
         [view1Title setText:@"步数"];
         [view1Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
         [view1Title setFont:[UIFont systemFontOfSize:12]];
-        [view1 addSubview:view1Title];
+        [self.view1 addSubview:view1Title];
         [view1Title mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(view1.mas_centerX);
+            make.centerX.equalTo(self.view1.mas_centerX);
             make.top.equalTo(@18);
         }];
         
@@ -150,9 +153,9 @@
         [_view1StepLabel setText:@"0"];
         [_view1StepLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_view1StepLabel setFont:[UIFont systemFontOfSize:14]];
-        [view1 addSubview:_view1StepLabel];
+        [self.view1 addSubview:_view1StepLabel];
         [_view1StepLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(view1.mas_centerX);
+            make.centerX.equalTo(self.view1.mas_centerX);
             make.bottom.equalTo(@-17);
         }];
         
@@ -163,10 +166,10 @@
         view2.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
         [self addSubview:view2];
         [view2 mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(view1.mas_top);
-            make.left.equalTo(view1.mas_right).offset(-1);
-            make.height.equalTo(view1);
-            make.width.equalTo(view1.mas_width);
+            make.top.equalTo(self.view1.mas_top);
+            make.left.equalTo(self.view1.mas_right).offset(-1);
+            make.height.equalTo(self.view1);
+            make.width.equalTo(self.view1.mas_width);
         }];
         
         UILabel *view2Title = [[UILabel alloc] init];
@@ -194,10 +197,10 @@
         view3.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
         [self addSubview:view3];
         [view3 mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(view1.mas_top);
+            make.top.equalTo(self.view1.mas_top);
             make.left.equalTo(view2.mas_right).offset(-1);
-            make.height.equalTo(view1);
-            make.width.equalTo(view1.mas_width);
+            make.height.equalTo(self.view1);
+            make.width.equalTo(self.view1.mas_width);
         }];
         
         UILabel *view3Title = [[UILabel alloc] init];
@@ -223,7 +226,7 @@
         [unitLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [unitLabel setFont:[UIFont systemFontOfSize:8]];
         [unitLabel setText:@"步"];
-        [view1 addSubview:unitLabel];
+        [self.view1 addSubview:unitLabel];
         [unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_view1StepLabel.mas_right).offset(8);
             make.top.equalTo(_view1StepLabel.mas_bottom);
@@ -232,7 +235,7 @@
         [unitLabel2 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [unitLabel2 setFont:[UIFont systemFontOfSize:8]];
         [unitLabel2 setText:@"公里"];
-        [view1 addSubview:unitLabel2];
+        [self.view1 addSubview:unitLabel2];
         [unitLabel2 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_view2MileageLabel.mas_right).offset(8);
             make.top.equalTo(_view2MileageLabel.mas_bottom);
@@ -241,23 +244,59 @@
         [unitLabel3 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [unitLabel3 setFont:[UIFont systemFontOfSize:8]];
         [unitLabel3 setText:@"千卡"];
-        [view1 addSubview:unitLabel3];
+        [self.view1 addSubview:unitLabel3];
         [unitLabel3 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_view3kCalLabel.mas_right).offset(8);
             make.top.equalTo(_view3kCalLabel.mas_bottom);
         }];
+        
+        self.stepBarChart.backgroundColor = TEXT_BLACK_COLOR_LEVEL2;
+        for (int time = 0; time <= 24; time ++) {
+            [self.dateArr addObject:@(time)];
+        }
+        [self.stepBarChart setXLabels:self.dateArr];
     }
     return self;
 }
 
-//- (void)drawProgress:(CGFloat )progress
-//{
-//    static dispatch_once_t onceToken;
-//    dispatch_once(&onceToken, ^{
-//        [self.stepCircleChart strokeChart];
-//    });
-//    
-//}
+#pragma mark - 查询数据库
+- (void)getHistoryDatawithDate:(NSDate *)todayDate
+{
+    sumStep = 0;
+    sumMileage = 0;
+    sumkCal = 0;
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSDateFormatter *todayFormatter = [[NSDateFormatter alloc] init];
+        [todayFormatter setDateFormat:@"yyyy-MM-dd"];
+        [self.dataArr removeAllObjects];
+        NSArray *queryArr = [self.myFmdbManager queryStepWithDate:[todayFormatter stringFromDate:todayDate]];
+        if (queryArr.count == 0) {
+            for (int i = 0; i <= 24; i ++) {
+                [_dataArr addObject:@0];
+            }
+        }else {
+            
+            SegmentedStepModel *model = queryArr.firstObject;
+            
+            sumStep += model.stepNumber.integerValue;
+            sumMileage += model.mileageNumber.integerValue;
+            sumkCal += model.kCalNumber.integerValue;
+            
+            if (self.stepBarChart.yMaxValue < model.stepNumber.integerValue) {
+                self.stepBarChart.yMaxValue = model.stepNumber.integerValue + 10;
+            }
+            
+            [_dataArr addObject:@(model.stepNumber.integerValue)];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //回主线程更新 UI
+
+            [self.stepBarChart setYValues:_dataArr];
+            [self.stepBarChart strokeChart];
+        });
+    });
+}
 
 #pragma mark - PNChartDelegate
 
@@ -298,6 +337,14 @@
     }
 }
 
+/** 更新视图 */
+- (void)updateUI
+{
+    /**
+     1.更新按小时记录的柱状图
+     */
+}
+
 #pragma mark - 懒加载
 - (PNCircleChart *)stepCircleChart
 {
@@ -309,6 +356,39 @@
     }
     
     return _stepCircleChart;
+}
+
+- (PNBarChart *)stepBarChart
+{
+    if (!_stepBarChart) {
+        _stepBarChart = [[PNBarChart alloc] init];
+        
+        _stepBarChart.yChartLabelWidth = 20.0;
+        _stepBarChart.chartMarginLeft = 30.0;
+        _stepBarChart.chartMarginRight = 10.0;
+        _stepBarChart.chartMarginTop = 5.0;
+        _stepBarChart.chartMarginBottom = 10.0;
+        _stepBarChart.isGradientShow = NO;
+        _stepBarChart.isShowNumbers = NO;
+        _stepBarChart.labelMarginTop = 5.0;
+        _stepBarChart.showChartBorder = YES;
+        _stepBarChart.showLabel = YES;
+        [_stepBarChart setStrokeColor:[UIColor blackColor]];
+        _stepBarChart.yMinValue = 0;
+        _stepBarChart.yMaxValue = 10;
+        _stepBarChart.yLabelSum = 10;
+        [_stepBarChart setXLabelSkip:5];
+        
+        [self addSubview:_stepBarChart];
+        [_stepBarChart mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.mas_left);
+            make.right.equalTo(self.mas_right);
+            make.bottom.equalTo(self.mas_bottom);
+            make.top.equalTo(self.view1.mas_bottom).offset(10);
+        }];
+    }
+    
+    return _stepBarChart;
 }
 
 - (UILabel *)stepLabel

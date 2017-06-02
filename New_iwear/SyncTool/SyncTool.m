@@ -7,10 +7,11 @@
 //
 
 #import "SyncTool.h"
+#import "FMDBManager.h"
 
 @interface SyncTool ()
 {
-    BOOL _syncDataIng;      //判断数据是否在同步中
+    
     BOOL _syncSettingIng;   //判断设置是否在同步中
     //用来判断每个数据是否有数据
     BOOL _haveMotion;
@@ -25,6 +26,7 @@
 /** 控制同步发送消息的信号量 */
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;
 @property (nonatomic, strong) dispatch_queue_t sendMessageQueue;
+@property (nonatomic, strong) FMDBManager *myFmdbManager;
 
 @end
 
@@ -84,11 +86,11 @@ static SyncTool *_syncTool = nil;
 - (void)syncData
 {
     //如果在同步中，直接返回
-    if (_syncDataIng) {
+    if (self.syncDataIng) {
         return;
     }
     
-    _syncDataIng = YES;
+    self.syncDataIng = YES;
     //初始化计数器
     self.sumCount = 0;
     
@@ -129,6 +131,7 @@ static SyncTool *_syncTool = nil;
         x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
         DLog(@"1 ------ %ld", x);
         
+        //如果都没有数据的话，就直接模拟同步成功的进度条
         if (!_haveMotion && !_haveSleep && !_haveHR && !_haveBP && !_haveBO) {
             if (self.syncDataCurrentCountBlock) {
                 for (int i = 0; i <= 100; i ++) {
@@ -196,6 +199,8 @@ static SyncTool *_syncTool = nil;
         if (self.syncDataCurrentCountBlock) {
             self.syncDataCurrentCountBlock(progress * 100);
         }
+        //插入数据库
+        [self.myFmdbManager insertSegmentStepModel:model.segmentStepModel];
     }
 }
 
@@ -223,6 +228,9 @@ static SyncTool *_syncTool = nil;
         if (self.syncDataCurrentCountBlock) {
             self.syncDataCurrentCountBlock(progress * 100);
         }
+        
+        //插入数据库
+        [self.myFmdbManager insertSleepModel:model.sleepModel];
     }
 }
 
@@ -250,6 +258,9 @@ static SyncTool *_syncTool = nil;
         if (self.syncDataCurrentCountBlock) {
             self.syncDataCurrentCountBlock(progress * 100);
         }
+        
+        //插入数据库
+        [self.myFmdbManager insertHeartRateModel:model.heartRateModel];
     }
 }
 
@@ -277,6 +288,9 @@ static SyncTool *_syncTool = nil;
         if (self.syncDataCurrentCountBlock) {
             self.syncDataCurrentCountBlock(progress * 100);
         }
+        
+        //插入数据库
+        [self.myFmdbManager insertBloodModel:model.bloodModel];
     }
 }
 
@@ -289,7 +303,7 @@ static SyncTool *_syncTool = nil;
         _haveBO = model.bloodO2Model.sumCount.integerValue != 0;
         DLog(@"sumCount == %ld", self.sumCount);
         if (self.sumCount == 0) {
-            _syncDataIng = NO;
+            self.syncDataIng = NO;
         }
         // signal操作+1
         dispatch_semaphore_signal(self.semaphore);
@@ -298,7 +312,7 @@ static SyncTool *_syncTool = nil;
         if (model.bloodModel.sumCount.integerValue == model.bloodModel.currentCount.integerValue + 1) {
             // signal操作+1
             dispatch_semaphore_signal(self.semaphore);
-            _syncDataIng = NO;
+            self.syncDataIng = NO;
         }
         
         //传递进度值
@@ -308,6 +322,9 @@ static SyncTool *_syncTool = nil;
         if (self.syncDataCurrentCountBlock) {
             self.syncDataCurrentCountBlock(progress * 100);
         }
+        
+        //插入数据库
+        [self.myFmdbManager insertBloodO2Model:model.bloodO2Model];
     }
 }
 
@@ -319,5 +336,17 @@ static SyncTool *_syncTool = nil;
 {
     
 }
+
+#pragma mark - lazy
+- (FMDBManager *)myFmdbManager
+{
+    if (!_myFmdbManager) {
+        _myFmdbManager = [[FMDBManager alloc] initWithPath:@"UserList"];
+    }
+    
+    return _myFmdbManager;
+}
+
+
 
 @end

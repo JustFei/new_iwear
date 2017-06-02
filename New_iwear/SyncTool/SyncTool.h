@@ -11,7 +11,7 @@
 typedef void(^SyncDataCurrentCountBlock)(NSInteger progress);
 
 @interface SyncTool : NSObject
-
+@property (nonatomic, assign) BOOL syncDataIng;      //判断数据是否在同步中
 @property (nonatomic, copy) SyncDataCurrentCountBlock syncDataCurrentCountBlock;
 
 + (instancetype)shareInstance;

@@ -10,4 +10,6 @@
 
 @interface BloodPressureContentView : UIView
 
+- (void)updateUI;
+
 @end

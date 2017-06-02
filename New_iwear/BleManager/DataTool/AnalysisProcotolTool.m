@@ -466,27 +466,30 @@ static AnalysisProcotolTool *analysisProcotolTool = nil;
             model.heartRateModel.heartRateState = HeartRateDataContinuous;
         }
         
-        NSData *time = [data subdataWithRange:NSMakeRange(6, 6)];
-        NSString *timeStr = [NSString stringWithFormat:@"%@",time];
+        NSData *year = [data subdataWithRange:NSMakeRange(6, 1)];
+        NSString *yearStr = [NSStringTool convertToNSStringWithNSData:year];
+        NSData *month = [data subdataWithRange:NSMakeRange(7, 1)];
+        NSString *monthStr = [NSStringTool convertToNSStringWithNSData:month];
+        NSData *day = [data subdataWithRange:NSMakeRange(8, 1)];
+        NSString *dayStr = [NSStringTool convertToNSStringWithNSData:day];
+        NSData *hour = [data subdataWithRange:NSMakeRange(9, 1)];
+        NSString *hourStr = [NSStringTool convertToNSStringWithNSData:hour];
+        NSData *min = [data subdataWithRange:NSMakeRange(10, 1)];
+        NSString *minStr = [NSStringTool convertToNSStringWithNSData:min];
+        NSData *sencond = [data subdataWithRange:NSMakeRange(11, 1)];
+        NSString *sencondStr = [NSStringTool convertToNSStringWithNSData:sencond];
         
         NSData *Hr = [data subdataWithRange:NSMakeRange(12, 1)];
         int HrVale = [NSStringTool parseIntFromData:Hr];
         NSString *HrStr = [NSString stringWithFormat:@"%d",HrVale];
         
-        NSData *date = [data subdataWithRange:NSMakeRange(6, 3)];
-        NSString *dateStr = [NSString stringWithFormat:@"20%@",date];
+
+        NSString *dayString = [NSString stringWithFormat:@"20%@/%@/%@", yearStr,monthStr ,dayStr];
+        NSString *timeString = [NSString stringWithFormat:@"%@/%@-%@:%@:%@", monthStr, dayStr, hourStr, minStr, sencondStr];
         
-        NSString *monthStr = [timeStr substringWithRange:NSMakeRange(3, 2)];
-        NSString *dayStr = [timeStr substringWithRange:NSMakeRange(5, 2)];
-        
-        NSString *hourStr = [timeStr substringWithRange:NSMakeRange(7, 2)];
-        NSString *minStr = [timeStr substringWithRange:NSMakeRange(10, 2)];
-        
-        NSString *dateString = [NSString stringWithFormat:@"%@/%@-%@:%@", monthStr, dayStr, hourStr, minStr];
-        
-        model.heartRateModel.time = dateString;
+        model.heartRateModel.time = timeString;
         model.heartRateModel.heartRate = HrStr;
-        model.heartRateModel.date = dateStr;
+        model.heartRateModel.date = dayString;
         model.isReciveDataRight = ResponsEcorrectnessDataRgith;
         
     }else if ([head isEqualToString:@"8a"] || [head isEqualToString:@"8A"]) {

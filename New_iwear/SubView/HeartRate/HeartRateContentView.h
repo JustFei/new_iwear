@@ -11,6 +11,6 @@
 
 @interface HeartRateContentView : UIView < PNChartDelegate >
 
-
+- (void)updateUI;
 
 @end

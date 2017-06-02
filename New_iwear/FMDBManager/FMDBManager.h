@@ -31,14 +31,14 @@ typedef enum : NSUInteger {
 
 - (instancetype)initWithPath:(NSString *)path;
 
-#pragma mark - ClockData
-- (BOOL)insertClockModel:(ClockModel *)model;
-
-- (NSMutableArray *)queryClockData;
-
-- (BOOL)deleteClockData:(NSInteger)deleteSql;
-
-- (BOOL)modifyClockModel:(ClockModel *)model withModifyID:(NSInteger)ID;
+//#pragma mark - ClockData
+//- (BOOL)insertClockModel:(ClockModel *)model;
+//
+//- (NSMutableArray *)queryClockData;
+//
+//- (BOOL)deleteClockData:(NSInteger)deleteSql;
+//
+//- (BOOL)modifyClockModel:(ClockModel *)model withModifyID:(NSInteger)ID;
 
 #pragma mark - StepData 
 //插入模型数据
@@ -53,14 +53,19 @@ typedef enum : NSUInteger {
 //修改数据
 - (BOOL)modifyStepWithDate:(NSString *)date model:(SportModel *)model;
 
+#pragma mark - SegmentStepData
+//插入分段计步数据
+- (BOOL)insertSegmentStepModel:(SegmentedStepModel *)model;
+
+//查询分段计步数据
+- (NSArray *)querySegmentedStepWithDate:(NSString *)date;
+
 #pragma mark - HeartRateData
 - (BOOL)insertHeartRateModel:(HeartRateModel *)model;
 
 - (NSArray *)queryHeartRateWithDate:(NSString *)date;
 
 - (BOOL)deleteHeartRateData:(NSString *)deleteSql;
-
-#pragma mark - TemperatureData
 
 #pragma mark - SleepData
 - (BOOL)insertSleepModel:(SleepModel *)model;
@@ -87,29 +92,29 @@ typedef enum : NSUInteger {
 
 - (BOOL)deleteBloodData:(NSString *)deleteSql;
 
-#pragma mark - UserInfoData
-- (BOOL)insertUserInfoModel:(UserInfoModel *)model;
-
-- (NSArray *)queryAllUserInfo;
-
-- (BOOL)modifyUserInfoWithID:(NSInteger)ID model:(UserInfoModel *)model;
-
-- (BOOL)modifyStepTargetWithID:(NSInteger)ID model:(NSInteger)stepTarget;
-
-- (BOOL)modifySleepTargetWithID:(NSInteger)ID model:(NSInteger)sleepTarget;
-
-- (BOOL)deleteUserInfoData:(NSString *)deleteSql;
+//#pragma mark - UserInfoData
+//- (BOOL)insertUserInfoModel:(UserInfoModel *)model;
+//
+//- (NSArray *)queryAllUserInfo;
+//
+//- (BOOL)modifyUserInfoWithID:(NSInteger)ID model:(UserInfoModel *)model;
+//
+//- (BOOL)modifyStepTargetWithID:(NSInteger)ID model:(NSInteger)stepTarget;
+//
+//- (BOOL)modifySleepTargetWithID:(NSInteger)ID model:(NSInteger)sleepTarget;
+//
+//- (BOOL)deleteUserInfoData:(NSString *)deleteSql;
 
 #pragma mark - CloseData
 - (void)CloseDataBase;
 
-#pragma mark - SedentaryData
-- (BOOL)insertSedentaryData:(SedentaryModel *)model;
-
-- (BOOL)modifySedentaryData:(SedentaryModel *)model;
-
-- (NSArray *)querySedentary;
-
-- (BOOL)deleteSendentaryData:(SedentaryModel *)model;
+//#pragma mark - SedentaryData
+//- (BOOL)insertSedentaryData:(SedentaryModel *)model;
+//
+//- (BOOL)modifySedentaryData:(SedentaryModel *)model;
+//
+//- (NSArray *)querySedentary;
+//
+//- (BOOL)deleteSendentaryData:(SedentaryModel *)model;
 
 @end

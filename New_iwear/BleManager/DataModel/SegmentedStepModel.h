@@ -8,10 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-
+typedef enum : NSUInteger {
+    SegmentedStepDataCurrentData = 0,
+    SegmentedStepDataHistoryData,
+    SegmentedStepDataHistoryCount
+} SegmentedStepData;
 
 @interface SegmentedStepModel : NSObject
 
+@property (nonatomic, assign) SegmentedStepData segmentedStepState;
 /** 日期 */
 @property (nonatomic, copy) NSString *date;
 /** 历史数据总条数 */

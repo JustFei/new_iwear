@@ -457,7 +457,7 @@ static AnalysisProcotolTool *analysisProcotolTool = nil;
             model.heartRateModel.heartRateState = HeartRateDataHistoryData;
         }else if ([TyStr isEqualToString:@"02"]) {
             model.heartRateModel.heartRateState = HeartRateDataHistoryCount;
-            NSData *AL = [data subdataWithRange:NSMakeRange(2, 1)];
+            NSData *AL = [data subdataWithRange:NSMakeRange(2, 2)];
             int ALinterger = [NSStringTool parseIntFromData:AL];
             model.heartRateModel.sumDataCount = [NSString stringWithFormat:@"%d", ALinterger];
         }
@@ -720,7 +720,7 @@ union LAT{
             model.bloodModel.bloodState = BloodDataHistoryData;
         }else if ([TyStr isEqualToString:@"02"]) {
             model.bloodModel.bloodState = BloodDataHistoryCount;
-            NSData *AL = [data subdataWithRange:NSMakeRange(2, 1)];
+            NSData *AL = [data subdataWithRange:NSMakeRange(2, 2)];
             int ALinterger = [NSStringTool parseIntFromData:AL];
             model.bloodModel.sumCount = [NSString stringWithFormat:@"%d", ALinterger];
         }
@@ -792,7 +792,7 @@ union LAT{
             model.bloodO2Model.bloodO2State = BloodO2DataHistoryData;
         }else if ([TyStr isEqualToString:@"02"]) {
             model.bloodO2Model.bloodO2State = BloodO2DataHistoryCount;
-            NSData *AL = [data subdataWithRange:NSMakeRange(2, 1)];
+            NSData *AL = [data subdataWithRange:NSMakeRange(2, 2)];
             int ALinterger = [NSStringTool parseIntFromData:AL];
             model.bloodO2Model.sumCount = [NSString stringWithFormat:@"%d", ALinterger];
         }
@@ -873,42 +873,58 @@ union LAT{
 //解析分段计步的数据（1A|8A）
 - (manridyModel *)analysisSegmentedStep:(NSData *)data WithHeadStr:(NSString *)head
 {
-    //将nsdata 转为 byte 数组
-    NSUInteger len = [data length];
-    Byte *byteData = (Byte*)malloc(len);
-    memcpy(byteData, [data bytes], len);
-    
-    int ah = (byteData[2] << 4 | byteData[3] >> 4) & 0x0fff;
-    int ch = (byteData[4] >> 4 | byteData[3] << 4) & 0x0fff;
-    int timeInterval = byteData[18];
-    NSData *stepData = [data subdataWithRange:NSMakeRange(5, 3)];
-    int stepValue = [NSStringTool parseIntFromData:stepData];
-    
-    NSData *mileageData = [data subdataWithRange:NSMakeRange(8, 3)];
-    int mileageValue = [NSStringTool parseIntFromData:mileageData];
-    
-    NSData *kcalData = [data subdataWithRange:NSMakeRange(11, 3)];
-    int kcalValue = [NSStringTool parseIntFromData:kcalData];
-    
-    NSData *startTimeData = [data subdataWithRange:NSMakeRange(14, 4)];
-    int startTimeValue = [NSStringTool parseIntFromData:startTimeData];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
-    NSString *startTimeStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:startTimeValue]];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
-    NSString *dateStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:startTimeValue]];
-    
     manridyModel *model = [[manridyModel alloc] init];
-    model.segmentStepModel.AHCount = ah;
-    model.segmentStepModel.CHCount = ch;
-    model.segmentStepModel.stepNumber = [NSString stringWithFormat:@"%d",stepValue];
-    model.segmentStepModel.kCalNumber = [NSString stringWithFormat:@"%d",kcalValue];
-    model.segmentStepModel.mileageNumber = [NSString stringWithFormat:@"%d",mileageValue];
-    model.segmentStepModel.startTime = startTimeStr;
-    model.segmentStepModel.date = dateStr;
-    model.segmentStepModel.timeInterval = timeInterval;
+    model.receiveDataType = ReturnModelTypeSegmentStepModel;
     
-    NSLog(@"segmentStepModel == %@", model.segmentStepModel);
+    if ([head isEqualToString:@"1a"]) {
+        const unsigned char *hexBytes = [data bytes];
+        NSString *TyStr = [NSString stringWithFormat:@"%02x", hexBytes[1]];
+        
+        if ([TyStr isEqualToString:@"02"]) {
+            model.segmentStepModel.segmentedStepState = SegmentedStepDataHistoryCount;
+        }else if ([TyStr isEqualToString:@"04"]) {
+            model.segmentStepModel.segmentedStepState = SegmentedStepDataHistoryData;
+        }
+        //将nsdata 转为 byte 数组
+        NSUInteger len = [data length];
+        Byte *byteData = (Byte*)malloc(len);
+        memcpy(byteData, [data bytes], len);
+        
+        int ah = (byteData[2] << 4 | byteData[3] >> 4) & 0x0fff;
+        int ch = (byteData[4] >> 4 | byteData[3] << 4) & 0x0000;
+        int timeInterval = byteData[18];
+        NSData *stepData = [data subdataWithRange:NSMakeRange(5, 3)];
+        int stepValue = [NSStringTool parseIntFromData:stepData];
+        
+        NSData *mileageData = [data subdataWithRange:NSMakeRange(8, 3)];
+        int mileageValue = [NSStringTool parseIntFromData:mileageData];
+        
+        NSData *kcalData = [data subdataWithRange:NSMakeRange(11, 3)];
+        int kcalValue = [NSStringTool parseIntFromData:kcalData];
+        
+        NSData *startTimeData = [data subdataWithRange:NSMakeRange(14, 4)];
+        int startTimeValue = [NSStringTool parseIntFromData:startTimeData];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+        NSString *startTimeStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:startTimeValue]];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        NSString *dateStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:startTimeValue]];
+        
+        
+//        manridyModel *model = [[manridyModel alloc] init];
+        model.segmentStepModel.AHCount = ah;
+        model.segmentStepModel.CHCount = ch;
+        model.segmentStepModel.stepNumber = [NSString stringWithFormat:@"%d",stepValue];
+        model.segmentStepModel.kCalNumber = [NSString stringWithFormat:@"%d",kcalValue];
+        model.segmentStepModel.mileageNumber = [NSString stringWithFormat:@"%d",mileageValue];
+        model.segmentStepModel.startTime = startTimeStr;
+        model.segmentStepModel.date = dateStr;
+        model.segmentStepModel.timeInterval = timeInterval;
+        
+        NSLog(@"segmentStepModel == %@", model.segmentStepModel);
+    }else {
+        model.isReciveDataRight = ResponsEcorrectnessDataFail;
+    }
     
     return  model;
 }
@@ -916,43 +932,57 @@ union LAT{
 #pragma mark - 解析分段跑步的数据（1B|8B）
 //解析分段跑步的数据（1B|8B）
 - (manridyModel *)analysisSegmentedRun:(NSData *)data WithHeadStr:(NSString *)head
-{
-    //将nsdata 转为 byte 数组
-    NSUInteger len = [data length];
-    Byte *byteData = (Byte*)malloc(len);
-    memcpy(byteData, [data bytes], len);
+{manridyModel *model = [[manridyModel alloc] init];
+    model.receiveDataType = ReturnModelTypeSegmentRunModel;
     
-    int ah = (byteData[2] << 4 | byteData[3] >> 4) & 0x0fff;
-    int ch = (byteData[4] >> 4 | byteData[3] << 4) & 0x0fff;
-    int timeInterval = byteData[18];
-    NSData *stepData = [data subdataWithRange:NSMakeRange(5, 3)];
-    int stepValue = [NSStringTool parseIntFromData:stepData];
-    
-    NSData *mileageData = [data subdataWithRange:NSMakeRange(8, 3)];
-    int mileageValue = [NSStringTool parseIntFromData:mileageData];
-    
-    NSData *kcalData = [data subdataWithRange:NSMakeRange(11, 3)];
-    int kcalValue = [NSStringTool parseIntFromData:kcalData];
-    
-    NSData *startTimeData = [data subdataWithRange:NSMakeRange(14, 4)];
-    int startTimeValue = [NSStringTool parseIntFromData:startTimeData];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
-    NSString *startTimeStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:startTimeValue]];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
-    NSString *dateStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:startTimeValue]];
-    
-    manridyModel *model = [[manridyModel alloc] init];
-    model.segmentRunModel.AHCount = ah;
-    model.segmentRunModel.CHCount = ch;
-    model.segmentRunModel.stepNumber = [NSString stringWithFormat:@"%d",stepValue];
-    model.segmentRunModel.kCalNumber = [NSString stringWithFormat:@"%d",kcalValue];
-    model.segmentRunModel.mileageNumber = [NSString stringWithFormat:@"%d",mileageValue];
-    model.segmentRunModel.startTime = startTimeStr;
-    model.segmentRunModel.date = dateStr;
-    model.segmentRunModel.timeInterval = timeInterval;
-    
-    NSLog(@"segmentRunModel == %@", model.segmentStepModel);
+    if ([head isEqualToString:@"1b"]) {
+        const unsigned char *hexBytes = [data bytes];
+        NSString *TyStr = [NSString stringWithFormat:@"%02x", hexBytes[1]];
+        
+        if ([TyStr isEqualToString:@"02"]) {
+            model.segmentRunModel.segmentedRunState = SegmentedRunDataHistoryCount;
+        }else if ([TyStr isEqualToString:@"04"]) {
+            model.segmentRunModel.segmentedRunState = SegmentedRunDataHistoryData;
+        }
+        //将nsdata 转为 byte 数组
+        NSUInteger len = [data length];
+        Byte *byteData = (Byte*)malloc(len);
+        memcpy(byteData, [data bytes], len);
+        
+        int ah = (byteData[2] << 4 | byteData[3] >> 4) & 0x0fff;
+        int ch = (byteData[4] >> 4 | byteData[3] << 4) & 0x0fff;
+        int timeInterval = byteData[18];
+        NSData *stepData = [data subdataWithRange:NSMakeRange(5, 3)];
+        int stepValue = [NSStringTool parseIntFromData:stepData];
+        
+        NSData *mileageData = [data subdataWithRange:NSMakeRange(8, 3)];
+        int mileageValue = [NSStringTool parseIntFromData:mileageData];
+        
+        NSData *kcalData = [data subdataWithRange:NSMakeRange(11, 3)];
+        int kcalValue = [NSStringTool parseIntFromData:kcalData];
+        
+        NSData *startTimeData = [data subdataWithRange:NSMakeRange(14, 4)];
+        int startTimeValue = [NSStringTool parseIntFromData:startTimeData];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+        NSString *startTimeStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:startTimeValue]];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        NSString *dateStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:startTimeValue]];
+        
+//        manridyModel *model = [[manridyModel alloc] init];
+        model.segmentRunModel.AHCount = ah;
+        model.segmentRunModel.CHCount = ch;
+        model.segmentRunModel.stepNumber = [NSString stringWithFormat:@"%d",stepValue];
+        model.segmentRunModel.kCalNumber = [NSString stringWithFormat:@"%d",kcalValue];
+        model.segmentRunModel.mileageNumber = [NSString stringWithFormat:@"%d",mileageValue];
+        model.segmentRunModel.startTime = startTimeStr;
+        model.segmentRunModel.date = dateStr;
+        model.segmentRunModel.timeInterval = timeInterval;
+        
+        NSLog(@"segmentRunModel == %@", model.segmentRunModel);
+    }else {
+        model.isReciveDataRight = ResponsEcorrectnessDataFail;
+    }
     
     return  model;
 }

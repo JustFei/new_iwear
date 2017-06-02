@@ -8,8 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum : NSUInteger {
+    SegmentedRunDataCurrentData = 0,
+    SegmentedRunDataHistoryData,
+    SegmentedRunDataHistoryCount
+} SegmentedRunData;
+
+
+
 @interface SegmentedRunModel : NSObject
 
+@property (nonatomic, assign) SegmentedRunData segmentedRunState;
 /** 日期 */
 @property (nonatomic, copy) NSString *date;
 /** 历史数据总条数 */

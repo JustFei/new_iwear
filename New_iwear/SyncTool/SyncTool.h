@@ -8,7 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void(^SyncDataCurrentCountBlock)(NSInteger progress);
+
 @interface SyncTool : NSObject
+
+@property (nonatomic, copy) SyncDataCurrentCountBlock syncDataCurrentCountBlock;
 
 + (instancetype)shareInstance;
 //数据同步

@@ -564,16 +564,16 @@ static BleManager *bleManager = nil;
 }
 
 /** 分段计步获取 */
-- (void)writeSegementStepWithHistoryMode:(HistoryMode)mode
+- (void)writeSegementStepWithHistoryMode:(SegmentedStepData)mode
 {
     NSString *protocolStr;
     switch (mode) {
             /** 具体的历史数据 */
-        case HistoryModeData:
+        case SegmentedStepDataHistoryCount:
             protocolStr = @"FC1A02";
             break;
             /** 历史数据条数 */
-        case HistoryModeCount:
+        case SegmentedStepDataHistoryData:
             protocolStr = @"FC1A04";
             break;
             
@@ -585,17 +585,17 @@ static BleManager *bleManager = nil;
 }
 
 /** 分段跑步获取 */
-- (void)writeSegementRunWithHistoryMode:(HistoryMode)mode
+- (void)writeSegementRunWithHistoryMode:(SegmentedRunData)mode
 {
     NSString *protocolStr;
     switch (mode) {
-        case HistoryModeData:
+        case SegmentedRunDataHistoryData:
             protocolStr = @"FC1B02";
             break;
-        case HistoryModeCount:
+        case SegmentedRunDataHistoryCount:
             protocolStr = @"FC1B04";
             break;
-        case HistoryModeCurrent:
+        case SegmentedRunDataCurrentData:
             protocolStr = @"FC1B08";
             break;
             
@@ -1006,11 +1006,11 @@ static BleManager *bleManager = nil;
             [[NSNotificationCenter defaultCenter] postNotificationName:SET_TAKE_PHOTO object:model];
         }else if ([headStr isEqualToString:@"1a"] || [headStr isEqualToString:@"9a"]) {
             //分段计步数据
-            manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisTakePhoto:value WithHeadStr:headStr];
+            manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisSegmentedStep:value WithHeadStr:headStr];
             [[NSNotificationCenter defaultCenter] postNotificationName:GET_SEGEMENT_STEP object:model];
         }else if ([headStr isEqualToString:@"1b"] || [headStr isEqualToString:@"9b"]) {
             //分段跑步数据
-            manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisTakePhoto:value WithHeadStr:headStr];
+            manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisSegmentedRun:value WithHeadStr:headStr];
             [[NSNotificationCenter defaultCenter] postNotificationName:GET_SEGEMENT_RUN object:model];
         }else if ([headStr isEqualToString:@"1c"] || [headStr isEqualToString:@"9c"]) {
             //设置窗口成功

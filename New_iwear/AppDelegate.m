@@ -177,11 +177,18 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         self.stateBar.text = @"正在同步数据";
         [[SyncTool shareInstance] syncData];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            self.stateBar.text = @"同步完成";
-            [self.stateBar dismiss];
-        });
-        
+        [SyncTool shareInstance].syncDataCurrentCountBlock = ^(NSInteger progress) {
+            DLog(@"progress == %ld", progress);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.stateBar setText:[NSString stringWithFormat:@"正在同步数据 %ld%%", progress]];
+                if (progress == 100) {
+                    self.stateBar.text = @"同步完成";
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self.stateBar dismiss];
+                    });
+                }
+            });
+        };
     });
 }
 
@@ -192,8 +199,8 @@
         _stateBar = [[MDSnackbar alloc] init];
         [_stateBar setActionTitleColor:NAVIGATION_BAR_COLOR];
         
-        //这里100秒是让bar长驻在底部
-        [_stateBar setDuration:1000];
+        //这里1000000秒是让bar长驻在底部
+        [_stateBar setDuration:1000000];
         _stateBar.multiline = YES;
         
         MDButton *cancelButton = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:nil];
@@ -210,6 +217,5 @@
     
     return _stateBar;
 }
-
 
 @end

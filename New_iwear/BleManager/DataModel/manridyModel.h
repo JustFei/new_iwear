@@ -42,7 +42,9 @@ typedef enum : NSUInteger {
     ReturnModelTypeBloodModel,
     ReturnModelTypeBloodO2Model,
     ReturnModelTypeTakePhoto,
-    ReturnModelTypeFirwmave
+    ReturnModelTypeFirwmave,
+    ReturnModelTypeSegmentStepModel,
+    ReturnModelTypeSegmentRunModel
 } ReturnModelType;
 
 typedef enum : NSUInteger {

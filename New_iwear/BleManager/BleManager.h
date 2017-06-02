@@ -246,10 +246,10 @@ typedef enum : NSUInteger {
 - (void)writeCameraMode:(kCameraMode)mode;
 
 /** 分段计步获取 */
-- (void)writeSegementStepWithHistoryMode:(HistoryMode)mode;
+- (void)writeSegementStepWithHistoryMode:(SegmentedStepData)mode;
 
 /** 分段跑步获取 */
-- (void)writeSegementRunWithHistoryMode:(HistoryMode)mode;
+- (void)writeSegementRunWithHistoryMode:(SegmentedRunData)mode;
 
 /** 窗口协议 */
 - (void)writeWindowRequset:(WindowRequestMode)mode withDataArr:(NSArray *)dataArr;

@@ -12,8 +12,19 @@
 {
     BOOL _syncDataIng;      //判断数据是否在同步中
     BOOL _syncSettingIng;   //判断设置是否在同步中
+    //用来判断每个数据是否有数据
+    BOOL _haveMotion;
+    BOOL _haveSleep;
+    BOOL _haveHR;
+    BOOL _haveBP;
+    BOOL _haveBO;
 }
+
 @property (nonatomic, assign) NSInteger sumCount;
+@property (nonatomic, assign) NSInteger progressCount;
+/** 控制同步发送消息的信号量 */
+@property (nonatomic, strong) dispatch_semaphore_t semaphore;
+@property (nonatomic, strong) dispatch_queue_t sendMessageQueue;
 
 @end
 
@@ -26,11 +37,14 @@ static SyncTool *_syncTool = nil;
 {
     self = [super init];
     if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getMotionCount:) name:GET_MOTION_DATA object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getSleepCount:) name:GET_SLEEP_DATA object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getHRCount:) name:GET_HR_DATA object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBPCount:) name:GET_BP_DATA object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBOCount:) name:GET_BO_DATA object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getSegmentStep:) name:GET_SEGEMENT_STEP object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getSleep:) name:GET_SLEEP_DATA object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getHR:) name:GET_HR_DATA object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBP:) name:GET_BP_DATA object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBO:) name:GET_BO_DATA object:nil];
+        // 信号量初始化为1
+        self.semaphore = dispatch_semaphore_create(1);
+        self.sendMessageQueue = dispatch_get_global_queue(0, 0);
     }
     return self;
 }
@@ -77,75 +91,171 @@ static SyncTool *_syncTool = nil;
     //初始化计数器
     self.sumCount = 0;
     
-    //计步历史条数
-    [[BleManager shareInstance] writeMotionRequestToPeripheralWithMotionType:MotionTypeCountOfData];
-    
-    
-    
-    
-    //计步历史
-//    [[BleManager shareInstance] writeMotionRequestToPeripheralWithMotionType:MotionTypeDataInPeripheral];
-//    //睡眠历史
-//    [[BleManager shareInstance] writeSleepRequestToperipheral:SleepDataHistoryData];
-//    //心率历史
-//    [[BleManager shareInstance] writeHeartRateRequestToPeripheral:HeartRateDataHistoryData];
-//    //血压历史
-//    [[BleManager shareInstance] writeBloodToPeripheral:BloodDataHistoryData];
-//    //血氧历史
-//    [[BleManager shareInstance] writeBloodO2ToPeripheral:BloodO2DataHistoryData];
+    //分段计步历史条数
+//    [[BleManager shareInstance] writeMotionRequestToPeripheralWithMotionType:MotionTypeCountOfData];
+    [[BleManager shareInstance] writeSegementStepWithHistoryMode:SegmentedStepDataHistoryCount];
 }
 
-- (void)getMotionCount:(NSNotification *)noti
+#pragma mark -DataNoti处理
+/** 分段计步数据 */
+- (void)getSegmentStep:(NSNotification *)noti
 {
     manridyModel *model = [noti object];
-    if (model.sportModel.motionType == MotionTypeCountOfData) {
-        self.sumCount = self.sumCount + model.sportModel.sumDataCount;
-        DLog(@"sumCount == %ld", self.sumCount);
+    if (model.segmentStepModel.segmentedStepState == SegmentedStepDataHistoryCount) {
+        self.sumCount = self.sumCount + model.segmentStepModel.AHCount;
+        _haveMotion = model.segmentStepModel.AHCount != 0;
+        DLog(@"sum == %ld", self.sumCount);
         //睡眠历史条数
         [[BleManager shareInstance] writeSleepRequestToperipheral:SleepDataHistoryCount];
+    }else if (model.segmentStepModel.segmentedStepState == SegmentedStepDataHistoryData) {
+        //当数据接受完毕，发送睡眠
+        if (model.segmentStepModel.AHCount == model.segmentStepModel.CHCount + 1) {
+            // signal操作+1
+            dispatch_semaphore_signal(self.semaphore);
+        }
+        
+        //传递进度值
+        float progress = (self.sumCount - (self.progressCount --)) / self.sumCount;
+        if (self.syncDataCurrentCountBlock) {
+            self.syncDataCurrentCountBlock(progress * 100);
+        }
     }
 }
 
-- (void)getSleepCount:(NSNotification *)noti
+/** 睡眠数据 */
+- (void)getSleep:(NSNotification *)noti
 {
     manridyModel *model = [noti object];
     if (model.sleepModel.sleepState == SleepDataHistoryCount) {
         self.sumCount = self.sumCount + model.sleepModel.sumDataCount;
-        DLog(@"sumCount == %ld", self.sumCount);
+        _haveSleep = model.sleepModel.sumDataCount != 0;
+        DLog(@"sum == %ld", self.sumCount);
         //心率历史条数
         [[BleManager shareInstance] writeHeartRateRequestToPeripheral:HeartRateDataHistoryCount];
+    }else if (model.sleepModel.sleepState == SleepDataHistoryData) {
+        //当数据接受完毕，发送心率
+        if (model.sleepModel.sumDataCount == model.sleepModel.currentDataCount + 1) {
+            // signal操作+1
+            dispatch_semaphore_signal(self.semaphore);
+        }
+        
+        float progress = (self.sumCount - (self.progressCount --)) / self.sumCount;
+        if (self.syncDataCurrentCountBlock) {
+            self.syncDataCurrentCountBlock(progress * 100);
+        }
     }
 }
 
-- (void)getHRCount:(NSNotification *)noti
+/** 心率数据 */
+- (void)getHR:(NSNotification *)noti
 {
     manridyModel *model = [noti object];
     if (model.heartRateModel.heartRateState == HeartRateDataHistoryCount) {
         self.sumCount = self.sumCount + model.heartRateModel.sumDataCount.integerValue;
-        DLog(@"sumCount == %ld", self.sumCount);
+        _haveHR = model.heartRateModel.sumDataCount.integerValue != 0;
+        DLog(@"sum == %ld", self.sumCount);
         //血压历史条数
         [[BleManager shareInstance] writeBloodToPeripheral:BloodDataHistoryCount];
+    }else if (model.heartRateModel.heartRateState == HeartRateDataHistoryData) {
+        //当数据接受完毕，发送血压
+        if (model.heartRateModel.sumDataCount.integerValue == model.heartRateModel.currentDataCount.integerValue + 1) {
+            // signal操作+1
+            dispatch_semaphore_signal(self.semaphore);
+        }
+        
+        float progress = (self.sumCount - (self.progressCount --)) / self.sumCount;
+        if (self.syncDataCurrentCountBlock) {
+            self.syncDataCurrentCountBlock(progress * 100);
+        }
     }
 }
 
-- (void)getBPCount:(NSNotification *)noti
+/** 血压数据 */
+- (void)getBP:(NSNotification *)noti
 {
     manridyModel *model = [noti object];
     if (model.bloodModel.bloodState == BloodDataHistoryCount) {
         self.sumCount = self.sumCount + model.bloodModel.sumCount.integerValue;
-        DLog(@"sumCount == %ld", self.sumCount);
+        _haveBP = model.bloodModel.sumCount.integerValue != 0;
+        DLog(@"sum == %ld", self.sumCount);
         //血氧历史条数
         [[BleManager shareInstance] writeBloodO2ToPeripheral:BloodO2DataHistoryCount];
+    }else if (model.bloodModel.bloodState == BloodDataHistoryData) {
+        //当数据接受完毕，发送血氧
+        if (model.bloodModel.sumCount.integerValue == model.bloodModel.currentCount.integerValue + 1) {
+            // signal操作+1
+            dispatch_semaphore_signal(self.semaphore);
+        }
+        
+        float progress = (self.sumCount - (self.progressCount --)) / self.sumCount;
+        if (self.syncDataCurrentCountBlock) {
+            self.syncDataCurrentCountBlock(progress * 100);
+        }
     }
 }
 
-- (void)getBOCount:(NSNotification *)noti
+/** 血氧数据 */
+- (void)getBO:(NSNotification *)noti
 {
     manridyModel *model = [noti object];
     if (model.bloodO2Model.bloodO2State == BloodO2DataHistoryCount) {
-        self.sumCount = self.sumCount + model.bloodO2Model.sumCount.integerValue;
+        self.progressCount = self.sumCount = self.sumCount + model.bloodO2Model.sumCount.integerValue;
+        _haveBO = model.bloodO2Model.sumCount.integerValue != 0;
         DLog(@"sumCount == %ld", self.sumCount);
+        [self writeHistoryData];
+    }else if (model.bloodO2Model.bloodO2State == BloodO2DataHistoryData) {
+        float progress = (self.sumCount - (self.progressCount --)) / self.sumCount;
+        if (self.syncDataCurrentCountBlock) {
+            self.syncDataCurrentCountBlock(progress * 100);
+        }
     }
+}
+
+- (void)writeHistoryData
+{
+    //后台线程
+    dispatch_async(self.sendMessageQueue, ^{
+        if (!_haveMotion && !_haveSleep && !_haveHR && !_haveBP && !_haveBO) {
+            if (self.syncDataCurrentCountBlock) {
+                for (int i = 0; i <= 100; i ++) {
+                    self.syncDataCurrentCountBlock(i);
+                    [NSThread sleepForTimeInterval:0.05];
+                }
+            }
+            return ;
+        }
+        
+        __block long x = 0;
+        //分段计步历史
+        if (_haveMotion)
+        {
+            [[BleManager shareInstance] writeSegementStepWithHistoryMode:SegmentedStepDataHistoryData];
+            // wait操作-1，当别的消息进来就会阻塞，知道这条消息收到回调，signal+1后，才会继续执行。保证了消息的队列发送，保证稳定性。
+            
+            x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+            DLog(@"1 ------ %ld", x);
+        }
+        //睡眠历史
+        if (_haveSleep) {
+            [[BleManager shareInstance] writeSleepRequestToperipheral:SleepDataHistoryData];
+            x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+            DLog(@"1 ------ %ld", x);
+        }
+        //心率历史
+        if (_haveHR) {
+            [[BleManager shareInstance] writeHeartRateRequestToPeripheral:HeartRateDataHistoryData];
+            x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+            DLog(@"1 ------ %ld", x);
+        }
+        //血压历史
+        if (_haveBP) {
+            [[BleManager shareInstance] writeBloodToPeripheral:BloodDataHistoryData];
+            x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+            DLog(@"1 ------ %ld", x);
+        }
+        //血氧历史
+        if (_haveBO) [[BleManager shareInstance] writeBloodO2ToPeripheral:BloodO2DataHistoryData];
+    });
 }
 
 

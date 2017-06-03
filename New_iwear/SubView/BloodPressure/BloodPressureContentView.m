@@ -102,7 +102,6 @@
             make.centerX.equalTo(self.bpCircleChart.mas_centerX);
             make.top.equalTo(lineView.mas_bottom).offset(2 * VIEW_FRAME_WIDTH / 360);
         }];
-        [self.lastTimeLabel setText:@"4月23日 23:48"];
         
         MDButton *hisBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
         [hisBtn setImage:[UIImage imageNamed:@"walk_trainingicon"] forState:UIControlStateNormal];
@@ -259,19 +258,19 @@
     [[self findViewController:self].navigationController pushViewController:vc animated:YES];
 }
 
-- (void)showTrainingVC:(MDButton *)sender
-{
-    
-}
-
 - (void)getBPData:(NSNotification *)noti
 {
     manridyModel *model = [noti object];
     if (model.bloodModel.bloodState == BloodDataHistoryData || model.bloodModel.bloodState == BloodDataUpload) {
         if ([model.bloodModel.highBloodString isEqualToString:@"0"] && [model.bloodModel.lowBloodString isEqualToString:@"0"]) {
             [self.BPLabel setText:@"--"];
+            [self.lastTimeLabel setText:@""];
         }else {
             [self.BPLabel setText:[NSString stringWithFormat:@"%@/%@", model.bloodModel.highBloodString, model.bloodModel.lowBloodString]];
+            NSString *monthStr = [model.bloodModel.dayString substringWithRange:NSMakeRange(5, 2)];
+            NSString *dayStr = [model.bloodModel.dayString substringWithRange:NSMakeRange(8, 2)];
+            NSString *timeStr = [model.bloodModel.timeString substringWithRange:NSMakeRange(0, 5)];
+            self.lastTimeLabel.text = [NSString stringWithFormat:@"%@月%@日 %@", monthStr, dayStr, timeStr];
         }
     }
 }

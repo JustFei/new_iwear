@@ -55,13 +55,13 @@ static FMDatabase *_fmdb;
         [_fmdb executeUpdate:[NSString stringWithFormat:@"create table if not exists SegmentStepData(id integer primary key, date text, CHCount integer, AHCount integer, stepNumber text, kCalNumber text, mileageNumber text, startTime text, timeInterval integer);"]];
         
         //HeartRateData
-        [_fmdb executeUpdate:[NSString stringWithFormat:@"create table if not exists HeartRateData(id integer primary key,date text, time text, heartRate text);"]];
+        [_fmdb executeUpdate:[NSString stringWithFormat:@"create table if not exists HeartRateData(id integer primary key, month text, date text, time text, heartRate text);"]];
         
         //BloodData
-        [_fmdb executeUpdate:[NSString stringWithFormat:@"create table if not exists BloodData(id integer primary key, day text, time text, highBlood text, lowBlood text, currentCount text, sumCount text, bpm text);"]];
+        [_fmdb executeUpdate:[NSString stringWithFormat:@"create table if not exists BloodData(id integer primary key,month text, day text, time text, highBlood text, lowBlood text, currentCount text, sumCount text, bpm text);"]];
         
         //BloodO2Data
-        [_fmdb executeUpdate:[NSString stringWithFormat:@"create table if not exists BloodO2Data(id integer primary key, day text, time text, bloodO2integer text, bloodO2float text, currentCount text, sumCount text);"]];
+        [_fmdb executeUpdate:[NSString stringWithFormat:@"create table if not exists BloodO2Data(id integer primary key,month text, day text, time text, bloodO2integer text, bloodO2float text, currentCount text, sumCount text);"]];
         
         //SleepData
         [_fmdb executeUpdate:[NSString stringWithFormat:@"create table if not exists SleepData(id integer primary key,date text, startTime text, endTime text, deepSleep text, lowSleep text, sumSleep text, currentDataCount integer, sumDataCount integer);"]];
@@ -360,7 +360,7 @@ static FMDatabase *_fmdb;
 #pragma mark - HeartRateData
 - (BOOL)insertHeartRateModel:(HeartRateModel *)model
 {
-    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO HeartRateData(date, time, heartRate) VALUES ('%@', '%@', '%@');", model.date, model.time, model.heartRate];
+    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO HeartRateData(month, date, time, heartRate) VALUES ('%@', '%@', '%@', '%@');", model.month, model.date, model.time, model.heartRate];
     
     BOOL result = [_fmdb executeUpdate:insertSql];
     if (result) {
@@ -371,20 +371,32 @@ static FMDatabase *_fmdb;
     return result;
 }
 
-- (NSArray *)queryHeartRateWithDate:(NSString *)date
+- (NSArray *)queryHeartRate:(NSString *)queryStr WithType:(QueryType)type
 {
     NSString *queryString;
     
     FMResultSet *set;
-    
-    if (date == nil) {
-        queryString = [NSString stringWithFormat:@"SELECT * FROM HeartRateData;"];
-        
-        set = [_fmdb executeQuery:queryString];
-    }else {
-        queryString = [NSString stringWithFormat:@"SELECT * FROM HeartRateData where date = ?;"];
-        
-        set = [_fmdb executeQuery:queryString ,date];
+    switch (type) {
+        case QueryTypeAll:
+        {
+            queryString = [NSString stringWithFormat:@"SELECT * FROM HeartRateData;"];
+            set = [_fmdb executeQuery:queryString];
+        }
+            break;
+        case QueryTypeWithDay:
+        {
+            queryString = [NSString stringWithFormat:@"SELECT * FROM HeartRateData where date = ?;"];
+            set = [_fmdb executeQuery:queryString ,queryStr];
+        }
+            break;
+        case QueryTypeWithMonth:
+        {
+            queryString = [NSString stringWithFormat:@"SELECT * FROM HeartRateData where month = ?;"];
+            set = [_fmdb executeQuery:queryString ,queryStr];
+        }
+            
+        default:
+            break;
     }
     
     NSMutableArray *arrM = [NSMutableArray array];
@@ -394,12 +406,14 @@ static FMDatabase *_fmdb;
         NSString *time = [set stringForColumn:@"time"];
         NSString *heartRate = [set stringForColumn:@"heartRate"];
         NSString *date = [set stringForColumn:@"date"];
+        NSString *month = [set stringForColumn:@"month"];
         
         HeartRateModel *model = [[HeartRateModel alloc] init];
         
         model.time = time;
         model.heartRate = heartRate;
         model.date = date;
+        model.month = month;
         
         [arrM addObject:model];
     }
@@ -504,7 +518,7 @@ static FMDatabase *_fmdb;
 #pragma mark - BloodPressureData
 - (BOOL)insertBloodModel:(BloodModel *)model
 {
-    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO BloodData(day, time, highBlood, lowBlood, currentCount, sumCount, bpm) VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@');", model.dayString, model.timeString, model.highBloodString, model.lowBloodString, model.currentCount, model.sumCount, model.bpmString];
+    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO BloodData(month, day, time, highBlood, lowBlood, currentCount, sumCount, bpm) VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@');", model.monthString, model.dayString, model.timeString, model.highBloodString, model.lowBloodString, model.currentCount, model.sumCount, model.bpmString];
     
     BOOL result = [_fmdb executeUpdate:insertSql];
     if (result) {
@@ -515,26 +529,39 @@ static FMDatabase *_fmdb;
     return result;
 }
 
-- (NSArray *)queryBloodWithDate:(NSString *)date
+- (NSArray *)queryBlood:(NSString *)queryStr WithType:(QueryType)type
 {
     NSString *queryString;
     
     FMResultSet *set;
-    
-    if (date == nil) {
-        queryString = [NSString stringWithFormat:@"SELECT * FROM BloodData;"];
-        
-        set = [_fmdb executeQuery:queryString];
-    }else {
-        queryString = [NSString stringWithFormat:@"SELECT * FROM BloodData where day = ?;"];
-        
-        set = [_fmdb executeQuery:queryString ,date];
+    switch (type) {
+        case QueryTypeAll:
+        {
+            queryString = [NSString stringWithFormat:@"SELECT * FROM BloodData;"];
+            set = [_fmdb executeQuery:queryString];
+        }
+            break;
+        case QueryTypeWithDay:
+        {
+            queryString = [NSString stringWithFormat:@"SELECT * FROM BloodData where day = ?;"];
+            set = [_fmdb executeQuery:queryString ,queryStr];
+        }
+            break;
+        case QueryTypeWithMonth:
+        {
+            queryString = [NSString stringWithFormat:@"SELECT * FROM BloodData where month = ?;"];
+            set = [_fmdb executeQuery:queryString ,queryStr];
+        }
+            
+        default:
+            break;
     }
     
     NSMutableArray *arrM = [NSMutableArray array];
     
     while ([set next]) {
         
+        NSString *month = [set stringForColumn:@"month"];
         NSString *day = [set stringForColumn:@"day"];
         NSString *time = [set stringForColumn:@"time"];
         NSString *highBlood = [set stringForColumn:@"highBlood"];
@@ -545,6 +572,7 @@ static FMDatabase *_fmdb;
         
         BloodModel *model = [[BloodModel alloc] init];
         
+        model.monthString = month;
         model.dayString = day;
         model.timeString = time;
         model.highBloodString = highBlood;
@@ -576,7 +604,7 @@ static FMDatabase *_fmdb;
 #pragma mark - BloodO2Data
 - (BOOL)insertBloodO2Model:(BloodO2Model *)model
 {
-    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO BloodO2Data(day, time, bloodO2integer, bloodO2float, currentCount, sumCount) VALUES ('%@', '%@', '%@', '%@', '%@', '%@');", model.dayString, model.timeString, model.integerString, model.floatString, model.currentCount, model.sumCount];
+    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO BloodO2Data(month, day, time, bloodO2integer, bloodO2float, currentCount, sumCount) VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@');", model.monthString, model.dayString, model.timeString, model.integerString, model.floatString, model.currentCount, model.sumCount];
     
     BOOL result = [_fmdb executeUpdate:insertSql];
     if (result) {
@@ -587,26 +615,39 @@ static FMDatabase *_fmdb;
     return result;
 }
 
-- (NSArray *)queryBloodO2WithDate:(NSString *)date
+- (NSArray *)queryBloodO2:(NSString *)queryStr WithType:(QueryType)type
 {
     NSString *queryString;
     
     FMResultSet *set;
-    
-    if (date == nil) {
-        queryString = [NSString stringWithFormat:@"SELECT * FROM BloodO2Data;"];
-        
-        set = [_fmdb executeQuery:queryString];
-    }else {
-        queryString = [NSString stringWithFormat:@"SELECT * FROM BloodO2Data where day = ?;"];
-        
-        set = [_fmdb executeQuery:queryString ,date];
+    switch (type) {
+        case QueryTypeAll:
+        {
+            queryString = [NSString stringWithFormat:@"SELECT * FROM BloodO2Data;"];
+            set = [_fmdb executeQuery:queryString];
+        }
+            break;
+        case QueryTypeWithDay:
+        {
+            queryString = [NSString stringWithFormat:@"SELECT * FROM BloodO2Data where day = ?;"];
+            set = [_fmdb executeQuery:queryString ,queryStr];
+        }
+            break;
+        case QueryTypeWithMonth:
+        {
+            queryString = [NSString stringWithFormat:@"SELECT * FROM BloodO2Data where month = ?;"];
+            set = [_fmdb executeQuery:queryString ,queryStr];
+        }
+            
+        default:
+            break;
     }
     
     NSMutableArray *arrM = [NSMutableArray array];
     
     while ([set next]) {
         
+        NSString *month = [set stringForColumn:@"month"];
         NSString *day = [set stringForColumn:@"day"];
         NSString *time = [set stringForColumn:@"time"];
         NSString *bloodO2integer = [set stringForColumn:@"bloodO2integer"];
@@ -616,6 +657,7 @@ static FMDatabase *_fmdb;
         
         BloodO2Model *model = [[BloodO2Model alloc] init];
         
+        model.monthString = month;
         model.dayString = day;
         model.timeString = time;
         model.integerString = bloodO2integer;

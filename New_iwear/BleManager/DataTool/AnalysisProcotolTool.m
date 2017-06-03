@@ -483,13 +483,14 @@ static AnalysisProcotolTool *analysisProcotolTool = nil;
         int HrVale = [NSStringTool parseIntFromData:Hr];
         NSString *HrStr = [NSString stringWithFormat:@"%d",HrVale];
         
-
+        NSString *monthString = [NSString stringWithFormat:@"20%@/%@", yearStr, monthStr];
         NSString *dayString = [NSString stringWithFormat:@"20%@/%@/%@", yearStr,monthStr ,dayStr];
         NSString *timeString = [NSString stringWithFormat:@"%@/%@-%@:%@:%@", monthStr, dayStr, hourStr, minStr, sencondStr];
         
         model.heartRateModel.time = timeString;
         model.heartRateModel.heartRate = HrStr;
         model.heartRateModel.date = dayString;
+        model.heartRateModel.month = monthString;
         model.isReciveDataRight = ResponsEcorrectnessDataRgith;
         
     }else if ([head isEqualToString:@"8a"] || [head isEqualToString:@"8A"]) {
@@ -758,9 +759,11 @@ union LAT{
         int bpminteger = [NSStringTool parseIntFromData:bpm];
         NSString *bpmStr = [NSString stringWithFormat:@"%d",bpminteger];
         
+        NSString *monthString = [NSString stringWithFormat:@"20%@/%@", yearStr, monthStr];
         NSString *dayString = [NSString stringWithFormat:@"20%@/%@/%@", yearStr,monthStr ,dayStr];
         NSString *timeString = [NSString stringWithFormat:@"%@:%@:%@",hourStr ,minStr ,sencondStr];
         
+        model.bloodModel.monthString = monthString;
         model.bloodModel.dayString = dayString;
         model.bloodModel.timeString = timeString;
         model.bloodModel.highBloodString = hbStr;
@@ -828,9 +831,11 @@ union LAT{
         int flofloat = [NSStringTool parseIntFromData:flo];
         NSString *floatStr = [NSString stringWithFormat:@"%d",flofloat];
         
+        NSString *monthString = [NSString stringWithFormat:@"20%@/%@", yearStr, monthStr];
         NSString *dayString = [NSString stringWithFormat:@"20%@/%@/%@", yearStr,monthStr ,dayStr];
         NSString *timeString = [NSString stringWithFormat:@"%@:%@:%@",hourStr ,minStr ,sencondStr];
         
+        model.bloodO2Model.monthString = monthString;
         model.bloodO2Model.dayString = dayString;
         model.bloodO2Model.timeString = timeString;
         model.bloodO2Model.integerString = integerStr;

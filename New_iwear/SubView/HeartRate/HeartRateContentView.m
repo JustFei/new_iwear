@@ -154,7 +154,7 @@
         }];
         
         _averageHR = [[UILabel alloc] init];
-        [_averageHR setText:@"78"];
+        [_averageHR setText:@"--"];
         [_averageHR setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_averageHR setFont:[UIFont systemFontOfSize:14]];
         [view1 addSubview:_averageHR];
@@ -185,7 +185,7 @@
         }];
         
         _minHR = [[UILabel alloc] init];
-        [_minHR setText:@"57"];
+        [_minHR setText:@"--"];
         [_minHR setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_minHR setFont:[UIFont systemFontOfSize:14]];
         [view2 addSubview:_minHR];
@@ -216,7 +216,7 @@
         }];
         
         _maxHR = [[UILabel alloc] init];
-        [_maxHR setText:@"115"];
+        [_maxHR setText:@"--"];
         [_maxHR setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_maxHR setFont:[UIFont systemFontOfSize:14]];
         [view3 addSubview:_maxHR];

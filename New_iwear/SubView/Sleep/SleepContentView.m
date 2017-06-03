@@ -100,7 +100,7 @@
             make.centerX.equalTo(self.sleepCircleChart.mas_centerX);
             make.top.equalTo(lineView.mas_bottom).offset(2 * VIEW_FRAME_WIDTH / 360);
         }];
-        [self.mileageAndkCalLabel setText:@"23.7km/1800kcal"];
+//        [self.mileageAndkCalLabel setText:@"23.7km/1800kcal"];
         
         MDButton *hisBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
         [hisBtn setImage:[UIImage imageNamed:@"walk_trainingicon"] forState:UIControlStateNormal];
@@ -134,7 +134,7 @@
         }];
         
         _InSleepLabel = [[UILabel alloc] init];
-        [_InSleepLabel setText:@"02:09"];
+        [_InSleepLabel setText:@"--"];
         [_InSleepLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_InSleepLabel setFont:[UIFont systemFontOfSize:14]];
         [view1 addSubview:_InSleepLabel];
@@ -165,7 +165,7 @@
         }];
         
         _outSleepLabel = [[UILabel alloc] init];
-        [_outSleepLabel setText:@"08:02"];
+        [_outSleepLabel setText:@"--"];
         [_outSleepLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_outSleepLabel setFont:[UIFont systemFontOfSize:14]];
         [view2 addSubview:_outSleepLabel];
@@ -196,7 +196,7 @@
         }];
         
         _awakeLabel = [[UILabel alloc] init];
-        [_awakeLabel setText:@"0.5"];
+        [_awakeLabel setText:@"--"];
         [_awakeLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_awakeLabel setFont:[UIFont systemFontOfSize:14]];
         [view3 addSubview:_awakeLabel];
@@ -204,24 +204,7 @@
             make.centerX.equalTo(view3.mas_centerX);
             make.bottom.equalTo(@-17);
         }];
-//        UILabel *unitLabel = [[UILabel alloc] init];
-//        [unitLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
-//        [unitLabel setFont:[UIFont systemFontOfSize:8]];
-//        [unitLabel setText:@"步"];
-//        [view1 addSubview:unitLabel];
-//        [unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.equalTo(_InSleepLabel.mas_right).offset(8);
-//            make.top.equalTo(_InSleepLabel.mas_bottom);
-//        }];
-//        UILabel *unitLabel2 = [[UILabel alloc] init];
-//        [unitLabel2 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
-//        [unitLabel2 setFont:[UIFont systemFontOfSize:8]];
-//        [unitLabel2 setText:@"公里"];
-//        [view1 addSubview:unitLabel2];
-//        [unitLabel2 mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.equalTo(_outSleepLabel.mas_right).offset(8);
-//            make.top.equalTo(_outSleepLabel.mas_bottom);
-//        }];
+
         UILabel *unitLabel3 = [[UILabel alloc] init];
         [unitLabel3 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [unitLabel3 setFont:[UIFont systemFontOfSize:8]];

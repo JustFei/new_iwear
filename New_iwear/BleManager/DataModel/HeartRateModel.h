@@ -33,7 +33,9 @@ typedef enum : NSUInteger {
 @property (nonatomic ,copy) NSString *time;
 //心率数据
 @property (nonatomic ,copy) NSString *heartRate;
-
+//用来按天查询
 @property (nonatomic ,copy) NSString *date;
+//用来按月查询
+@property (nonatomic, copy) NSString *month;
 
 @end

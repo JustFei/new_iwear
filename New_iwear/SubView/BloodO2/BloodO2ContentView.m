@@ -102,7 +102,6 @@
             make.centerX.equalTo(self.boCircleChart.mas_centerX);
             make.top.equalTo(lineView.mas_bottom).offset(2 * VIEW_FRAME_WIDTH / 360);
         }];
-        [self.lastTimeLabel setText:@"4月23日 23:48"];
         
         MDButton *hisBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
         [hisBtn setImage:[UIImage imageNamed:@"walk_trainingicon"] forState:UIControlStateNormal];
@@ -136,7 +135,7 @@
         }];
         
         _avageBOLabel = [[UILabel alloc] init];
-        [_avageBOLabel setText:@"97.5"];
+        [_avageBOLabel setText:@"--"];
         [_avageBOLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_avageBOLabel setFont:[UIFont systemFontOfSize:14]];
         [view1 addSubview:_avageBOLabel];
@@ -167,7 +166,7 @@
         }];
         
         _lowBOLabel = [[UILabel alloc] init];
-        [_lowBOLabel setText:@"95.3"];
+        [_lowBOLabel setText:@"--"];
         [_lowBOLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_lowBOLabel setFont:[UIFont systemFontOfSize:14]];
         [view2 addSubview:_lowBOLabel];
@@ -198,7 +197,7 @@
         }];
         
         _highBOLabel = [[UILabel alloc] init];
-        [_highBOLabel setText:@"98.2"];
+        [_highBOLabel setText:@"--"];
         [_highBOLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_highBOLabel setFont:[UIFont systemFontOfSize:14]];
         [view3 addSubview:_highBOLabel];
@@ -270,8 +269,15 @@
     if (model.bloodO2Model.bloodO2State == BloodO2DataHistoryData || model.bloodO2Model.bloodO2State == BloodO2DataUpload) {
         if ([model.bloodO2Model.integerString isEqualToString:@"0"] && [model.bloodO2Model.floatString isEqualToString:@"0"]) {
             [self.BOLabel setText:@"--"];
+            [self.lastTimeLabel setText:@""];
         }else {
             [self.BOLabel setText:[NSString stringWithFormat:@"%@.%@", model.bloodO2Model.integerString, model.bloodO2Model.floatString]];
+            
+            NSString *monthStr = [model.bloodO2Model.dayString substringWithRange:NSMakeRange(5, 2)];
+            NSString *dayStr = [model.bloodO2Model.dayString substringWithRange:NSMakeRange(8, 2)];
+            NSString *timeStr = [model.bloodO2Model.timeString substringWithRange:NSMakeRange(0, 5)];
+            self.lastTimeLabel.text = [NSString stringWithFormat:@"%@月%@日 %@", monthStr, dayStr, timeStr];
+            
             float progress = self.BOLabel.text.floatValue / 100.f;
             [self.boCircleChart updateChartByCurrent:@(progress)];
         }

@@ -19,7 +19,8 @@ typedef enum : NSUInteger {
 
 //判断是最后一次还是历史
 @property (nonatomic ,assign) BloodData bloodState;
-
+//用来按月查找
+@property (nonatomic, copy) NSString *monthString;
 @property (nonatomic ,copy) NSString *dayString;
 @property (nonatomic ,copy) NSString *timeString;
 @property (nonatomic ,copy) NSString *highBloodString;

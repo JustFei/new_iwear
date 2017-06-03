@@ -27,6 +27,12 @@ typedef enum : NSUInteger {
     SQLTypeUserInfoModel,
 } SQLType;
 
+typedef enum : NSUInteger {
+    QueryTypeAll = 0,
+    QueryTypeWithDay,
+    QueryTypeWithMonth,
+} QueryType;
+
 @interface FMDBManager : NSObject
 
 - (instancetype)initWithPath:(NSString *)path;
@@ -63,7 +69,7 @@ typedef enum : NSUInteger {
 #pragma mark - HeartRateData
 - (BOOL)insertHeartRateModel:(HeartRateModel *)model;
 
-- (NSArray *)queryHeartRateWithDate:(NSString *)date;
+- (NSArray *)queryHeartRate:(NSString *)queryStr WithType:(QueryType)type;
 
 - (BOOL)deleteHeartRateData:(NSString *)deleteSql;
 
@@ -79,7 +85,7 @@ typedef enum : NSUInteger {
 #pragma mark - BloodPressureData
 - (BOOL)insertBloodModel:(BloodModel *)model;
 
-- (NSArray *)queryBloodWithDate:(NSString *)date;
+- (NSArray *)queryBlood:(NSString *)queryStr WithType:(QueryType)type;
 
 //- (BOOL)modifySleepWithID:(NSInteger)ID model:(SleepModel *)model;
 
@@ -88,7 +94,7 @@ typedef enum : NSUInteger {
 #pragma mark - BloodO2Data
 - (BOOL)insertBloodO2Model:(BloodO2Model *)model;
 
-- (NSArray *)queryBloodO2WithDate:(NSString *)date;
+- (NSArray *)queryBloodO2:(NSString *)queryStr WithType:(QueryType)type;
 
 - (BOOL)deleteBloodData:(NSString *)deleteSql;
 

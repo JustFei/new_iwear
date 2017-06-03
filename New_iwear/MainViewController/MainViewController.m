@@ -65,7 +65,7 @@
         //每次进入主界面时同步数据
         if (![SyncTool shareInstance].syncDataIng && [BleManager shareInstance].connectState == kBLEstateDidConnected) {
             [[SyncTool shareInstance] syncData];
-            [self.stateBar setText:@"同步数据"];
+            [self.stateBar setText:@"正在同步数据"];
             [self.stateBar show];
             [SyncTool shareInstance].syncDataCurrentCountBlock = ^(NSInteger progress) {
                 dispatch_async(dispatch_get_main_queue(), ^{

@@ -72,7 +72,6 @@
             make.centerX.equalTo(self.stepCircleChart.mas_centerX);
             make.centerY.equalTo(self.stepCircleChart.mas_centerY);
         }];
-        [self.stepLabel setText:@"--"];
         
         UILabel *todayLabel = [[UILabel alloc] init];
         [todayLabel setText:@"今日步数"];
@@ -106,7 +105,6 @@
             make.centerX.equalTo(self.stepCircleChart.mas_centerX);
             make.top.equalTo(lineView.mas_bottom).offset(2 * VIEW_FRAME_WIDTH / 360);
         }];
-        [self.mileageAndkCalLabel setText:@"23.7km/1800kcal"];
         
         MDButton *hisBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
         [hisBtn setImage:[UIImage imageNamed:@"walk_trainingicon"] forState:UIControlStateNormal];
@@ -150,7 +148,7 @@
         }];
         
         _view1StepLabel = [[UILabel alloc] init];
-        [_view1StepLabel setText:@"0"];
+        [_view1StepLabel setText:@"--"];
         [_view1StepLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_view1StepLabel setFont:[UIFont systemFontOfSize:14]];
         [self.view1 addSubview:_view1StepLabel];
@@ -158,8 +156,6 @@
             make.centerX.equalTo(self.view1.mas_centerX);
             make.bottom.equalTo(@-17);
         }];
-        
-        
         
         UIView *view2 = [[UIView alloc] init];
         view2.layer.borderWidth = 1;
@@ -183,7 +179,7 @@
         }];
         
         _view2MileageLabel = [[UILabel alloc] init];
-        [_view2MileageLabel setText:@"18"];
+        [_view2MileageLabel setText:@"--"];
         [_view2MileageLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_view2MileageLabel setFont:[UIFont systemFontOfSize:14]];
         [view2 addSubview:_view2MileageLabel];
@@ -214,7 +210,7 @@
         }];
         
         _view3kCalLabel = [[UILabel alloc] init];
-        [_view3kCalLabel setText:@"1365"];
+        [_view3kCalLabel setText:@"--"];
         [_view3kCalLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_view3kCalLabel setFont:[UIFont systemFontOfSize:14]];
         [view3 addSubview:_view3kCalLabel];
@@ -250,6 +246,23 @@
             make.top.equalTo(_view3kCalLabel.mas_bottom);
         }];
         
+        //先展示数据库里的数据
+        //步数 : 展示的是今天的数据
+        NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
+        [formatter1 setDateFormat:@"HH"];
+        [formatter1 setDateFormat:@"yyyy/MM/dd"];
+        [formatter1 setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Shanghai"]];
+        NSString *todayString = [formatter1 stringFromDate:[NSDate date]];
+        
+        NSArray *stepArr = [self.myFmdbManager queryStepWithDate:todayString];
+        if (stepArr.count) {
+            SportModel *sportModel = stepArr.lastObject;
+            self.stepLabel.text = sportModel.stepNumber;
+            [self.mileageAndkCalLabel setText:[NSString stringWithFormat:@"%.3f公里/%@千卡", sportModel.mileageNumber.floatValue / 1000, sportModel.kCalNumber]];
+        }else {
+            [self.stepLabel setText:@"--"];
+        }
+        
         self.stepBarChart.backgroundColor = TEXT_BLACK_COLOR_LEVEL2;
         for (int time = 0; time <= 24; time ++) {
             [self.dateArr addObject:@(time)];
@@ -270,7 +283,7 @@
         NSDateFormatter *todayFormatter = [[NSDateFormatter alloc] init];
         [todayFormatter setDateFormat:@"yyyy-MM-dd"];
         [self.dataArr removeAllObjects];
-        NSArray *queryArr = [self.myFmdbManager queryStepWithDate:[todayFormatter stringFromDate:todayDate]];
+        NSArray *queryArr = [self.myFmdbManager querySegmentedStepWithDate:[todayFormatter stringFromDate:todayDate]];
         if (queryArr.count == 0) {
             for (int i = 0; i <= 24; i ++) {
                 [_dataArr addObject:@0];
@@ -319,10 +332,14 @@
 {
     manridyModel *model = [noti object];
     if (model.sportModel.motionType == MotionTypeStepAndkCal) {
+#warning 替换或者插入数据
+        
         if ([model.sportModel.stepNumber isEqualToString:@"0"]) {
             [self.stepLabel setText:@"--"];
         }else {
             [self.stepLabel setText:[NSString stringWithFormat:@"%@", model.sportModel.stepNumber]];
+            
+            [self.mileageAndkCalLabel setText:[NSString stringWithFormat:@"%.3f公里/%@千卡", model.sportModel.mileageNumber.floatValue / 1000, model.sportModel.kCalNumber]];
             float progress;
             if ([[NSUserDefaults standardUserDefaults] objectForKey:TARGET_SETTING]) {
                 NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:TARGET_SETTING];

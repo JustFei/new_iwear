@@ -87,6 +87,7 @@ static SyncTool *_syncTool = nil;
 {
     //如果在同步中，直接返回
     if (self.syncDataIng) {
+        DLog(@"正在同步中。。。");
         return;
     }
     
@@ -94,6 +95,8 @@ static SyncTool *_syncTool = nil;
     //初始化计数器
     self.sumCount = 0;
     
+    //同步时间
+    [[BleManager shareInstance] writeTimeToPeripheral:[NSDate date]];
     //当前计步数据
     [[BleManager shareInstance] writeMotionRequestToPeripheralWithMotionType:MotionTypeStepAndkCal];
     [self writeHistoryData];
@@ -327,9 +330,6 @@ static SyncTool *_syncTool = nil;
         [self.myFmdbManager insertBloodO2Model:model.bloodO2Model];
     }
 }
-
-
-
 
 #pragma mark - 设置同步
 - (void)syncSetting

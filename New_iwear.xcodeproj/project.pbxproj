@@ -10,6 +10,8 @@
 		100E49061EC998D400625A93 /* TrainingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 100E49051EC998D400625A93 /* TrainingViewController.m */; };
 		100E490A1EC9AD6A00625A93 /* TrainingTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 100E49091EC9AD6A00625A93 /* TrainingTableCell.m */; };
 		100E490D1EC9B88B00625A93 /* TrainingTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 100E490C1EC9B88B00625A93 /* TrainingTableModel.m */; };
+		1028F5EA1EE2A26C00DCA724 /* HooDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1028F5E71EE2A26C00DCA724 /* HooDatePicker.m */; };
+		1028F5EB1EE2A26C00DCA724 /* NSDate+HooDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1028F5E91EE2A26C00DCA724 /* NSDate+HooDatePicker.m */; };
 		1032CA4F1ED6CC330084693D /* VersionUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032CA4E1ED6CC330084693D /* VersionUpdateViewController.m */; };
 		1032CA5A1ED6D1B80084693D /* VersionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032CA571ED6D1B80084693D /* VersionModel.m */; };
 		1032CA5B1ED6D1B80084693D /* VersionUpdateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032CA591ED6D1B80084693D /* VersionUpdateTableViewCell.m */; };
@@ -161,6 +163,10 @@
 		100E49091EC9AD6A00625A93 /* TrainingTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrainingTableCell.m; path = Training/TrainingTableCell.m; sourceTree = "<group>"; };
 		100E490B1EC9B88B00625A93 /* TrainingTableModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrainingTableModel.h; path = Training/TrainingTableModel.h; sourceTree = "<group>"; };
 		100E490C1EC9B88B00625A93 /* TrainingTableModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrainingTableModel.m; path = Training/TrainingTableModel.m; sourceTree = "<group>"; };
+		1028F5E61EE2A26C00DCA724 /* HooDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HooDatePicker.h; sourceTree = "<group>"; };
+		1028F5E71EE2A26C00DCA724 /* HooDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HooDatePicker.m; sourceTree = "<group>"; };
+		1028F5E81EE2A26C00DCA724 /* NSDate+HooDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+HooDatePicker.h"; sourceTree = "<group>"; };
+		1028F5E91EE2A26C00DCA724 /* NSDate+HooDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+HooDatePicker.m"; sourceTree = "<group>"; };
 		1032CA4D1ED6CC330084693D /* VersionUpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VersionUpdateViewController.h; path = VersionUpdateViewController/VersionUpdateViewController.h; sourceTree = "<group>"; };
 		1032CA4E1ED6CC330084693D /* VersionUpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VersionUpdateViewController.m; path = VersionUpdateViewController/VersionUpdateViewController.m; sourceTree = "<group>"; };
 		1032CA561ED6D1B80084693D /* VersionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VersionModel.h; path = VersionUpdateViewController/VersionModel.h; sourceTree = "<group>"; };
@@ -396,6 +402,17 @@
 				100E490C1EC9B88B00625A93 /* TrainingTableModel.m */,
 			);
 			name = Training;
+			sourceTree = "<group>";
+		};
+		1028F5E51EE2A26C00DCA724 /* HooDatePicker */ = {
+			isa = PBXGroup;
+			children = (
+				1028F5E61EE2A26C00DCA724 /* HooDatePicker.h */,
+				1028F5E71EE2A26C00DCA724 /* HooDatePicker.m */,
+				1028F5E81EE2A26C00DCA724 /* NSDate+HooDatePicker.h */,
+				1028F5E91EE2A26C00DCA724 /* NSDate+HooDatePicker.m */,
+			);
+			path = HooDatePicker;
 			sourceTree = "<group>";
 		};
 		1032CA4C1ED6CBBC0084693D /* VersionUpdateViewController */ = {
@@ -1028,6 +1045,7 @@
 				109865B71ECC5D070077797E /* Category */,
 				100E49021EC9985100625A93 /* Training */,
 				9C00DF851EC6D2BE005CB06F /* History */,
+				1028F5E51EE2A26C00DCA724 /* HooDatePicker */,
 				9C0711AD1EC5500B00F41754 /* MainViewController */,
 				9C04968D1EB87D7E00EDBEBB /* Setting */,
 				9CB616171EC31703008914F5 /* Tool */,
@@ -1333,6 +1351,7 @@
 				109865BB1ECC5D200077797E /* UINavigationBar+Awesome.m in Sources */,
 				9C3AE84D1EBDC62F0078CDAA /* WeChatViewController.m in Sources */,
 				9C0712211EC558E800F41754 /* BloodO2ContentView.m in Sources */,
+				1028F5EA1EE2A26C00DCA724 /* HooDatePicker.m in Sources */,
 				9C0711B01EC5503A00F41754 /* MainViewController.m in Sources */,
 				9C3AE8521EBDCD850078CDAA /* DimmingViewController.m in Sources */,
 				9CB6160F1EC31544008914F5 /* UserInfoViewController.m in Sources */,
@@ -1340,6 +1359,7 @@
 				9C347BC71EC371EC001CFE6F /* UserInfoSettingModel.m in Sources */,
 				9C87EB281EC5B6BD0051C59D /* test.swift in Sources */,
 				9CE95A651EC1BE5900E88B47 /* SedentaryReminderModel.m in Sources */,
+				1028F5EB1EE2A26C00DCA724 /* NSDate+HooDatePicker.m in Sources */,
 				1032CA5A1ED6D1B80084693D /* VersionModel.m in Sources */,
 				9C079AAB1EBC612500D54AB3 /* SettingCellModel.m in Sources */,
 				9CD6311A1EC05BB2005EECE1 /* TargetSettingTableViewCell.m in Sources */,

@@ -246,6 +246,26 @@
             make.top.equalTo(_view3kCalLabel.mas_bottom);
         }];
         
+        UILabel *leftTimeLabel = [[UILabel alloc] init];
+        [leftTimeLabel setText:@"00:00"];
+        [leftTimeLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+        [leftTimeLabel setFont:[UIFont systemFontOfSize:11]];
+        [self addSubview:leftTimeLabel];
+        [leftTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.mas_left).offset(16);
+            make.bottom.equalTo(self.mas_bottom).offset(-12);
+        }];
+        
+        UILabel *rightTimeLabel = [[UILabel alloc] init];
+        [rightTimeLabel setText:@"23:59"];
+        [rightTimeLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+        [rightTimeLabel setFont:[UIFont systemFontOfSize:11]];
+        [self addSubview:rightTimeLabel];
+        [rightTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.mas_right).offset(-16);
+            make.bottom.equalTo(leftTimeLabel.mas_bottom);
+        }];
+        
         //先展示数据库里的数据
         //步数 : 展示的是今天的数据
         NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
@@ -400,7 +420,7 @@
         [_stepBarChart mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.mas_left);
             make.right.equalTo(self.mas_right);
-            make.bottom.equalTo(self.mas_bottom);
+            make.bottom.equalTo(self.mas_bottom).offset(-34);
             make.top.equalTo(self.view1.mas_bottom).offset(10);
         }];
     }

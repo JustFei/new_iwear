@@ -587,7 +587,7 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
 - (FMDBManager *)myFmdbManager
 {
     if (!_myFmdbManager) {
-        _myFmdbManager = [[FMDBManager alloc] initWithPath:@"UserList"];
+        _myFmdbManager = [[FMDBManager alloc] initWithPath:DB_NAME];
     }
     
     return _myFmdbManager;

@@ -11,7 +11,6 @@
 #import "UnitsTool.h"
 #import "BleManager.h"
 #import "PNChart.h"
-//#import "FMDBTool.h"
 #import "StepDataModel.h"
 
 @interface BloodPressureContentView () < PNChartDelegate >
@@ -28,10 +27,18 @@
 @property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, strong) UILabel *highBPLabel;
 @property (nonatomic, strong) UILabel *lowBPLabel;
+@property (nonatomic, strong) UIView *view1;
 @property (nonatomic, strong) PNCircleChart *bpCircleChart;
-@property (nonatomic ,strong) BleManager *myBleManager;
-@property (nonatomic ,strong) NSMutableArray *dateArr;
-@property (nonatomic ,strong) NSMutableArray *dataArr;
+@property (nonatomic, strong) BleManager *myBleManager;
+@property (nonatomic, strong) NSMutableArray *xArr;
+@property (nonatomic, weak) PNBarChart *lowBloodChart;
+@property (nonatomic, weak) PNBarChart *highBloodChart;
+@property (nonatomic, strong) NSMutableArray *hbArr;
+@property (nonatomic, strong) NSMutableArray *lbArr;
+@property (nonatomic, strong) UILabel *leftTimeLabel;
+@property (nonatomic, strong) UILabel *rightTimeLabel;
+@property (nonatomic, strong) UILabel *noDataLabel;
+
 
 @end
 
@@ -113,11 +120,11 @@
             make.bottom.equalTo(_upView.mas_bottom).offset(-16);
         }];
         
-        UIView *view1 = [[UIView alloc] init];
-        view1.layer.borderWidth = 1;
-        view1.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
-        [self addSubview:view1];
-        [view1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.view1 = [[UIView alloc] init];
+        self.view1.layer.borderWidth = 1;
+        self.view1.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
+        [self addSubview:self.view1];
+        [self.view1 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_upView.mas_bottom).offset(8);
             make.left.equalTo(self.mas_left).offset(-1);
             make.height.equalTo(@72);
@@ -128,9 +135,9 @@
         [view1Title setText:@"时间"];
         [view1Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
         [view1Title setFont:[UIFont systemFontOfSize:12]];
-        [view1 addSubview:view1Title];
+        [self.view1 addSubview:view1Title];
         [view1Title mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(view1.mas_centerX);
+            make.centerX.equalTo(self.view1.mas_centerX);
             make.top.equalTo(@18);
         }];
         
@@ -138,9 +145,9 @@
         [_timeLabel setText:@"--"];
         [_timeLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_timeLabel setFont:[UIFont systemFontOfSize:14]];
-        [view1 addSubview:_timeLabel];
+        [self.view1 addSubview:_timeLabel];
         [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(view1.mas_centerX);
+            make.centerX.equalTo(self.view1.mas_centerX);
             make.bottom.equalTo(@-17);
         }];
         
@@ -149,10 +156,10 @@
         view2.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
         [self addSubview:view2];
         [view2 mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(view1.mas_top);
-            make.left.equalTo(view1.mas_right).offset(-1);
-            make.height.equalTo(view1);
-            make.width.equalTo(view1.mas_width);
+            make.top.equalTo(self.view1.mas_top);
+            make.left.equalTo(self.view1.mas_right).offset(-1);
+            make.height.equalTo(self.view1);
+            make.width.equalTo(self.view1.mas_width);
         }];
         
         UILabel *view2Title = [[UILabel alloc] init];
@@ -180,10 +187,10 @@
         view3.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
         [self addSubview:view3];
         [view3 mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(view1.mas_top);
+            make.top.equalTo(self.view1.mas_top);
             make.left.equalTo(view2.mas_right).offset(-1);
-            make.height.equalTo(view1);
-            make.width.equalTo(view1.mas_width);
+            make.height.equalTo(self.view1);
+            make.width.equalTo(self.view1.mas_width);
         }];
         
         UILabel *view3Title = [[UILabel alloc] init];
@@ -210,7 +217,7 @@
         [unitLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [unitLabel setFont:[UIFont systemFontOfSize:8]];
         [unitLabel setText:@"次/分"];
-        [view1 addSubview:unitLabel];
+        [self.view1 addSubview:unitLabel];
         [unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_timeLabel.mas_right).offset(8);
             make.top.equalTo(_timeLabel.mas_bottom);
@@ -219,7 +226,7 @@
         [unitLabel2 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [unitLabel2 setFont:[UIFont systemFontOfSize:8]];
         [unitLabel2 setText:@"次/分"];
-        [view1 addSubview:unitLabel2];
+        [self.view1 addSubview:unitLabel2];
         [unitLabel2 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_highBPLabel.mas_right).offset(8);
             make.top.equalTo(_highBPLabel.mas_bottom);
@@ -228,11 +235,34 @@
         [unitLabel3 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [unitLabel3 setFont:[UIFont systemFontOfSize:8]];
         [unitLabel3 setText:@"次/分"];
-        [view1 addSubview:unitLabel3];
+        [self.view1 addSubview:unitLabel3];
         [unitLabel3 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_lowBPLabel.mas_right).offset(8);
             make.top.equalTo(_lowBPLabel.mas_bottom);
         }];
+        
+        self.leftTimeLabel = [[UILabel alloc] init];
+        [self.leftTimeLabel setText:@"00:00"];
+        [self.leftTimeLabel setTextColor:TEXT_BLACK_COLOR_LEVEL2];
+        [self.leftTimeLabel setFont:[UIFont systemFontOfSize:11]];
+        [self addSubview:self.leftTimeLabel];
+        [self.leftTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.mas_left).offset(16);
+            make.bottom.equalTo(self.mas_bottom).offset(-12);
+        }];
+        
+        self.rightTimeLabel = [[UILabel alloc] init];
+        [self.rightTimeLabel setText:@"23:59"];
+        [self.rightTimeLabel setTextColor:TEXT_BLACK_COLOR_LEVEL2];
+        [self.rightTimeLabel setFont:[UIFont systemFontOfSize:11]];
+        [self addSubview:self.rightTimeLabel];
+        [self.rightTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.mas_right).offset(-16);
+            make.bottom.equalTo(self.leftTimeLabel.mas_bottom);
+        }];
+        
+        self.highBloodChart.backgroundColor = TEXT_BLACK_COLOR_LEVEL0;
+        self.lowBloodChart.backgroundColor = CLEAR_COLOR;
     }
     return self;
 }
@@ -276,14 +306,78 @@
 }
 
 /** 更新视图 */
-- (void)updateUI
+- (void)updateBPUIWithDataArr:(NSArray *)dbArr
 {
     /**
      1.更新血压记录的柱状图
      */
+    float sumLowBp = 0;
+    float sumHighBp = 0;
+    [self.hbArr removeAllObjects];
+    [self.lbArr removeAllObjects];
+    if (dbArr.count == 0) {
+        [self showNoDataView];
+        return ;
+    }else  {
+        self.noDataLabel.hidden = YES;
+        for (NSInteger index = 0; index < dbArr.count; index ++) {
+            BloodModel *model = dbArr[index];
+            sumLowBp = sumLowBp + model.lowBloodString.floatValue;
+            sumHighBp = sumHighBp + model.highBloodString.floatValue;
+            [self.hbArr addObject:@(model.highBloodString.integerValue)];
+            [self.lbArr addObject:@(model.lowBloodString.integerValue)];
+            [self.xArr addObject:@""];
+            if (index == 0) {
+                [self.leftTimeLabel setText:[model.timeString substringToIndex:5]];
+            }
+            if (index == dbArr.count - 1) {
+                [self.rightTimeLabel setText:[model.timeString substringToIndex:5]];
+            }
+        }
+    }
+
+    BloodModel *model = dbArr.lastObject;
+    [self.BPLabel setText:[NSString stringWithFormat:@"%@/%@",model.highBloodString, model.lowBloodString]];
+    [self.lastTimeLabel setText:[NSString stringWithFormat:@"%@ %@", model.dayString, model.timeString]];
+    [self.timeLabel setText:model.timeString];
+    [self.highBPLabel setText:model.highBloodString];
+    [self.lowBPLabel setText:model.lowBloodString];
+    
+    float lowProgress = model.lowBloodString.floatValue / 200;
+    
+    if (lowProgress <= 1) {
+        [self drawProgress:lowProgress];
+    }else if (lowProgress >= 1) {
+        [self drawProgress:1];
+    }
+    [self.bpCircleChart updateChartByCurrent:@(lowProgress)];
+    [self showChartViewWithData];
 }
 
-#pragma mark - 懒加载
+- (void)showChartViewWithData
+{
+    [self.lowBloodChart setXLabels:self.xArr];
+    [self.lowBloodChart setYValues:self.lbArr];
+//    [self.lowBloodChart strokeChart];
+    [self.lowBloodChart updateChartData:self.lbArr];
+    
+    [self.highBloodChart setXLabels:self.xArr];
+    [self.highBloodChart setYValues:self.hbArr];
+//    [self.highBloodChart strokeChart];
+    [self.highBloodChart updateChartData:self.hbArr];
+}
+
+- (void)showNoDataView
+{
+    self.noDataLabel.hidden = NO;
+    [self.BPLabel setText:@"--"];
+    [self.lastTimeLabel setText:@""];
+    [self.timeLabel setText:@"--"];
+    [self.highBPLabel setText:@"--"];
+    [self.lowBPLabel setText:@"--"];
+}
+
+#pragma mamrk - 懒加载
 - (PNCircleChart *)bpCircleChart
 {
     if (!_bpCircleChart) {
@@ -294,6 +388,72 @@
     }
     
     return _bpCircleChart;
+}
+
+- (PNBarChart *)lowBloodChart
+{
+    if (!_lowBloodChart) {
+        PNBarChart *view = [[PNBarChart alloc] init];
+        view.delegate = self;
+        [view setStrokeColor:COLOR_WITH_HEX(0x81c784, 0.54)];
+        view.barBackgroundColor = [UIColor clearColor];
+        view.yChartLabelWidth = 20.0;
+        view.chartMarginLeft = 30.0;
+        view.chartMarginRight = 10.0;
+        view.chartMarginTop = 5.0;
+        view.chartMarginBottom = 10.0;
+        view.yMinValue = 0;
+        view.yMaxValue = 200;
+        view.showLabel = NO;
+        view.barWidth = 12;
+        view.showChartBorder = NO;
+        view.isShowNumbers = NO;
+        view.isGradientShow = NO;
+        
+        [self addSubview:view];
+        [view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.mas_left).offset(-11);
+            make.right.equalTo(self.mas_right).offset(-11);
+            make.bottom.equalTo(self.mas_bottom).offset(-34);
+            make.top.equalTo(self.view1.mas_bottom).offset(10);
+        }];
+        _lowBloodChart = view;
+    }
+    
+    return _lowBloodChart;
+}
+
+- (PNBarChart *)highBloodChart
+{
+    if (!_highBloodChart) {
+        PNBarChart *view = [[PNBarChart alloc] init];
+        view.delegate = self;
+        [view setStrokeColor:COLOR_WITH_HEX(0x4caf50, 0.54)];
+        view.barBackgroundColor = [UIColor clearColor];
+        view.yChartLabelWidth = 20.0;
+        view.chartMarginLeft = 30.0;
+        view.chartMarginRight = 10.0;
+        view.chartMarginTop = 5.0;
+        view.chartMarginBottom = 10.0;
+        view.yMinValue = 0;
+        view.yMaxValue = 200;
+        view.barWidth = 12;
+        view.showLabel = NO;
+        view.showChartBorder = NO;
+        view.isShowNumbers = NO;
+        view.isGradientShow = NO;
+        
+        [self addSubview:view];
+        [view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.mas_left);
+            make.right.equalTo(self.mas_right);
+            make.bottom.equalTo(self.mas_bottom).offset(-34);
+            make.top.equalTo(self.view1.mas_bottom).offset(10);
+        }];
+        _highBloodChart = view;
+    }
+    
+    return _highBloodChart;
 }
 
 - (UILabel *)BPLabel
@@ -322,22 +482,47 @@
     return _lastTimeLabel;
 }
 
-- (NSMutableArray *)dateArr
+- (NSMutableArray *)xArr
 {
-    if (!_dateArr) {
-        _dateArr = [NSMutableArray array];
+    if (!_xArr) {
+        _xArr = [NSMutableArray array];
     }
     
-    return _dateArr;
+    return _xArr;
 }
 
-- (NSMutableArray *)dataArr
+- (NSMutableArray *)hbArr
 {
-    if (!_dataArr) {
-        _dataArr = [NSMutableArray array];
+    if (!_hbArr) {
+        _hbArr = [NSMutableArray array];
     }
     
-    return _dataArr;
+    return _hbArr;
+}
+
+- (NSMutableArray *)lbArr
+{
+    if (!_lbArr) {
+        _lbArr = [NSMutableArray array];
+    }
+    
+    return _lbArr;
+}
+
+- (UILabel *)noDataLabel
+{
+    if (!_noDataLabel) {
+        _noDataLabel = [[UILabel alloc] init];
+        [_noDataLabel setText:@"无数据"];
+        
+        [self.highBloodChart addSubview:_noDataLabel];
+        [_noDataLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.highBloodChart.mas_centerX);
+            make.centerY.equalTo(self.highBloodChart.mas_centerY);
+        }];
+    }
+    
+    return _noDataLabel;
 }
 
 #pragma mark - 获取当前View的控制器的方法

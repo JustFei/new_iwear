@@ -11,6 +11,6 @@
 
 @interface BloodO2ContentView : UIView 
 
-- (void)updateUI;
+- (void)updateBOUIWithDataArr:(NSArray *)dbArr;
 
 @end

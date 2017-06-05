@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "New_iwear/Setting/RemindViewController/SedentaryReminder/SedentaryReminderViewController.m"
-            timestampString = "517914640.764389"
+            filePath = "New_iwear/MainViewController/MainViewController.m"
+            timestampString = "518356799.340814"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
-            landmarkName = "-tableView:numberOfRowsInSection:"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
+            landmarkName = "-notiViewUpdateUI"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "New_iwear/Setting/RemindViewController/SedentaryReminder/SedentaryReminderViewController.m"
-            timestampString = "517914666.944154"
+            filePath = "New_iwear/SubView/Step/StepContentView.m"
+            timestampString = "518358852.506354"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "160"
-            endingLineNumber = "160"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            startingLineNumber = "388"
+            endingLineNumber = "388"
+            landmarkName = "-updateStepUIWithDataArr:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,13 +41,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "New_iwear/History/HeartRateHis/HeartRateHisViewController.m"
-            timestampString = "518175258.769436"
+            filePath = "New_iwear/SubView/Step/StepContentView.m"
+            timestampString = "518358852.506354"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "386"
-            endingLineNumber = "386"
-            landmarkName = "-showBpDataWithArr:"
+            startingLineNumber = "400"
+            endingLineNumber = "400"
+            landmarkName = "-updateStepUIWithDataArr:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -57,13 +57,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "New_iwear/History/HeartRateHis/HeartRateHisViewController.m"
-            timestampString = "518175258.769436"
+            filePath = "New_iwear/SubView/Step/StepContentView.m"
+            timestampString = "518358852.506354"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "515"
-            endingLineNumber = "515"
-            landmarkName = "-datePicker:didSelectedDate:"
+            startingLineNumber = "383"
+            endingLineNumber = "383"
+            landmarkName = "-updateStepUIWithDataArr:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

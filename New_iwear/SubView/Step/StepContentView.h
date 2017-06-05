@@ -10,6 +10,6 @@
 
 @interface StepContentView : UIView 
 
-- (void)updateUI;
+- (void)updateStepUIWithDataArr:(NSArray *)dbArr;
 
 @end

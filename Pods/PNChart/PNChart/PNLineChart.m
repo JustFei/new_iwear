@@ -157,7 +157,7 @@
     if (_showLabel) {
         xLabelWidth = _chartCavanWidth / [xLabels count];
     } else {
-        xLabelWidth = (self.frame.size.width) / [xLabels count];
+        xLabelWidth = (self.frame.size.width) / [xLabels count] - 1;
     }
 
     return xLabelWidth;

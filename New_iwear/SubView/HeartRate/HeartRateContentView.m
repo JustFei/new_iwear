@@ -11,7 +11,6 @@
 #import "UnitsTool.h"
 #import "BleManager.h"
 #import "PNChart.h"
-//#import "FMDBTool.h"
 #import "StepDataModel.h"
 
 @interface HeartRateContentView () < PNChartDelegate >
@@ -28,10 +27,17 @@
 @property (nonatomic, strong) UILabel *averageHR;
 @property (nonatomic, strong) UILabel *minHR;
 @property (nonatomic, strong) UILabel *maxHR;
+@property (nonatomic, strong) UIView *view1;
 @property (nonatomic, strong) PNCircleChart *hrCircleChart;
+@property (nonatomic, strong) PNLineChart *hrBarChart;
 @property (nonatomic ,strong) BleManager *myBleManager;
 @property (nonatomic ,strong) NSMutableArray *dateArr;
 @property (nonatomic ,strong) NSMutableArray *dataArr;
+@property (nonatomic, strong) NSMutableArray *hrArr;
+@property (nonatomic, strong) UILabel *leftTimeLabel;
+@property (nonatomic, strong) UILabel *rightTimeLabel;
+@property (nonatomic, strong) UILabel *noDataLabel;
+
 
 @end
 
@@ -132,11 +138,11 @@
             make.bottom.equalTo(hisBtn.mas_bottom);
         }];
         
-        UIView *view1 = [[UIView alloc] init];
-        view1.layer.borderWidth = 1;
-        view1.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
-        [self addSubview:view1];
-        [view1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.view1 = [[UIView alloc] init];
+        self.view1.layer.borderWidth = 1;
+        self.view1.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
+        [self addSubview:self.view1];
+        [self.view1 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_upView.mas_bottom).offset(8);
             make.left.equalTo(self.mas_left).offset(-1);
             make.height.equalTo(@72);
@@ -147,9 +153,9 @@
         [view1Title setText:@"平均心率"];
         [view1Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
         [view1Title setFont:[UIFont systemFontOfSize:12]];
-        [view1 addSubview:view1Title];
+        [self.view1 addSubview:view1Title];
         [view1Title mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(view1.mas_centerX);
+            make.centerX.equalTo(self.view1.mas_centerX);
             make.top.equalTo(@18);
         }];
         
@@ -157,9 +163,9 @@
         [_averageHR setText:@"--"];
         [_averageHR setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_averageHR setFont:[UIFont systemFontOfSize:14]];
-        [view1 addSubview:_averageHR];
+        [self.view1 addSubview:_averageHR];
         [_averageHR mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(view1.mas_centerX);
+            make.centerX.equalTo(self.view1.mas_centerX);
             make.bottom.equalTo(@-17);
         }];
         
@@ -168,10 +174,10 @@
         view2.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
         [self addSubview:view2];
         [view2 mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(view1.mas_top);
-            make.left.equalTo(view1.mas_right).offset(-1);
-            make.height.equalTo(view1);
-            make.width.equalTo(view1.mas_width);
+            make.top.equalTo(self.view1.mas_top);
+            make.left.equalTo(self.view1.mas_right).offset(-1);
+            make.height.equalTo(self.view1);
+            make.width.equalTo(self.view1.mas_width);
         }];
         
         UILabel *view2Title = [[UILabel alloc] init];
@@ -199,10 +205,10 @@
         view3.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
         [self addSubview:view3];
         [view3 mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(view1.mas_top);
+            make.top.equalTo(self.view1.mas_top);
             make.left.equalTo(view2.mas_right).offset(-1);
-            make.height.equalTo(view1);
-            make.width.equalTo(view1.mas_width);
+            make.height.equalTo(self.view1);
+            make.width.equalTo(self.view1.mas_width);
         }];
         
         UILabel *view3Title = [[UILabel alloc] init];
@@ -229,7 +235,7 @@
         [unitLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [unitLabel setFont:[UIFont systemFontOfSize:8]];
         [unitLabel setText:@"次/分"];
-        [view1 addSubview:unitLabel];
+        [self.view1 addSubview:unitLabel];
         [unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_averageHR.mas_right).offset(8);
             make.top.equalTo(_averageHR.mas_bottom);
@@ -238,7 +244,7 @@
         [unitLabel2 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [unitLabel2 setFont:[UIFont systemFontOfSize:8]];
         [unitLabel2 setText:@"次/分"];
-        [view1 addSubview:unitLabel2];
+        [self.view1 addSubview:unitLabel2];
         [unitLabel2 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_minHR.mas_right).offset(8);
             make.top.equalTo(_minHR.mas_bottom);
@@ -247,23 +253,34 @@
         [unitLabel3 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [unitLabel3 setFont:[UIFont systemFontOfSize:8]];
         [unitLabel3 setText:@"次/分"];
-        [view1 addSubview:unitLabel3];
+        [self.view1 addSubview:unitLabel3];
         [unitLabel3 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_maxHR.mas_right).offset(8);
             make.top.equalTo(_maxHR.mas_bottom);
         }];
+        
+        self.leftTimeLabel = [[UILabel alloc] init];
+        [self.leftTimeLabel setText:@"00:00"];
+        [self.leftTimeLabel setTextColor:TEXT_BLACK_COLOR_LEVEL2];
+        [self.leftTimeLabel setFont:[UIFont systemFontOfSize:11]];
+        [self addSubview:self.leftTimeLabel];
+        [self.leftTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.mas_left).offset(16);
+            make.bottom.equalTo(self.mas_bottom).offset(-12);
+        }];
+        
+        self.rightTimeLabel = [[UILabel alloc] init];
+        [self.self.rightTimeLabel setText:@"23:59"];
+        [self.rightTimeLabel setTextColor:TEXT_BLACK_COLOR_LEVEL2];
+        [self.rightTimeLabel setFont:[UIFont systemFontOfSize:11]];
+        [self addSubview:self.rightTimeLabel];
+        [self.rightTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.mas_right).offset(-16);
+            make.bottom.equalTo(self.leftTimeLabel.mas_bottom);
+        }];
     }
     return self;
 }
-
-//- (void)drawProgress:(CGFloat )progress
-//{
-//    static dispatch_once_t onceToken;
-//    dispatch_once(&onceToken, ^{
-//        [self.hrCircleChart strokeChart];
-//    });
-//    [self.hrCircleChart updateChartByCurrent:@(progress)];
-//}
 
 #pragma mark - PNChartDelegate
 
@@ -318,14 +335,114 @@
 }
 
 /** 更新视图 */
-- (void)updateUI
+- (void)updateHRUIWithDataArr:(NSArray *)dbArr
 {
-    /**
-     1.更新最近心率记录的折线图
-     */
+    //当历史数据查完并存储到数据库后，查询数据库当天的睡眠数据，并加入数据源
+    [self.hrArr removeAllObjects];
+    [self.dateArr removeAllObjects];
+    
+    float sumBo = 0;
+    float HighBo = 0;
+    float lowBo = 10000;
+    if (dbArr.count == 0) {
+        [self showNoDataView];
+        return;
+    }else {
+        self.noDataLabel.hidden = YES;
+        for (NSInteger index = 0; index < dbArr.count; index ++) {
+            HeartRateModel *model = dbArr[index];
+            float bo = model.heartRate.floatValue;
+            [self.hrArr addObject:@(bo)];
+            if (index == 0) {
+                [self.leftTimeLabel setText:[model.time substringWithRange:NSMakeRange(6, 5)]];
+            }
+            if (index == dbArr.count - 1) {
+                [self.rightTimeLabel setText:[model.time substringWithRange:NSMakeRange(6, 5)]];
+            }
+//            NSString *day = [model.dayStrig substringFromIndex:5];
+//            NSString *time = [model.timeString substringToIndex:5];
+            [self.dateArr addObject:@""];
+            //获取总数
+            sumBo = sumBo + bo;
+            //获取最大值
+            if (bo > HighBo) {
+                HighBo = bo;
+            }
+            //获取最小值
+            if (bo < lowBo) {
+                lowBo = bo;
+            }
+        }
+    }
+    
+    HeartRateModel *model = dbArr.lastObject;
+    //这里暂时只显示整数部分
+    [self.hrLabel setText:model.heartRate];
+    float aveBo = sumBo / dbArr.count;
+    [self.averageHR setText:[NSString stringWithFormat:@"%.0f", aveBo]];
+    [self.maxHR setText:[NSString stringWithFormat:@"%.0f", HighBo]];
+    [self.minHR setText:[NSString stringWithFormat:@"%.0f", lowBo]];
+    
+    float highProgress = model.heartRate.floatValue / 100;
+    
+    if (highProgress <= 1) {
+        [self.hrCircleChart updateChartByCurrent:@(highProgress)];
+    }else if (highProgress >= 1) {
+        [self.hrCircleChart updateChartByCurrent:@(1)];
+    }
+    [self showChartViewWithData];
+}
+
+- (void)showNoDataView
+{
+    self.noDataLabel.hidden = NO;
+    [self.hrLabel setText:@"--"];
+    [self.averageHR setText:@"--"];
+    [self.minHR setText:@"--"];
+    [self.maxHR setText:@"--"];
+}
+
+- (void)showChartViewWithData
+{
+    [self.hrBarChart setXLabels:self.dateArr];
+    PNLineChartData *data01 = [PNLineChartData new];
+    data01.color = HR_CURRENT_BACKGROUND_COLOR;
+    data01.itemCount = self.hrBarChart.xLabels.count;
+    data01.inflexionPointColor = HR_CURRENT_BACKGROUND_COLOR;
+    data01.inflexionPointStyle = PNLineChartPointStyleCircle;
+    data01.inflexionPointWidth = 2;
+    data01.getData = ^(NSUInteger index) {
+        //TODO:数组越界出现在这里
+        CGFloat yValue = [self.hrArr[index] floatValue];
+        DLog(@"%f",yValue);
+        
+        return [PNLineChartDataItem dataItemWithY:yValue];
+    };
+    
+    self.hrBarChart.chartData = @[data01];
+    [self.hrBarChart strokeChart];
 }
 
 #pragma mark - 懒加载
+- (PNLineChart *)hrBarChart
+{
+    if (!_hrBarChart) {
+        _hrBarChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, self.view1.frame.origin.y + self.view1.frame.size.height + 10, self.frame.size.width , self.frame.size.height - (34 + self.view1.frame.origin.y + self.view1.frame.size.height + 10))];
+        
+        _hrBarChart.backgroundColor = TEXT_BLACK_COLOR_LEVEL0;
+        //        _hrBarChart.delegate = self;
+        _hrBarChart.showCoordinateAxis = NO;
+        _hrBarChart.yFixedValueMin = 0;
+        _hrBarChart.yFixedValueMax = 220;
+        [_hrBarChart setShowLabel:YES];
+        [_hrBarChart setShowGenYLabels:NO];
+        
+        [self addSubview:_hrBarChart];
+    }
+    
+    return _hrBarChart;
+}
+
 - (PNCircleChart *)hrCircleChart
 {
     if (!_hrCircleChart) {
@@ -384,6 +501,31 @@
     }
     
     return _dataArr;
+}
+
+- (NSMutableArray *)hrArr
+{
+    if (!_hrArr) {
+        _hrArr = [NSMutableArray array];
+    }
+    
+    return _hrArr;
+}
+
+- (UILabel *)noDataLabel
+{
+    if (!_noDataLabel) {
+        _noDataLabel = [[UILabel alloc] init];
+        [_noDataLabel setText:@"无数据"];
+        
+        [self.hrBarChart addSubview:_noDataLabel];
+        [_noDataLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.hrBarChart.mas_centerX);
+            make.centerY.equalTo(self.hrBarChart.mas_centerY);
+        }];
+    }
+    
+    return _noDataLabel;
 }
 
 #pragma mark - 获取当前View的控制器的方法

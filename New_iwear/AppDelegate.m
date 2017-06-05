@@ -18,6 +18,7 @@
 }
 @property (nonatomic, strong) MDSnackbar *stateBar;
 @property (nonatomic ,strong) BleManager *myBleManager;
+@property (nonatomic, strong) MainViewController *mainVC;
 
 @end
 
@@ -31,7 +32,8 @@
     self.window.backgroundColor = WHITE_COLOR;
     
     //初始化一个tabBar控制器
-    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:[[MainViewController alloc]init]];
+    self.mainVC = [[MainViewController alloc]init];
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:self.mainVC];
     
     //修改title颜色和font
     [nc.navigationBar setTitleTextAttributes:
@@ -182,6 +184,7 @@
                 [self.stateBar setText:[NSString stringWithFormat:@"正在同步数据 %ld%%", progress]];
                 if (progress == 100) {
                     self.stateBar.text = @"同步完成";
+                    [self.mainVC notiViewUpdateUI];
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                         [self.stateBar dismiss];
                     });

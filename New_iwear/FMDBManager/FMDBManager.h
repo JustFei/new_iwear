@@ -31,6 +31,7 @@ typedef enum : NSUInteger {
     QueryTypeAll = 0,
     QueryTypeWithDay,
     QueryTypeWithMonth,
+    QueryTypeWithLastCount      //取出最后几条数据
 } QueryType;
 
 @interface FMDBManager : NSObject

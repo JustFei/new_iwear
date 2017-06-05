@@ -10,6 +10,6 @@
 
 @interface BloodPressureContentView : UIView
 
-- (void)updateUI;
+- (void)updateBPUIWithDataArr:(NSArray *)dbArr;
 
 @end

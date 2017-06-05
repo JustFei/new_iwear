@@ -36,6 +36,7 @@
 @property (nonatomic, strong) NSMutableArray *dateArr;
 @property (nonatomic, strong) NSMutableArray *dataArr;
 @property (nonatomic, strong) FMDBManager *myFmdbManager;
+@property (nonatomic, strong) UILabel *noDataLabel;
 
 @end
 
@@ -279,57 +280,33 @@
             SportModel *sportModel = stepArr.lastObject;
             self.stepLabel.text = sportModel.stepNumber;
             [self.mileageAndkCalLabel setText:[NSString stringWithFormat:@"%.3f公里/%@千卡", sportModel.mileageNumber.floatValue / 1000, sportModel.kCalNumber]];
+            [self updateCircleWithFloat:sportModel.stepNumber.floatValue];
         }else {
             [self.stepLabel setText:@"--"];
+            [self updateCircleWithFloat:0];
         }
         
-        self.stepBarChart.backgroundColor = TEXT_BLACK_COLOR_LEVEL2;
-        for (int time = 0; time <= 24; time ++) {
-            [self.dateArr addObject:@(time)];
-        }
-        [self.stepBarChart setXLabels:self.dateArr];
+        self.stepBarChart.backgroundColor = TEXT_BLACK_COLOR_LEVEL0;
+        [self.stepBarChart strokeChart];
     }
     return self;
 }
 
 #pragma mark - 查询数据库
-- (void)getHistoryDatawithDate:(NSDate *)todayDate
-{
-    sumStep = 0;
-    sumMileage = 0;
-    sumkCal = 0;
-
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSDateFormatter *todayFormatter = [[NSDateFormatter alloc] init];
-        [todayFormatter setDateFormat:@"yyyy-MM-dd"];
-        [self.dataArr removeAllObjects];
-        NSArray *queryArr = [self.myFmdbManager querySegmentedStepWithDate:[todayFormatter stringFromDate:todayDate]];
-        if (queryArr.count == 0) {
-            for (int i = 0; i <= 24; i ++) {
-                [_dataArr addObject:@0];
-            }
-        }else {
-            
-            SegmentedStepModel *model = queryArr.firstObject;
-            
-            sumStep += model.stepNumber.integerValue;
-            sumMileage += model.mileageNumber.integerValue;
-            sumkCal += model.kCalNumber.integerValue;
-            
-            if (self.stepBarChart.yMaxValue < model.stepNumber.integerValue) {
-                self.stepBarChart.yMaxValue = model.stepNumber.integerValue + 10;
-            }
-            
-            [_dataArr addObject:@(model.stepNumber.integerValue)];
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            //回主线程更新 UI
-
-            [self.stepBarChart setYValues:_dataArr];
-            [self.stepBarChart strokeChart];
-        });
-    });
-}
+//- (void)getHistoryDatawithDate:(NSDate *)todayDate
+//{
+//    sumStep = 0;
+//    sumMileage = 0;
+//    sumkCal = 0;
+//
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        NSDateFormatter *todayFormatter = [[NSDateFormatter alloc] init];
+//        [todayFormatter setDateFormat:@"yyyy-MM-dd"];
+//        [self.dataArr removeAllObjects];
+//        NSArray *queryArr = [self.myFmdbManager querySegmentedStepWithDate:[todayFormatter stringFromDate:todayDate]];
+//        
+//    });
+//}
 
 #pragma mark - PNChartDelegate
 
@@ -348,38 +325,92 @@
     [[self findViewController:self].navigationController pushViewController:vc animated:YES];
 }
 
+#pragma mark - noti motion
 - (void)getMotionData:(NSNotification *)noti
 {
     manridyModel *model = [noti object];
     if (model.sportModel.motionType == MotionTypeStepAndkCal) {
-#warning 替换或者插入数据
-        
         if ([model.sportModel.stepNumber isEqualToString:@"0"]) {
             [self.stepLabel setText:@"--"];
         }else {
             [self.stepLabel setText:[NSString stringWithFormat:@"%@", model.sportModel.stepNumber]];
             
             [self.mileageAndkCalLabel setText:[NSString stringWithFormat:@"%.3f公里/%@千卡", model.sportModel.mileageNumber.floatValue / 1000, model.sportModel.kCalNumber]];
-            float progress;
-            if ([[NSUserDefaults standardUserDefaults] objectForKey:TARGET_SETTING]) {
-                NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:TARGET_SETTING];
-                TargetSettingModel *stepTargetModel = [NSKeyedUnarchiver unarchiveObjectWithData:arr.firstObject];
-                progress = model.sportModel.stepNumber.floatValue / stepTargetModel.target.floatValue;
-            }else {
-                progress = model.sportModel.stepNumber.floatValue / 10000.f;
-            }
+            [self updateCircleWithFloat:model.sportModel.stepNumber.floatValue];
+            [self.view1StepLabel setText:[NSString stringWithFormat:@"%@", model.sportModel.stepNumber]];
+            [self.view2MileageLabel setText:[NSString stringWithFormat:@"%.3f公里", model.sportModel.mileageNumber.floatValue / 1000]];
+            [self.view3kCalLabel setText:[NSString stringWithFormat:@"%@千卡",model.sportModel.kCalNumber]];
             
-            [self.stepCircleChart updateChartByCurrent:@(progress)];
+            //保存motion数据到数据库
+            NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
+            [dateformatter setDateFormat:@"yyyy/MM/dd"];
+            NSDate *currentDate = [NSDate date];
+            NSString *currentDateString = [dateformatter stringFromDate:currentDate];
+            //存储至数据库
+            NSArray *stepArr = [self.myFmdbManager queryStepWithDate:currentDateString];
+            if (stepArr.count == 0) {
+                [self.myFmdbManager insertStepModel:model.sportModel];
+                
+            }else {
+                [self.myFmdbManager modifyStepWithDate:currentDateString model:model.sportModel];
+            }
         }
     }
 }
 
+- (void)updateCircleWithFloat:(float)stepFloatValue
+{
+    float progress;
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:TARGET_SETTING]) {
+        NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:TARGET_SETTING];
+        TargetSettingModel *stepTargetModel = [NSKeyedUnarchiver unarchiveObjectWithData:arr.firstObject];
+        progress = stepFloatValue / stepTargetModel.target.floatValue;
+    }else {
+        progress = stepFloatValue / 10000.f;
+    }
+    
+    [self.stepCircleChart updateChartByCurrent:@(progress)];
+}
+
 /** 更新视图 */
-- (void)updateUI
+- (void)updateStepUIWithDataArr:(NSArray *)dbArr
 {
     /**
      1.更新按小时记录的柱状图
      */
+    [self.dataArr removeAllObjects];
+    [self.dateArr removeAllObjects];
+    if (dbArr.count == 0) {
+        [self showNoDataView];
+        return ;
+    }else {
+        self.noDataLabel.hidden = YES;
+        for (SegmentedStepModel *model in dbArr) {
+            [self.dataArr addObject:@(model.stepNumber.integerValue)];
+            if (model.stepNumber.integerValue > self.stepBarChart.yMaxValue * 0.6) {
+                self.stepBarChart.yMaxValue = model.stepNumber.integerValue * 1.5;
+            }
+        }
+        
+        for (int index = 0; index < 24; index ++) {
+            [self.dateArr addObject:@""];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //回主线程更新 UI
+            [self.stepBarChart setXLabels:self.dateArr];
+            [self.stepBarChart setYValues:self.dataArr];
+            [self.stepBarChart updateChartData:self.dataArr];
+        });
+    }
+}
+
+- (void)showNoDataView
+{
+    self.noDataLabel.hidden = NO;
+//    [self.hrLabel setText:@"--"];
+//    [self.averageHR setText:@"--"];
+//    [self.minHR setText:@"--"];
+//    [self.maxHR setText:@"--"];
 }
 
 #pragma mark - 懒加载
@@ -399,22 +430,21 @@
 {
     if (!_stepBarChart) {
         _stepBarChart = [[PNBarChart alloc] init];
-        
+        [_stepBarChart setStrokeColor:COLOR_WITH_HEX(0x4caf50, 0.54)];
+        _stepBarChart.barBackgroundColor = [UIColor clearColor];
         _stepBarChart.yChartLabelWidth = 20.0;
         _stepBarChart.chartMarginLeft = 30.0;
         _stepBarChart.chartMarginRight = 10.0;
         _stepBarChart.chartMarginTop = 5.0;
         _stepBarChart.chartMarginBottom = 10.0;
-        _stepBarChart.isGradientShow = NO;
-        _stepBarChart.isShowNumbers = NO;
-        _stepBarChart.labelMarginTop = 5.0;
-        _stepBarChart.showChartBorder = YES;
-        _stepBarChart.showLabel = YES;
-        [_stepBarChart setStrokeColor:[UIColor blackColor]];
         _stepBarChart.yMinValue = 0;
-        _stepBarChart.yMaxValue = 10;
-        _stepBarChart.yLabelSum = 10;
-        [_stepBarChart setXLabelSkip:5];
+        _stepBarChart.yMaxValue = 200;
+        _stepBarChart.barWidth = 16;
+        _stepBarChart.barRadius = 0;
+        _stepBarChart.showLabel = NO;
+        _stepBarChart.showChartBorder = NO;
+        _stepBarChart.isShowNumbers = NO;
+        _stepBarChart.isGradientShow = NO;
         
         [self addSubview:_stepBarChart];
         [_stepBarChart mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -470,6 +500,31 @@
     }
     
     return _dataArr;
+}
+
+- (UILabel *)noDataLabel
+{
+    if (!_noDataLabel) {
+        _noDataLabel = [[UILabel alloc] init];
+        [_noDataLabel setText:@"无数据"];
+        
+        [self.stepBarChart addSubview:_noDataLabel];
+        [_noDataLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.stepBarChart.mas_centerX);
+            make.centerY.equalTo(self.stepBarChart.mas_centerY);
+        }];
+    }
+    
+    return _noDataLabel;
+}
+
+- (FMDBManager *)myFmdbManager
+{
+    if (!_myFmdbManager) {
+        _myFmdbManager = [[FMDBManager alloc] initWithPath:DB_NAME];
+    }
+    
+    return _myFmdbManager;
 }
 
 #pragma mark - 获取当前View的控制器的方法

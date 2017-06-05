@@ -14,6 +14,7 @@
 #import "BloodPressureContentView.h"
 #import "BloodO2ContentView.h"
 #import "SyncTool.h"
+#import "FMDBManager.h"
 
 @interface MainViewController () < UIScrollViewDelegate >
 {
@@ -34,6 +35,7 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) MDButton *leftButton;
 @property (nonatomic, strong) MDSnackbar *stateBar;
+@property (nonatomic, strong) FMDBManager *myFmdbManager;
 
 @end
 
@@ -70,7 +72,7 @@
             [SyncTool shareInstance].syncDataCurrentCountBlock = ^(NSInteger progress) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.stateBar setText:[NSString stringWithFormat:@"正在同步数据 %ld%%", progress]];
-                    if (progress == 100) {
+                    if (progress >= 100) {
                         self.stateBar.text = @"同步完成";
                         [self notiViewUpdateUI];
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -132,7 +134,31 @@
 /** 通知5个视图更新 UI */
 - (void)notiViewUpdateUI
 {
-    [self.stepView updateUI];
+    NSDate *currentDate = [NSDate date];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyy/MM/dd";
+    NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
+    formatter1.dateFormat = @"yyyy-MM-dd";
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //查询数据库
+        NSArray *stepDataArr = [self.myFmdbManager querySegmentedStepWithDate:[formatter1 stringFromDate:currentDate]];
+        NSArray *sleepDataArr = [self.myFmdbManager querySleepWithDate:[formatter stringFromDate:currentDate]];
+        NSArray *hrArr = [self.myFmdbManager queryHeartRate:@"20" WithType:QueryTypeWithLastCount];
+        NSArray *bloodDataArr = [self.myFmdbManager queryBlood:@"10" WithType:QueryTypeWithLastCount];
+        NSArray *boDataArr = [self.myFmdbManager queryBloodO2:@"20" WithType:QueryTypeWithLastCount];
+        
+       dispatch_async(dispatch_get_main_queue(), ^{
+           //更新 UI
+           [self.stepView updateStepUIWithDataArr:stepDataArr];
+           [self.sleepView updateSleepUIWithDataArr:sleepDataArr];
+           [self.heartRateView updateHRUIWithDataArr:hrArr];
+           [self.bloodPressureView updateBPUIWithDataArr:bloodDataArr];
+           [self.boView updateBOUIWithDataArr:boDataArr];
+       });
+    });
+    
+    
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -275,5 +301,15 @@
     
     return _stateBar;
 }
+
+- (FMDBManager *)myFmdbManager
+{
+    if (!_myFmdbManager) {
+        _myFmdbManager = [[FMDBManager alloc] initWithPath:DB_NAME];
+    }
+    
+    return _myFmdbManager;
+}
+
 
 @end

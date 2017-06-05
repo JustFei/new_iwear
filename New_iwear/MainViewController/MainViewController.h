@@ -10,4 +10,7 @@
 
 @interface MainViewController : UIViewController
 
+/** 通知5个视图更新 UI */
+- (void)notiViewUpdateUI;
+
 @end

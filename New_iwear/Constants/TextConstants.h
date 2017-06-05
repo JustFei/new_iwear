@@ -9,6 +9,9 @@
 #ifndef TextConstants_h
 #define TextConstants_h
 
+#pragma mark - 数据库名字
+#define DB_NAME @"UserList"
+
 #pragma mark - 通知中心的名字
 //设置时间
 #define SET_TIME @"SetTime"

@@ -139,7 +139,7 @@ static SyncTool *_syncTool = nil;
             if (self.syncDataCurrentCountBlock) {
                 for (int i = 0; i <= 100; i ++) {
                     self.syncDataCurrentCountBlock(i);
-                    [NSThread sleepForTimeInterval:0.05];
+                    [NSThread sleepForTimeInterval:0.01];
                 }
             }
             return ;
@@ -341,7 +341,7 @@ static SyncTool *_syncTool = nil;
 - (FMDBManager *)myFmdbManager
 {
     if (!_myFmdbManager) {
-        _myFmdbManager = [[FMDBManager alloc] initWithPath:@"UserList"];
+        _myFmdbManager = [[FMDBManager alloc] initWithPath:DB_NAME];
     }
     
     return _myFmdbManager;

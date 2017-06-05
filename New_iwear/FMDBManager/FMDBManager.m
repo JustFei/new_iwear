@@ -299,10 +299,10 @@ static FMDatabase *_fmdb;
     
     
     while ([set next]) {
-        
-        NSString *step = [set stringForColumn:@"step"];
-        NSString *kCal = [set stringForColumn:@"kCal"];
-        NSString *mileage = [set stringForColumn:@"mileage"];
+
+        NSString *stepNumber = [set stringForColumn:@"stepNumber"];
+        NSString *kCalNumber = [set stringForColumn:@"kCalNumber"];
+        NSString *mileageNumber = [set stringForColumn:@"mileageNumber"];
         NSString *startTime = [set stringForColumn:@"startTime"];
         NSInteger timeInterval = [set intForColumn:@"timeInterval"];
         NSInteger CHCount = [set intForColumn:@"CHCount"];
@@ -311,20 +311,18 @@ static FMDatabase *_fmdb;
         SegmentedStepModel *model = [[SegmentedStepModel alloc] init];
         
         model.date = date;
-        model.stepNumber = step;
-        model.kCalNumber = kCal;
-        model.mileageNumber = mileage;
+        model.stepNumber = stepNumber;
+        model.kCalNumber = kCalNumber;
+        model.mileageNumber = mileageNumber;
         model.startTime = startTime;
         model.timeInterval = timeInterval;
         model.CHCount = CHCount;
         model.AHCount = AHCount;
         
-        DLog(@"%@的数据：步数=%@，卡路里=%@，里程=%@",date ,step ,kCal ,mileage);
-        
         [arrM addObject:model];
     }
     
-    DLog(@"Motion查询成功");
+    DLog(@"SegmentMotion查询成功");
     return arrM;
 }
 
@@ -392,6 +390,12 @@ static FMDatabase *_fmdb;
         case QueryTypeWithMonth:
         {
             queryString = [NSString stringWithFormat:@"SELECT * FROM HeartRateData where month = ?;"];
+            set = [_fmdb executeQuery:queryString ,queryStr];
+        }
+            break;
+        case QueryTypeWithLastCount:
+        {
+            queryString = [NSString stringWithFormat:@"SELECT * FROM (SELECT * FROM HeartRateData ORDER BY id DESC LIMIT %@) ORDER BY ID ASC;", queryStr];
             set = [_fmdb executeQuery:queryString ,queryStr];
         }
             
@@ -552,6 +556,12 @@ static FMDatabase *_fmdb;
             queryString = [NSString stringWithFormat:@"SELECT * FROM BloodData where month = ?;"];
             set = [_fmdb executeQuery:queryString ,queryStr];
         }
+            break;
+        case QueryTypeWithLastCount:
+        {
+            queryString = [NSString stringWithFormat:@"SELECT * FROM (SELECT * FROM BloodData ORDER BY id DESC LIMIT %@) ORDER BY ID ASC;", queryStr];
+            set = [_fmdb executeQuery:queryString ,queryStr];
+        }
             
         default:
             break;
@@ -636,6 +646,12 @@ static FMDatabase *_fmdb;
         case QueryTypeWithMonth:
         {
             queryString = [NSString stringWithFormat:@"SELECT * FROM BloodO2Data where month = ?;"];
+            set = [_fmdb executeQuery:queryString ,queryStr];
+        }
+            break;
+        case QueryTypeWithLastCount:
+        {
+            queryString = [NSString stringWithFormat:@"SELECT * FROM (SELECT * FROM BloodO2Data ORDER BY id DESC LIMIT %@) ORDER BY ID ASC;", queryStr];
             set = [_fmdb executeQuery:queryString ,queryStr];
         }
             

@@ -11,6 +11,6 @@
 
 @interface SleepContentView : UIView < PNChartDelegate >
 
-- (void)updateUI;
+- (void)updateSleepUIWithDataArr:(NSArray *)dbArr;
 
 @end

@@ -11,7 +11,7 @@
 #import "UnitsTool.h"
 #import "BleManager.h"
 #import "PNChart.h"
-//#import "FMDBTool.h"
+#import "FMDBManager.h"
 #import "StepDataModel.h"
 
 @interface SleepContentView () < PNChartDelegate >
@@ -29,9 +29,13 @@
 @property (nonatomic, strong) UILabel *outSleepLabel;
 @property (nonatomic, strong) UILabel *awakeLabel;
 @property (nonatomic, strong) PNCircleChart *sleepCircleChart;
+@property (nonatomic, strong) PNBarChart *sleepBarChart;
 @property (nonatomic ,strong) BleManager *myBleManager;
 @property (nonatomic ,strong) NSMutableArray *dateArr;
 @property (nonatomic ,strong) NSMutableArray *dataArr;
+@property (nonatomic, strong) FMDBManager *myFmdbManager;
+@property (nonatomic, strong) UILabel *noDataLabel;
+
 
 @end
 
@@ -218,6 +222,46 @@
     return self;
 }
 
+/** 更新视图 */
+- (void)updateSleepUIWithDataArr:(NSArray *)dbArr
+{
+    /**
+     1.更新当天睡眠的 UI
+     */
+    float sumData = 0.f;
+    float lowData = 0.f;
+    float deepData = 0.f;
+    if (dbArr.count == 0) {
+        self.noDataLabel.hidden = NO;
+        [self.stepLabel setText:@"--"];
+        [self.mileageAndkCalLabel setText:@""];
+        [self.InSleepLabel setText:@"--"];
+        [self.outSleepLabel setText:@"--"];
+        [self.awakeLabel setText:@"--"];
+        [self.sleepCircleChart updateChartByCurrent:@0];
+        //没有数据
+    }else {
+        self.noDataLabel.hidden = YES;
+        for (int index = 0; index < dbArr.count; index ++) {
+            //        [self.sleepView.sumDataArr addObject:@(model.sumSleep.integerValue)];
+            //        [self.sleepView.deepDataArr addObject:@(model.deepSleep.integerValue)];
+            SleepModel *model = dbArr[index];
+            if (index == 0) {
+                [self.InSleepLabel setText:[model.startTime substringFromIndex:11]];
+            }
+            if (index == dbArr.count -1) {
+                [self.outSleepLabel setText:[model.endTime substringFromIndex:11]];
+            }
+            sumData = sumData + model.sumSleep.floatValue;
+            lowData = lowData + model.lowSleep.floatValue;
+            deepData = deepData + model.deepSleep.floatValue;
+        }
+        [self.stepLabel setText:[NSString stringWithFormat:@"%.1f", sumData / 60]];
+        [self.mileageAndkCalLabel setText:[NSString stringWithFormat:@"深睡%.1f小时/浅睡%.1f小时", deepData / 60, lowData / 60]];
+        [self.awakeLabel setText:@"--"];
+    }
+}
+
 - (void)drawProgress:(CGFloat )progress
 {
     static dispatch_once_t onceToken;
@@ -236,19 +280,6 @@
 {
     SleepHisViewController *vc = [[SleepHisViewController alloc] init];
     [[self findViewController:self].navigationController pushViewController:vc animated:YES];
-}
-
-- (void)showTrainingVC:(MDButton *)sender
-{
-    
-}
-
-/** 更新视图 */
-- (void)updateUI
-{
-    /**
-     1.更新当天睡眠记录的柱状图
-     */
 }
 
 #pragma mark - 懒加载
@@ -306,6 +337,31 @@
     }
     
     return _dataArr;
+}
+
+- (UILabel *)noDataLabel
+{
+    if (!_noDataLabel) {
+        _noDataLabel = [[UILabel alloc] init];
+        [_noDataLabel setText:@"无数据"];
+        
+//        [self.sleepBarChart addSubview:_noDataLabel];
+//        [_noDataLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.centerX.equalTo(self.sleepBarChart.mas_centerX);
+//            make.centerY.equalTo(self.sleepBarChart.mas_centerY);
+//        }];
+    }
+    
+    return _noDataLabel;
+}
+
+- (FMDBManager *)myFmdbManager
+{
+    if (!_myFmdbManager) {
+        _myFmdbManager = [[FMDBManager alloc] initWithPath:DB_NAME];
+    }
+    
+    return _myFmdbManager;
 }
 
 #pragma mark - 获取当前View的控制器的方法

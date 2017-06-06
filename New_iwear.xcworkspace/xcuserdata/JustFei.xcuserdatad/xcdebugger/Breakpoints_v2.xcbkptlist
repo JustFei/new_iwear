@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "New_iwear/MainViewController/MainViewController.m"
-            timestampString = "518356799.340814"
+            filePath = "New_iwear/SubView/Sleep/SleepContentView.m"
+            timestampString = "518432574.009031"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
-            landmarkName = "-notiViewUpdateUI"
+            startingLineNumber = "364"
+            endingLineNumber = "364"
+            landmarkName = "-touchesMoved:withEvent:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "New_iwear/SubView/Step/StepContentView.m"
-            timestampString = "518358852.506354"
+            filePath = "New_iwear/SubView/Sleep/SleepContentView.m"
+            timestampString = "518433059.471161"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "388"
-            endingLineNumber = "388"
-            landmarkName = "-updateStepUIWithDataArr:"
+            startingLineNumber = "367"
+            endingLineNumber = "367"
+            landmarkName = "-touchesMoved:withEvent:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,13 +41,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "New_iwear/SubView/Step/StepContentView.m"
-            timestampString = "518358852.506354"
+            filePath = "New_iwear/SubView/Sleep/SleepContentView.m"
+            timestampString = "518433060.022324"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "400"
-            endingLineNumber = "400"
-            landmarkName = "-updateStepUIWithDataArr:"
+            startingLineNumber = "368"
+            endingLineNumber = "368"
+            landmarkName = "-touchesMoved:withEvent:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -57,13 +57,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "New_iwear/SubView/Step/StepContentView.m"
-            timestampString = "518358852.506354"
+            filePath = "New_iwear/SubView/Sleep/SleepContentView.m"
+            timestampString = "518433313.699628"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "383"
-            endingLineNumber = "383"
-            landmarkName = "-updateStepUIWithDataArr:"
+            startingLineNumber = "396"
+            endingLineNumber = "396"
+            landmarkName = "-touchesEnded:withEvent:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

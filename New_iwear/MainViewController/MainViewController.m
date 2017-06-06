@@ -53,10 +53,7 @@
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     [self createUI];
     _currentPage = 0;
-    
-//    Remind *model = [[Remind alloc] init];
-//    model.phone = 1;
-//    model.message = 1;
+    [self notiViewUpdateUI];
 }
 
 - (void)viewDidAppear:(BOOL)animated

@@ -18,6 +18,8 @@
 		10814B2E1EDFE88C004C9B4F /* SyncTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 10814B2D1EDFE88C004C9B4F /* SyncTool.m */; };
 		109865BB1ECC5D200077797E /* UINavigationBar+Awesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 109865BA1ECC5D200077797E /* UINavigationBar+Awesome.m */; };
 		10C496451ECEE739000F5769 /* FirmwareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C496441ECEE739000F5769 /* FirmwareModel.m */; };
+		10CD3E701EE6963A0098C82A /* XXBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10CD3E6D1EE6963A0098C82A /* XXBarChartView.m */; };
+		10CD3E711EE6963A0098C82A /* BarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10CD3E6F1EE6963A0098C82A /* BarView.m */; };
 		10EE89141ED6B67A007A3CE4 /* QRCodeScanningVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EE890A1ED6B67A007A3CE4 /* QRCodeScanningVC.m */; };
 		10EE89151ED6B67A007A3CE4 /* SGQRCode.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 10EE890B1ED6B67A007A3CE4 /* SGQRCode.bundle */; };
 		10EE89161ED6B67A007A3CE4 /* SGQRCodeConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EE890D1ED6B67A007A3CE4 /* SGQRCodeConst.m */; };
@@ -179,6 +181,10 @@
 		109865BA1ECC5D200077797E /* UINavigationBar+Awesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Awesome.m"; sourceTree = "<group>"; };
 		10C496431ECEE739000F5769 /* FirmwareModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirmwareModel.h; sourceTree = "<group>"; };
 		10C496441ECEE739000F5769 /* FirmwareModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirmwareModel.m; sourceTree = "<group>"; };
+		10CD3E6C1EE6963A0098C82A /* XXBarChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXBarChartView.h; sourceTree = "<group>"; };
+		10CD3E6D1EE6963A0098C82A /* XXBarChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXBarChartView.m; sourceTree = "<group>"; };
+		10CD3E6E1EE6963A0098C82A /* BarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarView.h; sourceTree = "<group>"; };
+		10CD3E6F1EE6963A0098C82A /* BarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarView.m; sourceTree = "<group>"; };
 		10CE70B61ECEA5990018AD11 /* TextConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TextConstants.h; path = Constants/TextConstants.h; sourceTree = "<group>"; };
 		10EE89091ED6B67A007A3CE4 /* QRCodeScanningVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCodeScanningVC.h; sourceTree = "<group>"; };
 		10EE890A1ED6B67A007A3CE4 /* QRCodeScanningVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRCodeScanningVC.m; sourceTree = "<group>"; };
@@ -612,6 +618,10 @@
 			children = (
 				9C0711F61EC558E800F41754 /* SleepContentView.h */,
 				9C0711F71EC558E800F41754 /* SleepContentView.m */,
+				10CD3E6C1EE6963A0098C82A /* XXBarChartView.h */,
+				10CD3E6D1EE6963A0098C82A /* XXBarChartView.m */,
+				10CD3E6E1EE6963A0098C82A /* BarView.h */,
+				10CD3E6F1EE6963A0098C82A /* BarView.m */,
 			);
 			path = Sleep;
 			sourceTree = "<group>";
@@ -1379,6 +1389,7 @@
 				9C9E7FD21EC2C06B004840FD /* MessageReminderViewController.m in Sources */,
 				9C4FBDC71EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				9C4FBDC31EB099D90072E9CE /* BaseNavigationViewController.m in Sources */,
+				10CD3E701EE6963A0098C82A /* XXBarChartView.m in Sources */,
 				9C4FBDBB1EB081E00072E9CE /* ThirdViewController.m in Sources */,
 				9CD631211EC06E84005EECE1 /* AboutViewController.m in Sources */,
 				9CDEAC5D1EB078EC00279EDA /* AppDelegate.m in Sources */,
@@ -1407,6 +1418,7 @@
 				9C0712231EC558E800F41754 /* BloodPressureContentView.m in Sources */,
 				9C3AE8491EBDB8320078CDAA /* RemindMoreTableViewCell.m in Sources */,
 				9CE95A611EC15DC600E88B47 /* SedentaryReminderTableViewCell.m in Sources */,
+				10CD3E711EE6963A0098C82A /* BarView.m in Sources */,
 				100E490A1EC9AD6A00625A93 /* TrainingTableCell.m in Sources */,
 				9C3AE8351EBD770B0078CDAA /* FindMyPeriphearlViewController.m in Sources */,
 				9CE95A5E1EC154C200E88B47 /* SedentaryReminderViewController.m in Sources */,

@@ -10,6 +10,7 @@
 #import "PNChart.h"
 #import "UnitsTool.h"
 #import "BleManager.h"
+#import "FMDBManager.h"
 
 @interface StepHisViewController ()< PNChartDelegate >
 {
@@ -27,6 +28,7 @@
 @property (nonatomic, strong) UILabel *view3kCalLabel;
 @property (nonatomic, strong) PNCircleChart *stepCircleChart;
 @property (nonatomic, strong) BleManager *myBleManager;
+@property (nonatomic, strong) FMDBManager *myFmdbManager;
 @property (nonatomic, strong) MDButton *leftButton;
 @property (nonatomic, strong) NSMutableArray *dateArr;
 @property (nonatomic, strong) NSMutableArray *dataArr;
@@ -42,6 +44,7 @@
     self.leftButton.backgroundColor = CLEAR_COLOR;
     self.title = @"历史记录";
     [self initUI];
+    [self getDataFromDB];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -257,7 +260,16 @@
 
 #pragma mark - PNChartDelegate
 
-
+#pragma mark - DB
+- (void)getDataFromDB
+{
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        for (; <#condition#>; <#increment#>) {
+//            <#statements#>
+//        }
+//        self.myFmdbManager querySegmentedStepWithDate:<#(NSString *)#>
+//    });
+}
 
 #pragma mark - Action
 - (void)backViewController

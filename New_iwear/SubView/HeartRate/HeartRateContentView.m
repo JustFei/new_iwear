@@ -414,8 +414,6 @@
     data01.getData = ^(NSUInteger index) {
         //TODO:数组越界出现在这里
         CGFloat yValue = [self.hrArr[index] floatValue];
-        DLog(@"%f",yValue);
-        
         return [PNLineChartDataItem dataItemWithY:yValue];
     };
     

@@ -922,12 +922,12 @@ union LAT{
         int startTimeValue = [NSStringTool parseIntFromData:startTimeData];
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+        //utc 时间转为标准时间，不会存在时区差异
+        [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
         NSString *startTimeStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:startTimeValue]];
         [formatter setDateFormat:@"yyyy-MM-dd"];
         NSString *dateStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:startTimeValue]];
         
-        
-//        manridyModel *model = [[manridyModel alloc] init];
         model.segmentStepModel.AHCount = ah;
         model.segmentStepModel.CHCount = ch;
         model.segmentStepModel.stepNumber = [NSString stringWithFormat:@"%d",stepValue];
@@ -945,7 +945,7 @@ union LAT{
     return  model;
 }
 
-#pragma mark - 解析分段跑步的数据（1B|8B）
+#pragma mark 解析分段跑步的数据（1B|8B）
 //解析分段跑步的数据（1B|8B）
 - (manridyModel *)analysisSegmentedRun:(NSData *)data WithHeadStr:(NSString *)head
 {manridyModel *model = [[manridyModel alloc] init];

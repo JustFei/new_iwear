@@ -13,6 +13,10 @@
 #import "PNChart.h"
 #import "FMDBManager.h"
 #import "StepDataModel.h"
+#import "BarView.h"
+
+#define BACK_WIDTH self.sleepChartBackView.bounds.size.width
+#define BACK_HEIGHT self.sleepChartBackView.bounds.size.height
 
 @interface SleepContentView () < PNChartDelegate >
 {
@@ -20,6 +24,8 @@
     NSInteger sumMileage;
     NSInteger sumkCal;
     BOOL _isMetric;
+    NSInteger _oldIndex;
+    NSInteger _currentSleepData;
 }
 
 @property (nonatomic, strong) UIView *upView;
@@ -29,13 +35,19 @@
 @property (nonatomic, strong) UILabel *outSleepLabel;
 @property (nonatomic, strong) UILabel *awakeLabel;
 @property (nonatomic, strong) PNCircleChart *sleepCircleChart;
-@property (nonatomic, strong) PNBarChart *sleepBarChart;
+@property (nonatomic, strong) UIView *sleepChartBackView;
+@property (nonatomic, strong) UIView *view1;
 @property (nonatomic ,strong) BleManager *myBleManager;
 @property (nonatomic ,strong) NSMutableArray *dateArr;
 @property (nonatomic ,strong) NSMutableArray *dataArr;
 @property (nonatomic, strong) FMDBManager *myFmdbManager;
+@property (nonatomic, strong) UILabel *leftTimeLabel;
+@property (nonatomic, strong) UILabel *rightTimeLabel;
 @property (nonatomic, strong) UILabel *noDataLabel;
-
+@property (strong, nonatomic) NSMutableArray *subViewArr;
+@property (strong, nonatomic) NSMutableArray *xPointArr;
+@property (strong, nonatomic) BarView *selectView;
+@property (assign, nonatomic) BOOL disSelectView;
 
 @end
 
@@ -116,11 +128,11 @@
             make.bottom.equalTo(_upView.mas_bottom).offset(-16);
         }];
         
-        UIView *view1 = [[UIView alloc] init];
-        view1.layer.borderWidth = 1;
-        view1.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
-        [self addSubview:view1];
-        [view1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.view1 = [[UIView alloc] init];
+        self.view1.layer.borderWidth = 1;
+        self.view1.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
+        [self addSubview:self.view1];
+        [self.view1 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_upView.mas_bottom).offset(8);
             make.left.equalTo(self.mas_left).offset(-1);
             make.height.equalTo(@72);
@@ -131,9 +143,9 @@
         [view1Title setText:@"昨晚入睡"];
         [view1Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
         [view1Title setFont:[UIFont systemFontOfSize:12]];
-        [view1 addSubview:view1Title];
+        [self.view1 addSubview:view1Title];
         [view1Title mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(view1.mas_centerX);
+            make.centerX.equalTo(self.view1.mas_centerX);
             make.top.equalTo(@18);
         }];
         
@@ -141,9 +153,9 @@
         [_InSleepLabel setText:@"--"];
         [_InSleepLabel setTextColor:TEXT_BLACK_COLOR_LEVEL4];
         [_InSleepLabel setFont:[UIFont systemFontOfSize:14]];
-        [view1 addSubview:_InSleepLabel];
+        [self.view1 addSubview:_InSleepLabel];
         [_InSleepLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(view1.mas_centerX);
+            make.centerX.equalTo(self.view1.mas_centerX);
             make.bottom.equalTo(@-17);
         }];
         
@@ -152,10 +164,10 @@
         view2.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
         [self addSubview:view2];
         [view2 mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(view1.mas_top);
-            make.left.equalTo(view1.mas_right).offset(-1);
-            make.height.equalTo(view1);
-            make.width.equalTo(view1.mas_width);
+            make.top.equalTo(self.view1.mas_top);
+            make.left.equalTo(self.view1.mas_right).offset(-1);
+            make.height.equalTo(self.view1);
+            make.width.equalTo(self.view1.mas_width);
         }];
         
         UILabel *view2Title = [[UILabel alloc] init];
@@ -183,10 +195,10 @@
         view3.layer.borderColor = TEXT_BLACK_COLOR_LEVEL0.CGColor;
         [self addSubview:view3];
         [view3 mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(view1.mas_top);
+            make.top.equalTo(self.view1.mas_top);
             make.left.equalTo(view2.mas_right).offset(-1);
-            make.height.equalTo(view1);
-            make.width.equalTo(view1.mas_width);
+            make.height.equalTo(self.view1);
+            make.width.equalTo(self.view1.mas_width);
         }];
         
         UILabel *view3Title = [[UILabel alloc] init];
@@ -213,11 +225,33 @@
         [unitLabel3 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [unitLabel3 setFont:[UIFont systemFontOfSize:8]];
         [unitLabel3 setText:@"小时"];
-        [view1 addSubview:unitLabel3];
+        [self.view1 addSubview:unitLabel3];
         [unitLabel3 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_awakeLabel.mas_right).offset(8);
             make.top.equalTo(_awakeLabel.mas_bottom);
         }];
+        
+        self.leftTimeLabel = [[UILabel alloc] init];
+        [self.leftTimeLabel setText:@"00:00"];
+        [self.leftTimeLabel setTextColor:TEXT_BLACK_COLOR_LEVEL2];
+        [self.leftTimeLabel setFont:[UIFont systemFontOfSize:11]];
+        [self addSubview:self.leftTimeLabel];
+        [self.leftTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.mas_left).offset(16);
+            make.bottom.equalTo(self.mas_bottom).offset(-12);
+        }];
+        
+        self.rightTimeLabel = [[UILabel alloc] init];
+        [self.self.rightTimeLabel setText:@"23:59"];
+        [self.rightTimeLabel setTextColor:TEXT_BLACK_COLOR_LEVEL2];
+        [self.rightTimeLabel setFont:[UIFont systemFontOfSize:11]];
+        [self addSubview:self.rightTimeLabel];
+        [self.rightTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.mas_right).offset(-16);
+            make.bottom.equalTo(self.leftTimeLabel.mas_bottom);
+        }];
+        
+        self.sleepChartBackView.backgroundColor = TEXT_BLACK_COLOR_LEVEL0;
     }
     return self;
 }
@@ -243,14 +277,14 @@
     }else {
         self.noDataLabel.hidden = YES;
         for (int index = 0; index < dbArr.count; index ++) {
-            //        [self.sleepView.sumDataArr addObject:@(model.sumSleep.integerValue)];
-            //        [self.sleepView.deepDataArr addObject:@(model.deepSleep.integerValue)];
             SleepModel *model = dbArr[index];
             if (index == 0) {
                 [self.InSleepLabel setText:[model.startTime substringFromIndex:11]];
+                [self.leftTimeLabel setText:[model.startTime substringFromIndex:11]];
             }
             if (index == dbArr.count -1) {
                 [self.outSleepLabel setText:[model.endTime substringFromIndex:11]];
+                [self.rightTimeLabel setText:[model.endTime substringFromIndex:11]];
             }
             sumData = sumData + model.sumSleep.floatValue;
             lowData = lowData + model.lowSleep.floatValue;
@@ -259,6 +293,28 @@
         [self.stepLabel setText:[NSString stringWithFormat:@"%.1f", sumData / 60]];
         [self.mileageAndkCalLabel setText:[NSString stringWithFormat:@"深睡%.1f小时/浅睡%.1f小时", deepData / 60, lowData / 60]];
         [self.awakeLabel setText:@"--"];
+        
+        _oldIndex = -2;
+        _currentSleepData = 0;
+        //绘制睡眠图表
+        for (int index = 0; index < dbArr.count; index ++) {
+            SleepModel *model = dbArr[index];
+            
+            float x = (float)_currentSleepData / sumData * (BACK_WIDTH - 32);
+            float width = (float)model.sumSleep.integerValue / sumData * (BACK_WIDTH - 32);
+            //1.创建视图，并计算宽度
+            BarView *view = [[BarView alloc] initWithFrame:CGRectMake(x + 16, 0, width, BACK_HEIGHT)];
+            //2.着色
+            view.backColor = [model.deepSleep isEqualToString:@"0"] ? BackColorDeep : BackColorLow;
+//            DLog(@"bar%d x == %.1f width == %.1f backColor == %lu model.deepSleep == %@ model.lowSleep == %@", index, x, width, (unsigned long)view.backColor, model.deepSleep, model.lowSleep);
+            view.isSelect = NO;
+            [view setColor];
+            
+            [self.sleepChartBackView addSubview:view];
+            [self.subViewArr addObject:view];
+            [self.xPointArr addObject:[NSString stringWithFormat:@"%f", x + 16 + width]];
+            _currentSleepData = _currentSleepData + model.sumSleep.integerValue;
+        }
     }
 }
 
@@ -282,6 +338,65 @@
     [[self findViewController:self].navigationController pushViewController:vc animated:YES];
 }
 
+#pragma mark -图表点击事件
+- (NSInteger)indexOfTapPoint:(CGPoint)point
+{
+    if (point.x < 16 || point.x > BACK_WIDTH - 16) {
+        return -1;
+    }else {
+        for (int index = 0; index < self.xPointArr.count; index ++) {
+            if (point.x < ((NSString *)self.xPointArr[index]).floatValue) {
+                return index;
+            }
+        }
+    }
+    
+    return -1;
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    self.disSelectView = NO;
+    UITouch *touch = [touches anyObject];
+    CGPoint point = [touch locationInView:self];
+    NSInteger index = [self indexOfTapPoint:point];
+    if (index != _oldIndex) {
+        if (index != -1) {
+            //改变选中的 view 的颜色为选中的颜色
+            self.selectView = self.subViewArr[index];
+            self.selectView.isSelect = YES;
+            [self.selectView setColor];
+            
+            /** 用 oldIndex 来记录之前点按的数据*/
+            if (_oldIndex != -2 && _oldIndex != -1) {
+                BarView *unSelectView = self.subViewArr[_oldIndex];
+                unSelectView.isSelect = NO;
+                [unSelectView setColor];
+            }
+            
+            _oldIndex = index;
+        }
+    }
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    self.disSelectView = YES;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (self.disSelectView) {
+            //改变选中的 view 的颜色为选中的颜色
+            self.selectView = self.subViewArr[_oldIndex];
+            self.selectView.isSelect = NO;
+            [self.selectView setColor];
+        }
+    });
+}
+
 #pragma mark - 懒加载
 - (PNCircleChart *)sleepCircleChart
 {
@@ -293,6 +408,23 @@
     }
     
     return _sleepCircleChart;
+}
+
+- (UIView *)sleepChartBackView
+{
+    if (!_sleepChartBackView) {
+        _sleepChartBackView = [[UIView alloc] init];
+        
+        [self addSubview:_sleepChartBackView];
+        [_sleepChartBackView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.mas_left);
+            make.right.equalTo(self.mas_right);
+            make.bottom.equalTo(self.mas_bottom).offset(-34);
+            make.top.equalTo(self.view1.mas_bottom).offset(10);
+        }];
+    }
+    
+    return _sleepChartBackView;
 }
 
 - (UILabel *)stepLabel
@@ -345,11 +477,11 @@
         _noDataLabel = [[UILabel alloc] init];
         [_noDataLabel setText:@"无数据"];
         
-//        [self.sleepBarChart addSubview:_noDataLabel];
-//        [_noDataLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.centerX.equalTo(self.sleepBarChart.mas_centerX);
-//            make.centerY.equalTo(self.sleepBarChart.mas_centerY);
-//        }];
+        [self.sleepChartBackView addSubview:_noDataLabel];
+        [_noDataLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.sleepChartBackView.mas_centerX);
+            make.centerY.equalTo(self.sleepChartBackView.mas_centerY);
+        }];
     }
     
     return _noDataLabel;
@@ -362,6 +494,24 @@
     }
     
     return _myFmdbManager;
+}
+
+- (NSMutableArray *)subViewArr
+{
+    if (!_subViewArr) {
+        _subViewArr = [NSMutableArray array];
+    }
+    
+    return _subViewArr;
+}
+
+- (NSMutableArray *)xPointArr
+{
+    if (!_xPointArr) {
+        _xPointArr = [NSMutableArray array];
+    }
+    
+    return _xPointArr;
 }
 
 #pragma mark - 获取当前View的控制器的方法

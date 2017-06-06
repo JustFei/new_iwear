@@ -385,16 +385,31 @@
         return ;
     }else {
         self.noDataLabel.hidden = YES;
+        NSMutableDictionary *dbDic = [NSMutableDictionary dictionaryWithCapacity:dbArr.count];
         for (SegmentedStepModel *model in dbArr) {
-            [self.dataArr addObject:@(model.stepNumber.integerValue)];
+//            [self.dataArr addObject:@(model.stepNumber.integerValue)];
+            [dbDic setObject:model  forKey:[model.startTime substringWithRange:NSMakeRange(11, 2)]];
+            //设置数据源的最大值为 barChart 的最大值的2/3
             if (model.stepNumber.integerValue > self.stepBarChart.yMaxValue * 0.6) {
                 self.stepBarChart.yMaxValue = model.stepNumber.integerValue * 1.5;
             }
         }
-        
+        NSMutableArray *indexArr = [NSMutableArray array];
         for (int index = 0; index < 24; index ++) {
+            [indexArr addObject:[NSString stringWithFormat:@"%02d", index]];
             [self.dateArr addObject:@""];
         }
+        
+        //从数组中取出该时间有没有计步信息，没有的填充0
+        for (NSString *index in indexArr) {
+            SegmentedStepModel *model = dbDic[index];
+            if (model) {
+                [self.dataArr addObject:@(model.stepNumber.integerValue)];
+            }else {
+                [self.dataArr addObject:@(0)];
+            }
+        }
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             //回主线程更新 UI
             [self.stepBarChart setXLabels:self.dateArr];
@@ -407,10 +422,6 @@
 - (void)showNoDataView
 {
     self.noDataLabel.hidden = NO;
-//    [self.hrLabel setText:@"--"];
-//    [self.averageHR setText:@"--"];
-//    [self.minHR setText:@"--"];
-//    [self.maxHR setText:@"--"];
 }
 
 #pragma mark - 懒加载

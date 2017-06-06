@@ -20,6 +20,7 @@
 		10C496451ECEE739000F5769 /* FirmwareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C496441ECEE739000F5769 /* FirmwareModel.m */; };
 		10CD3E701EE6963A0098C82A /* XXBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10CD3E6D1EE6963A0098C82A /* XXBarChartView.m */; };
 		10CD3E711EE6963A0098C82A /* BarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10CD3E6F1EE6963A0098C82A /* BarView.m */; };
+		10CD3E751EE6B85B0098C82A /* XXBarDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 10CD3E741EE6B85B0098C82A /* XXBarDataModel.m */; };
 		10EE89141ED6B67A007A3CE4 /* QRCodeScanningVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EE890A1ED6B67A007A3CE4 /* QRCodeScanningVC.m */; };
 		10EE89151ED6B67A007A3CE4 /* SGQRCode.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 10EE890B1ED6B67A007A3CE4 /* SGQRCode.bundle */; };
 		10EE89161ED6B67A007A3CE4 /* SGQRCodeConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EE890D1ED6B67A007A3CE4 /* SGQRCodeConst.m */; };
@@ -185,6 +186,8 @@
 		10CD3E6D1EE6963A0098C82A /* XXBarChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXBarChartView.m; sourceTree = "<group>"; };
 		10CD3E6E1EE6963A0098C82A /* BarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarView.h; sourceTree = "<group>"; };
 		10CD3E6F1EE6963A0098C82A /* BarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarView.m; sourceTree = "<group>"; };
+		10CD3E731EE6B85B0098C82A /* XXBarDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXBarDataModel.h; sourceTree = "<group>"; };
+		10CD3E741EE6B85B0098C82A /* XXBarDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXBarDataModel.m; sourceTree = "<group>"; };
 		10CE70B61ECEA5990018AD11 /* TextConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TextConstants.h; path = Constants/TextConstants.h; sourceTree = "<group>"; };
 		10EE89091ED6B67A007A3CE4 /* QRCodeScanningVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCodeScanningVC.h; sourceTree = "<group>"; };
 		10EE890A1ED6B67A007A3CE4 /* QRCodeScanningVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRCodeScanningVC.m; sourceTree = "<group>"; };
@@ -620,6 +623,8 @@
 				9C0711F71EC558E800F41754 /* SleepContentView.m */,
 				10CD3E6C1EE6963A0098C82A /* XXBarChartView.h */,
 				10CD3E6D1EE6963A0098C82A /* XXBarChartView.m */,
+				10CD3E731EE6B85B0098C82A /* XXBarDataModel.h */,
+				10CD3E741EE6B85B0098C82A /* XXBarDataModel.m */,
 				10CD3E6E1EE6963A0098C82A /* BarView.h */,
 				10CD3E6F1EE6963A0098C82A /* BarView.m */,
 			);
@@ -1364,6 +1369,7 @@
 				1028F5EA1EE2A26C00DCA724 /* HooDatePicker.m in Sources */,
 				9C0711B01EC5503A00F41754 /* MainViewController.m in Sources */,
 				9C3AE8521EBDCD850078CDAA /* DimmingViewController.m in Sources */,
+				10CD3E751EE6B85B0098C82A /* XXBarDataModel.m in Sources */,
 				9CB6160F1EC31544008914F5 /* UserInfoViewController.m in Sources */,
 				9C3AE82B1EBD63D50078CDAA /* CameraViewController.m in Sources */,
 				9C347BC71EC371EC001CFE6F /* UserInfoSettingModel.m in Sources */,

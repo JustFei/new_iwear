@@ -14,6 +14,7 @@
 #import "FMDBManager.h"
 #import "StepDataModel.h"
 #import "BarView.h"
+#import "XXBarChartView.h"
 
 #define BACK_WIDTH self.sleepChartBackView.bounds.size.width
 #define BACK_HEIGHT self.sleepChartBackView.bounds.size.height
@@ -24,7 +25,6 @@
     NSInteger sumMileage;
     NSInteger sumkCal;
     BOOL _isMetric;
-    NSInteger _oldIndex;
     NSInteger _currentSleepData;
 }
 
@@ -35,7 +35,7 @@
 @property (nonatomic, strong) UILabel *outSleepLabel;
 @property (nonatomic, strong) UILabel *awakeLabel;
 @property (nonatomic, strong) PNCircleChart *sleepCircleChart;
-@property (nonatomic, strong) UIView *sleepChartBackView;
+@property (nonatomic, strong) XXBarChartView *sleepChartBackView;
 @property (nonatomic, strong) UIView *view1;
 @property (nonatomic ,strong) BleManager *myBleManager;
 @property (nonatomic ,strong) NSMutableArray *dateArr;
@@ -44,10 +44,6 @@
 @property (nonatomic, strong) UILabel *leftTimeLabel;
 @property (nonatomic, strong) UILabel *rightTimeLabel;
 @property (nonatomic, strong) UILabel *noDataLabel;
-@property (strong, nonatomic) NSMutableArray *subViewArr;
-@property (strong, nonatomic) NSMutableArray *xPointArr;
-@property (strong, nonatomic) BarView *selectView;
-@property (assign, nonatomic) BOOL disSelectView;
 
 @end
 
@@ -276,8 +272,13 @@
         //没有数据
     }else {
         self.noDataLabel.hidden = YES;
+        NSMutableArray *barDataArr = [NSMutableArray array];
         for (int index = 0; index < dbArr.count; index ++) {
             SleepModel *model = dbArr[index];
+            sumData = sumData + model.sumSleep.floatValue;
+            lowData = lowData + model.lowSleep.floatValue;
+            deepData = deepData + model.deepSleep.floatValue;
+            
             if (index == 0) {
                 [self.InSleepLabel setText:[model.startTime substringFromIndex:11]];
                 [self.leftTimeLabel setText:[model.startTime substringFromIndex:11]];
@@ -285,36 +286,28 @@
             if (index == dbArr.count -1) {
                 [self.outSleepLabel setText:[model.endTime substringFromIndex:11]];
                 [self.rightTimeLabel setText:[model.endTime substringFromIndex:11]];
+                _currentSleepData = 0;
             }
-            sumData = sumData + model.sumSleep.floatValue;
-            lowData = lowData + model.lowSleep.floatValue;
-            deepData = deepData + model.deepSleep.floatValue;
         }
         [self.stepLabel setText:[NSString stringWithFormat:@"%.1f", sumData / 60]];
         [self.mileageAndkCalLabel setText:[NSString stringWithFormat:@"深睡%.1f小时/浅睡%.1f小时", deepData / 60, lowData / 60]];
         [self.awakeLabel setText:@"--"];
         
-        _oldIndex = -2;
-        _currentSleepData = 0;
-        //绘制睡眠图表
         for (int index = 0; index < dbArr.count; index ++) {
             SleepModel *model = dbArr[index];
             
-            float x = (float)_currentSleepData / sumData * (BACK_WIDTH - 32);
-            float width = (float)model.sumSleep.integerValue / sumData * (BACK_WIDTH - 32);
-            //1.创建视图，并计算宽度
-            BarView *view = [[BarView alloc] initWithFrame:CGRectMake(x + 16, 0, width, BACK_HEIGHT)];
-            //2.着色
-            view.backColor = [model.deepSleep isEqualToString:@"0"] ? BackColorDeep : BackColorLow;
-//            DLog(@"bar%d x == %.1f width == %.1f backColor == %lu model.deepSleep == %@ model.lowSleep == %@", index, x, width, (unsigned long)view.backColor, model.deepSleep, model.lowSleep);
-            view.isSelect = NO;
-            [view setColor];
-            
-            [self.sleepChartBackView addSubview:view];
-            [self.subViewArr addObject:view];
-            [self.xPointArr addObject:[NSString stringWithFormat:@"%f", x + 16 + width]];
+            XXBarDataModel *barModel = [[XXBarDataModel alloc] init];
+            float xValue = (float)_currentSleepData / sumData * (BACK_WIDTH - 32);
+            float xWidth = (float)model.sumSleep.integerValue / sumData * (BACK_WIDTH - 32);
+            barModel.xValue = xValue;
+            barModel.xWidth = xWidth;
+            barModel.barType = model.deepSleep.integerValue != 0 ? BarTypeDeep : BarTypeLow;
+            [barDataArr addObject:barModel];
             _currentSleepData = _currentSleepData + model.sumSleep.integerValue;
         }
+        //绘制睡眠图表
+        [self.sleepChartBackView setXValues:barDataArr];
+        [self.sleepChartBackView updateBar];
     }
 }
 
@@ -338,65 +331,6 @@
     [[self findViewController:self].navigationController pushViewController:vc animated:YES];
 }
 
-#pragma mark -图表点击事件
-- (NSInteger)indexOfTapPoint:(CGPoint)point
-{
-    if (point.x < 16 || point.x > BACK_WIDTH - 16) {
-        return -1;
-    }else {
-        for (int index = 0; index < self.xPointArr.count; index ++) {
-            if (point.x < ((NSString *)self.xPointArr[index]).floatValue) {
-                return index;
-            }
-        }
-    }
-    
-    return -1;
-}
-
-- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    self.disSelectView = NO;
-    UITouch *touch = [touches anyObject];
-    CGPoint point = [touch locationInView:self];
-    NSInteger index = [self indexOfTapPoint:point];
-    if (index != _oldIndex) {
-        if (index != -1) {
-            //改变选中的 view 的颜色为选中的颜色
-            self.selectView = self.subViewArr[index];
-            self.selectView.isSelect = YES;
-            [self.selectView setColor];
-            
-            /** 用 oldIndex 来记录之前点按的数据*/
-            if (_oldIndex != -2 && _oldIndex != -1) {
-                BarView *unSelectView = self.subViewArr[_oldIndex];
-                unSelectView.isSelect = NO;
-                [unSelectView setColor];
-            }
-            
-            _oldIndex = index;
-        }
-    }
-}
-
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    
-}
-
-- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    self.disSelectView = YES;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if (self.disSelectView) {
-            //改变选中的 view 的颜色为选中的颜色
-            self.selectView = self.subViewArr[_oldIndex];
-            self.selectView.isSelect = NO;
-            [self.selectView setColor];
-        }
-    });
-}
-
 #pragma mark - 懒加载
 - (PNCircleChart *)sleepCircleChart
 {
@@ -410,10 +344,10 @@
     return _sleepCircleChart;
 }
 
-- (UIView *)sleepChartBackView
+- (XXBarChartView *)sleepChartBackView
 {
     if (!_sleepChartBackView) {
-        _sleepChartBackView = [[UIView alloc] init];
+        _sleepChartBackView = [[XXBarChartView alloc] init];
         
         [self addSubview:_sleepChartBackView];
         [_sleepChartBackView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -496,23 +430,7 @@
     return _myFmdbManager;
 }
 
-- (NSMutableArray *)subViewArr
-{
-    if (!_subViewArr) {
-        _subViewArr = [NSMutableArray array];
-    }
-    
-    return _subViewArr;
-}
 
-- (NSMutableArray *)xPointArr
-{
-    if (!_xPointArr) {
-        _xPointArr = [NSMutableArray array];
-    }
-    
-    return _xPointArr;
-}
 
 #pragma mark - 获取当前View的控制器的方法
 - (UIViewController *)findViewController:(UIView *)sourceView

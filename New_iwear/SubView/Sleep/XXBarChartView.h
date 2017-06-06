@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "BarView.h"
+#import "XXBarDataModel.h"
 
 @interface XXBarChartView : UIView
 
 @property (nonatomic, strong) NSArray *xValues;
-//@property (nonatomic, assign) float yValues;
+
+- (void)updateBar;
 
 @end

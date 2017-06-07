@@ -695,7 +695,7 @@ union LAT{
         }else if ([typeStr isEqualToString:@"06"]) {//电量
             NSString *batteryStr = [NSString stringWithFormat:@"%x", hexBytes[8]];
             model.firmwareModel.mode = FirmwareModeGetElectricity;
-            model.firmwareModel.PerElectricity = batteryStr;
+            model.firmwareModel.PerElectricity = [NSString stringWithFormat:@"%d", [NSStringTool parseIntFromData:[data subdataWithRange:NSMakeRange(8, 1)]]];
             DLog(@"电量：%@",batteryStr);
         }else  if ([typeStr isEqualToString:@"07"]) {//改名称
             model.firmwareModel.mode = FirmwareModeSetPerName;

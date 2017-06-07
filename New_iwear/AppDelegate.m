@@ -32,7 +32,6 @@
     
     //初始化一个tabBar控制器
     self.mainVC = [[MainViewController alloc]init];
-    //取出 bar 底部线条
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:self.mainVC];
 //    [nc.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
 ////    nc.navigationBar.barStyle = UIBarStyleBlack;

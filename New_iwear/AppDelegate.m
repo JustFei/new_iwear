@@ -16,7 +16,7 @@
     BOOL _isBind;
 }
 @property (nonatomic, strong) MDSnackbar *stateBar;
-@property (nonatomic ,strong) BleManager *myBleManager;
+@property (nonatomic, strong) BleManager *myBleManager;
 @property (nonatomic, strong) MainViewController *mainVC;
 
 @end
@@ -69,6 +69,25 @@
 {
     [self.stateBar dismiss];
     BindPeripheralViewController *vc = [[BindPeripheralViewController alloc] init];
+    switch (self.mainVC.pageControl.currentPage) {
+        case 0:
+            vc.naviBarColor = STEP_CURRENT_BACKGROUND_COLOR;
+            break;
+        case 1:
+            vc.naviBarColor = SLEEP_CURRENT_BACKGROUND_COLOR;
+            break;
+        case 2:
+            vc.naviBarColor = HR_CURRENT_BACKGROUND_COLOR;
+            break;
+        case 3:
+            vc.naviBarColor = BP_HISTORY_BACKGROUND_COLOR;
+            break;
+        case 4:
+            vc.naviBarColor = BO_HISTORY_BACKGROUND_COLOR;
+            break;
+        default:
+            break;
+    }
     [(UINavigationController *)self.window.rootViewController pushViewController:vc animated:YES];
 }
 

@@ -12,5 +12,6 @@
 
 /** 通知5个视图更新 UI */
 - (void)notiViewUpdateUI;
+@property (nonatomic, strong) UIPageControl *pageControl;
 
 @end

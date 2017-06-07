@@ -13,15 +13,15 @@
 @interface BleDevice : NSObject
 
 //设备
-@property (nonatomic ,strong) CBPeripheral *peripheral;
+@property (nonatomic, strong) CBPeripheral *peripheral;
 //RSSI
-@property (nonatomic ,strong) NSNumber *RSSI;
+@property (nonatomic, strong) NSNumber *RSSI;
 //UUID
-@property (nonatomic ,strong) NSString *uuidString;
+@property (nonatomic, strong) NSString *uuidString;
 //设备名
-@property (nonatomic ,strong) NSString *deviceName;
+@property (nonatomic, strong) NSString *deviceName;
 //Mac地址
-@property (nonatomic ,strong) NSString *macAddress;
+@property (nonatomic, strong) NSString *macAddress;
 
 - (instancetype)initWith:(CBPeripheral *)cbPeripheral andAdvertisementData:(NSDictionary *)advertisementData andRSSI:(NSNumber *)RSSI;
 

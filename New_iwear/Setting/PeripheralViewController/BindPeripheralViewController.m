@@ -36,11 +36,11 @@
 @property (nonatomic ,weak) UITableView *peripheralList;
 @property (nonatomic ,weak) MDButton *bindButton;
 @property (nonatomic ,weak) UIImageView *connectImageView;
-@property (nonatomic ,strong) UIImageView *refreshImageView;
-@property (nonatomic ,strong) UILabel *bindStateLabel;
+@property (nonatomic, strong) UIImageView *refreshImageView;
+@property (nonatomic, strong) UILabel *bindStateLabel;
 @property (nonatomic, strong) MDButton *qrCodeButton;
-@property (nonatomic ,strong) BleManager *myBleMananger;
-@property (nonatomic ,strong) MBProgressHUD *hud;
+@property (nonatomic, strong) BleManager *myBleMananger;
+@property (nonatomic, strong) MBProgressHUD *hud;
 @property (nonatomic ,copy) NSString *changeName;
 @property (nonatomic, strong) MDToast *connectToast;
 
@@ -63,6 +63,9 @@
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
+    if (self.naviBarColor) {
+        [self.navigationController.navigationBar setBackgroundColor:self.naviBarColor];
+    }
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.view.backgroundColor = self.navigationController.navigationBar.backgroundColor;
@@ -117,9 +120,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    if (self.naviBarColor) {
-        [self.navigationController.navigationBar setBackgroundColor:self.naviBarColor];
-    }
+    
 }
 
 - (void)dealloc

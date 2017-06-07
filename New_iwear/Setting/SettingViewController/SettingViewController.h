@@ -10,6 +10,6 @@
 
 @interface SettingViewController : UIViewController
 
-@property (nonatomic ,strong) UIColor *naviBarColor;
+@property (nonatomic, strong) UIColor *naviBarColor;
 
 @end

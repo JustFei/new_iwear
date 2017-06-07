@@ -93,8 +93,10 @@ static NSString *const VersionUpdateTableViewCellID = @"VersionUpdateTableViewCe
         NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
         NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
         VersionModel *model0 = [VersionModel modelWithTitle:@"软件版本" andVersion:app_Version];
+        model0.versionType = VersionTypeSoftware;
         NSString *hardware_Version = [[NSUserDefaults standardUserDefaults] objectForKey:HARDWARE_VERSION];
         VersionModel *model1 = [VersionModel modelWithTitle:@"硬件版本" andVersion:hardware_Version == nil ? @"" : hardware_Version];
+        model1.versionType = VersionTypeHardware;
         
         _dataArr = @[model0, model1];
     }

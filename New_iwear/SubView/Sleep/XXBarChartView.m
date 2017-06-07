@@ -130,26 +130,26 @@
 //    }
 //}
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    //这里刷新后，后面的 view 就无法改变 backcolor 了，再尝试其他办法
-//    [self updateBar];
-    [self touchPoint:touches withEvent:event];
-    [super touchesBegan:touches withEvent:event];
-}
-
-- (void)touchPoint:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    //Get the point user touched
-    UITouch *touch = [touches anyObject];
-    CGPoint touchPoint = [touch locationInView:self];
-    BarView *subview = (BarView *)[self hitTest:touchPoint withEvent:nil];
-    
-    DLog(@"clickBar == %ld", subview.tag);
-
-    subview.isSelect = YES;
-    [subview setColor];
-}
+//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+//{
+//    //这里刷新后，后面的 view 就无法改变 backcolor 了，再尝试其他办法
+////    [self updateBar];
+//    [self touchPoint:touches withEvent:event];
+//    [super touchesBegan:touches withEvent:event];
+//}
+//
+//- (void)touchPoint:(NSSet *)touches withEvent:(UIEvent *)event
+//{
+//    //Get the point user touched
+//    UITouch *touch = [touches anyObject];
+//    CGPoint touchPoint = [touch locationInView:self];
+//    BarView *subview = (BarView *)[self hitTest:touchPoint withEvent:nil];
+//    
+//    DLog(@"clickBar == %ld", subview.tag);
+//
+//    subview.isSelect = YES;
+//    [subview setColor];
+//}
 
 //- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 //{

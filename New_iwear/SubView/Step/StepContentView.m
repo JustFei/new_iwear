@@ -108,7 +108,7 @@
         }];
         
         MDButton *hisBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
-        [hisBtn setImage:[UIImage imageNamed:@"walk_trainingicon"] forState:UIControlStateNormal];
+        [hisBtn setImage:[UIImage imageNamed:@"all_historyicon"] forState:UIControlStateNormal];
         hisBtn.backgroundColor = CLEAR_COLOR;
         [hisBtn addTarget:self action:@selector(showHisVC:) forControlEvents:UIControlEventTouchUpInside];
         [_upView addSubview:hisBtn];
@@ -390,8 +390,8 @@
 //            [self.dataArr addObject:@(model.stepNumber.integerValue)];
             [dbDic setObject:model  forKey:[model.startTime substringWithRange:NSMakeRange(11, 2)]];
             //设置数据源的最大值为 barChart 的最大值的2/3
-            if (model.stepNumber.integerValue > self.stepBarChart.yMaxValue * 0.6) {
-                self.stepBarChart.yMaxValue = model.stepNumber.integerValue * 1.5;
+            if (model.stepNumber.integerValue > self.stepBarChart.yMaxValue * 0.7) {
+                self.stepBarChart.yMaxValue = model.stepNumber.integerValue * 1.3;
             }
         }
         NSMutableArray *indexArr = [NSMutableArray array];

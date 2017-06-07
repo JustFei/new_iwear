@@ -22,11 +22,11 @@
 
 @interface BleManager () <UNUserNotificationCenterDelegate>
 
-@property (nonatomic ,strong) CBCharacteristic *notifyCharacteristic;
-@property (nonatomic ,strong) CBCharacteristic *writeCharacteristic;
-@property (nonatomic ,strong) NSMutableArray *deviceArr;
-//@property (nonatomic ,strong) AllBleFmdb *fmTool;
-//@property (nonatomic ,strong) UIAlertView *disConnectView;
+@property (nonatomic, strong) CBCharacteristic *notifyCharacteristic;
+@property (nonatomic, strong) CBCharacteristic *writeCharacteristic;
+@property (nonatomic, strong) NSMutableArray *deviceArr;
+//@property (nonatomic, strong) AllBleFmdb *fmTool;
+//@property (nonatomic, strong) UIAlertView *disConnectView;
 @property (nonatomic, strong) UNMutableNotificationContent *notiContent;
 /** 控制同步发送消息的信号量 */
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;

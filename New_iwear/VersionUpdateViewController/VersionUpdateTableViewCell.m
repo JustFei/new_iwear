@@ -68,6 +68,7 @@
         _model = model;
         [self.titleLabel setText:model.title];
         [self.verLabel setText:model.version];
+        self.checkUpdateButton.hidden = model.versionType == VersionTypeHardware ? YES : NO;
     }
 }
 

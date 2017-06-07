@@ -11,7 +11,7 @@
 
 @interface QRCodeScanningVC ()
 
-@property (nonatomic ,strong) UIAlertController *alert;
+@property (nonatomic, strong) UIAlertController *alert;
 
 @end
 

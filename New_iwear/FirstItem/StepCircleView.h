@@ -10,7 +10,7 @@
 
 @interface StepCircleView : UIView
 
-@property (nonatomic ,strong) UIImageView *point;
+@property (nonatomic, strong) UIImageView *point;
 
 - (void)startCircleAnimation;
 

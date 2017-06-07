@@ -8,8 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum : NSUInteger {
+    VersionTypeSoftware = 0,
+    VersionTypeHardware
+} VersionType;
+
 @interface VersionModel : NSObject
 
+@property (nonatomic, assign) VersionType versionType;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *version;
 

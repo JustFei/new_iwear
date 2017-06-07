@@ -30,7 +30,6 @@
 @property (nonatomic, strong) BloodPressureContentView  *bloodPressureView;
 @property (nonatomic, strong) BloodO2ContentView *boView;
 @property (nonatomic, strong) UIScrollView *backScrollView;
-@property (nonatomic, strong) UIPageControl *pageControl;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) MDButton *leftButton;
 @property (nonatomic, strong) FMDBManager *myFmdbManager;
@@ -116,9 +115,9 @@
         //查询数据库
         NSArray *stepDataArr = [self.myFmdbManager querySegmentedStepWithDate:[formatter1 stringFromDate:currentDate]];
         NSArray *sleepDataArr = [self.myFmdbManager querySleepWithDate:[formatter stringFromDate:currentDate]];
-        NSArray *hrArr = [self.myFmdbManager queryHeartRate:@"20" WithType:QueryTypeWithLastCount];
-        NSArray *bloodDataArr = [self.myFmdbManager queryBlood:@"10" WithType:QueryTypeWithLastCount];
-        NSArray *boDataArr = [self.myFmdbManager queryBloodO2:@"20" WithType:QueryTypeWithLastCount];
+        NSArray *hrArr = [self.myFmdbManager queryHeartRate:@"14" WithType:QueryTypeWithLastCount];
+        NSArray *bloodDataArr = [self.myFmdbManager queryBlood:@"7" WithType:QueryTypeWithLastCount];
+        NSArray *boDataArr = [self.myFmdbManager queryBloodO2:@"14" WithType:QueryTypeWithLastCount];
         
        dispatch_async(dispatch_get_main_queue(), ^{
            //更新 UI

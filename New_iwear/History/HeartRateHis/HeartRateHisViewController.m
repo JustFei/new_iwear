@@ -232,7 +232,7 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
             view1.layer.borderColor = HR_CURRENT_BACKGROUND_COLOR.CGColor;
             view2.layer.borderColor = HR_CURRENT_BACKGROUND_COLOR.CGColor;
             view3.layer.borderColor = HR_CURRENT_BACKGROUND_COLOR.CGColor;
-            [headImageView setImage:[UIImage imageNamed:@"heart_heart-icon"]];
+            [headImageView setImage:[UIImage imageNamed:@"heart_heartic02"]];
             [self.datePicker setHighlightColor:HR_CURRENT_BACKGROUND_COLOR];//设置高亮颜色
             [unitLabel setText:@"次/分钟"];
             [unitLabel2 setText:@"次/分钟"];
@@ -291,24 +291,31 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
             case ViewControllerTypeHR:
             {
                 NSArray *hrArr = [self.myFmdbManager queryHeartRate:monthStr WithType:QueryTypeWithMonth];
-                [self showHrDataWithArr:hrArr];
+                if (hrArr.count == 0) {
+                    [self showWitNoData];
+                }else {
+                    [self showHrDataWithArr:hrArr];
+                }
             }
                 break;
             case ViewControllerTypeBP:
             {
                 NSArray *bpArr = [self.myFmdbManager queryBlood:monthStr WithType:QueryTypeWithMonth];
-                [self showBpDataWithArr:bpArr];
-                NSString *year = [monthStr substringWithRange:NSMakeRange(0, 4)];
-                NSString *month = [monthStr substringWithRange:NSMakeRange(5, 2)];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    self.view1StepLabel.text = [NSString stringWithFormat:@"%@年%@月", year, month];
-                });
+                if (bpArr.count == 0) {
+                    [self showWitNoData];
+                }else {
+                    [self showBpDataWithArr:bpArr];
+                }
             }
                 break;
             case ViewControllerTypeBO:
             {
                 NSArray *boArr = [self.myFmdbManager queryBloodO2:monthStr WithType:QueryTypeWithMonth];
-                [self showBoDataWithArr:boArr];
+                if (boArr.count == 0) {
+                    [self showWitNoData];
+                }else {
+                    [self showBoDataWithArr:boArr];
+                }
             }
                 break;
                 
@@ -316,6 +323,18 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
                 break;
         }
         
+    });
+}
+
+- (void)showWitNoData
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+        self.stepLabel.text = @"--";
+        self.mileageAndkCalLabel.text = @"";
+        self.view1StepLabel.text = @"--";
+        self.view2MileageLabel.text = @"--";
+        self.view3kCalLabel.text = @"--";
     });
 }
 
@@ -391,6 +410,9 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
         self.mileageAndkCalLabel.text = [NSString stringWithFormat:@"%@ %@", lastTestModel.dayString, lastTestModel.timeString];
         float aveHighBp = (float)sumHighBp / bpArr.count;
         float aveLowBp = (float)sumLowBp / bpArr.count;
+        NSString *year = [lastTestModel.monthString substringWithRange:NSMakeRange(0, 4)];
+        NSString *month = [lastTestModel.monthString substringWithRange:NSMakeRange(5, 2)];
+        self.view1StepLabel.text = [NSString stringWithFormat:@"%@年%@月", year, month];
         self.view2MileageLabel.text = [NSString stringWithFormat:@"%.0f", aveHighBp];
         self.view3kCalLabel.text = [NSString stringWithFormat:@"%.0f", aveLowBp];
     });
@@ -515,6 +537,7 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
     NSString *currentDateString = [formatter stringFromDate:date];
     
     [self.hisBtn setTitle:[currentDateString isEqualToString:_todayStr] ? @"本月" : currentDateString forState:UIControlStateNormal];
+    [self.dataArr removeAllObjects];
     [self getDataFromDBWithMonthStr:currentDateString];
 }
 

@@ -307,10 +307,11 @@ static FMDatabase *_fmdb;
         NSInteger timeInterval = [set intForColumn:@"timeInterval"];
         NSInteger CHCount = [set intForColumn:@"CHCount"];
         NSInteger AHCount = [set intForColumn:@"AHCount"];
+        NSString *date1 = [set stringForColumn:@"date"];
         
         SegmentedStepModel *model = [[SegmentedStepModel alloc] init];
         
-        model.date = date;
+        model.date = date1;
         model.stepNumber = stepNumber;
         model.kCalNumber = kCalNumber;
         model.mileageNumber = mileageNumber;

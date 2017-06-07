@@ -30,10 +30,10 @@
 @property (nonatomic, strong) UILabel *highBOLabel;
 @property (nonatomic, strong) UIView *view1;
 @property (nonatomic, strong) PNCircleChart *boCircleChart;
-@property (nonatomic ,strong) BleManager *myBleManager;
-@property (nonatomic ,strong) NSMutableArray *dateArr;
-@property (nonatomic ,strong) NSMutableArray *dataArr;
-@property (nonatomic ,strong) PNLineChart *BOChart;
+@property (nonatomic, strong) BleManager *myBleManager;
+@property (nonatomic, strong) NSMutableArray *dateArr;
+@property (nonatomic, strong) NSMutableArray *dataArr;
+@property (nonatomic, strong) PNLineChart *BOChart;
 @property (nonatomic, strong) NSMutableArray *boArr;
 @property (nonatomic, strong) FMDBManager *myFmdbManager;
 @property (nonatomic, strong) UILabel *leftTimeLabel;
@@ -112,7 +112,7 @@
         }];
         
         MDButton *hisBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
-        [hisBtn setImage:[UIImage imageNamed:@"walk_trainingicon"] forState:UIControlStateNormal];
+        [hisBtn setImage:[UIImage imageNamed:@"all_historyicon"] forState:UIControlStateNormal];
         hisBtn.backgroundColor = CLEAR_COLOR;
         [hisBtn addTarget:self action:@selector(showHisVC:) forControlEvents:UIControlEventTouchUpInside];
         [_upView addSubview:hisBtn];

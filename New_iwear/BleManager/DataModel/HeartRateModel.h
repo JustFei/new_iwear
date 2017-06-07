@@ -12,6 +12,7 @@ typedef enum : NSUInteger {
     HeartRateDataLastData = 0,
     HeartRateDataHistoryData,
     HeartRateDataHistoryCount,
+    HeartRateDataSingleTestSuccess, //单次测量是否成功
     HeartRateDataContinuous,     //持续测量
     HeartRateDataUpload         //测量完成时实时上报的数据
 } HeartRateData;
@@ -37,5 +38,7 @@ typedef enum : NSUInteger {
 @property (nonatomic ,copy) NSString *date;
 //用来按月查询
 @property (nonatomic, copy) NSString *month;
+//用来判断但是测量是否成功
+@property (nonatomic, assign) BOOL singleTestSuccess;
 
 @end

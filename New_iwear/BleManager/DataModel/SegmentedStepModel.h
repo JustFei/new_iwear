@@ -10,6 +10,7 @@
 
 typedef enum : NSUInteger {
     SegmentedStepDataCurrentData = 0,
+    SegmentedStepDataUpdateData,
     SegmentedStepDataHistoryData,
     SegmentedStepDataHistoryCount
 } SegmentedStepData;

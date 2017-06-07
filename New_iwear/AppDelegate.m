@@ -10,7 +10,6 @@
 #import "MainViewController.h"
 #import "BindPeripheralViewController.h"
 #import "BleManager.h"
-#import "SyncTool.h"
 
 @interface AppDelegate () < BleConnectDelegate, BleDiscoverDelegate, BleReceiveSearchResquset >
 {
@@ -33,8 +32,13 @@
     
     //初始化一个tabBar控制器
     self.mainVC = [[MainViewController alloc]init];
+    //取出 bar 底部线条
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:self.mainVC];
-    
+//    [nc.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+////    nc.navigationBar.barStyle = UIBarStyleBlack;
+//    nc.navigationBar.translucent = NO;
+//    [nc.navigationBar setShadowImage:[UIImage new]];
+
     //修改title颜色和font
     [nc.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont systemFontOfSize:15]}];
@@ -177,20 +181,8 @@
     
 //    self 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.stateBar.text = @"正在同步数据";
-        [[SyncTool shareInstance] syncData];
-        [SyncTool shareInstance].syncDataCurrentCountBlock = ^(NSInteger progress) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.stateBar setText:[NSString stringWithFormat:@"正在同步数据 %ld%%", progress]];
-                if (progress == 100) {
-                    self.stateBar.text = @"同步完成";
-                    [self.mainVC notiViewUpdateUI];
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                        [self.stateBar dismiss];
-                    });
-                }
-            });
-        };
+//        self.stateBar.text = @"正在同步数据";
+        [[SyncTool shareInstance] syncAllData];
     });
 }
 

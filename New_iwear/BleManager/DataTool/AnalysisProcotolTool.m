@@ -406,9 +406,19 @@ static AnalysisProcotolTool *analysisProcotolTool = nil;
 {
     manridyModel *model = [[manridyModel alloc] init];
     model.receiveDataType = ReturnModelTypeHeartRateStateModel;
-    
-    if ([head isEqualToString:@"09"]) {
+    const unsigned char *hexBytes = [data bytes];
+    NSString *TT = [NSString stringWithFormat:@"%02x", hexBytes[1]];
+    NSString *SS = [NSString stringWithFormat:@"%02x", hexBytes[2]];
+    if ([head isEqualToString:@"09"] || [head isEqualToString:@"fc"]) {
         model.isReciveDataRight = ResponsEcorrectnessDataRgith;
+        if ([TT isEqualToString:@"02"] && [SS isEqualToString:@"00"]) {
+            model.heartRateModel.singleTestSuccess = YES;
+            model.heartRateModel.heartRateState = HeartRateDataSingleTestSuccess;
+        }else if ([TT isEqualToString:@"02"] && [SS isEqualToString:@"01"]) {
+            model.heartRateModel.heartRateState = HeartRateDataContinuous;
+        }else if ([TT isEqualToString:@"09"]) {
+            model.heartRateModel.heartRateState = HeartRateDataUpload;
+        }
     }else if ([head isEqualToString:@"89"]) {
         model.isReciveDataRight = ResponsEcorrectnessDataFail;
     }
@@ -435,16 +445,13 @@ static AnalysisProcotolTool *analysisProcotolTool = nil;
     manridyModel *model = [[manridyModel alloc] init];
     model.receiveDataType = ReturnModelTypeHeartRateModel;
     
-    if ([head isEqualToString:@"0a"] || [head isEqualToString:@"0A"]) {
+    if ([head isEqualToString:@"0a"]) {
         
         const unsigned char *hexBytes = [data bytes];
         
         NSString *TyStr = [NSString stringWithFormat:@"%02x", hexBytes[1]];
         
-        if ([TyStr isEqualToString:@"00"]) {
-            model.heartRateModel.heartRateState = HeartRateDataLastData;
-            
-        }else if ([TyStr isEqualToString:@"01"]) {
+        if ([TyStr isEqualToString:@"01"]) {
             NSData *sum = [data subdataWithRange:NSMakeRange(2, 2)];
             int sumVale = [NSStringTool parseIntFromData:sum];
             NSString *sumStr = [NSString stringWithFormat:@"%d",sumVale];
@@ -895,8 +902,9 @@ union LAT{
     if ([head isEqualToString:@"1a"]) {
         const unsigned char *hexBytes = [data bytes];
         NSString *TyStr = [NSString stringWithFormat:@"%02x", hexBytes[1]];
-        
-        if ([TyStr isEqualToString:@"02"]) {
+        if ([TyStr isEqualToString:@"01"]) {
+            model.segmentStepModel.segmentedStepState = SegmentedStepDataUpdateData;
+        }else if ([TyStr isEqualToString:@"02"]) {
             model.segmentStepModel.segmentedStepState = SegmentedStepDataHistoryCount;
         }else if ([TyStr isEqualToString:@"04"]) {
             model.segmentStepModel.segmentedStepState = SegmentedStepDataHistoryData;

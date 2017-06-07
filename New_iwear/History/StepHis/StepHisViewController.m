@@ -50,7 +50,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [[self.navigationController.navigationBar subviews].firstObject setAlpha:1];
-    [self.navigationController.navigationBar setBackgroundColor:STEP_HISTORY_BACKGROUND_COLOR];
+    [self.navigationController.navigationBar setBackgroundColor:STEP_CURRENT_BACKGROUND_COLOR];
 }
 
 - (void)initUI

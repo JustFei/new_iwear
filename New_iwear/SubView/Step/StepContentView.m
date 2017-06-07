@@ -444,13 +444,13 @@
         [_stepBarChart setStrokeColor:COLOR_WITH_HEX(0x4caf50, 0.54)];
         _stepBarChart.barBackgroundColor = [UIColor clearColor];
         _stepBarChart.yChartLabelWidth = 20.0;
-        _stepBarChart.chartMarginLeft = 30.0;
-        _stepBarChart.chartMarginRight = 10.0;
-        _stepBarChart.chartMarginTop = 5.0;
-        _stepBarChart.chartMarginBottom = 10.0;
+        _stepBarChart.chartMarginLeft = 0;
+        _stepBarChart.chartMarginRight = 0;
+        _stepBarChart.chartMarginTop = 0;
+        _stepBarChart.chartMarginBottom = 0;
         _stepBarChart.yMinValue = 0;
         _stepBarChart.yMaxValue = 200;
-        _stepBarChart.barWidth = 16;
+        _stepBarChart.barWidth = 12;
         _stepBarChart.barRadius = 0;
         _stepBarChart.showLabel = NO;
         _stepBarChart.showChartBorder = NO;

@@ -48,7 +48,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [[self.navigationController.navigationBar subviews].firstObject setAlpha:1];
-    [self.navigationController.navigationBar setBackgroundColor:SLEEP_HISTORY_BACKGROUND_COLOR];
+    [self.navigationController.navigationBar setBackgroundColor:SLEEP_CURRENT_BACKGROUND_COLOR];
 }
 
 - (void)initUI

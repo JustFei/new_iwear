@@ -18,6 +18,7 @@
 #import "BleManager.h"
 #import "New_iwear-Bridging-Header.h"
 #import "New_iwear-Swift.h"
+#import "SyncTool.h"
 
 #ifndef IwearHeader_pch
 #define IwearHeader_pch

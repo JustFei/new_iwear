@@ -22,6 +22,7 @@
 }
 
 @property (nonatomic, strong) UIView *upView;
+@property (nonatomic, strong) UILabel *todayLabel;
 @property (nonatomic, strong) UILabel *hrLabel;
 @property (nonatomic, strong) MDButton *singleTestButton;
 @property (nonatomic, strong) UILabel *averageHR;
@@ -77,12 +78,12 @@
         }];
         [self.hrLabel setText:@"--"];
         
-        UILabel *todayLabel = [[UILabel alloc] init];
-        [todayLabel setText:@"上次测量结果"];
-        [todayLabel setTextColor:TEXT_WHITE_COLOR_LEVEL3];
-        [todayLabel setFont:[UIFont systemFontOfSize:20]];
-        [self addSubview:todayLabel];
-        [todayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.todayLabel = [[UILabel alloc] init];
+        [self.todayLabel setText:@"上次测量结果"];
+        [self.todayLabel setTextColor:TEXT_WHITE_COLOR_LEVEL3];
+        [self.todayLabel setFont:[UIFont systemFontOfSize:20]];
+        [self addSubview:self.todayLabel];
+        [self.todayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.hrCircleChart.mas_centerX);
             make.bottom.equalTo(self.hrLabel.mas_top).offset(-18 * VIEW_FRAME_WIDTH / 360);
         }];
@@ -92,7 +93,7 @@
         [self addSubview:headImageView];
         [headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.hrCircleChart.mas_centerX);
-            make.bottom.equalTo(todayLabel.mas_top);
+            make.bottom.equalTo(self.todayLabel.mas_top);
         }];
         
         UIView *lineView = [[UIView alloc] init];
@@ -294,10 +295,9 @@
     }else {
         if ([sender.titleLabel.text isEqualToString:@"测量"]) {
             [[BleManager shareInstance] writeHeartRateTestStateToPeripheral:HeartRateDataStateSingle];
-            [sender setTitle:@"停止" forState:UIControlStateNormal];
+            sender.enabled = NO;
         }else {
             [[BleManager shareInstance] writeHeartRateTestStateToPeripheral:HeartRateTestStateStop];
-            [sender setTitle:@"测量" forState:UIControlStateNormal];
         }
         
     }
@@ -331,7 +331,28 @@
 
 - (void)getHRTestState:(NSNotification *)noti
 {
-    
+    manridyModel *model = [noti object];
+    if (model.heartRateModel.heartRateState == HeartRateDataSingleTestSuccess) {
+        if (model.heartRateModel.singleTestSuccess) {
+            self.singleTestButton.enabled = YES;
+            [self.singleTestButton setTitle:@"停止" forState:UIControlStateNormal];
+            [self.todayLabel setText:@"测量中"];
+        }else {
+            self.singleTestButton.enabled = YES;
+            MDToast *failToast = [[MDToast alloc] initWithText:@"测试失败" duration:1.5];
+            [failToast show];
+            [self.todayLabel setText:@"上次测量心率"];
+        }
+    }else if (model.heartRateModel.heartRateState == HeartRateDataUpload) {
+        //每次进入主界面时同步数据
+        [[SyncTool shareInstance] syncAllData];
+        self.singleTestButton.enabled = YES;
+        [self.singleTestButton setTitle:@"测量" forState:UIControlStateNormal];
+        [self.todayLabel setText:@"测量结束"];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.todayLabel setText:@"上次测量心率"];
+        });
+    }
 }
 
 /** 更新视图 */

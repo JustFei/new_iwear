@@ -228,12 +228,12 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
         case ViewControllerTypeHR:
         {
             self.title = @"心率记录";
-            [self.navigationController.navigationBar setBackgroundColor:HR_HISTORY_BACKGROUND_COLOR];
-            view1.layer.borderColor = HR_HISTORY_BACKGROUND_COLOR.CGColor;
-            view2.layer.borderColor = HR_HISTORY_BACKGROUND_COLOR.CGColor;
-            view3.layer.borderColor = HR_HISTORY_BACKGROUND_COLOR.CGColor;
+            [self.navigationController.navigationBar setBackgroundColor:HR_CURRENT_BACKGROUND_COLOR];
+            view1.layer.borderColor = HR_CURRENT_BACKGROUND_COLOR.CGColor;
+            view2.layer.borderColor = HR_CURRENT_BACKGROUND_COLOR.CGColor;
+            view3.layer.borderColor = HR_CURRENT_BACKGROUND_COLOR.CGColor;
             [headImageView setImage:[UIImage imageNamed:@"heart_heart-icon"]];
-            [self.datePicker setHighlightColor:HR_HISTORY_BACKGROUND_COLOR];//设置高亮颜色
+            [self.datePicker setHighlightColor:HR_CURRENT_BACKGROUND_COLOR];//设置高亮颜色
             [unitLabel setText:@"次/分钟"];
             [unitLabel2 setText:@"次/分钟"];
             [unitLabel3 setText:@"次/分钟"];

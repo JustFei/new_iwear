@@ -545,7 +545,14 @@
 {
     DLog(@"asynCount == %ld noti.name == %@",_asynCount ,noti.name);
     
-    if ([noti.name isEqualToString:SET_TIME] || [noti.name isEqualToString:SET_WINDOW] || [noti.name isEqualToString:GET_SEDENTARY_DATA] || [noti.name isEqualToString:LOST_PERIPHERAL_SWITCH] || [noti.name isEqualToString:SET_UNITS_DATA] || [noti.name isEqualToString:SET_TIME_FORMATTER] || [noti.name isEqualToString:SET_MOTION_TARGET] || [noti.name isEqualToString:SET_USER_INFO]) {
+    if ([noti.name isEqualToString:SET_TIME] ||
+        [noti.name isEqualToString:SET_WINDOW] ||
+        [noti.name isEqualToString:GET_SEDENTARY_DATA] ||
+        [noti.name isEqualToString:LOST_PERIPHERAL_SWITCH] ||
+        [noti.name isEqualToString:SET_UNITS_DATA] ||
+        [noti.name isEqualToString:SET_TIME_FORMATTER] ||
+        [noti.name isEqualToString:SET_MOTION_TARGET] ||
+        [noti.name isEqualToString:SET_USER_INFO]) {
         BOOL isFirst = noti.userInfo[@"success"];
         if (isFirst == 1)
         {

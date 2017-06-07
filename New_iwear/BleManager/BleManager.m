@@ -1034,7 +1034,11 @@ static BleManager *bleManager = nil;
         }else if ([headStr isEqualToString:@"fc"]) {
             NSString *secondStr = [NSString stringWithFormat:@"%02x", hexBytes[1]];
 //            NSString *TTStr = [NSString stringWithFormat:@"%02x", hexBytes[3]];
-            if ([secondStr isEqualToString:@"10"]) {
+            if ([secondStr isEqualToString:@"09"]) {
+                //心率开关
+                manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisHeartStateData:value WithHeadStr:headStr];
+                [[NSNotificationCenter defaultCenter] postNotificationName:SET_HR_STATE object:model];
+            }else if ([secondStr isEqualToString:@"10"]) {
                 //设备查找手机，需要全局监听。有 yes 和 no 两种状态
                 [[NSNotificationCenter defaultCenter] postNotificationName:SET_FIND_PHONE object:nil];
             }else if ([secondStr isEqualToString:@"19"]) {

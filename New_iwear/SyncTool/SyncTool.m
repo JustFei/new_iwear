@@ -27,6 +27,7 @@
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;
 @property (nonatomic, strong) dispatch_queue_t sendMessageQueue;
 @property (nonatomic, strong) FMDBManager *myFmdbManager;
+@property (nonatomic, strong) MDSnackbar *stateBar;
 
 @end
 
@@ -83,14 +84,22 @@ static SyncTool *_syncTool = nil;
 }
 
 #pragma mark - 数据同步
-- (void)syncData
+- (void)syncAllData
 {
     //如果在同步中，直接返回
     if (self.syncDataIng) {
         DLog(@"正在同步中。。。");
         return;
     }
-    
+    if (![SyncTool shareInstance].syncDataIng && [BleManager shareInstance].connectState == kBLEstateDidConnected) {
+        [self syncData];
+        [self.stateBar setText:@"正在同步数据"];
+        [self.stateBar show];
+    }
+}
+
+- (void)syncData
+{
     self.syncDataIng = YES;
     //初始化计数器
     self.sumCount = 0;
@@ -136,11 +145,9 @@ static SyncTool *_syncTool = nil;
         
         //如果都没有数据的话，就直接模拟同步成功的进度条
         if (!_haveMotion && !_haveSleep && !_haveHR && !_haveBP && !_haveBO) {
-            if (self.syncDataCurrentCountBlock) {
-                for (int i = 0; i <= 100; i ++) {
-                    self.syncDataCurrentCountBlock(i);
-                    [NSThread sleepForTimeInterval:0.01];
-                }
+            for (int i = 0; i <= 100; i ++) {
+                [self updateProgress:i];
+                [NSThread sleepForTimeInterval:0.01];
             }
             return ;
         }
@@ -182,7 +189,12 @@ static SyncTool *_syncTool = nil;
 - (void)getSegmentStep:(NSNotification *)noti
 {
     manridyModel *model = [noti object];
-    if (model.segmentStepModel.segmentedStepState == SegmentedStepDataHistoryCount) {
+    if (model.segmentStepModel.segmentedStepState == SegmentedStepDataUpdateData) {
+        //当有数据上报时，获取新数据
+        if (!_syncDataIng) {
+            [self syncData];
+        }
+    }else if (model.segmentStepModel.segmentedStepState == SegmentedStepDataHistoryCount) {
         self.sumCount = self.sumCount + model.segmentStepModel.AHCount;
         _haveMotion = model.segmentStepModel.AHCount != 0;
         DLog(@"sum == %ld", self.sumCount);
@@ -193,15 +205,17 @@ static SyncTool *_syncTool = nil;
         if (model.segmentStepModel.AHCount == model.segmentStepModel.CHCount + 1) {
             // signal操作+1
             dispatch_semaphore_signal(self.semaphore);
+            if (_haveMotion && !_haveSleep && !_haveHR && !_haveBP && !_haveBO) {
+                self.syncDataIng = NO;
+                DLog(@"self.syncDataIng.segmentStep == %d", self.syncDataIng);
+            }
         }
         
         //传递进度值
         self.progressCount --;
         float progress = (self.sumCount - self.progressCount) / (float)self.sumCount;
         DLog(@"progress == %.2f", progress);
-        if (self.syncDataCurrentCountBlock) {
-            self.syncDataCurrentCountBlock(progress * 100);
-        }
+        [self updateProgress:(progress *100)];
         //插入数据库
         [self.myFmdbManager insertSegmentStepModel:model.segmentStepModel];
     }
@@ -222,15 +236,17 @@ static SyncTool *_syncTool = nil;
         if (model.sleepModel.sumDataCount == model.sleepModel.currentDataCount + 1) {
             // signal操作+1
             dispatch_semaphore_signal(self.semaphore);
+            if (!_haveMotion && _haveSleep && !_haveHR && !_haveBP && !_haveBO) {
+                self.syncDataIng = NO;
+                DLog(@"self.syncDataIng.Sleep == %d", self.syncDataIng);
+            }
         }
         
         //传递进度值
         self.progressCount --;
         float progress = (self.sumCount - self.progressCount) / (float)self.sumCount;
         DLog(@"progress == %.2f", progress);
-        if (self.syncDataCurrentCountBlock) {
-            self.syncDataCurrentCountBlock(progress * 100);
-        }
+        [self updateProgress:(progress *100)];
         
         //插入数据库
         [self.myFmdbManager insertSleepModel:model.sleepModel];
@@ -241,7 +257,12 @@ static SyncTool *_syncTool = nil;
 - (void)getHR:(NSNotification *)noti
 {
     manridyModel *model = [noti object];
-    if (model.heartRateModel.heartRateState == HeartRateDataHistoryCount) {
+    if (model.heartRateModel.heartRateState == HeartRateDataUpload) {
+        //收到上报数据时，同步数据
+//        if (!_syncDataIng) {
+//            [self syncData];
+//        }
+    }else if (model.heartRateModel.heartRateState == HeartRateDataHistoryCount) {
         self.sumCount = self.sumCount + model.heartRateModel.sumDataCount.integerValue;
         _haveHR = model.heartRateModel.sumDataCount.integerValue != 0;
         DLog(@"sum == %ld", self.sumCount);
@@ -252,15 +273,17 @@ static SyncTool *_syncTool = nil;
         if (model.heartRateModel.sumDataCount.integerValue == model.heartRateModel.currentDataCount.integerValue + 1) {
             // signal操作+1
             dispatch_semaphore_signal(self.semaphore);
+            if (!_haveMotion && !_haveSleep && _haveHR && !_haveBP && !_haveBO) {
+                self.syncDataIng = NO;
+                DLog(@"self.syncDataIng.HR == %d", self.syncDataIng);
+            }
         }
         
         //传递进度值
         self.progressCount --;
         float progress = (self.sumCount - self.progressCount) / (float)self.sumCount;
         DLog(@"progress == %.2f", progress);
-        if (self.syncDataCurrentCountBlock) {
-            self.syncDataCurrentCountBlock(progress * 100);
-        }
+        [self updateProgress:(progress *100)];
         
         //插入数据库
         [self.myFmdbManager insertHeartRateModel:model.heartRateModel];
@@ -282,15 +305,17 @@ static SyncTool *_syncTool = nil;
         if (model.bloodModel.sumCount.integerValue == model.bloodModel.currentCount.integerValue + 1) {
             // signal操作+1
             dispatch_semaphore_signal(self.semaphore);
+            if (!_haveMotion && !_haveSleep && !_haveHR && _haveBP && !_haveBO) {
+                self.syncDataIng = NO;
+                DLog(@"self.syncDataIng.BP == %d", self.syncDataIng);
+            }
         }
         
         //传递进度值
         self.progressCount --;
         float progress = (self.sumCount - self.progressCount) / (float)self.sumCount;
         DLog(@"progress == %.2f", progress);
-        if (self.syncDataCurrentCountBlock) {
-            self.syncDataCurrentCountBlock(progress * 100);
-        }
+        [self updateProgress:(progress *100)];
         
         //插入数据库
         [self.myFmdbManager insertBloodModel:model.bloodModel];
@@ -307,24 +332,27 @@ static SyncTool *_syncTool = nil;
         DLog(@"sumCount == %ld", self.sumCount);
         if (self.sumCount == 0) {
             self.syncDataIng = NO;
+            DLog(@"self.syncDataIng1 == %d", self.syncDataIng);
         }
         // signal操作+1
         dispatch_semaphore_signal(self.semaphore);
     }else if (model.bloodO2Model.bloodO2State == BloodO2DataHistoryData) {
         //当数据接受完毕，发送血氧
-        if (model.bloodModel.sumCount.integerValue == model.bloodModel.currentCount.integerValue + 1) {
+        DLog(@"boSum == %ld;boCur + 1 == %ld",model.bloodModel.sumCount.integerValue, model.bloodModel.currentCount.integerValue + 1);
+        if (model.bloodO2Model.sumCount.integerValue == model.bloodO2Model.currentCount.integerValue + 1) {
             // signal操作+1
             dispatch_semaphore_signal(self.semaphore);
-            self.syncDataIng = NO;
+            if (!_haveMotion && !_haveSleep && !_haveHR && !_haveBP && _haveBO) {
+                self.syncDataIng = NO;
+                DLog(@"self.syncDataIng.BO == %d", self.syncDataIng);
+            }
         }
         
         //传递进度值
         self.progressCount --;
         float progress = (self.sumCount - self.progressCount) / (float)self.sumCount;
         DLog(@"progress == %.2f", progress);
-        if (self.syncDataCurrentCountBlock) {
-            self.syncDataCurrentCountBlock(progress * 100);
-        }
+        [self updateProgress:(progress *100)];
         
         //插入数据库
         [self.myFmdbManager insertBloodO2Model:model.bloodO2Model];
@@ -337,6 +365,29 @@ static SyncTool *_syncTool = nil;
     
 }
 
+#pragma mark - Action
+/** 取消通知栏 */
+- (void)cancelStateBarAction:(MDButton *)sender
+{
+    if (self.stateBar.isShowing) {
+        [self.stateBar dismiss];
+    }
+}
+
+- (void)updateProgress:(float)progress
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.stateBar setText:[NSString stringWithFormat:@"正在同步数据 %.0f%%", progress]];
+        if (progress >= 100) {
+            self.stateBar.text = @"同步完成";
+            [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_ALL_UI object:nil];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.stateBar dismiss];
+            });
+        }
+    });
+}
+
 #pragma mark - lazy
 - (FMDBManager *)myFmdbManager
 {
@@ -347,6 +398,29 @@ static SyncTool *_syncTool = nil;
     return _myFmdbManager;
 }
 
-
+- (MDSnackbar *)stateBar
+{
+    if (!_stateBar) {
+        _stateBar = [[MDSnackbar alloc] init];
+        [_stateBar setActionTitleColor:NAVIGATION_BAR_COLOR];
+        
+        //这里1000000秒是让bar长驻在底部
+        [_stateBar setDuration:1000000];
+        _stateBar.multiline = YES;
+        
+        MDButton *cancelButton = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:nil];
+        [cancelButton setImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
+        [cancelButton addTarget:self action:@selector(cancelStateBarAction:) forControlEvents:UIControlEventTouchUpInside];
+        cancelButton.backgroundColor = RED_COLOR;
+        [_stateBar addSubview:cancelButton];
+        [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_stateBar.mas_left).offset(16);
+            //        make.top.equalTo(self.stateBar.mas_top).offset(10);
+            make.centerY.equalTo(_stateBar.mas_centerY);
+        }];
+    }
+    
+    return _stateBar;
+}
 
 @end

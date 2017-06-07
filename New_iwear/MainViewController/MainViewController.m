@@ -13,7 +13,6 @@
 #import "SleepContentView.h"
 #import "BloodPressureContentView.h"
 #import "BloodO2ContentView.h"
-#import "SyncTool.h"
 #import "FMDBManager.h"
 
 @interface MainViewController () < UIScrollViewDelegate >
@@ -34,7 +33,6 @@
 @property (nonatomic, strong) UIPageControl *pageControl;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) MDButton *leftButton;
-@property (nonatomic, strong) MDSnackbar *stateBar;
 @property (nonatomic, strong) FMDBManager *myFmdbManager;
 
 @end
@@ -54,32 +52,17 @@
     [self createUI];
     _currentPage = 0;
     [self notiViewUpdateUI];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notiViewUpdateUI) name:UPDATE_ALL_UI object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     self.navigationController.navigationBar.barTintColor = CLEAR_COLOR;
     [[self.navigationController.navigationBar subviews].firstObject setAlpha:0];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        //每次进入主界面时同步数据
-        if (![SyncTool shareInstance].syncDataIng && [BleManager shareInstance].connectState == kBLEstateDidConnected) {
-            [[SyncTool shareInstance] syncData];
-            [self.stateBar setText:@"正在同步数据"];
-            [self.stateBar show];
-            [SyncTool shareInstance].syncDataCurrentCountBlock = ^(NSInteger progress) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.stateBar setText:[NSString stringWithFormat:@"正在同步数据 %ld%%", progress]];
-                    if (progress >= 100) {
-                        self.stateBar.text = @"同步完成";
-                        [self notiViewUpdateUI];
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                            [self.stateBar dismiss];
-                        });
-                    }
-                });
-            };
-        }
-    });
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        //每次进入主界面时同步数据
+//        [[SyncTool shareInstance] syncAllData];
+//    });
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
@@ -118,14 +101,6 @@
             break;
     }
     [self.navigationController pushViewController:vc animated:YES];
-}
-
-/** 取消通知栏 */
-- (void)cancelStateBarAction:(MDButton *)sender
-{
-    if (self.stateBar.isShowing) {
-        [self.stateBar dismiss];
-    }
 }
 
 /** 通知5个视图更新 UI */
@@ -274,30 +249,7 @@
     return _titleLabel;
 }
 
-- (MDSnackbar *)stateBar
-{
-    if (!_stateBar) {
-        _stateBar = [[MDSnackbar alloc] init];
-        [_stateBar setActionTitleColor:NAVIGATION_BAR_COLOR];
-        
-        //这里1000000秒是让bar长驻在底部
-        [_stateBar setDuration:1000000];
-        _stateBar.multiline = YES;
-        
-        MDButton *cancelButton = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:nil];
-        [cancelButton setImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
-        [cancelButton addTarget:self action:@selector(cancelStateBarAction:) forControlEvents:UIControlEventTouchUpInside];
-        cancelButton.backgroundColor = RED_COLOR;
-        [_stateBar addSubview:cancelButton];
-        [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(_stateBar.mas_left).offset(16);
-            //        make.top.equalTo(self.stateBar.mas_top).offset(10);
-            make.centerY.equalTo(_stateBar.mas_centerY);
-        }];
-    }
-    
-    return _stateBar;
-}
+
 
 - (FMDBManager *)myFmdbManager
 {

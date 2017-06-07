@@ -107,4 +107,7 @@
 //电量信息保存
 #define ELECTRICITY_INFO_SETTING @"ElectricityInfoSetting"
 
+#pragma mark - 同步完成通知更新 UI
+#define UPDATE_ALL_UI @"UpdateAllUI"
+
 #endif /* TextConstants_h */

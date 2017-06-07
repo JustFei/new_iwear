@@ -45,8 +45,8 @@ static NSString *const settingHeaderID = @"settingHeader";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
     self.automaticallyAdjustsScrollViewInsets = YES;
-//    [self healthKit];
-    
+    [[BleManager shareInstance] writeGetElectricity];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getElectricity:) name:SET_FIRMWARE object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -68,6 +68,17 @@ static NSString *const settingHeaderID = @"settingHeader";
 - (void)backViewController
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)getElectricity:(NSNotification *)noti
+{
+    manridyModel *model = [noti object];
+    if (model.firmwareModel.mode == FirmwareModeGetElectricity) {
+        //电量
+        [[NSUserDefaults standardUserDefaults] setObject:model.firmwareModel.PerElectricity forKey:ELECTRICITY_INFO_SETTING];
+        self.groupFirstDataSourceArr = nil;
+        [self.tableView reloadData];
+    }
 }
 
 #pragma mark - UITableViewDelegate && UITableViewDataSource

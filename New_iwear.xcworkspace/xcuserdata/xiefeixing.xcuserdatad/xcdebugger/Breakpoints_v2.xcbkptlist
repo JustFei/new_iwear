@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "New_iwear/SyncTool/SyncTool.m"
-            timestampString = "518022751.601853"
+            timestampString = "518503858.393959"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "101"
             endingLineNumber = "101"
-            landmarkName = "-getMotionCount:"
+            landmarkName = "-syncData"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "New_iwear/SyncTool/SyncTool.m"
-            timestampString = "518022752.801694"
+            timestampString = "518503858.394998"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "112"
             endingLineNumber = "112"
-            landmarkName = "-getSleepCount:"
+            landmarkName = "-syncData"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -42,12 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "New_iwear/SyncTool/SyncTool.m"
-            timestampString = "518022754.425795"
+            timestampString = "518503858.395571"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "123"
             endingLineNumber = "123"
-            landmarkName = "-getHRCount:"
+            landmarkName = "-writeHistoryData"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -58,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "New_iwear/SyncTool/SyncTool.m"
-            timestampString = "518022756.362937"
+            timestampString = "518503858.396016"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "134"
             endingLineNumber = "134"
-            landmarkName = "-getBPCount:"
+            landmarkName = "-writeHistoryData"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -74,12 +74,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "New_iwear/SyncTool/SyncTool.m"
-            timestampString = "518022757.778005"
+            timestampString = "518503858.396586"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "145"
             endingLineNumber = "145"
-            landmarkName = "-getBOCount:"
+            landmarkName = "-writeHistoryData"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -338,14 +338,12 @@ static SyncTool *_syncTool = nil;
         dispatch_semaphore_signal(self.semaphore);
     }else if (model.bloodO2Model.bloodO2State == BloodO2DataHistoryData) {
         //当数据接受完毕，发送血氧
-        DLog(@"boSum == %ld;boCur + 1 == %ld",model.bloodModel.sumCount.integerValue, model.bloodModel.currentCount.integerValue + 1);
+        DLog(@"boSum == %ld;boCur + 1 == %ld",model.bloodO2Model.sumCount.integerValue, model.bloodO2Model.currentCount.integerValue + 1);
         if (model.bloodO2Model.sumCount.integerValue == model.bloodO2Model.currentCount.integerValue + 1) {
             // signal操作+1
             dispatch_semaphore_signal(self.semaphore);
-            if (!_haveMotion && !_haveSleep && !_haveHR && !_haveBP && _haveBO) {
-                self.syncDataIng = NO;
-                DLog(@"self.syncDataIng.BO == %d", self.syncDataIng);
-            }
+            self.syncDataIng = NO;
+            DLog(@"self.syncDataIng.BO == %d", self.syncDataIng);
         }
         
         //传递进度值

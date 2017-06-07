@@ -115,6 +115,8 @@
         [hisBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(_upView.mas_right).offset(-16);
             make.bottom.equalTo(_upView.mas_bottom).offset(-16);
+            make.width.equalTo(@28);
+            make.height.equalTo(@28);
         }];
         
         MDButton *trainingBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
@@ -125,6 +127,8 @@
         [trainingBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(hisBtn.mas_left).offset(-8);
             make.bottom.equalTo(hisBtn.mas_bottom);
+            make.width.equalTo(@28);
+            make.height.equalTo(@28);
         }];
         
         self.view1 = [[UIView alloc] init];

@@ -122,6 +122,8 @@
         [hisBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(_upView.mas_right).offset(-16);
             make.bottom.equalTo(_upView.mas_bottom).offset(-16);
+            make.width.equalTo(@28);
+            make.height.equalTo(@28);
         }];
         
         self.view1 = [[UIView alloc] init];

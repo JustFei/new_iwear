@@ -51,6 +51,7 @@
         self.frame = frame;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getMotionData:) name:GET_MOTION_DATA object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCircleWhenTargetReset:) name:SET_MOTION_TARGET object:nil];
         
         _upView = [[UIView alloc] init];
         _upView.backgroundColor = STEP_CURRENT_BACKGROUND_COLOR;
@@ -352,6 +353,16 @@
                 [self.myFmdbManager modifyStepWithDate:currentDateString model:model.sportModel];
             }
         }
+    }
+}
+
+- (void)updateCircleWhenTargetReset:(NSNotification *)noti
+{
+    BOOL isFirst = noti.userInfo[@"success"];//success 里保存这设置是否成功
+    NSLog(@"isFirst:%d",isFirst);
+    //这里不能直接写 if (isFirst),必须如下写法
+    if (isFirst == 1) {
+        [self updateCircleWithFloat:self.stepLabel.text.floatValue];
     }
 }
 

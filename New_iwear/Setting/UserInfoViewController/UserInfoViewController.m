@@ -415,6 +415,7 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [self.view endEditing:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     self.pickerType = indexPath.row;
     UserInfoSettingModel *model = self.dataArr[indexPath.row];

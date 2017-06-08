@@ -43,6 +43,8 @@
 	<string>Home Kit Usage</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Photo Library Usage</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Photo Add to Library</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>bluetooth-central</string>

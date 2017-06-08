@@ -362,7 +362,9 @@
     NSLog(@"isFirst:%d",isFirst);
     //这里不能直接写 if (isFirst),必须如下写法
     if (isFirst == 1) {
-        [self updateCircleWithFloat:self.stepLabel.text.floatValue];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self updateCircleWithFloat:self.stepLabel.text.floatValue];
+        });
     }
 }
 

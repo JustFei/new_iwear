@@ -108,7 +108,7 @@
         [data appendBytes:&intValue length:1];
     }
     
-    //    DLog(@"data = %@",data);
+    //    NSLog(@"data = %@",data);
     return data;
 }
 
@@ -293,7 +293,7 @@
             for (int i = 0; i < count; i ++) {
                 targetStr = [NSString stringWithFormat:@"0%@",targetStr];
             }
-            //            DLog(@"%@",targetStr);
+            //            NSLog(@"%@",targetStr);
         }
         
         NSString *protocolStr = [NSString stringWithFormat:@"FC0701%@",targetStr];
@@ -418,7 +418,7 @@
             break;
         }
     }
-    DLog(@"协议为 == %@",protocolStr);
+    NSLog(@"协议为 == %@",protocolStr);
     
     return protocolStr;
 }

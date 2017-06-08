@@ -25,7 +25,7 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        UIImageView *headImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"train_run"]];
+        UIImageView *headImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"train_ic02"]];
         [self addSubview:headImageView];
         [headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.mas_centerY);

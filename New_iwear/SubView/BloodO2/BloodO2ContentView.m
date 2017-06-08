@@ -268,7 +268,17 @@
 }
 
 #pragma mark - PNChartDelegate
+- (void)userClickedOnLineKeyPoint:(CGPoint)point
+                        lineIndex:(NSInteger)lineIndex
+                       pointIndex:(NSInteger)pointIndex
+{
+    NSLog(@"点击了 BOLineChart 的%ld", pointIndex);
+}
 
+- (void)userClickedOnLinePoint:(CGPoint)point lineIndex:(NSInteger)lineIndex
+{
+    NSLog(@"点击了 BOLineChart 的%ld", lineIndex);
+}
 
 
 #pragma mark - Action
@@ -397,7 +407,7 @@
         _BOChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, self.view1.frame.origin.y + self.view1.frame.size.height + 10, self.frame.size.width , self.frame.size.height - (34 + self.view1.frame.origin.y + self.view1.frame.size.height + 10))];
 
         _BOChart.backgroundColor = TEXT_BLACK_COLOR_LEVEL0;
-//        _BOChart.delegate = self;
+        _BOChart.delegate = self;
         _BOChart.showCoordinateAxis = NO;
         _BOChart.yFixedValueMin = 70;
         _BOChart.yFixedValueMax = 110;

@@ -544,7 +544,7 @@
 
 - (void)setNotificationObserver:(NSNotification *)noti
 {
-    DLog(@"asynCount == %ld noti.name == %@",_asynCount ,noti.name);
+    NSLog(@"asynCount == %ld noti.name == %@",_asynCount ,noti.name);
     
     if ([noti.name isEqualToString:SET_TIME] ||
         [noti.name isEqualToString:SET_WINDOW] ||
@@ -690,7 +690,7 @@
 //#pragma mark - BleReceiveDelegate
 //- (void)receiveVersionWithVersionStr:(NSString *)versionStr
 //{
-//    DLog(@"固件版本号 == %@",versionStr);
+//    NSLog(@"固件版本号 == %@",versionStr);
 //    [[NSUserDefaults standardUserDefaults] setObject:versionStr forKey:@"version"];
 //}
 //

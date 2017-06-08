@@ -115,20 +115,21 @@
         [hisBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(_upView.mas_right).offset(-16);
             make.bottom.equalTo(_upView.mas_bottom).offset(-16);
-            make.width.equalTo(@28);
-            make.height.equalTo(@28);
+            make.width.equalTo(@44);
+            make.height.equalTo(@44);
         }];
         
         MDButton *trainingBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
         [trainingBtn setImage:[UIImage imageNamed:@"walk_trainingicon"] forState:UIControlStateNormal];
         trainingBtn.backgroundColor = CLEAR_COLOR;
         [trainingBtn addTarget:self action:@selector(showTrainingVC:) forControlEvents:UIControlEventTouchUpInside];
+        trainingBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
         [_upView addSubview:trainingBtn];
         [trainingBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(hisBtn.mas_left).offset(-8);
             make.bottom.equalTo(hisBtn.mas_bottom);
-            make.width.equalTo(@28);
-            make.height.equalTo(@28);
+            make.width.equalTo(@44);
+            make.height.equalTo(@44);
         }];
         
         self.view1 = [[UIView alloc] init];
@@ -296,24 +297,11 @@
     return self;
 }
 
-#pragma mark - 查询数据库
-//- (void)getHistoryDatawithDate:(NSDate *)todayDate
-//{
-//    sumStep = 0;
-//    sumMileage = 0;
-//    sumkCal = 0;
-//
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        NSDateFormatter *todayFormatter = [[NSDateFormatter alloc] init];
-//        [todayFormatter setDateFormat:@"yyyy-MM-dd"];
-//        [self.dataArr removeAllObjects];
-//        NSArray *queryArr = [self.myFmdbManager querySegmentedStepWithDate:[todayFormatter stringFromDate:todayDate]];
-//        
-//    });
-//}
-
 #pragma mark - PNChartDelegate
-
+- (void)userClickedOnBarAtIndex:(NSInteger)barIndex
+{
+    NSLog(@"点击了 stepBarChart 的%ld", barIndex);
+}
 
 
 #pragma mark - Action
@@ -460,6 +448,7 @@
         _stepBarChart.showChartBorder = NO;
         _stepBarChart.isShowNumbers = NO;
         _stepBarChart.isGradientShow = NO;
+        _stepBarChart.delegate = self;
         
         [self addSubview:_stepBarChart];
         [_stepBarChart mas_makeConstraints:^(MASConstraintMaker *make) {

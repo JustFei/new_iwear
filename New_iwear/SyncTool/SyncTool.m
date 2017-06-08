@@ -88,7 +88,7 @@ static SyncTool *_syncTool = nil;
 {
     //如果在同步中，直接返回
     if (self.syncDataIng) {
-        DLog(@"正在同步中。。。");
+        NSLog(@"正在同步中。。。");
         return;
     }
     if (![SyncTool shareInstance].syncDataIng && [BleManager shareInstance].connectState == kBLEstateDidConnected) {
@@ -101,6 +101,7 @@ static SyncTool *_syncTool = nil;
 - (void)syncData
 {
     self.syncDataIng = YES;
+    NSLog(@"syncDataIng == %d", self.syncDataIng);
     //初始化计数器
     self.sumCount = 0;
     
@@ -121,27 +122,27 @@ static SyncTool *_syncTool = nil;
         //分段计步历史条数
         [[BleManager shareInstance] writeSegementStepWithHistoryMode:SegmentedStepDataHistoryCount];
         x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
-        DLog(@"1 ------ %ld", x);
+        NSLog(@"1 ------ %ld", x);
         
         //睡眠历史条数
         [[BleManager shareInstance] writeSleepRequestToperipheral:SleepDataHistoryCount];
         x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
-        DLog(@"1 ------ %ld", x);
+        NSLog(@"1 ------ %ld", x);
         
         //心率历史条数
         [[BleManager shareInstance] writeHeartRateRequestToPeripheral:HeartRateDataHistoryCount];
         x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
-        DLog(@"1 ------ %ld", x);
+        NSLog(@"1 ------ %ld", x);
         
         //血压历史条数
         [[BleManager shareInstance] writeBloodToPeripheral:BloodDataHistoryCount];
         x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
-        DLog(@"1 ------ %ld", x);
+        NSLog(@"1 ------ %ld", x);
         
         //血氧历史条数
         [[BleManager shareInstance] writeBloodO2ToPeripheral:BloodO2DataHistoryCount];
         x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
-        DLog(@"1 ------ %ld", x);
+        NSLog(@"1 ------ %ld", x);
         
         //如果都没有数据的话，就直接模拟同步成功的进度条
         if (!_haveMotion && !_haveSleep && !_haveHR && !_haveBP && !_haveBO) {
@@ -159,25 +160,25 @@ static SyncTool *_syncTool = nil;
             // wait操作-1，当别的消息进来就会阻塞，知道这条消息收到回调，signal+1后，才会继续执行。保证了消息的队列发送，保证稳定性。
             
             x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
-            DLog(@"1 ------ %ld", x);
+            NSLog(@"1 ------ %ld", x);
         }
         //睡眠历史
         if (_haveSleep) {
             [[BleManager shareInstance] writeSleepRequestToperipheral:SleepDataHistoryData];
             x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
-            DLog(@"1 ------ %ld", x);
+            NSLog(@"1 ------ %ld", x);
         }
         //心率历史
         if (_haveHR) {
             [[BleManager shareInstance] writeHeartRateRequestToPeripheral:HeartRateDataHistoryData];
             x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
-            DLog(@"1 ------ %ld", x);
+            NSLog(@"1 ------ %ld", x);
         }
         //血压历史
         if (_haveBP) {
             [[BleManager shareInstance] writeBloodToPeripheral:BloodDataHistoryData];
             x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
-            DLog(@"1 ------ %ld", x);
+            NSLog(@"1 ------ %ld", x);
         }
         //血氧历史
         if (_haveBO) [[BleManager shareInstance] writeBloodO2ToPeripheral:BloodO2DataHistoryData];
@@ -197,7 +198,7 @@ static SyncTool *_syncTool = nil;
     }else if (model.segmentStepModel.segmentedStepState == SegmentedStepDataHistoryCount) {
         self.sumCount = self.sumCount + model.segmentStepModel.AHCount;
         _haveMotion = model.segmentStepModel.AHCount != 0;
-        DLog(@"sum == %ld", self.sumCount);
+        NSLog(@"sum == %ld", self.sumCount);
         // signal操作+1
         dispatch_semaphore_signal(self.semaphore);
     }else if (model.segmentStepModel.segmentedStepState == SegmentedStepDataHistoryData) {
@@ -205,16 +206,16 @@ static SyncTool *_syncTool = nil;
         if (model.segmentStepModel.AHCount == model.segmentStepModel.CHCount + 1) {
             // signal操作+1
             dispatch_semaphore_signal(self.semaphore);
-            if (_haveMotion && !_haveSleep && !_haveHR && !_haveBP && !_haveBO) {
-                self.syncDataIng = NO;
-                DLog(@"self.syncDataIng.segmentStep == %d", self.syncDataIng);
-            }
+//            if (_haveMotion && !_haveSleep && !_haveHR && !_haveBP && !_haveBO) {
+//                self.syncDataIng = NO;
+//                NSLog(@"self.syncDataIng.segmentStep == %d", self.syncDataIng);
+//            }
         }
         
         //传递进度值
         self.progressCount --;
         float progress = (self.sumCount - self.progressCount) / (float)self.sumCount;
-        DLog(@"progress == %.2f", progress);
+        NSLog(@"progress == %.2f", progress);
         [self updateProgress:(progress *100)];
         //插入数据库
         [self.myFmdbManager insertSegmentStepModel:model.segmentStepModel];
@@ -228,7 +229,7 @@ static SyncTool *_syncTool = nil;
     if (model.sleepModel.sleepState == SleepDataHistoryCount) {
         self.sumCount = self.sumCount + model.sleepModel.sumDataCount;
         _haveSleep = model.sleepModel.sumDataCount != 0;
-        DLog(@"sum == %ld", self.sumCount);
+        NSLog(@"sum == %ld", self.sumCount);
         // signal操作+1
         dispatch_semaphore_signal(self.semaphore);
     }else if (model.sleepModel.sleepState == SleepDataHistoryData) {
@@ -236,16 +237,16 @@ static SyncTool *_syncTool = nil;
         if (model.sleepModel.sumDataCount == model.sleepModel.currentDataCount + 1) {
             // signal操作+1
             dispatch_semaphore_signal(self.semaphore);
-            if (!_haveMotion && _haveSleep && !_haveHR && !_haveBP && !_haveBO) {
-                self.syncDataIng = NO;
-                DLog(@"self.syncDataIng.Sleep == %d", self.syncDataIng);
-            }
+//            if (!_haveMotion && _haveSleep && !_haveHR && !_haveBP && !_haveBO) {
+//                self.syncDataIng = NO;
+//                NSLog(@"self.syncDataIng.Sleep == %d", self.syncDataIng);
+//            }
         }
         
         //传递进度值
         self.progressCount --;
         float progress = (self.sumCount - self.progressCount) / (float)self.sumCount;
-        DLog(@"progress == %.2f", progress);
+        NSLog(@"progress == %.2f", progress);
         [self updateProgress:(progress *100)];
         
         //插入数据库
@@ -265,7 +266,7 @@ static SyncTool *_syncTool = nil;
     }else if (model.heartRateModel.heartRateState == HeartRateDataHistoryCount) {
         self.sumCount = self.sumCount + model.heartRateModel.sumDataCount.integerValue;
         _haveHR = model.heartRateModel.sumDataCount.integerValue != 0;
-        DLog(@"sum == %ld", self.sumCount);
+        NSLog(@"sum == %ld", self.sumCount);
         // signal操作+1
         dispatch_semaphore_signal(self.semaphore);
     }else if (model.heartRateModel.heartRateState == HeartRateDataHistoryData) {
@@ -273,16 +274,16 @@ static SyncTool *_syncTool = nil;
         if (model.heartRateModel.sumDataCount.integerValue == model.heartRateModel.currentDataCount.integerValue + 1) {
             // signal操作+1
             dispatch_semaphore_signal(self.semaphore);
-            if (!_haveMotion && !_haveSleep && _haveHR && !_haveBP && !_haveBO) {
-                self.syncDataIng = NO;
-                DLog(@"self.syncDataIng.HR == %d", self.syncDataIng);
-            }
+//            if (!_haveMotion && !_haveSleep && _haveHR && !_haveBP && !_haveBO) {
+//                self.syncDataIng = NO;
+//                NSLog(@"self.syncDataIng.HR == %d", self.syncDataIng);
+//            }
         }
         
         //传递进度值
         self.progressCount --;
         float progress = (self.sumCount - self.progressCount) / (float)self.sumCount;
-        DLog(@"progress == %.2f", progress);
+        NSLog(@"progress == %.2f", progress);
         [self updateProgress:(progress *100)];
         
         //插入数据库
@@ -297,7 +298,7 @@ static SyncTool *_syncTool = nil;
     if (model.bloodModel.bloodState == BloodDataHistoryCount) {
         self.sumCount = self.sumCount + model.bloodModel.sumCount.integerValue;
         _haveBP = model.bloodModel.sumCount.integerValue != 0;
-        DLog(@"sum == %ld", self.sumCount);
+        NSLog(@"sum == %ld", self.sumCount);
         // signal操作+1
         dispatch_semaphore_signal(self.semaphore);
     }else if (model.bloodModel.bloodState == BloodDataHistoryData) {
@@ -305,16 +306,16 @@ static SyncTool *_syncTool = nil;
         if (model.bloodModel.sumCount.integerValue == model.bloodModel.currentCount.integerValue + 1) {
             // signal操作+1
             dispatch_semaphore_signal(self.semaphore);
-            if (!_haveMotion && !_haveSleep && !_haveHR && _haveBP && !_haveBO) {
-                self.syncDataIng = NO;
-                DLog(@"self.syncDataIng.BP == %d", self.syncDataIng);
-            }
+//            if (!_haveMotion && !_haveSleep && !_haveHR && _haveBP && !_haveBO) {
+//                self.syncDataIng = NO;
+//                NSLog(@"self.syncDataIng.BP == %d", self.syncDataIng);
+//            }
         }
         
         //传递进度值
         self.progressCount --;
         float progress = (self.sumCount - self.progressCount) / (float)self.sumCount;
-        DLog(@"progress == %.2f", progress);
+        NSLog(@"progress == %.2f", progress);
         [self updateProgress:(progress *100)];
         
         //插入数据库
@@ -329,27 +330,21 @@ static SyncTool *_syncTool = nil;
     if (model.bloodO2Model.bloodO2State == BloodO2DataHistoryCount) {
         self.progressCount = self.sumCount = self.sumCount + model.bloodO2Model.sumCount.integerValue;
         _haveBO = model.bloodO2Model.sumCount.integerValue != 0;
-        DLog(@"sumCount == %ld", self.sumCount);
-        if (self.sumCount == 0) {
-            self.syncDataIng = NO;
-            DLog(@"self.syncDataIng1 == %d", self.syncDataIng);
-        }
+        NSLog(@"sumCount == %ld", self.sumCount);
         // signal操作+1
         dispatch_semaphore_signal(self.semaphore);
     }else if (model.bloodO2Model.bloodO2State == BloodO2DataHistoryData) {
         //当数据接受完毕，发送血氧
-        DLog(@"boSum == %ld;boCur + 1 == %ld",model.bloodO2Model.sumCount.integerValue, model.bloodO2Model.currentCount.integerValue + 1);
+        NSLog(@"boSum == %ld;boCur + 1 == %ld",model.bloodO2Model.sumCount.integerValue, model.bloodO2Model.currentCount.integerValue + 1);
         if (model.bloodO2Model.sumCount.integerValue == model.bloodO2Model.currentCount.integerValue + 1) {
             // signal操作+1
             dispatch_semaphore_signal(self.semaphore);
-            self.syncDataIng = NO;
-            DLog(@"self.syncDataIng.BO == %d", self.syncDataIng);
         }
         
         //传递进度值
         self.progressCount --;
         float progress = (self.sumCount - self.progressCount) / (float)self.sumCount;
-        DLog(@"progress == %.2f", progress);
+        NSLog(@"progress == %.2f", progress);
         [self updateProgress:(progress *100)];
         
         //插入数据库
@@ -377,6 +372,8 @@ static SyncTool *_syncTool = nil;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.stateBar setText:[NSString stringWithFormat:@"正在同步数据 %.0f%%", progress]];
         if (progress >= 100) {
+            self.syncDataIng = NO;
+            NSLog(@"syncDataIngEnd == %d", self.syncDataIng);
             self.stateBar.text = @"同步完成";
             [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_ALL_UI object:nil];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

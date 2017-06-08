@@ -15,6 +15,7 @@
 #import "StepDataModel.h"
 #import "BarView.h"
 #import "XXBarChartView.h"
+#import "TargetSettingModel.h"
 
 #define BACK_WIDTH self.sleepChartBackView.bounds.size.width
 #define BACK_HEIGHT self.sleepChartBackView.bounds.size.height
@@ -307,18 +308,24 @@
             [barDataArr addObject:barModel];
             _currentSleepData = _currentSleepData + model.sumSleep.integerValue;
         }
+        [self drawCircle:sumData / 60];
         //绘制睡眠图表
         [self.sleepChartBackView setXValues:barDataArr];
         [self.sleepChartBackView updateBar];
     }
 }
 
-- (void)drawProgress:(CGFloat )progress
+//更新圆环
+- (void)drawCircle:(float)averageSleep
 {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        [self.sleepCircleChart strokeChart];
-    });
+    float progress;
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:TARGET_SETTING]) {
+        NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:TARGET_SETTING];
+        TargetSettingModel *sleepTargetModel = [NSKeyedUnarchiver unarchiveObjectWithData:arr.lastObject];
+        progress = averageSleep / sleepTargetModel.target.floatValue;
+    }else {
+        progress = averageSleep / 8.f;
+    }
     [self.sleepCircleChart updateChartByCurrent:@(progress)];
 }
 

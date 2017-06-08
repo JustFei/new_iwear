@@ -206,7 +206,7 @@ static NSString *const ClockTableViewCellID = @"ClockTableViewCell";
 
 - (void)datePickerValueChanged:(UIDatePicker *)datePicker
 {
-    DLog(@"%@",datePicker.date);
+    NSLog(@"%@",datePicker.date);
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"HH:mm"];
     self.selectTime = [formatter stringFromDate:datePicker.date];

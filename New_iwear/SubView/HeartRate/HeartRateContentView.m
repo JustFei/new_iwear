@@ -286,7 +286,17 @@
 }
 
 #pragma mark - PNChartDelegate
+- (void)userClickedOnLineKeyPoint:(CGPoint)point
+                        lineIndex:(NSInteger)lineIndex
+                       pointIndex:(NSInteger)pointIndex
+{
+    NSLog(@"点击了 HRLineChart 的%ld", pointIndex);
+}
 
+- (void)userClickedOnLinePoint:(CGPoint)point lineIndex:(NSInteger)lineIndex
+{
+    NSLog(@"点击了 HRLineChart 的%ld", lineIndex);
+}
 
 
 #pragma mark - Action
@@ -451,7 +461,7 @@
         _hrBarChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, self.view1.frame.origin.y + self.view1.frame.size.height + 10, self.frame.size.width , self.frame.size.height - (34 + self.view1.frame.origin.y + self.view1.frame.size.height + 10))];
         
         _hrBarChart.backgroundColor = TEXT_BLACK_COLOR_LEVEL0;
-        //        _hrBarChart.delegate = self;
+        _hrBarChart.delegate = self;
         _hrBarChart.showCoordinateAxis = NO;
         _hrBarChart.yFixedValueMin = 0;
         _hrBarChart.yFixedValueMax = 220;

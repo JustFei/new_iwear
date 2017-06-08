@@ -94,7 +94,7 @@ static BleManager *bleManager = nil;
         NSString *uuidStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"peripheralUUID"];
         NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:uuidStr];
         NSArray *arr = [_myCentralManager retrievePeripheralsWithIdentifiers: @[uuid]];
-        DLog(@"当前已连接的设备%@,有%ld个",arr.firstObject ,(unsigned long)arr.count);
+        NSLog(@"当前已连接的设备%@,有%ld个",arr.firstObject ,(unsigned long)arr.count);
         if (arr.count != 0) {
             CBPeripheral *per = (CBPeripheral *)arr.firstObject;
             per.delegate = self;
@@ -160,7 +160,7 @@ static BleManager *bleManager = nil;
             __block long x = 0;
             x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
             [NSThread sleepForTimeInterval:0.5];
-            DLog(@"---%@---", message);
+            NSLog(@"---%@---", message);
             [self.currentDev.peripheral writeValue:message forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
         }
     });
@@ -185,7 +185,7 @@ static BleManager *bleManager = nil;
     
     //写入操作
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
-    DLog(@"同步时间");
+    NSLog(@"同步时间");
 }
 
 //set clock
@@ -224,14 +224,14 @@ static BleManager *bleManager = nil;
         
         //写入操作
         [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
-        DLog(@"同步闹钟");
+        NSLog(@"同步闹钟");
     }else {
         //传入时间和头，返回协议字符串
         NSString *protocolStr = [NSStringTool protocolAddInfo:@"01" head:@"01"];
         
         //写入操作
         [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
-        DLog(@"获取闹钟数据成功");
+        NSLog(@"获取闹钟数据成功");
     }
 }
 
@@ -242,7 +242,7 @@ static BleManager *bleManager = nil;
     
     //写入操作
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
-    DLog(@"请求计步数据");
+    NSLog(@"请求计步数据");
 }
 
 //set motionInfo zero
@@ -252,7 +252,7 @@ static BleManager *bleManager = nil;
     
     //写入操作
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
-    DLog(@"清空计步数据");
+    NSLog(@"清空计步数据");
 }
 //get GPS data
 - (void)writeGPSToPeripheral
@@ -261,7 +261,7 @@ static BleManager *bleManager = nil;
     
     //写入操作
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
-    DLog(@"gps 请求成功");
+    NSLog(@"gps 请求成功");
 }
 
 //set userInfo
@@ -273,7 +273,7 @@ static BleManager *bleManager = nil;
     
     //写入操作
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
-    DLog(@"同步用户信息");
+    NSLog(@"同步用户信息");
 }
 
 //set motion target
@@ -283,7 +283,7 @@ static BleManager *bleManager = nil;
     
     //写入操作
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
-    DLog(@"同步计步目标");
+    NSLog(@"同步计步目标");
 }
 
 //set heart rate test state
@@ -360,7 +360,7 @@ static BleManager *bleManager = nil;
     protocolStr = [NSStringTool protocolForRemind:remindModel];
     
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
-    DLog(@"设置同步电话短信");
+    NSLog(@"设置同步电话短信");
 }
 
 //search my peripheral
@@ -379,7 +379,7 @@ static BleManager *bleManager = nil;
     protocolStr = state ? @"FC100201" : @"FC100200";
     
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
-    DLog(@"同步防丢");
+    NSLog(@"同步防丢");
 }
 
 //stop peripheral
@@ -440,7 +440,7 @@ static BleManager *bleManager = nil;
     NSString *protocolStr = [NSStringTool protocolAddInfo:@"" head:@"0f"];
     
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
-    DLog(@"同步版本号");
+    NSLog(@"同步版本号");
 }
 
 /** 设置设备亮度 */
@@ -453,7 +453,7 @@ static BleManager *bleManager = nil;
     NSString *protocolStr = [NSString stringWithFormat:@"fc0f04%@", dim];
     
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
-    DLog(@"同步亮度");
+    NSLog(@"同步亮度");
 }
 
 /** 获取电量 */
@@ -462,7 +462,7 @@ static BleManager *bleManager = nil;
     NSString *protocolStr = @"fc0f06";
     
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
-    DLog(@"同步电量");
+    NSLog(@"同步电量");
 }
 
 //set sedentary alert
@@ -509,7 +509,7 @@ static BleManager *bleManager = nil;
     
     
     NSString *protocolStr = [NSStringTool protocolAddInfo:info head:@"16"];
-    DLog(@"同步久坐");
+    NSLog(@"同步久坐");
     
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
 }
@@ -549,7 +549,7 @@ static BleManager *bleManager = nil;
     protocolStr = ImperialSystem ? @"FC170001" : @"FC170000";
     
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
-    DLog(@"同步单位");
+    NSLog(@"同步单位");
 }
 
 /** 拍照部分 */
@@ -652,7 +652,7 @@ static BleManager *bleManager = nil;
             if (EHEL.length == 4) {
                 protocolStr = [protocolStr stringByAppendingString:EHEL];
             }else if (EHEL.length > 4) {
-                DLog(@"出错了");
+                NSLog(@"出错了");
                 return;
             }else if (EHEL.length < 4) {
                 NSInteger count = 4 - EHEL.length;
@@ -672,7 +672,7 @@ static BleManager *bleManager = nil;
             break;
     }
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
-    DLog(@"同步界面选择");
+    NSLog(@"同步界面选择");
 }
 
 /**
@@ -684,7 +684,7 @@ static BleManager *bleManager = nil;
 {
     NSString *protocolStr = [NSString stringWithFormat:@"fc1800%@", twelveFormatter ? @"01" : @"00"];
     [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
-    DLog(@"同步时间格式");
+    NSLog(@"同步时间格式");
 }
 
 #pragma mark - CBCentralManagerDelegate
@@ -716,7 +716,7 @@ static BleManager *bleManager = nil;
         {
             message = NSLocalizedString(@"phoneNotOpenBLE", nil);
             self.systemBLEstate = 4;
-            DLog(@"message == %@",message);
+            NSLog(@"message == %@",message);
         }
             break;
         case 5:
@@ -753,7 +753,7 @@ static BleManager *bleManager = nil;
         if ([device.uuidString isEqualToString:kServiceUUID]) {
             device.deviceName = @"X9Plus";
             if (![self.deviceArr containsObject:peripheral]) {
-                DLog(@"+1");
+                NSLog(@"+1");
                 [self.deviceArr addObject:peripheral];
                 
                 //返回扫描到的设备实例
@@ -783,7 +783,7 @@ static BleManager *bleManager = nil;
 //连接失败
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
-    //    DLog(@"连接失败");
+    //    NSLog(@"连接失败");
     
     if ([self.connectDelegate respondsToSelector:@selector(manridyBLEDidFailConnectDevice:)]) {
         [self.connectDelegate manridyBLEDidFailConnectDevice:self.currentDev];
@@ -800,7 +800,7 @@ static BleManager *bleManager = nil;
     }
     [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
     if (self.isReconnect) {
-        DLog(@"需要断线重连");
+        NSLog(@"需要断线重连");
         [self.myCentralManager connectPeripheral:self.currentDev.peripheral options:nil];
         
 //        self.disConnectView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"tips", nil) message:NSLocalizedString(@"bleReConnect", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"IKnow", nil) otherButtonTitles:nil, nil];
@@ -854,7 +854,7 @@ static BleManager *bleManager = nil;
         // 4、将请求加入通知中心
         [[UNUserNotificationCenter currentNotificationCenter] addNotificationRequest:notificationRequest withCompletionHandler:^(NSError * _Nullable error) {
             if (error == nil) {
-                DLog(@"已成功加推送%@",notificationRequest.identifier);
+                NSLog(@"已成功加推送%@",notificationRequest.identifier);
             }
         }];
     }
@@ -873,7 +873,7 @@ static BleManager *bleManager = nil;
 //获得某服务的特征
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error{
     
-    //    DLog(@"Discovered characteristic %@", service.characteristics);
+    //    NSLog(@"Discovered characteristic %@", service.characteristics);
     for (CBCharacteristic *characteristic in service.characteristics) {
         
         //保存写入特征
@@ -904,16 +904,16 @@ static BleManager *bleManager = nil;
 //获得某特征值变化的通知
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
     if (error) {
-        DLog(@"Error changing notification state: %@",[error localizedDescription]);
+        NSLog(@"Error changing notification state: %@",[error localizedDescription]);
     }else {
-        DLog(@"Success changing notification state: %d;value = %@",characteristic.isNotifying ,characteristic.value);
+        NSLog(@"Success changing notification state: %d;value = %@",characteristic.isNotifying ,characteristic.value);
     }
 }
 
 //订阅特征值发送变化的通知，所有获取到的值都将在这里进行处理
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {
-    DLog(@"updateValue == %@",characteristic.value);
+    NSLog(@"updateValue == %@",characteristic.value);
     
     [self analysisDataWithCharacteristic:characteristic.value];
     
@@ -922,9 +922,9 @@ static BleManager *bleManager = nil;
 //写入某特征值后的回调
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
     if (error) {
-        //        DLog(@"Error writing characteristic value: %@",[error localizedDescription]);
+        //        NSLog(@"Error writing characteristic value: %@",[error localizedDescription]);
     }else {
-        //        DLog(@"Success writing chararcteristic value: %@",characteristic);
+        //        NSLog(@"Success writing chararcteristic value: %@",characteristic);
     }
 }
 

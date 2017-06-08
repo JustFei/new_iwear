@@ -515,7 +515,7 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
 #pragma mark - HooDatePickerDelegate
 - (void)datePicker:(HooDatePicker *)datePicker dateDidChange:(NSDate *)date
 {
-    DLog(@"%@",datePicker.date);
+    NSLog(@"%@",datePicker.date);
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy/MM"];
     [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];

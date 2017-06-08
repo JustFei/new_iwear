@@ -101,7 +101,7 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 - (void)setSaveUI
 {
     if ([[NSUserDefaults standardUserDefaults] objectForKey:USER_NAME_SETTING]) {
-        DLog(@"hello == %@",[[NSUserDefaults standardUserDefaults] objectForKey:USER_NAME_SETTING]);
+        NSLog(@"hello == %@",[[NSUserDefaults standardUserDefaults] objectForKey:USER_NAME_SETTING]);
         [self.userNameTextField setText:[[NSUserDefaults standardUserDefaults] objectForKey:USER_NAME_SETTING]];
     }
     

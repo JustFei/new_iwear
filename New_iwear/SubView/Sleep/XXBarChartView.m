@@ -73,7 +73,7 @@
         //        SleepModel *model = xValues[index];
         
         XXBarDataModel *model = _xValues[index];
-        DLog(@"%@", model);
+        NSLog(@"%@", model);
         //1.创建视图，并计算宽度
         BarView *view = [[BarView alloc] initWithFrame:CGRectMake(model.xValue + 16, 0, model.xWidth, VIEW_FRAME_HEIGHT)];
         //2.着色
@@ -145,7 +145,7 @@
 //    CGPoint touchPoint = [touch locationInView:self];
 //    BarView *subview = (BarView *)[self hitTest:touchPoint withEvent:nil];
 //    
-//    DLog(@"clickBar == %ld", subview.tag);
+//    NSLog(@"clickBar == %ld", subview.tag);
 //
 //    subview.isSelect = YES;
 //    [subview setColor];

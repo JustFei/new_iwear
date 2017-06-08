@@ -305,7 +305,7 @@
         
         for (NSInteger i = 1; i <= days; i ++) {
             NSString *dateStr = [NSString stringWithFormat:@"%ld-%02ld-%02ld",(long)iCurYear ,(long)iCurMonth ,(long)i];
-            DLog(@"%@",dateStr);
+            NSLog(@"%@",dateStr);
             NSArray *queryArr = [self.myFmdbManager querySegmentedStepWithDate:dateStr];
             if (queryArr.count == 0) {
                 [self.dataArr addObject:@0];
@@ -329,7 +329,7 @@
                     self.stepBarChart.yMaxValue = daySumStep * 1.3;
                 }
                 
-                DLog(@"sumstep == %ld", daySumStep);
+                NSLog(@"sumstep == %ld", daySumStep);
             }
         }
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -372,7 +372,7 @@
 #pragma mark - HooDatePickerDelegate
 - (void)datePicker:(HooDatePicker *)datePicker dateDidChange:(NSDate *)date
 {
-    DLog(@"%@",datePicker.date);
+    NSLog(@"%@",datePicker.date);
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy/MM"];
     [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];

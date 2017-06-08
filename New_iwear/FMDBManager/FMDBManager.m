@@ -36,10 +36,10 @@ static FMDatabase *_fmdb;
         NSString *filepath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"/%@.sqlite",path]];
         _fmdb = [FMDatabase databaseWithPath:filepath];
         
-        DLog(@"数据库路径 == %@", filepath);
+        NSLog(@"数据库路径 == %@", filepath);
         
         if ([_fmdb open]) {
-            DLog(@"数据库打开成功");
+            NSLog(@"数据库打开成功");
         }
         
 //        //UserInfoData
@@ -80,9 +80,9 @@ static FMDatabase *_fmdb;
 //    
 //    BOOL result = [_fmdb executeUpdate:insertSql];
 //    if (result) {
-//        DLog(@"插入clockData成功");
+//        NSLog(@"插入clockData成功");
 //    }else {
-//        DLog(@"插入clockData失败");
+//        NSLog(@"插入clockData失败");
 //    }
 //    return result;
 //}
@@ -102,12 +102,12 @@ static FMDatabase *_fmdb;
 //        model.isOpen = [set boolForColumn:@"isopen"];
 //        model.ID = [set intForColumn:@"id"];
 //        
-//        DLog(@"闹钟时间 == %@，是否打开 == %d, id == %ld",model.time , model.isOpen , (long)model.ID);
+//        NSLog(@"闹钟时间 == %@，是否打开 == %d, id == %ld",model.time , model.isOpen , (long)model.ID);
 //        
 //        [arrM addObject:model];
 //    }
 //    
-//    DLog(@"查询成功");
+//    NSLog(@"查询成功");
 //    return arrM;
 //}
 //
@@ -123,9 +123,9 @@ static FMDatabase *_fmdb;
 //        result = [_fmdb executeUpdate:deleteSqlStr,[NSNumber numberWithInteger:deleteSql]];
 //    }
 //    if (result) {
-//        DLog(@"删除clockData成功");
+//        NSLog(@"删除clockData成功");
 //    }else {
-//        DLog(@"删除clockData失败");
+//        NSLog(@"删除clockData失败");
 //    }
 //    
 //    return result;
@@ -137,9 +137,9 @@ static FMDatabase *_fmdb;
 //    BOOL result = result = [_fmdb executeUpdate:modifySqlTime, model.time, [NSNumber numberWithBool:model.isOpen], [NSNumber numberWithInteger:ID]];
 //    
 //    if (result) {
-//        DLog(@"修改clockData成功");
+//        NSLog(@"修改clockData成功");
 //    }else {
-//        DLog(@"修改clockData失败");
+//        NSLog(@"修改clockData失败");
 //    }
 //    
 //    return result;
@@ -159,9 +159,9 @@ static FMDatabase *_fmdb;
     
     BOOL result = [_fmdb executeUpdate:insertSql];
     if (result) {
-        DLog(@"插入Motion数据成功");
+        NSLog(@"插入Motion数据成功");
     }else {
-        DLog(@"插入Motion数据失败");
+        NSLog(@"插入Motion数据失败");
     }
     return result;
 }
@@ -210,12 +210,12 @@ static FMDatabase *_fmdb;
         model.currentDataCount = currentDataCount;
         model.sumDataCount = sumDataCount;
         
-        DLog(@"%@的数据：步数=%@，卡路里=%@，里程=%@",date ,step ,kCal ,mileage);
+        NSLog(@"%@的数据：步数=%@，卡路里=%@，里程=%@",date ,step ,kCal ,mileage);
         
         [arrM addObject:model];
     }
     
-    DLog(@"Motion查询成功");
+    NSLog(@"Motion查询成功");
     return arrM;
 }
 
@@ -230,7 +230,7 @@ static FMDatabase *_fmdb;
 - (BOOL)modifyStepWithDate:(NSString *)date model:(SportModel *)model
 {
     if (date == nil) {
-        DLog(@"传入的日期为空，不能修改");
+        NSLog(@"传入的日期为空，不能修改");
         
         return NO;
     }
@@ -240,9 +240,9 @@ static FMDatabase *_fmdb;
     BOOL modifyResult = [_fmdb executeUpdate:modifySql, model.stepNumber, model.kCalNumber, model.mileageNumber, date];
     
     if (modifyResult) {
-        DLog(@"Motion数据修改成功");
+        NSLog(@"Motion数据修改成功");
     }else {
-        DLog(@"Motion数据修改失败");
+        NSLog(@"Motion数据修改失败");
     }
    
     return modifyResult;
@@ -263,9 +263,9 @@ static FMDatabase *_fmdb;
     
     BOOL result = [_fmdb executeUpdate:insertSql];
     if (result) {
-        DLog(@"插入SegmentedStep数据成功");
+        NSLog(@"插入SegmentedStep数据成功");
     }else {
-        DLog(@"插入SegmentedStep数据失败");
+        NSLog(@"插入SegmentedStep数据失败");
     }
     return result;
 }
@@ -323,7 +323,7 @@ static FMDatabase *_fmdb;
         [arrM addObject:model];
     }
     
-    DLog(@"SegmentMotion查询成功");
+    NSLog(@"SegmentMotion查询成功");
     return arrM;
 }
 
@@ -338,7 +338,7 @@ static FMDatabase *_fmdb;
 //- (BOOL)modifySegmentedStepWithDate:(NSString *)date model:(SportModel *)model
 //{
 //    if (date == nil) {
-//        DLog(@"传入的日期为空，不能修改");
+//        NSLog(@"传入的日期为空，不能修改");
 //        
 //        return NO;
 //    }
@@ -348,9 +348,9 @@ static FMDatabase *_fmdb;
 //    BOOL modifyResult = [_fmdb executeUpdate:modifySql, model.stepNumber, model.kCalNumber, model.mileageNumber, date];
 //    
 //    if (modifyResult) {
-//        DLog(@"Motion数据修改成功");
+//        NSLog(@"Motion数据修改成功");
 //    }else {
-//        DLog(@"Motion数据修改失败");
+//        NSLog(@"Motion数据修改失败");
 //    }
 //    
 //    return modifyResult;
@@ -363,9 +363,9 @@ static FMDatabase *_fmdb;
     
     BOOL result = [_fmdb executeUpdate:insertSql];
     if (result) {
-        DLog(@"插入HeartRate数据成功");
+        NSLog(@"插入HeartRate数据成功");
     }else {
-        DLog(@"插入HeartRate数据失败");
+        NSLog(@"插入HeartRate数据失败");
     }
     return result;
 }
@@ -422,7 +422,7 @@ static FMDatabase *_fmdb;
         
         [arrM addObject:model];
     }
-    DLog(@"heartRate查询成功");
+    NSLog(@"heartRate查询成功");
     return arrM;
 }
 
@@ -431,9 +431,9 @@ static FMDatabase *_fmdb;
     BOOL result = [_fmdb executeUpdate:@"delete from HeartRateData;"];
     
     if (result) {
-        DLog(@"删除成功");
+        NSLog(@"删除成功");
     }else {
-        DLog(@"删除失败");
+        NSLog(@"删除失败");
     }
     
     return result;
@@ -447,9 +447,9 @@ static FMDatabase *_fmdb;
     
     BOOL result = [_fmdb executeUpdate:insertSql];
     if (result) {
-        DLog(@"插入SleepData数据成功");
+        NSLog(@"插入SleepData数据成功");
     }else {
-        DLog(@"插入SleepData数据失败");
+        NSLog(@"插入SleepData数据失败");
     }
     return result;
 }
@@ -493,12 +493,12 @@ static FMDatabase *_fmdb;
         model.sumDataCount = sumDataCount;
         model.date = date;
         
-        DLog(@"currentDataCount == %ld, sumDataCount == %ld, lowSleep == %@, deepSleep == %@, sumSleep == %@",currentDataCount ,sumDataCount ,lowSleep , deepSleep ,sumSleep);
+        NSLog(@"currentDataCount == %ld, sumDataCount == %ld, lowSleep == %@, deepSleep == %@, sumSleep == %@",currentDataCount ,sumDataCount ,lowSleep , deepSleep ,sumSleep);
         
         [arrM addObject:model];
     }
     
-    DLog(@"sleep查询成功");
+    NSLog(@"sleep查询成功");
     return arrM;
 }
 
@@ -512,9 +512,9 @@ static FMDatabase *_fmdb;
     BOOL result = [_fmdb executeUpdate:@"delete from SleepData"];
     
     if (result) {
-        DLog(@"Sleep表删除成功");
+        NSLog(@"Sleep表删除成功");
     }else {
-        DLog(@"Sleep表删除失败");
+        NSLog(@"Sleep表删除失败");
     }
     
     return result;
@@ -527,9 +527,9 @@ static FMDatabase *_fmdb;
     
     BOOL result = [_fmdb executeUpdate:insertSql];
     if (result) {
-        DLog(@"插入BloodData数据成功");
+        NSLog(@"插入BloodData数据成功");
     }else {
-        DLog(@"插入BloodData数据失败");
+        NSLog(@"插入BloodData数据失败");
     }
     return result;
 }
@@ -594,7 +594,7 @@ static FMDatabase *_fmdb;
         
         [arrM addObject:model];
     }
-    DLog(@"Blood查询成功");
+    NSLog(@"Blood查询成功");
     return arrM;
 }
 
@@ -603,9 +603,9 @@ static FMDatabase *_fmdb;
     BOOL result = [_fmdb executeUpdate:@"drop table BloodData"];
     
     if (result) {
-        DLog(@"Blood表删除成功");
+        NSLog(@"Blood表删除成功");
     }else {
-        DLog(@"Blood表删除失败");
+        NSLog(@"Blood表删除失败");
     }
     
     return result;
@@ -619,9 +619,9 @@ static FMDatabase *_fmdb;
     
     BOOL result = [_fmdb executeUpdate:insertSql];
     if (result) {
-        DLog(@"插入BloodO2Data数据成功");
+        NSLog(@"插入BloodO2Data数据成功");
     }else {
-        DLog(@"插入BloodO2Data数据失败");
+        NSLog(@"插入BloodO2Data数据失败");
     }
     return result;
 }
@@ -684,7 +684,7 @@ static FMDatabase *_fmdb;
         
         [arrM addObject:model];
     }
-    DLog(@"BloodO2查询成功");
+    NSLog(@"BloodO2查询成功");
     return arrM;
 }
 
@@ -695,9 +695,9 @@ static FMDatabase *_fmdb;
 //    
 //    BOOL result = [_fmdb executeUpdate:insertSql];
 //    if (result) {
-//        DLog(@"插入UserInfoData数据成功");
+//        NSLog(@"插入UserInfoData数据成功");
 //    }else {
-//        DLog(@"插入UserInfoData数据失败");
+//        NSLog(@"插入UserInfoData数据失败");
 //    }
 //    return result;
 //}
@@ -724,12 +724,12 @@ static FMDatabase *_fmdb;
 //        
 //        UserInfoModel *model = [UserInfoModel userInfoModelWithUserName:userName andGender:gender andAge:age andHeight:height andWeight:weight andStepLength:steplength andStepTarget:stepTarget andSleepTarget:sleepTarget];
 //        
-//        DLog(@"%@,%lu,%ld,%ld,%ld,%ld",model.userName ,(unsigned long)model.gender ,(long)model.age ,model.height ,model.weight ,model.stepLength);
+//        NSLog(@"%@,%lu,%ld,%ld,%ld,%ld",model.userName ,(unsigned long)model.gender ,(long)model.age ,model.height ,model.weight ,model.stepLength);
 //        
 //        [arrM addObject:model];
 //    }
 //    
-//    DLog(@"UserInfoData查询成功");
+//    NSLog(@"UserInfoData查询成功");
 //    return arrM;
 //}
 //
@@ -741,9 +741,9 @@ static FMDatabase *_fmdb;
 //    BOOL modifyResult = [_fmdb executeUpdate:modifySql, model.userName, model.gender, @(model.age), @(model.height), @(model.weight), @(model.stepLength), @(ID)];
 //    
 //    if (modifyResult) {
-//        DLog(@"UserInfoData数据修改成功");
+//        NSLog(@"UserInfoData数据修改成功");
 //    }else {
-//        DLog(@"UserInfoData数据修改失败");
+//        NSLog(@"UserInfoData数据修改失败");
 //    }
 //    
 //    return modifyResult;
@@ -756,9 +756,9 @@ static FMDatabase *_fmdb;
 //    BOOL modifyResult = [_fmdb executeUpdate:modifySql, @(stepTarget), @(ID)];
 //    
 //    if (modifyResult) {
-//        DLog(@"添加运动目标成功");
+//        NSLog(@"添加运动目标成功");
 //    }else {
-//        DLog(@"添加运动目标失败");
+//        NSLog(@"添加运动目标失败");
 //    }
 //    
 //    return modifyResult;
@@ -771,9 +771,9 @@ static FMDatabase *_fmdb;
 //    BOOL modifyResult = [_fmdb executeUpdate:modifySql, @(sleepTarget), @(ID)];
 //    
 //    if (modifyResult) {
-//        DLog(@"修改睡眠目标成功");
+//        NSLog(@"修改睡眠目标成功");
 //    }else {
-//        DLog(@"修改睡眠目标失败");
+//        NSLog(@"修改睡眠目标失败");
 //    }
 //    
 //    return modifyResult;
@@ -784,9 +784,9 @@ static FMDatabase *_fmdb;
 //    BOOL result = [_fmdb executeUpdate:@"drop table UserInfoData"];
 //    
 //    if (result) {
-//        DLog(@"UserInfo表删除成功");
+//        NSLog(@"UserInfo表删除成功");
 //    }else {
-//        DLog(@"UserInfo表删除失败");
+//        NSLog(@"UserInfo表删除失败");
 //    }
 //    
 //    return result;
@@ -805,9 +805,9 @@ static FMDatabase *_fmdb;
 //    
 //    BOOL result = [_fmdb executeUpdate:insertSql];
 //    if (result) {
-//        DLog(@"插入sedentaryData成功");
+//        NSLog(@"插入sedentaryData成功");
 //    }else {
-//        DLog(@"插入sedentaryData失败");
+//        NSLog(@"插入sedentaryData失败");
 //    }
 //    return result;
 //}
@@ -819,9 +819,9 @@ static FMDatabase *_fmdb;
 //    BOOL modifyResult = [_fmdb executeUpdate:modifySql, @(model.sedentaryAlert), @(model.unDisturb), model.sedentaryStartTime, model.sedentaryEndTime, model.disturbStartTime, model.disturbEndTime, @(1)];
 //    
 //    if (modifyResult) {
-//        DLog(@"修改sedentaryData成功");
+//        NSLog(@"修改sedentaryData成功");
 //    }else {
-//        DLog(@"修改sedentaryData失败");
+//        NSLog(@"修改sedentaryData失败");
 //    }
 //    
 //    return modifyResult;
@@ -862,7 +862,7 @@ static FMDatabase *_fmdb;
 //        
 //        [arrM addObject:model];
 //    }
-//    DLog(@"sedentary查询成功");
+//    NSLog(@"sedentary查询成功");
 //    return arrM;
 //}
 //
@@ -871,9 +871,9 @@ static FMDatabase *_fmdb;
 //    BOOL result = [_fmdb executeUpdate:@"drop table SedentaryData"];
 //    
 //    if (result) {
-//        DLog(@"SedentaryData表删除成功");
+//        NSLog(@"SedentaryData表删除成功");
 //    }else {
-//        DLog(@"SedentaryData表删除失败");
+//        NSLog(@"SedentaryData表删除失败");
 //    }
 //    
 //    return result;

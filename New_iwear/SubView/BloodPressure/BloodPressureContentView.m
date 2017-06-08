@@ -279,7 +279,10 @@
 }
 
 #pragma mark - PNChartDelegate
-
+- (void)userClickedOnBarAtIndex:(NSInteger)barIndex
+{
+    NSLog(@"点击了 BPBarChart 的%ld", barIndex);
+}
 
 
 #pragma mark - Action

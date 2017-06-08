@@ -558,7 +558,15 @@ static AnalysisProcotolTool *analysisProcotolTool = nil;
         NSString *endhh = [endTimeStr substringWithRange:NSMakeRange(7, 2)];
         NSString *endmm = [endTimeStr substringWithRange:NSMakeRange(10, 2)];
         endTimeStr = [NSString stringWithFormat:@"20%@/%@/%@ %02ld:%02ld",endyy ,endMM ,enddd ,(long)endhh.integerValue ,(long)endmm.integerValue];
-        NSString *endDateStr = [NSString stringWithFormat:@"20%@/%@/%@",endyy ,endMM ,enddd];
+        //判断开始时间是否大于晚上八点，如果大于晚上八点就记录为第二天的数据
+        NSString *startDateStr = [NSString stringWithFormat:@"20%@/%@/%@",endyy ,endMM ,enddd];;
+        if (hh.integerValue >= 20) {
+            NSDateFormatter *plusOneDayFormatter = [[NSDateFormatter alloc] init];
+            [plusOneDayFormatter setDateFormat:@"yyyy/MM/dd"];
+            NSDate *oldDate = [plusOneDayFormatter dateFromString:startDateStr];
+            NSDate *newDate = [NSDate dateWithTimeInterval:24*60*60 sinceDate:oldDate];
+            startDateStr = [plusOneDayFormatter stringFromDate:newDate];
+        }
         
         NSData *deepSleep = [data subdataWithRange:NSMakeRange(14, 2)];
         int deepSleepVale = [NSStringTool parseIntFromData:deepSleep];
@@ -576,7 +584,7 @@ static AnalysisProcotolTool *analysisProcotolTool = nil;
         model.sleepModel.deepSleep = deepSleepStr;
         model.sleepModel.lowSleep = lowSleepStr;
         model.sleepModel.sumSleep = sumSleepStr;
-        model.sleepModel.date = endDateStr;
+        model.sleepModel.date = startDateStr;
         model.isReciveDataRight = ResponsEcorrectnessDataRgith;
         
     }else if ([head isEqualToString:@"8c"] || [head isEqualToString:@"8C"]) {

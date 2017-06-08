@@ -14,12 +14,6 @@
 #import "StepDataModel.h"
 
 @interface HeartRateContentView () < PNChartDelegate >
-{
-    NSInteger sumStep;
-    NSInteger sumMileage;
-    NSInteger sumkCal;
-    BOOL _isMetric;
-}
 
 @property (nonatomic, strong) UIView *upView;
 @property (nonatomic, strong) UILabel *todayLabel;
@@ -29,12 +23,13 @@
 @property (nonatomic, strong) UILabel *minHR;
 @property (nonatomic, strong) UILabel *maxHR;
 @property (nonatomic, strong) UIView *view1;
+@property (nonatomic, strong) UILabel *view1Title;
 @property (nonatomic, strong) PNCircleChart *hrCircleChart;
 @property (nonatomic, strong) PNLineChart *hrBarChart;
 @property (nonatomic, strong) BleManager *myBleManager;
-@property (nonatomic, strong) NSMutableArray *dateArr;
-@property (nonatomic, strong) NSMutableArray *dataArr;
+@property (nonatomic, strong) NSMutableArray *xLabelArr;
 @property (nonatomic, strong) NSMutableArray *hrArr;
+@property (nonatomic, strong) NSMutableArray *timeArr;
 @property (nonatomic, strong) UILabel *leftTimeLabel;
 @property (nonatomic, strong) UILabel *rightTimeLabel;
 @property (nonatomic, strong) UILabel *noDataLabel;
@@ -152,12 +147,12 @@
             make.width.equalTo(@((VIEW_FRAME_WIDTH + 4) / 3));
         }];
         
-        UILabel *view1Title = [[UILabel alloc] init];
-        [view1Title setText:@"平均心率"];
-        [view1Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
-        [view1Title setFont:[UIFont systemFontOfSize:12]];
-        [self.view1 addSubview:view1Title];
-        [view1Title mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.view1Title = [[UILabel alloc] init];
+        [self.view1Title setText:@"平均心率"];
+        [self.view1Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
+        [self.view1Title setFont:[UIFont systemFontOfSize:12]];
+        [self.view1 addSubview:self.view1Title];
+        [self.view1Title mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.view1.mas_centerX);
             make.top.equalTo(@18);
         }];
@@ -291,6 +286,9 @@
                        pointIndex:(NSInteger)pointIndex
 {
     NSLog(@"点击了 HRLineChart 的%ld", pointIndex);
+    [self.view1Title setText:self.timeArr[pointIndex]];
+    CGFloat hrValue = [self.hrArr[pointIndex] floatValue];
+    [self.averageHR setText:[NSString stringWithFormat:@"%.0f", hrValue]];
 }
 
 - (void)userClickedOnLinePoint:(CGPoint)point lineIndex:(NSInteger)lineIndex
@@ -372,7 +370,8 @@
 {
     //当历史数据查完并存储到数据库后，查询数据库当天的睡眠数据，并加入数据源
     [self.hrArr removeAllObjects];
-    [self.dateArr removeAllObjects];
+    [self.timeArr removeAllObjects];
+    [self.xLabelArr removeAllObjects];
     
     float sumBo = 0;
     float HighBo = 0;
@@ -384,26 +383,30 @@
         self.noDataLabel.hidden = YES;
         for (NSInteger index = 0; index < dbArr.count; index ++) {
             HeartRateModel *model = dbArr[index];
-            float bo = model.heartRate.floatValue;
-            [self.hrArr addObject:@(bo)];
+            float hr = model.heartRate.floatValue;
+            [self.hrArr addObject:@(hr)];
+            [self.timeArr addObject:[model.time substringWithRange:NSMakeRange(6, 5)]];
             if (index == 0) {
                 [self.leftTimeLabel setText:[model.time substringWithRange:NSMakeRange(6, 5)]];
             }
             if (index == dbArr.count - 1) {
                 [self.rightTimeLabel setText:[model.time substringWithRange:NSMakeRange(6, 5)]];
             }
-//            NSString *day = [model.dayStrig substringFromIndex:5];
-//            NSString *time = [model.timeString substringToIndex:5];
-            [self.dateArr addObject:@""];
+
+            if (hr >= self.hrBarChart.yFixedValueMax * 0.7) {
+                self.hrBarChart.yFixedValueMax = hr * 1.3;
+            }
+            
+            [self.xLabelArr addObject:@""];
             //获取总数
-            sumBo = sumBo + bo;
+            sumBo = sumBo + hr;
             //获取最大值
-            if (bo > HighBo) {
-                HighBo = bo;
+            if (hr > HighBo) {
+                HighBo = hr;
             }
             //获取最小值
-            if (bo < lowBo) {
-                lowBo = bo;
+            if (hr < lowBo) {
+                lowBo = hr;
             }
         }
     }
@@ -412,6 +415,7 @@
     //这里暂时只显示整数部分
     [self.hrLabel setText:model.heartRate];
     float aveBo = sumBo / dbArr.count;
+    [self.view1Title setText:@"平均心率"];
     [self.averageHR setText:[NSString stringWithFormat:@"%.0f", aveBo]];
     [self.maxHR setText:[NSString stringWithFormat:@"%.0f", HighBo]];
     [self.minHR setText:[NSString stringWithFormat:@"%.0f", lowBo]];
@@ -430,6 +434,7 @@
 {
     self.noDataLabel.hidden = NO;
     [self.hrLabel setText:@"--"];
+    [self.view1Title setText:@"平均心率"];
     [self.averageHR setText:@"--"];
     [self.minHR setText:@"--"];
     [self.maxHR setText:@"--"];
@@ -437,7 +442,7 @@
 
 - (void)showChartViewWithData
 {
-    [self.hrBarChart setXLabels:self.dateArr];
+    [self.hrBarChart setXLabels:self.xLabelArr];
     PNLineChartData *data01 = [PNLineChartData new];
     data01.color = HR_CURRENT_BACKGROUND_COLOR;
     data01.itemCount = self.hrBarChart.xLabels.count;
@@ -516,22 +521,13 @@
 
 
 
-- (NSMutableArray *)dateArr
+- (NSMutableArray *)xLabelArr
 {
-    if (!_dateArr) {
-        _dateArr = [NSMutableArray array];
+    if (!_xLabelArr) {
+        _xLabelArr = [NSMutableArray array];
     }
     
-    return _dateArr;
-}
-
-- (NSMutableArray *)dataArr
-{
-    if (!_dataArr) {
-        _dataArr = [NSMutableArray array];
-    }
-    
-    return _dataArr;
+    return _xLabelArr;
 }
 
 - (NSMutableArray *)hrArr
@@ -541,6 +537,15 @@
     }
     
     return _hrArr;
+}
+
+- (NSMutableArray *)timeArr
+{
+    if (!_timeArr) {
+        _timeArr = [NSMutableArray array];
+    }
+    
+    return _timeArr;
 }
 
 - (UILabel *)noDataLabel

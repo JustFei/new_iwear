@@ -29,12 +29,14 @@
 @property (nonatomic, strong) UILabel *lowBOLabel;
 @property (nonatomic, strong) UILabel *highBOLabel;
 @property (nonatomic, strong) UIView *view1;
+@property (nonatomic, strong) UILabel *view1Title;
 @property (nonatomic, strong) PNCircleChart *boCircleChart;
 @property (nonatomic, strong) BleManager *myBleManager;
-@property (nonatomic, strong) NSMutableArray *dateArr;
+@property (nonatomic, strong) NSMutableArray *xLabelArr;
 @property (nonatomic, strong) NSMutableArray *dataArr;
 @property (nonatomic, strong) PNLineChart *BOChart;
 @property (nonatomic, strong) NSMutableArray *boArr;
+@property (nonatomic, strong) NSMutableArray *timeArr;
 @property (nonatomic, strong) FMDBManager *myFmdbManager;
 @property (nonatomic, strong) UILabel *leftTimeLabel;
 @property (nonatomic, strong) UILabel *rightTimeLabel;
@@ -134,12 +136,12 @@
             make.width.equalTo(@((VIEW_FRAME_WIDTH + 4) / 3));
         }];
         
-        UILabel *view1Title = [[UILabel alloc] init];
-        [view1Title setText:@"平均值"];
-        [view1Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
-        [view1Title setFont:[UIFont systemFontOfSize:12]];
-        [self.view1 addSubview:view1Title];
-        [view1Title mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.view1Title = [[UILabel alloc] init];
+        [self.view1Title setText:@"平均值"];
+        [self.view1Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
+        [self.view1Title setFont:[UIFont systemFontOfSize:12]];
+        [self.view1 addSubview:self.view1Title];
+        [self.view1Title mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.view1.mas_centerX);
             make.top.equalTo(@18);
         }];
@@ -273,6 +275,9 @@
                        pointIndex:(NSInteger)pointIndex
 {
     NSLog(@"点击了 BOLineChart 的%ld", pointIndex);
+    [self.view1Title setText:self.timeArr[pointIndex]];
+    CGFloat boValue = [self.boArr[pointIndex] floatValue];
+    [self.avageBOLabel setText:[NSString stringWithFormat:@"%.0f", boValue]];
 }
 
 - (void)userClickedOnLinePoint:(CGPoint)point lineIndex:(NSInteger)lineIndex
@@ -314,8 +319,9 @@
 - (void)updateBOUIWithDataArr:(NSArray *)dbArr
 {
     //当历史数据查完并存储到数据库后，查询数据库当天的睡眠数据，并加入数据源
+    [self.timeArr removeAllObjects];
     [self.boArr removeAllObjects];
-    [self.dateArr removeAllObjects];
+    [self.xLabelArr removeAllObjects];
     
     float sumBo = 0;
     float HighBo = 0;
@@ -329,15 +335,19 @@
                 BloodO2Model *model = dbArr[index];
                 float bo = [model.integerString stringByAppendingString:[NSString stringWithFormat:@".%@",model.floatString]].floatValue;
                 [self.boArr addObject:@(bo)];
+                [self.timeArr addObject:model.timeString];
                 if (index == 0) {
                     [self.leftTimeLabel setText:[model.timeString substringToIndex:5]];
                 }
                 if (index == dbArr.count - 1) {
                     [self.rightTimeLabel setText:[model.timeString substringToIndex:5]];
                 }
-                NSString *day = [model.dayString substringFromIndex:5];
-                NSString *time = [model.timeString substringToIndex:5];
-                [self.dateArr addObject:@""];
+                
+                if (bo >= self.BOChart.yFixedValueMax * 0.7) {
+                    self.BOChart.yFixedValueMax = bo * 1.3;
+                }
+                
+                [self.xLabelArr addObject:@""];
                 //获取总数
                 sumBo = sumBo + bo;
                 //获取最大值
@@ -357,6 +367,7 @@
     [self.BOLabel setText:[NSString stringWithFormat:@"%@.%@", model.integerString, model.floatString]];
     [self.lastTimeLabel setText:[NSString stringWithFormat:@"%@ %@", model.dayString, model.timeString]];
     float aveBo = sumBo / dbArr.count;
+    [self.view1Title setText:@"平均心率"];
     [self.avageBOLabel setText:[NSString stringWithFormat:@"%.1f", aveBo]];
     [self.highBOLabel setText:[NSString stringWithFormat:@"%.1f", HighBo]];
     [self.lowBOLabel setText:[NSString stringWithFormat:@"%.1f", lowBo]];
@@ -375,6 +386,7 @@
 {
     self.noDataLabel.hidden = NO;
     [self.BOLabel setText:@"--"];
+    [self.view1Title setText:@"平均心率"];
     [self.lastTimeLabel setText:@""];
     [self.avageBOLabel setText:@"--"];
     [self.lowBOLabel setText:@"--"];
@@ -383,7 +395,7 @@
 
 - (void)showChartViewWithData
 {
-    [self.BOChart setXLabels:self.dateArr];
+    [self.BOChart setXLabels:self.xLabelArr];
     PNLineChartData *data01 = [PNLineChartData new];
     data01.color = BO_HISTORY_BACKGROUND_COLOR;
     data01.itemCount = self.BOChart.xLabels.count;
@@ -458,22 +470,24 @@
     return _lastTimeLabel;
 }
 
-- (NSMutableArray *)dateArr
+- (NSMutableArray *)xLabelArr
 {
-    if (!_dateArr) {
-        _dateArr = [NSMutableArray array];
+    if (!_xLabelArr) {
+        _xLabelArr = [NSMutableArray array];
     }
     
-    return _dateArr;
+    return _xLabelArr;
 }
 
-- (NSMutableArray *)dataArr
+
+
+- (NSMutableArray *)timeArr
 {
-    if (!_dataArr) {
-        _dataArr = [NSMutableArray array];
+    if (!_timeArr) {
+        _timeArr = [NSMutableArray array];
     }
     
-    return _dataArr;
+    return _timeArr;
 }
 
 - (NSMutableArray *)boArr

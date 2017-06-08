@@ -33,6 +33,7 @@
 @property (nonatomic, strong) NSMutableArray *xArr;
 @property (nonatomic, weak) PNBarChart *lowBloodChart;
 @property (nonatomic, weak) PNBarChart *highBloodChart;
+@property (nonatomic, strong) NSMutableArray *timeArr;
 @property (nonatomic, strong) NSMutableArray *hbArr;
 @property (nonatomic, strong) NSMutableArray *lbArr;
 @property (nonatomic, strong) UILabel *leftTimeLabel;
@@ -282,6 +283,9 @@
 - (void)userClickedOnBarAtIndex:(NSInteger)barIndex
 {
     NSLog(@"点击了 BPBarChart 的%ld", barIndex);
+    [self.timeLabel setText:self.timeArr[barIndex]];
+    [self.highBPLabel setText:[NSString stringWithFormat:@"%@", self.hbArr[barIndex]]];
+    [self.lowBPLabel setText:[NSString stringWithFormat:@"%@", self.lbArr[barIndex]]];
 }
 
 
@@ -318,6 +322,7 @@
      */
     float sumLowBp = 0;
     float sumHighBp = 0;
+    [self.timeArr removeAllObjects];
     [self.hbArr removeAllObjects];
     [self.lbArr removeAllObjects];
     if (dbArr.count == 0) {
@@ -329,6 +334,7 @@
             BloodModel *model = dbArr[index];
             sumLowBp = sumLowBp + model.lowBloodString.floatValue;
             sumHighBp = sumHighBp + model.highBloodString.floatValue;
+            [self.timeArr addObject:[model.timeString substringToIndex:5]];
             [self.hbArr addObject:@(model.highBloodString.integerValue)];
             [self.lbArr addObject:@(model.lowBloodString.integerValue)];
             [self.xArr addObject:@""];
@@ -344,7 +350,7 @@
     BloodModel *model = dbArr.lastObject;
     [self.BPLabel setText:[NSString stringWithFormat:@"%@/%@",model.highBloodString, model.lowBloodString]];
     [self.lastTimeLabel setText:[NSString stringWithFormat:@"%@ %@", model.dayString, model.timeString]];
-    [self.timeLabel setText:model.timeString];
+    [self.timeLabel setText:[model.timeString substringToIndex:5]];
     [self.highBPLabel setText:model.highBloodString];
     [self.lowBPLabel setText:model.lowBloodString];
     
@@ -494,6 +500,15 @@
     }
     
     return _xArr;
+}
+
+- (NSMutableArray *)timeArr
+{
+    if (!_timeArr) {
+        _timeArr = [NSMutableArray array];
+    }
+    
+    return _timeArr;
 }
 
 - (NSMutableArray *)hbArr

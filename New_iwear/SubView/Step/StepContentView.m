@@ -17,9 +17,9 @@
 
 @interface StepContentView () < PNChartDelegate >
 {
-    NSInteger sumStep;
-    NSInteger sumMileage;
-    NSInteger sumkCal;
+//    NSInteger sumStep;
+//    NSInteger sumMileage;
+//    NSInteger sumkCal;
     BOOL _isMetric;
 }
 
@@ -35,6 +35,8 @@
 @property (nonatomic, strong) BleManager *myBleManager;
 @property (nonatomic, strong) NSMutableArray *dateArr;
 @property (nonatomic, strong) NSMutableArray *dataArr;
+@property (nonatomic, strong) NSMutableArray *milArr;
+@property (nonatomic, strong) NSMutableArray *kcalArr;
 @property (nonatomic, strong) FMDBManager *myFmdbManager;
 @property (nonatomic, strong) UILabel *noDataLabel;
 
@@ -301,6 +303,9 @@
 - (void)userClickedOnBarAtIndex:(NSInteger)barIndex
 {
     NSLog(@"点击了 stepBarChart 的%ld", barIndex);
+    [self.view1StepLabel setText:[NSString stringWithFormat:@"%@", self.dataArr[barIndex]]];
+    [self.view2MileageLabel setText:[NSString stringWithFormat:@"%@", self.milArr[barIndex]]];
+    [self.view3kCalLabel setText:[NSString stringWithFormat:@"%@", self.kcalArr[barIndex]]];
 }
 
 
@@ -372,6 +377,8 @@
      */
     [self.dataArr removeAllObjects];
     [self.dateArr removeAllObjects];
+    [self.milArr removeAllObjects];
+    [self.kcalArr removeAllObjects];
     if (dbArr.count == 0) {
         [self showNoDataView];
         return ;
@@ -397,8 +404,12 @@
             SegmentedStepModel *model = dbDic[index];
             if (model) {
                 [self.dataArr addObject:@(model.stepNumber.integerValue)];
+                [self.milArr addObject:@(model.mileageNumber.integerValue)];
+                [self.kcalArr addObject:@(model.kCalNumber.integerValue)];
             }else {
                 [self.dataArr addObject:@(0)];
+                [self.milArr addObject:@(0)];
+                [self.kcalArr addObject:@(0)];
             }
         }
         
@@ -504,6 +515,24 @@
     }
     
     return _dataArr;
+}
+
+- (NSMutableArray *)milArr
+{
+    if (!_milArr) {
+        _milArr = [NSMutableArray array];
+    }
+    
+    return _milArr;
+}
+
+- (NSMutableArray *)kcalArr
+{
+    if (!_kcalArr) {
+        _kcalArr = [NSMutableArray array];
+    }
+    
+    return _kcalArr;
 }
 
 - (UILabel *)noDataLabel

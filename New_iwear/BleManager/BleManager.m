@@ -1033,14 +1033,19 @@ static BleManager *bleManager = nil;
             [[NSNotificationCenter defaultCenter] postNotificationName:SET_WINDOW object:nil userInfo:@{@"success":[ENStr isEqualToString:@"02"] && [SZStr isEqualToString:@"01"]? @YES : @NO}];
         }else if ([headStr isEqualToString:@"fc"]) {
             NSString *secondStr = [NSString stringWithFormat:@"%02x", hexBytes[1]];
-//            NSString *TTStr = [NSString stringWithFormat:@"%02x", hexBytes[3]];
+            NSString *TTStr = [NSString stringWithFormat:@"%02x", hexBytes[3]];
             if ([secondStr isEqualToString:@"09"]) {
                 //心率开关
                 manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisHeartStateData:value WithHeadStr:headStr];
                 [[NSNotificationCenter defaultCenter] postNotificationName:SET_HR_STATE object:model];
             }else if ([secondStr isEqualToString:@"10"]) {
                 //设备查找手机，需要全局监听。有 yes 和 no 两种状态
-                [[NSNotificationCenter defaultCenter] postNotificationName:SET_FIND_PHONE object:nil];
+//                if () {
+                [[NSNotificationCenter defaultCenter] postNotification:[[NSNotification alloc] initWithName:SET_FIND_PHONE object:nil userInfo:@{@"success":[TTStr isEqualToString:@"00"] ? @"NO" : @"YES"}]];
+//                    [[NSNotificationCenter defaultCenter] postNotificationName:SET_FIND_PHONE object:nil userInfo:@{@"success": @(NO)}];
+//                }else if ([TTStr isEqualToString:@"01"]) {
+//                    [[NSNotificationCenter defaultCenter] postNotificationName:SET_FIND_PHONE object:nil userInfo:@{@"success": @(YES)}];
+//                }
             }else if ([secondStr isEqualToString:@"19"]) {
                 manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisTakePhoto:value WithHeadStr:headStr];
                 [[NSNotificationCenter defaultCenter] postNotificationName:SET_TAKE_PHOTO object:model];

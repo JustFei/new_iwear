@@ -10,18 +10,28 @@
 #import "MainViewController.h"
 #import "BindPeripheralViewController.h"
 #import "BleManager.h"
+#import <UserNotifications/UserNotifications.h>
+#import <AudioToolbox/AudioToolbox.h>
 
-@interface AppDelegate () < BleConnectDelegate, BleDiscoverDelegate, BleReceiveSearchResquset >
+@interface AppDelegate () < BleConnectDelegate, BleDiscoverDelegate, BleReceiveSearchResquset, UNUserNotificationCenterDelegate >
 {
+    SystemSoundID soundID;
     BOOL _isBind;
 }
 @property (nonatomic, strong) MDSnackbar *stateBar;
 @property (nonatomic, strong) BleManager *myBleManager;
 @property (nonatomic, strong) MainViewController *mainVC;
+@property (nonatomic ,strong) AlertTool *searchVC;
 
 @end
 
 @implementation AppDelegate
+
+static void completionCallback(SystemSoundID mySSID)
+{
+    // 播放完毕之后，再次播放
+    AudioServicesPlayAlertSound(mySSID);
+}
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -29,6 +39,9 @@
     
     //保存 log
     [self redirectNSLogToDocumentFolder];
+    
+    //监听查找手机通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getSearchPhoneNoti:) name:SET_FIND_PHONE object:nil];
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self.window makeKeyAndVisible];
@@ -53,7 +66,11 @@
     self.myBleManager.searchDelegate = self;
     //监听state变化的状态
     [self.myBleManager addObserver:self forKeyPath:@"systemBLEstate" options: NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
-//    [self.myBleManager addObserver:self forKeyPath:@"connectState" options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
+    
+    //注册通知
+    // 申请通知权限
+    [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:(UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error) {
+    }];
     
     return YES;
 }
@@ -189,6 +206,57 @@
     }
 }
 
+/** 处理查找手机的通知 */
+- (void)getSearchPhoneNoti:(NSNotification *)noti
+{
+    NSString *success = noti.userInfo[@"success"];//success 里保存这设置是否成功
+    NSLog(@"success:%@", success);
+    //这里不能直接写 if (isFirst),必须如下写法
+    if ([success isEqualToString:@"YES"]) {
+        if (self.searchVC != nil) {
+            [self.searchVC dismissFromSuperview];
+            self.searchVC = nil;
+        }
+        [self.searchVC show];
+        [self requestNotify];
+        
+        NSString *soundFile = [[NSBundle mainBundle] pathForResource:@"alert" ofType:@"wav"];
+        AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:soundFile], &soundID);
+        //提示音 带震动
+        AudioServicesPlayAlertSound(soundID);
+        AudioServicesAddSystemSoundCompletion(soundID, NULL, NULL,(void*)completionCallback ,NULL);
+    }else {
+        [self.searchVC dismissFromSuperview];
+        AudioServicesDisposeSystemSoundID(soundID);
+    }
+}
+
+- (void)requestNotify
+{
+    // 1、创建通知内容，注：这里得用可变类型的UNMutableNotificationContent，否则内容的属性是只读的
+    UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
+    // 标题
+    content.title = @"手环查找中。。。";
+    // body     Tips:之前忘记设置body，导致通知只有声音而没有通知内容 ╥﹏╥...
+    content.body = [NSString stringWithFormat:@"您的手环正在查找您。。。"];
+    content.sound = [UNNotificationSound soundNamed:@"alert.wav"];
+    // 标识符
+    content.categoryIdentifier = @"categoryIndentifier1";
+    
+    // 2、创建通知触发
+    UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:1 repeats:NO];
+    
+    // 3、创建通知请求
+    UNNotificationRequest *notificationRequest = [UNNotificationRequest requestWithIdentifier:@"categoryIndentifier1" content:content trigger:trigger];
+    
+    // 4、将请求加入通知中心
+    [[UNUserNotificationCenter currentNotificationCenter] addNotificationRequest:notificationRequest withCompletionHandler:^(NSError * _Nullable error) {
+        if (error == nil) {
+            DLog(@"已成功加推送%@",notificationRequest.identifier);
+        }
+    }];
+}
+
 -(void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -201,9 +269,7 @@
     //    [self.mainVc showFunctionView];
     self.stateBar.text = @"连接成功";
     
-//    self 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        self.stateBar.text = @"正在同步数据";
         [[SyncTool shareInstance] syncAllData];
     });
 }
@@ -301,6 +367,21 @@ void UncaughtExceptionHandler(NSException* exception)
     }
     
     return _stateBar;
+}
+
+- (AlertTool *)searchVC
+{
+    if (!_searchVC) {
+        _searchVC = [AlertTool alertWithTitle:NSLocalizedString(@"tips", nil) message:NSLocalizedString(@"searchingPer", nil) style:UIAlertControllerStyleAlert];
+        [_searchVC addAction:[AlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:AlertToolStyleDefault handler:^(AlertAction *action) {
+            if ([BleManager shareInstance].connectState == kBLEstateDidConnected) {
+                [[BleManager shareInstance] writeStopPeripheralRemind];
+                AudioServicesDisposeSystemSoundID(soundID);
+            }
+        }]];
+    }
+    
+    return _searchVC;
 }
 
 @end

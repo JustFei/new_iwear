@@ -16,6 +16,7 @@
 		1032CA5A1ED6D1B80084693D /* VersionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032CA571ED6D1B80084693D /* VersionModel.m */; };
 		1032CA5B1ED6D1B80084693D /* VersionUpdateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032CA591ED6D1B80084693D /* VersionUpdateTableViewCell.m */; };
 		10814B2E1EDFE88C004C9B4F /* SyncTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 10814B2D1EDFE88C004C9B4F /* SyncTool.m */; };
+		10871DEC1EEA38AF0045F376 /* alert.wav in Resources */ = {isa = PBXBuildFile; fileRef = 10871DEB1EEA38AF0045F376 /* alert.wav */; };
 		109865BB1ECC5D200077797E /* UINavigationBar+Awesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 109865BA1ECC5D200077797E /* UINavigationBar+Awesome.m */; };
 		10C496451ECEE739000F5769 /* FirmwareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C496441ECEE739000F5769 /* FirmwareModel.m */; };
 		10CD3E701EE6963A0098C82A /* XXBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10CD3E6D1EE6963A0098C82A /* XXBarChartView.m */; };
@@ -178,6 +179,7 @@
 		1032CA591ED6D1B80084693D /* VersionUpdateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VersionUpdateTableViewCell.m; path = VersionUpdateViewController/VersionUpdateTableViewCell.m; sourceTree = "<group>"; };
 		10814B2C1EDFE88C004C9B4F /* SyncTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SyncTool.h; path = New_iwear/SyncTool/SyncTool.h; sourceTree = SOURCE_ROOT; };
 		10814B2D1EDFE88C004C9B4F /* SyncTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SyncTool.m; path = New_iwear/SyncTool/SyncTool.m; sourceTree = SOURCE_ROOT; };
+		10871DEB1EEA38AF0045F376 /* alert.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = alert.wav; path = Resource/alert.wav; sourceTree = "<group>"; };
 		109865B91ECC5D200077797E /* UINavigationBar+Awesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Awesome.h"; sourceTree = "<group>"; };
 		109865BA1ECC5D200077797E /* UINavigationBar+Awesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Awesome.m"; sourceTree = "<group>"; };
 		10C496431ECEE739000F5769 /* FirmwareModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirmwareModel.h; sourceTree = "<group>"; };
@@ -1079,6 +1081,7 @@
 		9CDEAC581EB078EC00279EDA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				10871DEB1EEA38AF0045F376 /* alert.wav */,
 				9CDEAC721EB07A0500279EDA /* IwearHeader.pch */,
 				9CDEAC591EB078EC00279EDA /* main.m */,
 				9C87EB271EC5B6BD0051C59D /* test.swift */,
@@ -1283,6 +1286,7 @@
 				9CDEAC6B1EB078EC00279EDA /* LaunchScreen.storyboard in Resources */,
 				9C0817841EB9AB9300C1845F /* SettingTableViewCell.xib in Resources */,
 				9CDEAC681EB078EC00279EDA /* Assets.xcassets in Resources */,
+				10871DEC1EEA38AF0045F376 /* alert.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

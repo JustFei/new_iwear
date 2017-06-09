@@ -202,14 +202,13 @@ static SyncTool *_syncTool = nil;
         // signal操作+1
         dispatch_semaphore_signal(self.semaphore);
     }else if (model.segmentStepModel.segmentedStepState == SegmentedStepDataHistoryData) {
+        if (model.segmentStepModel.AHCount == 0) {
+            return;
+        }
         //当数据接受完毕，发送睡眠
         if (model.segmentStepModel.AHCount == model.segmentStepModel.CHCount + 1) {
             // signal操作+1
             dispatch_semaphore_signal(self.semaphore);
-//            if (_haveMotion && !_haveSleep && !_haveHR && !_haveBP && !_haveBO) {
-//                self.syncDataIng = NO;
-//                NSLog(@"self.syncDataIng.segmentStep == %d", self.syncDataIng);
-//            }
         }
         
         //传递进度值
@@ -233,14 +232,13 @@ static SyncTool *_syncTool = nil;
         // signal操作+1
         dispatch_semaphore_signal(self.semaphore);
     }else if (model.sleepModel.sleepState == SleepDataHistoryData) {
+        if (model.sleepModel.sumDataCount == 0) {
+            return;
+        }
         //当数据接受完毕，发送心率
         if (model.sleepModel.sumDataCount == model.sleepModel.currentDataCount + 1) {
             // signal操作+1
             dispatch_semaphore_signal(self.semaphore);
-//            if (!_haveMotion && _haveSleep && !_haveHR && !_haveBP && !_haveBO) {
-//                self.syncDataIng = NO;
-//                NSLog(@"self.syncDataIng.Sleep == %d", self.syncDataIng);
-//            }
         }
         
         //传递进度值
@@ -270,14 +268,13 @@ static SyncTool *_syncTool = nil;
         // signal操作+1
         dispatch_semaphore_signal(self.semaphore);
     }else if (model.heartRateModel.heartRateState == HeartRateDataHistoryData) {
+        if (model.heartRateModel.sumDataCount.integerValue == 0) {
+            return;
+        }
         //当数据接受完毕，发送血压
         if (model.heartRateModel.sumDataCount.integerValue == model.heartRateModel.currentDataCount.integerValue + 1) {
             // signal操作+1
             dispatch_semaphore_signal(self.semaphore);
-//            if (!_haveMotion && !_haveSleep && _haveHR && !_haveBP && !_haveBO) {
-//                self.syncDataIng = NO;
-//                NSLog(@"self.syncDataIng.HR == %d", self.syncDataIng);
-//            }
         }
         
         //传递进度值
@@ -302,14 +299,13 @@ static SyncTool *_syncTool = nil;
         // signal操作+1
         dispatch_semaphore_signal(self.semaphore);
     }else if (model.bloodModel.bloodState == BloodDataHistoryData) {
+        if (model.bloodModel.sumCount.integerValue == 0) {
+            return;
+        }
         //当数据接受完毕，发送血氧
         if (model.bloodModel.sumCount.integerValue == model.bloodModel.currentCount.integerValue + 1) {
             // signal操作+1
             dispatch_semaphore_signal(self.semaphore);
-//            if (!_haveMotion && !_haveSleep && !_haveHR && _haveBP && !_haveBO) {
-//                self.syncDataIng = NO;
-//                NSLog(@"self.syncDataIng.BP == %d", self.syncDataIng);
-//            }
         }
         
         //传递进度值
@@ -334,6 +330,9 @@ static SyncTool *_syncTool = nil;
         // signal操作+1
         dispatch_semaphore_signal(self.semaphore);
     }else if (model.bloodO2Model.bloodO2State == BloodO2DataHistoryData) {
+        if (model.bloodO2Model.sumCount.integerValue == 0) {
+            return;
+        }
         //当数据接受完毕，发送血氧
         NSLog(@"boSum == %ld;boCur + 1 == %ld",model.bloodO2Model.sumCount.integerValue, model.bloodO2Model.currentCount.integerValue + 1);
         if (model.bloodO2Model.sumCount.integerValue == model.bloodO2Model.currentCount.integerValue + 1) {

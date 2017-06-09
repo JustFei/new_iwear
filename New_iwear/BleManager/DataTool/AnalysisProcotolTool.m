@@ -751,6 +751,7 @@ union LAT{
         }else if ([TyStr isEqualToString:@"03"]) {
             model.bloodModel.bloodState = BloodDataUpload;
         }
+        
         NSData *year = [data subdataWithRange:NSMakeRange(6, 1)];
         NSString *yearStr = [NSStringTool convertToNSStringWithNSData:year];
         NSData *month = [data subdataWithRange:NSMakeRange(7, 1)];

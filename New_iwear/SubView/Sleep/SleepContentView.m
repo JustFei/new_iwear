@@ -56,6 +56,8 @@
     if (self) {
         self.frame = frame;
         
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCircleWhenTargetReset:) name:SET_MOTION_TARGET object:nil];
+        
         _upView = [[UIView alloc] init];
         _upView.backgroundColor = SLEEP_CURRENT_BACKGROUND_COLOR;
         [self addSubview:_upView];
@@ -312,6 +314,19 @@
         //绘制睡眠图表
         [self.sleepChartBackView setXValues:barDataArr];
         [self.sleepChartBackView updateBar];
+    }
+}
+
+- (void)updateCircleWhenTargetReset:(NSNotification *)noti
+{
+    BOOL isFirst = noti.userInfo[@"success"];//success 里保存这设置是否成功
+    NSLog(@"isFirst:%d",isFirst);
+    //这里不能直接写 if (isFirst),必须如下写法
+    if (isFirst == 1) {
+        //延迟一秒再去刷新圆环，因为保存目标到沙盒需要点时间
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self drawCircle:self.stepLabel.text.floatValue];
+        });
     }
 }
 

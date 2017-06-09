@@ -101,8 +101,45 @@
         [[BleManager shareInstance] writeCameraMode:kCameraModeOpenCamera];
         self.imagePicker = [[UIImagePickerController alloc]init];
         self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        self.imagePicker.showsCameraControls = NO;
         self.imagePicker.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
+        //取景框全屏
+        CGSize screenBounds = [UIScreen mainScreen].bounds.size;
+        CGFloat cameraAspectRatio = 4.0f/3.0f;
+        CGFloat camViewHeight = screenBounds.width * cameraAspectRatio;
+        CGFloat scale = screenBounds.height / camViewHeight;
+        self.imagePicker.cameraViewTransform = CGAffineTransformMakeTranslation(0, (screenBounds.height - camViewHeight) / 2.0);
+        self.imagePicker.cameraViewTransform = CGAffineTransformScale(self.imagePicker.cameraViewTransform, scale, scale);
         self.imagePicker.delegate = self;
+        
+        //创建叠加层
+        UIView *overLayView=[[UIView alloc]initWithFrame:self.imagePicker.view.bounds];
+        
+        //将视图设置为摄像头的叠加层
+        self.imagePicker.cameraOverlayView = overLayView;
+        
+        //在叠加视图上自定义一个拍照按钮
+        UIButton *takePhotoBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        [takePhotoBtn setImage:[UIImage imageNamed:@"camera_takephone02"] forState:UIControlStateNormal];
+        [takePhotoBtn addTarget:self action:@selector(takePhoto:) forControlEvents:UIControlEventTouchUpInside];
+        [overLayView addSubview:takePhotoBtn];
+        [takePhotoBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(overLayView.mas_centerX);
+            make.bottom.equalTo(overLayView.mas_bottom).offset(-20);
+        }];
+        
+        //再加一个翻转摄像头的按钮
+        UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+        [cancelBtn addTarget:self action:@selector(cancelAction:) forControlEvents:UIControlEventTouchUpInside];
+        [cancelBtn setTitleColor:WHITE_COLOR forState:UIControlStateNormal];
+        [cancelBtn.titleLabel setFont:[UIFont systemFontOfSize:20]];
+        [overLayView addSubview:cancelBtn];
+        [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(takePhotoBtn.mas_centerY);
+            make.left.equalTo(overLayView.mas_left).offset(16);
+        }];
+        
         //页面跳转
         [self presentViewController:self.imagePicker animated:YES completion:nil];
     }
@@ -110,6 +147,19 @@
     /** 由于自定义相机的优化不好，暂时先调用系统的 */
 //    CameraViewController *vc = [[CameraViewController alloc] init];
 //    [self.navigationController pushViewController:vc animated:YES];
+}
+
+//拍照
+- (void)takePhoto:(UIButton *)sender
+{
+    [self.imagePicker takePicture];
+}
+
+//退出拍照
+- (void)cancelAction:(UIButton *)sender
+{
+    [[BleManager shareInstance] writeCameraMode:kCameraModeCloseCamera];
+    [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - observer
@@ -127,12 +177,12 @@
     UIImage *newPhoto = [info objectForKey:@"UIImagePickerControllerEditedImage"];
     [self saveImageToPhotoAlbum:newPhoto];
     //退出设备的相机模式
-    [[BleManager shareInstance] writeCameraMode:kCameraModeCloseCamera];
+    [[BleManager shareInstance] writeCameraMode:kCameraModePhotoFinish];
     //关闭当前界面，即回到主界面去
-    [self dismissViewControllerAnimated:YES completion:nil];
-    
-    //调一下 cancel
-    [self takePhotoAction:nil];
+//    [self dismissViewControllerAnimated:YES completion:nil];
+//    
+//    //调一下 cancel
+//    [self takePhotoAction:nil];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker

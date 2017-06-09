@@ -78,7 +78,7 @@
     }
     
     MDButton *helpBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
-    [helpBtn setTitle:@"使用帮助" forState:UIControlStateNormal];
+    //[helpBtn setTitle:@"使用帮助" forState:UIControlStateNormal];
     [helpBtn setTitleColor:TEXT_WHITE_COLOR_LEVEL3 forState:UIControlStateNormal];
     [helpBtn addTarget:self action:@selector(helpAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:helpBtn];

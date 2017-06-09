@@ -44,6 +44,24 @@ static NSString * const AboutTableViewCellID = @"AboutTableViewCell";
         make.height.equalTo(@(232 * VIEW_CONTROLLER_FRAME_WIDTH / 375));
     }];
     
+    UIImageView *headImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@""]];
+    [headView addSubview:headImageView];
+    [headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+    }];
+    
+    UILabel *nameLabel = [[UILabel alloc] init];
+    [headView addSubview:nameLabel];
+    [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+    }];
+    
+    UILabel *infoLabel = [[UILabel alloc] init];
+    [headView addSubview:infoLabel];
+    [infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+    }];
+    
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left);
         make.right.equalTo(self.view.mas_right);

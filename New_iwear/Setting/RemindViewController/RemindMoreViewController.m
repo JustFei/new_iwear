@@ -95,8 +95,12 @@ static NSString * const RemindMoreTableViewCellID = @"RemindMoreTableViewCell";
 {
     if (!_dataArr) {
         NSMutableArray *mutArr = [NSMutableArray array];
-        NSArray *imageNameArr = @[@"remind_sit02", @"remind_alarm02", @"remind_mgs02", @"remind_phone02", @"remind_antilost", @"remind_app"];
-        NSArray *funcNameArr = @[@"久坐提醒", @"闹钟提醒", @"短信提醒", @"来电提醒", @"防丢提醒", @"APP提醒"];
+        NSArray *imageNameArr = @[@"remind_sit02", @"remind_alarm02", @"remind_mgs02", @"remind_phone02", @"remind_antilost"
+//                                  @"remind_app"
+                                  ];
+        NSArray *funcNameArr = @[@"久坐提醒", @"闹钟提醒", @"短信提醒", @"来电提醒", @"防丢提醒"
+//                                 @"APP提醒"
+                                 ];
         for (int index = 0; index < funcNameArr.count; index ++) {
             RemindModel *model = [[RemindModel alloc] init];
             model.functionName = funcNameArr[index];

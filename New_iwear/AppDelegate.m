@@ -371,8 +371,8 @@ void UncaughtExceptionHandler(NSException* exception)
 - (AlertTool *)searchVC
 {
     if (!_searchVC) {
-        _searchVC = [AlertTool alertWithTitle:NSLocalizedString(@"tips", nil) message:NSLocalizedString(@"searchingPer", nil) style:UIAlertControllerStyleAlert];
-        [_searchVC addAction:[AlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:AlertToolStyleDefault handler:^(AlertAction *action) {
+        _searchVC = [AlertTool alertWithTitle:@"提示" message:@"设备正在查找手机" style:UIAlertControllerStyleAlert];
+        [_searchVC addAction:[AlertAction actionWithTitle:@"取消" style:AlertToolStyleDefault handler:^(AlertAction *action) {
             if ([BleManager shareInstance].connectState == kBLEstateDidConnected) {
                 [[BleManager shareInstance] writeStopPeripheralRemind];
                 AudioServicesDisposeSystemSoundID(soundID);

@@ -134,6 +134,7 @@
             make.width.equalTo(@44);
             make.height.equalTo(@44);
         }];
+        trainingBtn.hidden = YES;
         
         self.view1 = [[UIView alloc] init];
         self.view1.layer.borderWidth = 1;

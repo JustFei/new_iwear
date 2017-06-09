@@ -44,16 +44,19 @@ static NSString * const AboutTableViewCellID = @"AboutTableViewCell";
         make.height.equalTo(@(232 * VIEW_CONTROLLER_FRAME_WIDTH / 375));
     }];
     
-    UIImageView *headImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@""]];
-    [headView addSubview:headImageView];
-    [headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-    }];
-    
     UILabel *nameLabel = [[UILabel alloc] init];
+    [nameLabel setText:@"iband"];
     [headView addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        
+        make.bottom.equalTo(headView.mas_bottom).offset(-16);
+        make.centerX.equalTo(headView.mas_centerX);
+    }];
+    
+    UIImageView *headImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"about_pic01"]];
+    [headView addSubview:headImageView];
+    [headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(headView.mas_centerX);
+        make.bottom.equalTo(nameLabel.mas_top).offset(-16);
     }];
     
     UILabel *infoLabel = [[UILabel alloc] init];

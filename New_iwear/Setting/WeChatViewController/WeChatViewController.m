@@ -42,6 +42,14 @@
         make.height.equalTo(@255);
     }];
     
+    UIImageView *headImageView = [[UIImageView alloc] init];
+    [headImageView setImage:[UIImage imageNamed:@"wechat"]];
+    [self.view addSubview:headImageView];
+    [headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view.mas_centerX);
+        make.top.equalTo(self.view.mas_top).offset((VIEW_CONTROLLER_BOUNDS_HEIGHT - 255) / 2 - 16);
+    }];
+    
     UILabel *label1 = [[UILabel alloc] init];
     [label1 setText:@"点击“接入”启动微信后，进入“深圳曼瑞德科技有限公司”账号页面，然后点击“绑定设备”按钮既可完成接入"];
     [label1 setFont:[UIFont systemFontOfSize:17]];

@@ -85,6 +85,7 @@ static NSString * const TimeFormatterSettingTableViewCellID = @"TimeFormatterSet
         //保存设置到本地
         //长度单位
         [[NSUserDefaults standardUserDefaults] setBool:model.isSelect forKey:TIME_FORMATTER];
+        [self.navigationController popViewControllerAnimated:YES];
     }else {
         //做失败处理
         [self.hud hideAnimated:YES];

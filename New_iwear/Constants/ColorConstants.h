@@ -50,6 +50,9 @@
 /** 按钮的绿色 */
 //#define kButtonGreenColor COLOR_WITH_HEX(0x18db30,1)
 
+/** 底部通知栏的颜色 */
+#define STATE_BAR_BACKGROUND_COLOR COLOR_WITH_HEX(0xf5f5f5,1)
+
 /** 文字的颜色, 4 --> 0 由深到浅 */
 
 /** 文字的颜色 --> 0.87 */

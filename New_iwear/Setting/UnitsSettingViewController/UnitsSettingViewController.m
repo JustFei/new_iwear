@@ -93,6 +93,7 @@ static NSString * const UnitsSettingTableViewCellID = @"UnitsSettingTableViewCel
         [[NSUserDefaults standardUserDefaults] setBool:heightModel.isSelect forKey:LONG_MEASURE];
         //重量单位
         [[NSUserDefaults standardUserDefaults] setBool:weightModel.isSelect forKey:HUNDRED_WEIGHT];
+        [self.navigationController popViewControllerAnimated:YES];
     }else {
         //做失败处理
         [self.hud hideAnimated:YES];

@@ -394,6 +394,8 @@ static AnalysisProcotolTool *analysisProcotolTool = nil;
         if ([TT isEqualToString:@"f0"] || [TT isEqualToString:@"F0"]) {
             if (![SS isEqualToString:@"00"]) {
                 model.pairSuccess = NO;
+            }else {
+                model.pairSuccess = YES;
             }
         }
     }

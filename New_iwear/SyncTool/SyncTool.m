@@ -396,14 +396,15 @@ static SyncTool *_syncTool = nil;
 {
     if (!_stateBar) {
         _stateBar = [[MDSnackbar alloc] init];
-        [_stateBar setActionTitleColor:NAVIGATION_BAR_COLOR];
+        [_stateBar setActionTitleColor:TEXT_BLACK_COLOR_LEVEL3];
+        [_stateBar setBackgroundColor:STATE_BAR_BACKGROUND_COLOR];
         
         //这里1000000秒是让bar长驻在底部
         [_stateBar setDuration:1000000];
         _stateBar.multiline = YES;
         
         MDButton *cancelButton = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:nil];
-        [cancelButton setImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
+        [cancelButton setImage:[UIImage imageNamed:@"notice_icon"] forState:UIControlStateNormal];
         [cancelButton addTarget:self action:@selector(cancelStateBarAction:) forControlEvents:UIControlEventTouchUpInside];
         cancelButton.backgroundColor = RED_COLOR;
         [_stateBar addSubview:cancelButton];

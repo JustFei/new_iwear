@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "New_iwear/BleManager/BleManager.m"
-            timestampString = "518667519.400943"
+            timestampString = "518693536.219211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1044"
-            endingLineNumber = "1044"
+            startingLineNumber = "1041"
+            endingLineNumber = "1041"
             landmarkName = "-analysisDataWithCharacteristic:"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,7 +90,7 @@
                   moduleName = "New_iwear"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mofujian/Desktop/ProjectList/ProjectList/iwear/New_iwear/New_iwear/New_iwear/AppDelegate.m"
-                  timestampString = "518683385.011748"
+                  timestampString = "518687186.56287"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "253"
@@ -105,7 +105,7 @@
                   moduleName = "New_iwear"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mofujian/Desktop/ProjectList/ProjectList/iwear/New_iwear/New_iwear/New_iwear/AppDelegate.m"
-                  timestampString = "518683385.015469"
+                  timestampString = "518687186.566154"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "254"
@@ -122,12 +122,108 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "New_iwear/Setting/TakePhotoViewController/TakePhotoViewController.m"
-            timestampString = "518683383.835426"
+            timestampString = "518684750.042363"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
             landmarkName = "-imagePickerControllerDidCancel:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "New_iwear/BleManager/DataTool/AnalysisProcotolTool.m"
+            timestampString = "518684780.336132"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "388"
+            endingLineNumber = "388"
+            landmarkName = "-analysisPairData:WithHeadStr:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "New_iwear/BleManager/DataTool/AnalysisProcotolTool.m"
+            timestampString = "518684789.426379"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "389"
+            endingLineNumber = "389"
+            landmarkName = "-analysisPairData:WithHeadStr:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "New_iwear/BleManager/DataTool/AnalysisProcotolTool.m"
+            timestampString = "518684790.435942"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "391"
+            endingLineNumber = "391"
+            landmarkName = "-analysisPairData:WithHeadStr:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "New_iwear/BleManager/DataTool/AnalysisProcotolTool.m"
+            timestampString = "518686682.279918"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "398"
+            endingLineNumber = "398"
+            landmarkName = "-analysisPairData:WithHeadStr:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "New_iwear/BleManager/DataTool/AnalysisProcotolTool.m"
+            timestampString = "518686682.739516"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "396"
+            endingLineNumber = "396"
+            landmarkName = "-analysisPairData:WithHeadStr:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "New_iwear/Setting/RemindViewController/PhoneReminderViewController/PhoneReminderViewController.m"
+            timestampString = "518686844.282844"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
+            landmarkName = "-setPairNoti:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

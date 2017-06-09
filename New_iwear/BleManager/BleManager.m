@@ -15,6 +15,7 @@
 #import "ClockModel.h"
 #import <UserNotifications/UserNotifications.h>
 #import "InterfaceSelectionModel.h"
+#import "SedentaryReminderModel.h"
 
 #define kServiceUUID              @"F000EFE0-0000-4000-0000-00000000B000"
 #define kWriteCharacteristicUUID  @"F000EFE1-0451-4000-0000-00000000B000"
@@ -795,6 +796,7 @@ static BleManager *bleManager = nil;
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
     self.connectState = kBLEstateDisConnected;
+    [SyncTool shareInstance].syncDataIng = NO;
     if ([self.connectDelegate respondsToSelector:@selector(manridyBLEDidDisconnectDevice:)]) {
         [self.connectDelegate manridyBLEDidDisconnectDevice:self.currentDev];
     }
@@ -803,19 +805,14 @@ static BleManager *bleManager = nil;
         NSLog(@"需要断线重连");
         [self.myCentralManager connectPeripheral:self.currentDev.peripheral options:nil];
         
-//        self.disConnectView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"tips", nil) message:NSLocalizedString(@"bleReConnect", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"IKnow", nil) otherButtonTitles:nil, nil];
-//        self.disConnectView.tag = 103;
-//        [self.disConnectView show];
-        
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isFindMyPeripheral"]) {
-            BOOL isFindMyPeripheral = [[NSUserDefaults standardUserDefaults] boolForKey:@"isFindMyPeripheral"];
-            
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:LOST_SETTING]) {
+            NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:LOST_SETTING];
+            SedentaryReminderModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
             /**TODO:这里的延迟操作会因为在后台的原因停止执行，目前测试在8秒钟左右可以实现稳定延迟。*/
-            if (isFindMyPeripheral) {
+            if (model.switchIsOpen) {
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     [self delayMethod];
                 });
-                
             }
         }
     }else {

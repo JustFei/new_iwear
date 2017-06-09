@@ -102,18 +102,22 @@ static NSString * const MessageReminderTableViewCellID = @"MessageReminderTableV
     [self.hud hideAnimated:YES];
     manridyModel *model = [noti object];
     if (model.isReciveDataRight) {
+        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
+        [sucToast show];
+        //保存选项至本地
+        [[NSUserDefaults standardUserDefaults] setBool:((SedentaryReminderModel *)self.dataArr.firstObject).switchIsOpen forKey:MESSAGE_SWITCH_SETTING];
+        [self.navigationController popViewControllerAnimated:YES];
+    }else {
         if (model.pairSuccess) {
-            MDToast *sucToast = [[MDToast alloc] initWithText:@"配对成功" duration:1.5];
+            MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
             [sucToast show];
             //保存选项至本地
-            [[NSUserDefaults standardUserDefaults] setBool:((SedentaryReminderModel *)self.dataArr.firstObject).switchIsOpen forKey:MESSAGE_SWITCH_SETTING];
+            [[NSUserDefaults standardUserDefaults] setBool:((SedentaryReminderModel *)self.dataArr.firstObject).switchIsOpen forKey:PHONE_SWITCH_SETTING];
+            [self.navigationController popViewControllerAnimated:YES];
         }else {
             MDToast *sucToast = [[MDToast alloc] initWithText:@"配对失败，请配对设备，否则无法使用该功能" duration:3];
             [sucToast show];
         }
-    }else {
-        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存失败" duration:1.5];
-        [sucToast show];
     }
 }
 

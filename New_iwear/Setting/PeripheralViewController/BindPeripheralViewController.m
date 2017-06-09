@@ -511,7 +511,12 @@
         /** 同步久坐提醒 */
         [self writeSedentReminder];
         /** 同步防丢提醒 */
-        [self.myBleMananger writePeripheralShakeWhenUnconnectWithOforOff:[[NSUserDefaults standardUserDefaults] boolForKey:LOST_SETTING]];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:LOST_SETTING]) {
+            [self.myBleMananger writePeripheralShakeWhenUnconnectWithOforOff:[[NSUserDefaults standardUserDefaults] boolForKey:LOST_SETTING]];
+        }else {
+            [self.myBleMananger writePeripheralShakeWhenUnconnectWithOforOff:NO];
+        }
+        
         /** 同步闹钟提醒 */
         [self writeClockReminder];
         /** 同步亮度调节 */
@@ -589,6 +594,7 @@
     if (_asynCount == 12) {
         self.hud.label.text = @"同步完成";
         [self.hud hideAnimated:YES afterDelay:1.5];
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 

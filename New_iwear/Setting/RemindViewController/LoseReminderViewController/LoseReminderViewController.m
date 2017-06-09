@@ -71,6 +71,7 @@ static NSString * const LoseReminderTableViewCellID = @"LoseReminderTableViewCel
         [[NSUserDefaults standardUserDefaults] setObject:data forKey:LOST_SETTING];
         MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
         [sucToast show];
+        [self.navigationController popViewControllerAnimated:YES];
     }else {
         MDToast *sucToast = [[MDToast alloc] initWithText:@"保存失败" duration:1.5];
         [sucToast show];

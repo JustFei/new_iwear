@@ -136,6 +136,7 @@ static NSString *const SedentaryReminderTableViewCellID = @"SedentaryReminderTab
         [self.hud hideAnimated:YES];
         MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
         [sucToast show];
+        [self.navigationController popViewControllerAnimated:YES];
     }else {
         //做失败处理
         [self.hud hideAnimated:YES];

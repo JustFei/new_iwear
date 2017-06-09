@@ -14,7 +14,6 @@
 @property (nonatomic, strong) MDButton *takePhotoButton;
 @property (nonatomic, strong) UIImagePickerController *imagePicker;
 
-
 @end
 
 @implementation TakePhotoViewController

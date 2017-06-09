@@ -125,7 +125,10 @@ static NSString * const AboutTableViewCellID = @"AboutTableViewCell";
 - (NSArray *)dataArr
 {
     if (!_dataArr) {
-        _dataArr = @[@"检查升级", @"使用帮助", @"关于我们"];
+        _dataArr = @[@"检查升级"
+//                     @"使用帮助",
+//                     @"关于我们"
+                     ];
     }
     
     return _dataArr;

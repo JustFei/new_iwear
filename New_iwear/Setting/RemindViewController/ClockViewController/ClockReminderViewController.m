@@ -83,6 +83,7 @@ static NSString *const ClockTableViewCellID = @"ClockTableViewCell";
         [[NSUserDefaults standardUserDefaults] setBool:clockIsOpen forKey:CLOCK_ISOPEN];
         MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
         [sucToast show];
+        [self.navigationController popViewControllerAnimated:YES];
     }else {
         MDToast *sucToast = [[MDToast alloc] initWithText:@"保存失败" duration:1.5];
         [sucToast show];

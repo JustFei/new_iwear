@@ -204,6 +204,7 @@
             [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"bindPeripheralName"];
             [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"peripheralUUID"];
             [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"isBind"];
+            [[NSUserDefaults standardUserDefaults] setObject:@"--" forKey:ELECTRICITY_INFO_SETTING];
             
             [self setUnBindView];
             MDToast *disconnectToast = [[MDToast alloc] initWithText:@"解绑成功" duration:1];

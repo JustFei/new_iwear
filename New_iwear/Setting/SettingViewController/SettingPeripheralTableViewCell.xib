@@ -16,12 +16,11 @@
             <rect key="frame" x="0.0" y="0.0" width="360" height="72"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="360" height="71.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="360" height="72"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wV7-PF-j4s">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="set_x9plus" translatesAutoresizingMaskIntoConstraints="NO" id="wV7-PF-j4s">
                         <rect key="frame" x="16" y="15" width="40" height="40"/>
-                        <color key="backgroundColor" red="0.46667045350000003" green="0.49346077440000002" blue="0.78036493060000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="wV7-PF-j4s" secondAttribute="height" multiplier="1:1" id="B1L-5a-1B1"/>
                             <constraint firstAttribute="width" constant="40" id="cOS-yn-odI"/>
@@ -58,10 +57,26 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.38" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="去绑定设备" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5rF-vW-lRb">
+                        <rect key="frame" x="142" y="27" width="76.5" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.53691275167785235" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="set_add" translatesAutoresizingMaskIntoConstraints="NO" id="wtW-bB-Jgq">
+                        <rect key="frame" x="112" y="26" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="K8m-CR-Jjd"/>
+                            <constraint firstAttribute="height" constant="20" id="Oth-jr-5fP"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="ooc-Vh-6lG" firstAttribute="leading" secondItem="k5c-BR-EQ0" secondAttribute="leading" id="1D8-PD-QWJ"/>
+                    <constraint firstItem="5rF-vW-lRb" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="1tM-sw-ocV"/>
                     <constraint firstItem="wV7-PF-j4s" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="6z4-7G-hbn"/>
+                    <constraint firstItem="5rF-vW-lRb" firstAttribute="leading" secondItem="wtW-bB-Jgq" secondAttribute="trailing" constant="10" id="9DM-kA-V6P"/>
+                    <constraint firstItem="5rF-vW-lRb" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="9TM-dA-179"/>
                     <constraint firstItem="wV7-PF-j4s" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="KPH-Oy-fjF"/>
                     <constraint firstAttribute="trailing" secondItem="zRh-EB-vPc" secondAttribute="trailing" constant="16" id="MoS-jX-0js"/>
                     <constraint firstItem="k5c-BR-EQ0" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" constant="-12" id="Oai-PU-AWl"/>
@@ -71,6 +86,7 @@
                     <constraint firstItem="V9O-32-BTM" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" constant="-12" id="bhY-e8-WOh"/>
                     <constraint firstItem="zRh-EB-vPc" firstAttribute="centerY" secondItem="V9O-32-BTM" secondAttribute="centerY" id="dPA-XO-qSb"/>
                     <constraint firstItem="dtT-BS-Zdq" firstAttribute="trailing" secondItem="V9O-32-BTM" secondAttribute="trailing" id="eXU-sR-ld1"/>
+                    <constraint firstItem="5rF-vW-lRb" firstAttribute="centerY" secondItem="wtW-bB-Jgq" secondAttribute="centerY" id="jBW-4b-Fvx"/>
                     <constraint firstItem="ooc-Vh-6lG" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" constant="12" id="yfJ-7X-0z4"/>
                 </constraints>
             </tableViewCellContentView>
@@ -79,6 +95,8 @@
             <connections>
                 <outlet property="bindLabel" destination="ooc-Vh-6lG" id="8TY-9w-cnu"/>
                 <outlet property="connectLabel" destination="V9O-32-BTM" id="hjQ-0E-WLz"/>
+                <outlet property="goToBindImage" destination="wtW-bB-Jgq" id="jpz-Hz-ggs"/>
+                <outlet property="goToBindLabel" destination="5rF-vW-lRb" id="7Td-Nu-qma"/>
                 <outlet property="headImageView" destination="wV7-PF-j4s" id="n4i-EA-F5O"/>
                 <outlet property="peripheralNameLabel" destination="k5c-BR-EQ0" id="nGU-O4-pUx"/>
                 <outlet property="powerLabel" destination="dtT-BS-Zdq" id="PE6-EY-JsI"/>
@@ -88,5 +106,7 @@
     </objects>
     <resources>
         <image name="ic_chevron_right" width="24" height="24"/>
+        <image name="set_add" width="12" height="12"/>
+        <image name="set_x9plus" width="40" height="40"/>
     </resources>
 </document>

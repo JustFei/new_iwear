@@ -14,7 +14,8 @@
     
     BOOL _syncSettingIng;   //判断设置是否在同步中
     //用来判断每个数据是否有数据
-    BOOL _haveMotion;
+    BOOL _haveSegStep;
+    BOOL _haveSegRun;
     BOOL _haveSleep;
     BOOL _haveHR;
     BOOL _haveBP;
@@ -42,6 +43,7 @@ static SyncTool *_syncTool = nil;
     if (self) {
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getSegmentStep:) name:GET_SEGEMENT_STEP object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getSegmentRun:) name:GET_SEGEMENT_RUN object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getSleep:) name:GET_SLEEP_DATA object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getHR:) name:GET_HR_DATA object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBP:) name:GET_BP_DATA object:nil];
@@ -124,6 +126,11 @@ static SyncTool *_syncTool = nil;
         x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
         NSLog(@"1 ------ %ld", x);
         
+        //分段计步历史条数
+        [[BleManager shareInstance] writeSegementRunWithHistoryMode:SegmentedRunDataHistoryCount];
+        x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+        NSLog(@"1 ------ %ld", x);
+        
         //睡眠历史条数
         [[BleManager shareInstance] writeSleepRequestToperipheral:SleepDataHistoryCount];
         x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
@@ -145,7 +152,7 @@ static SyncTool *_syncTool = nil;
         NSLog(@"1 ------ %ld", x);
         
         //如果都没有数据的话，就直接模拟同步成功的进度条
-        if (!_haveMotion && !_haveSleep && !_haveHR && !_haveBP && !_haveBO) {
+        if (!_haveSegStep && !_haveSleep && !_haveHR && !_haveBP && !_haveBO && !_haveSegRun) {
             for (int i = 0; i <= 100; i ++) {
                 [self updateProgress:i];
                 [NSThread sleepForTimeInterval:0.01];
@@ -154,7 +161,7 @@ static SyncTool *_syncTool = nil;
         }
         
         //分段计步历史
-        if (_haveMotion)
+        if (_haveSegStep)
         {
             [[BleManager shareInstance] writeSegementStepWithHistoryMode:SegmentedStepDataHistoryData];
             // wait操作-1，当别的消息进来就会阻塞，知道这条消息收到回调，signal+1后，才会继续执行。保证了消息的队列发送，保证稳定性。
@@ -162,6 +169,16 @@ static SyncTool *_syncTool = nil;
             x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
             NSLog(@"1 ------ %ld", x);
         }
+        //分段运动历史
+        if (_haveSegRun)
+        {
+            [[BleManager shareInstance] writeSegementRunWithHistoryMode:SegmentedRunDataHistoryData];
+            // wait操作-1，当别的消息进来就会阻塞，知道这条消息收到回调，signal+1后，才会继续执行。保证了消息的队列发送，保证稳定性。
+            
+            x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+            NSLog(@"1 ------ %ld", x);
+        }
+        
         //睡眠历史
         if (_haveSleep) {
             [[BleManager shareInstance] writeSleepRequestToperipheral:SleepDataHistoryData];
@@ -197,7 +214,7 @@ static SyncTool *_syncTool = nil;
         }
     }else if (model.segmentStepModel.segmentedStepState == SegmentedStepDataHistoryCount) {
         self.sumCount = self.sumCount + model.segmentStepModel.AHCount;
-        _haveMotion = model.segmentStepModel.AHCount != 0;
+        _haveSegStep = model.segmentStepModel.AHCount != 0;
         NSLog(@"sum == %ld", self.sumCount);
         // signal操作+1
         dispatch_semaphore_signal(self.semaphore);
@@ -218,6 +235,41 @@ static SyncTool *_syncTool = nil;
         [self updateProgress:(progress *100)];
         //插入数据库
         [self.myFmdbManager insertSegmentStepModel:model.segmentStepModel];
+    }
+}
+
+/** 分段运动数据 */
+- (void)getSegmentRun:(NSNotification *)noti
+{
+    manridyModel *model = [noti object];
+    if (model.segmentRunModel.segmentedRunState == SegmentedRunDataUpdateData) {
+        //当有数据上报时，获取新数据
+        if (!_syncDataIng) {
+            [self syncData];
+        }
+    }else if (model.segmentRunModel.segmentedRunState == SegmentedRunDataHistoryCount) {
+        self.sumCount = self.sumCount + model.segmentRunModel.AHCount;
+        _haveSegStep = model.segmentRunModel.AHCount != 0;
+        NSLog(@"sum == %ld", self.sumCount);
+        // signal操作+1
+        dispatch_semaphore_signal(self.semaphore);
+    }else if (model.segmentRunModel.segmentedRunState == SegmentedRunDataHistoryData) {
+        if (model.segmentRunModel.AHCount == 0) {
+            return;
+        }
+        //当数据接受完毕，发送睡眠
+        if (model.segmentRunModel.AHCount == model.segmentRunModel.CHCount + 1) {
+            // signal操作+1
+            dispatch_semaphore_signal(self.semaphore);
+        }
+        
+        //传递进度值
+        self.progressCount --;
+        float progress = (self.sumCount - self.progressCount) / (float)self.sumCount;
+        NSLog(@"progress == %.2f", progress);
+        [self updateProgress:(progress *100)];
+        //插入数据库
+        [self.myFmdbManager insertSegmentRunModel:model.segmentRunModel];
     }
 }
 

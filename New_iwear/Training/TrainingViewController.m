@@ -8,6 +8,8 @@
 
 #import "TrainingViewController.h"
 #import "TrainingTableCell.h"
+#import "FMDBManager.h"
+#import "PNChart.h"
 
 static NSString * const TrainingTableCellID = @"TrainingTableCell";
 
@@ -22,10 +24,14 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
 
 @property (nonatomic) UIView *headTopView;
 @property (nonatomic) UITableView *dataTableView;
-//@property (nonatomic) UIView *tipsView;
-//@property (nonatomic) UILabel *tipsLabel;
-//@property (nonatomic) UIImageView *tipsImageView;
-@property (nonatomic, strong) NSArray *dataArr;
+@property (nonatomic, strong) NSMutableArray *tableDataArr;
+@property (nonatomic, strong) NSMutableArray *barChartDataArr;
+@property (nonatomic, strong) NSMutableArray *xArr;
+@property (nonatomic, strong) FMDBManager *myFmdbManager;
+@property (nonatomic, strong) UILabel *noDataLabel;
+@property (nonatomic, strong) MBProgressHUD *hud;
+@property (nonatomic, strong) PNBarChart *runBarChart;
+
 
 @end
 
@@ -42,18 +48,68 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
-    self.automaticallyAdjustsScrollViewInsets = YES;
+    self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = TRAINING_BACKGROUND_COLOR;
+    self.dataTableView.backgroundColor = SETTING_BACKGROUND_COLOR;
+    self.runBarChart.backgroundColor = CLEAR_COLOR;
+    [self.runBarChart strokeChart];
     
-    offsetH = 230.0;
-    turnOffsetH = 150.0;
-    slideH = 0.0;
-    kScreenW = [UIScreen mainScreen].bounds.size.width;
-    
-    self.dataTableView.backgroundColor = CLEAR_COLOR;
-    [self.view addSubview:self.headTopView];
-    
-    // dataImageView
+    [self.hud showAnimated:YES];
+    self.noDataLabel.hidden = YES;
+    [self getDataFromDBWithDate:[NSDate date]];
+}
+
+- (void)getDataFromDBWithDate:(NSDate *)queryDate
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
+        formatter1.dateFormat = @"yyyy-MM-dd";
+        NSArray *runDataArr = [self.myFmdbManager querySegmentedRunWithDate:[formatter1 stringFromDate:queryDate]];
+        if (runDataArr.count == 0) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.hud hideAnimated:YES];
+                self.noDataLabel.hidden = NO;
+            });
+            return ;
+        }else {
+            [self.tableDataArr removeAllObjects];
+            [self.barChartDataArr removeAllObjects];
+            [self.xArr removeAllObjects];
+            
+            for (SegmentedRunModel *model in runDataArr) {
+                //获取列表数据源
+                TrainingTableModel *tableModel = [[TrainingTableModel alloc] init];
+                tableModel.periodStr = model.startTime;
+                tableModel.sportTypeStr = @"跑步";
+                tableModel.timeCountStr = [NSString stringWithFormat:@"%ld", model.timeInterval];
+                tableModel.stepStr = model.stepNumber;
+                tableModel.kcalStr = model.kCalNumber;
+                [self.tableDataArr addObject:tableModel];
+                
+                //获取 barChart 的数据源
+                [self.barChartDataArr addObject:@(model.stepNumber.integerValue)];
+                
+                //设置数据源的最大值为 barChart 的最大值的2/3
+                if (model.stepNumber.integerValue > self.runBarChart.yMaxValue * 0.7) {
+                    self.runBarChart.yMaxValue = model.stepNumber.integerValue * 1.3;
+                }
+            }
+            NSMutableArray *indexArr = [NSMutableArray array];
+            for (int index = 0; index < 24; index ++) {
+                [indexArr addObject:[NSString stringWithFormat:@"%02d", index]];
+                [self.xArr addObject:@""];
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //回主线程更新 UI
+                [self.hud hideAnimated:YES];
+                [self.runBarChart setXLabels:self.xArr];
+                [self.runBarChart setYValues:self.barChartDataArr];
+                [self.runBarChart updateChartData:self.barChartDataArr];
+                [self.dataTableView reloadData];
+            });
+        }
+    });
 }
 
 #pragma mark - Action
@@ -70,7 +126,7 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.dataArr.count;
+    return self.tableDataArr.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -80,7 +136,7 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
         cell = [[TrainingTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TrainingTableCellID];
     }
     
-    cell.model = self.dataArr[indexPath.row];
+    cell.model = self.tableDataArr[indexPath.row];
     return cell;
 }
 
@@ -94,75 +150,68 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
     return 72;
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    slideH = - self.dataTableView.contentOffset.y;
-    CGFloat slideMaxH = 0.0;
-    CGFloat tipAlpha = 0.0;
-    CGFloat stepAlpha = 1.0;
-    isSlideMax = false;
-    //NSLog(@"滑动距离: %f",slideH);
-    if (slideH <= 150) {
-        slideH = 150;
-    }
-    CGRect rect = self.headTopView.frame;
-    rect.size.height = slideH;
-    self.headTopView.frame = rect;
-    //    [self.stepView mas_updateConstraints:^(MASConstraintMaker *make) {
-    //        make.centerY.equalTo(@((slideH - 64) * 0.5 + 64));
-    //    }];
-    //NSLog(@"旋转: %f", (offsetH - slideH)/210);
-    if (((offsetH - slideH)/210) > 0) {
-        //self.stepView.layer.transform = CATransform3DMakeRotation(((offsetH - slideH) / 210) * (3.14159265 / 2), 1, 0, 0);
-    }
-    if (slideH > offsetH) {
-        slideMaxH = slideH;
-        if (slideMaxH >= 456) {
-            slideMaxH = 456;
-        }
-        if (slideH >= 456) {
-            isSlideMax = true;
-        } else {
-            isSlideMax = false;
-        }
-        tipAlpha = (slideMaxH - offsetH) / 50.0;
-        if (tipAlpha >= 0.99) {
-            tipAlpha = 0.99;
-        }
-        stepAlpha = 0.0;
-    }else {
-        stepAlpha = (offsetH - slideH) / 210.0;
-    }
-//    NSLog(@"透明度: %f",tipAlpha);
-//    self.tipsView.alpha = tipAlpha;
-//    //self.stepView.alpha = 1 - stepAlpha;
-//    if (isSlideMax) {
-//        self.tipsLabel.text = @"松手开始同步";
-//        
-//        [UIView animateWithDuration:0.3 animations:^{
-//            self.tipsImageView.transform = CGAffineTransformMakeRotation( 3.14159265);
-//        }];
-//    } else {
-//        self.tipsLabel.text = @"下拉同步数据";
-//        [UIView animateWithDuration:0.3 animations:^{
-//            self.tipsImageView.transform = CGAffineTransformMakeRotation( 3.14159265 * 2);
-//        }];
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+//{
+//    slideH = - self.dataTableView.contentOffset.y;
+//    CGFloat slideMaxH = 0.0;
+//    CGFloat tipAlpha = 0.0;
+//    CGFloat stepAlpha = 1.0;
+//    isSlideMax = false;
+//    //NSLog(@"滑动距离: %f",slideH);
+//    if (slideH <= 214) {
+//        slideH = 214;
 //    }
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    if (isSlideMax) {
-        NSLog(@"触发了刷新");
-    }
-}
+//    CGRect rect = self.headTopView.frame;
+//    rect.size.height = slideH;
+//    self.headTopView.frame = rect;
+//    //    [self.stepView mas_updateConstraints:^(MASConstraintMaker *make) {
+//    //        make.centerY.equalTo(@((slideH - 64) * 0.5 + 64));
+//    //    }];
+//    //NSLog(@"旋转: %f", (offsetH - slideH)/210);
+//    if (((offsetH - slideH)/210) > 0) {
+//        //self.stepView.layer.transform = CATransform3DMakeRotation(((offsetH - slideH) / 210) * (3.14159265 / 2), 1, 0, 0);
+//    }
+//    if (slideH > offsetH) {
+//        slideMaxH = slideH;
+//        if (slideMaxH >= 456) {
+//            slideMaxH = 456;
+//        }
+//        if (slideH >= 456) {
+//            isSlideMax = true;
+//        } else {
+//            isSlideMax = false;
+//        }
+//        tipAlpha = (slideMaxH - offsetH) / 50.0;
+//        if (tipAlpha >= 0.99) {
+//            tipAlpha = 0.99;
+//        }
+//        stepAlpha = 0.0;
+//    }else {
+//        stepAlpha = (offsetH - slideH) / 210.0;
+//    }
+//}
+//
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+//{
+//    if (isSlideMax) {
+//        NSLog(@"触发了刷新");
+//    }
+//}
 
 #pragma mark - lazy
 - (UIView *)headTopView
 {
     if (!_headTopView) {
-        _headTopView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 406.0)];
-        _headTopView.backgroundColor = [UIColor colorWithRed:36.0 / 255.0 green:154.0 / 255.0 blue:184.0 / 255.0 alpha:1];
+        _headTopView = [[UIView alloc] initWithFrame:CGRectZero];
+        _headTopView.backgroundColor = CLEAR_COLOR;
+        
+        [self.view addSubview:_headTopView];
+        [_headTopView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.view.mas_left);
+            make.right.equalTo(self.view.mas_right);
+            make.height.equalTo(@262);
+            make.top.equalTo(self.view.mas_top);
+        }];
     }
     
     return _headTopView;
@@ -171,72 +220,123 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
 - (UITableView *)dataTableView
 {
     if (!_dataTableView) {
-        _dataTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        _dataTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         [_dataTableView registerClass:NSClassFromString(TrainingTableCellID) forCellReuseIdentifier:TrainingTableCellID];
         _dataTableView.bounces = NO;
-        _dataTableView.contentInset = UIEdgeInsetsMake(offsetH - 64, 0, 0, 0);
-        _dataTableView.scrollIndicatorInsets = _dataTableView.contentInset;
+//        _dataTableView.contentInset = UIEdgeInsetsMake(offsetH - 64, 0, 0, 0);
+//        _dataTableView.scrollIndicatorInsets = _dataTableView.contentInset;
         _dataTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _dataTableView.showsVerticalScrollIndicator = NO;
         _dataTableView.delegate = self;
         _dataTableView.dataSource = self;
         
         [self.view addSubview:_dataTableView];
+        [_dataTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.view.mas_left);
+            make.right.equalTo(self.view.mas_right);
+            make.bottom.equalTo(self.view.mas_bottom);
+            make.top.equalTo(self.headTopView.mas_bottom);
+        }];
     }
     
     return _dataTableView;
 }
 
-//- (UIView *)tipsView
-//{
-//    if (!_tipsView) {
-//        _tipsView = [[UIView alloc] init];
-//        _tipsView.backgroundColor = [UIColor clearColor];
-//    }
-//    
-//    return _tipsView;
-//}
-//
-//- (UILabel *)tipsLabel
-//{
-//    if (!_tipsLabel) {
-//        _tipsLabel = [[UILabel alloc] init];
-//        _tipsLabel.text = @"下拉同步数据";
-//        _tipsLabel.textAlignment = NSTextAlignmentCenter;
-//        _tipsLabel.textColor = [UIColor whiteColor];
-//        _tipsLabel.font = [UIFont systemFontOfSize:12];
-//    }
-//    
-//    return _tipsLabel;
-//}
-
-//- (UIImageView *)tipsImageView
-//{
-//    if (!_tipsImageView) {
-//        _tipsImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tip_pull_down"]];
-//        _tipsImageView.contentMode = UIViewContentModeScaleAspectFit;
-//    }
-//    
-//    return _tipsImageView;
-//}
-
-- (NSArray *)dataArr
+/** 列表数据源 */
+- (NSMutableArray *)tableDataArr
 {
-    if (!_dataArr) {
-        NSMutableArray *mutArr = [NSMutableArray array];
-        for (int index = 0; index < 20; index ++) {
-            TrainingTableModel *model = [[TrainingTableModel alloc] init];
-            model.periodStr = @"12:40~13:10";
-            model.sportTypeStr = @"跑步";
-            model.timeCountStr = @"30分钟";
-            model.stepStr = @"2130步";
-            model.kcalStr = @"33千卡";
-            [mutArr addObject:model];
-        }
-        _dataArr = [NSArray arrayWithArray:mutArr];
+    if (!_tableDataArr) {
+        _tableDataArr = [NSMutableArray array];
     }
     
-    return _dataArr;
+    return _tableDataArr;
+}
+
+/** 图表数据源 */
+- (NSMutableArray *)barChartDataArr
+{
+    if (!_barChartDataArr) {
+        _barChartDataArr = [NSMutableArray array];
+    }
+    
+    return _barChartDataArr;
+}
+
+- (NSMutableArray *)xArr
+{
+    if (!_xArr) {
+        _xArr = [NSMutableArray array];
+    }
+    
+    return _xArr;
+}
+
+- (FMDBManager *)myFmdbManager
+{
+    if (!_myFmdbManager) {
+        _myFmdbManager = [[FMDBManager alloc] initWithPath:DB_NAME];
+    }
+    
+    return _myFmdbManager;
+}
+
+- (UILabel *)noDataLabel
+{
+    if (!_noDataLabel) {
+        _noDataLabel = [[UILabel alloc] init];
+        _noDataLabel.text = @"无数据";
+        
+        [self.dataTableView addSubview:_noDataLabel];
+        [_noDataLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.dataTableView.mas_centerX);
+            make.centerY.equalTo(self.dataTableView.mas_centerY);
+        }];
+    }
+    
+    return _noDataLabel;
+}
+
+- (MBProgressHUD *)hud
+{
+    if (!_hud) {
+        _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        _hud.mode = MBProgressHUDModeIndeterminate;
+    }
+    
+    return _hud;
+}
+
+- (PNBarChart *)runBarChart
+{
+    if (!_runBarChart) {
+        _runBarChart = [[PNBarChart alloc] init];
+        [_runBarChart setStrokeColor:STEP_CURRENT_CIRCLE_COLOR];
+        _runBarChart.barBackgroundColor = [UIColor clearColor];
+        _runBarChart.yChartLabelWidth = 20.0;
+        _runBarChart.chartMarginLeft = 0;
+        _runBarChart.chartMarginRight = 0;
+        _runBarChart.chartMarginTop = 0;
+        _runBarChart.chartMarginBottom = 0;
+        _runBarChart.yMinValue = 0;
+        _runBarChart.yMaxValue = 200;
+        _runBarChart.barWidth = 12;
+        _runBarChart.barRadius = 0;
+        _runBarChart.showLabel = NO;
+        _runBarChart.showChartBorder = NO;
+        _runBarChart.isShowNumbers = NO;
+        _runBarChart.isGradientShow = NO;
+//        _runBarChart.delegate = self;
+        
+        [self.headTopView addSubview:_runBarChart];
+        [_runBarChart mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.headTopView.mas_left);
+            make.right.equalTo(self.headTopView.mas_right);
+            make.bottom.equalTo(self.headTopView.mas_bottom);
+            make.height.equalTo(@150);
+        }];
+    }
+    
+    return _runBarChart;
 }
 
 @end

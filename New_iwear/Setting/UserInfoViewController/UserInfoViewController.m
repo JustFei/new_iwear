@@ -74,7 +74,7 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
         make.bottom.equalTo(self.view.mas_bottom);
     }];
     
-    self.title = @"设备绑定";
+    self.title = @"用户信息";
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];

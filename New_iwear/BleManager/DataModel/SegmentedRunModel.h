@@ -10,11 +10,10 @@
 
 typedef enum : NSUInteger {
     SegmentedRunDataCurrentData = 0,
+    SegmentedRunDataUpdateData,
     SegmentedRunDataHistoryData,
     SegmentedRunDataHistoryCount
 } SegmentedRunData;
-
-
 
 @interface SegmentedRunModel : NSObject
 

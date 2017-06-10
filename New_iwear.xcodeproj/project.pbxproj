@@ -1070,10 +1070,10 @@
 				9C04968D1EB87D7E00EDBEBB /* Setting */,
 				9C04968B1EB87D5200EDBEBB /* TestMode */,
 				9CDEAC581EB078EC00279EDA /* Supporting Files */,
+				9CDEAC751EB07AA300279EDA /* Constants */,
 				9CDEAC671EB078EC00279EDA /* Assets.xcassets */,
 				9CDEAC691EB078EC00279EDA /* LaunchScreen.storyboard */,
 				9CDEAC6C1EB078EC00279EDA /* Info.plist */,
-				9CDEAC751EB07AA300279EDA /* Constants */,
 			);
 			path = New_iwear;
 			sourceTree = "<group>";

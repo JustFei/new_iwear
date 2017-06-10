@@ -262,14 +262,16 @@ static NSString *const settingHeaderID = @"settingHeader";
 {
     if (!_groupFirstDataSourceArr) {
         PeripheralCellModel *model = [[PeripheralCellModel alloc] init];
-        model.peripheralName = [[NSUserDefaults standardUserDefaults] objectForKey:@"bindPeripheralName"] ? [[NSUserDefaults standardUserDefaults] objectForKey:@"bindPeripheralName"] : @"未绑定";
+        
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isBind"]) {
             model.isBind = [[NSUserDefaults standardUserDefaults] boolForKey:@"isBind"];
+            model.peripheralName = [[NSUserDefaults standardUserDefaults] objectForKey:@"bindPeripheralName"] ? [[NSUserDefaults standardUserDefaults] objectForKey:@"bindPeripheralName"] : @"未绑定";
+            model.isConnect = [BleManager shareInstance].connectState == kBLEstateDidConnected ? YES : NO;
+            model.battery = [[NSUserDefaults standardUserDefaults] objectForKey:ELECTRICITY_INFO_SETTING] ? [[NSUserDefaults standardUserDefaults] objectForKey:ELECTRICITY_INFO_SETTING] : @"--";
         }else {
             model.isBind = NO;
         }
-        model.isConnect = [BleManager shareInstance].connectState == kBLEstateDidConnected ? YES : NO;
-        model.battery = [[NSUserDefaults standardUserDefaults] objectForKey:ELECTRICITY_INFO_SETTING] ? [[NSUserDefaults standardUserDefaults] objectForKey:ELECTRICITY_INFO_SETTING] : @"--";
+        
         _groupFirstDataSourceArr = @[model];
     }
     
@@ -279,8 +281,12 @@ static NSString *const settingHeaderID = @"settingHeader";
 - (NSArray *)groupSecondDataSourceArr
 {
     if (!_groupSecondDataSourceArr) {
-        NSArray *fucName = @[@"界面选择",@"遥控拍照",@"查找手环",@"提醒功能",@"微信运动",@"亮度调节",@"单位设置",@"时间格式",@"目标设置",@"关于"];
-        NSArray *imageName = @[@"set_interface",@"set_camera",@"set_find",@"set_remind",@"set_wechat",@"set_dimming",@"set_unit",@"set_time",@"set_targetsetting",@"set_info"];
+        NSArray *fucName = @[@"界面选择",@"遥控拍照",@"查找手环",@"提醒功能",
+//                             @"微信运动",
+                             @"亮度调节",@"单位设置",@"时间格式",@"目标设置",@"关于"];
+        NSArray *imageName = @[@"set_interface",@"set_camera",@"set_find",@"set_remind",
+//                               @"set_wechat",
+                               @"set_dimming",@"set_unit",@"set_time",@"set_targetsetting",@"set_info"];
         NSMutableArray *dataArr = [NSMutableArray array];
         for (int i = 0; i < fucName.count; i ++) {
             SettingCellModel *model = [[SettingCellModel alloc] init];
@@ -297,7 +303,9 @@ static NSString *const settingHeaderID = @"settingHeader";
 - (NSArray *)vcArray
 {
     if (!_vcArray) {
-        _vcArray = @[@"InterfaceSelectionViewController", @"TakePhotoViewController", @"FindMyPeriphearlViewController", @"RemindViewController", @"WeChatViewController", @"DimmingViewController", @"UnitsSettingViewController", @"TimeFormatterViewController", @"TargetSettingViewController", @"AboutViewController"];
+        _vcArray = @[@"InterfaceSelectionViewController", @"TakePhotoViewController", @"FindMyPeriphearlViewController", @"RemindViewController",
+//                     @"WeChatViewController",
+                     @"DimmingViewController", @"UnitsSettingViewController", @"TimeFormatterViewController", @"TargetSettingViewController", @"AboutViewController"];
     }
     
     return _vcArray;

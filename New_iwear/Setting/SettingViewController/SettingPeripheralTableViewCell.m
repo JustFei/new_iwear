@@ -16,6 +16,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *connectLabel;
 @property (weak, nonatomic) IBOutlet UILabel *powerLabel;
 
+@property (weak, nonatomic) IBOutlet UILabel *goToBindLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *goToBindImage;
+
+
 @end
 
 @implementation SettingPeripheralTableViewCell
@@ -34,10 +38,18 @@
 #pragma mark - setter model
 - (void)setPeripheralModel:(PeripheralCellModel *)peripheralModel
 {
-    [_peripheralNameLabel setText:peripheralModel.peripheralName];
-    [_bindLabel setText:peripheralModel.isBind ? @"已绑定" : @"未绑定"];
-    [_connectLabel setText:peripheralModel.isConnect ? @"已连接" : @"未连接"];
-    [_powerLabel setText:[NSString stringWithFormat:@"剩余电量:%@%%", peripheralModel.battery]];
+//    if (peripheralModel.isBind) {
+        _goToBindImage.hidden = peripheralModel.isBind;
+        _goToBindLabel.hidden = peripheralModel.isBind;
+        _peripheralNameLabel.hidden = !peripheralModel.isBind;
+        _bindLabel.hidden = !peripheralModel.isBind;
+        _connectLabel.hidden = !peripheralModel.isBind;
+        _powerLabel.hidden = !peripheralModel.isBind;
+        _headImageView.hidden = !peripheralModel.isBind;
+        [_peripheralNameLabel setText:peripheralModel.peripheralName];
+        [_bindLabel setText:peripheralModel.isBind ? @"已绑定" : @"未绑定"];
+        [_connectLabel setText:peripheralModel.isConnect ? @"已连接" : @"未连接"];
+        [_powerLabel setText:[NSString stringWithFormat:@"剩余电量:%@%%", peripheralModel.battery]];
 }
 
 @end

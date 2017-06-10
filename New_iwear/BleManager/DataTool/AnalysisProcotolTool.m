@@ -927,8 +927,8 @@ union LAT{
         Byte *byteData = (Byte*)malloc(len);
         memcpy(byteData, [data bytes], len);
         
-        int ah = (byteData[2] << 4 | byteData[3] >> 4) & 0x0fff;
-        int ch = (byteData[4] >> 4 | byteData[3] << 4) & 0x0000;
+        int ah = (((byteData[2] << 4) & 0x0ff0) | ((byteData[3] >> 4) & 0x0f)) & 0x0fff;
+        int ch = (byteData[4] | ((byteData[3] & 0x0f) << 8)) & 0x0fff;
         int timeInterval = byteData[18];
         NSData *stepData = [data subdataWithRange:NSMakeRange(5, 3)];
         int stepValue = [NSStringTool parseIntFromData:stepData];
@@ -976,7 +976,9 @@ union LAT{
         const unsigned char *hexBytes = [data bytes];
         NSString *TyStr = [NSString stringWithFormat:@"%02x", hexBytes[1]];
         
-        if ([TyStr isEqualToString:@"02"]) {
+        if ([TyStr isEqualToString:@"01"]) {
+            model.segmentRunModel.segmentedRunState = SegmentedRunDataUpdateData;
+        }else if ([TyStr isEqualToString:@"02"]) {
             model.segmentRunModel.segmentedRunState = SegmentedRunDataHistoryCount;
         }else if ([TyStr isEqualToString:@"04"]) {
             model.segmentRunModel.segmentedRunState = SegmentedRunDataHistoryData;
@@ -986,8 +988,8 @@ union LAT{
         Byte *byteData = (Byte*)malloc(len);
         memcpy(byteData, [data bytes], len);
         
-        int ah = (byteData[2] << 4 | byteData[3] >> 4) & 0x0fff;
-        int ch = (byteData[4] >> 4 | byteData[3] << 4) & 0x0fff;
+        int ah = (((byteData[2] << 4) & 0x0ff0) | ((byteData[3] >> 4) & 0x0f)) & 0x0fff;
+        int ch = (byteData[4] | ((byteData[3] & 0x0f) << 8)) & 0x0fff;
         int timeInterval = byteData[18];
         NSData *stepData = [data subdataWithRange:NSMakeRange(5, 3)];
         int stepValue = [NSStringTool parseIntFromData:stepData];
@@ -1002,6 +1004,8 @@ union LAT{
         int startTimeValue = [NSStringTool parseIntFromData:startTimeData];
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+        //utc 时间转为标准时间，不会存在时区差异
+        [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
         NSString *startTimeStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:startTimeValue]];
         [formatter setDateFormat:@"yyyy-MM-dd"];
         NSString *dateStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:startTimeValue]];

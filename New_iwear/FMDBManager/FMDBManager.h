@@ -67,6 +67,13 @@ typedef enum : NSUInteger {
 //查询分段计步数据
 - (NSArray *)querySegmentedStepWithDate:(NSString *)date;
 
+#pragma mark - SegmentRunData
+//插入分段计步数据
+- (BOOL)insertSegmentRunModel:(SegmentedRunModel *)model;
+
+//查询分段计步数据
+- (NSArray *)querySegmentedRunWithDate:(NSString *)date;
+
 #pragma mark - HeartRateData
 - (BOOL)insertHeartRateModel:(HeartRateModel *)model;
 

@@ -70,9 +70,9 @@
         _model = model;
         self.periodLabel.text = model.periodStr;
         self.sportTypeLabel.text = model.sportTypeStr;
-        self.timeCountLabel.text = model.timeCountStr;
-        self.stepLabel.text = model.stepStr;
-        self.kcalLabel.text = model.kcalStr;
+        self.timeCountLabel.text = [NSString stringWithFormat:@"%@分钟", model.timeCountStr];
+        self.stepLabel.text = [NSString stringWithFormat:@"%@步", model.stepStr];
+        self.kcalLabel.text = [NSString stringWithFormat:@"%@千卡", model.kcalStr];
     }
 }
 

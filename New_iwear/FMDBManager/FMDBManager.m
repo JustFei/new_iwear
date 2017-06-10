@@ -54,6 +54,9 @@ static FMDatabase *_fmdb;
         //SegmentStepData
         [_fmdb executeUpdate:[NSString stringWithFormat:@"create table if not exists SegmentStepData(id integer primary key, date text, CHCount integer, AHCount integer, stepNumber text, kCalNumber text, mileageNumber text, startTime text, timeInterval integer);"]];
         
+        //SegmentRunData
+        [_fmdb executeUpdate:[NSString stringWithFormat:@"create table if not exists SegmentRunData(id integer primary key, date text, CHCount integer, AHCount integer, stepNumber text, kCalNumber text, mileageNumber text, startTime text, timeInterval integer);"]];
+        
         //HeartRateData
         [_fmdb executeUpdate:[NSString stringWithFormat:@"create table if not exists HeartRateData(id integer primary key, month text, date text, time text, heartRate text);"]];
         
@@ -324,6 +327,72 @@ static FMDatabase *_fmdb;
     }
     
     NSLog(@"SegmentMotion查询成功");
+    return arrM;
+}
+
+#pragma mark - SegmentRunData
+//插入分段计步数据
+- (BOOL)insertSegmentRunModel:(SegmentedRunModel *)model
+{
+    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO SegmentRunData(date, stepNumber, kCalNumber, mileageNumber, startTime, timeInterval, CHCount, AHCount) VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@');", model.date, model.stepNumber, model.kCalNumber, model.mileageNumber, model.startTime, [NSNumber numberWithInteger:model.timeInterval], [NSNumber numberWithInteger: model.CHCount],[NSNumber numberWithInteger:model.AHCount]];
+    
+    BOOL result = [_fmdb executeUpdate:insertSql];
+    if (result) {
+        NSLog(@"插入SegmentedRun数据成功");
+    }else {
+        NSLog(@"插入SegmentedRun数据失败");
+    }
+    return result;
+}
+
+//查询分段计步数据
+- (NSArray *)querySegmentedRunWithDate:(NSString *)date
+{
+    
+    NSString *queryString;
+    
+    FMResultSet *set;
+    
+    if (date == nil) {
+        queryString = [NSString stringWithFormat:@"SELECT * FROM SegmentRunData;"];
+        
+        set = [_fmdb executeQuery:queryString];
+    }else {
+        //这里一定不能将？用需要查询的日期代替掉
+        queryString = [NSString stringWithFormat:@"SELECT * FROM SegmentRunData where date = ?;"];
+        
+        set = [_fmdb executeQuery:queryString ,date];
+    }
+    
+    NSMutableArray *arrM = [NSMutableArray array];
+    
+    
+    while ([set next]) {
+        
+        NSString *stepNumber = [set stringForColumn:@"stepNumber"];
+        NSString *kCalNumber = [set stringForColumn:@"kCalNumber"];
+        NSString *mileageNumber = [set stringForColumn:@"mileageNumber"];
+        NSString *startTime = [set stringForColumn:@"startTime"];
+        NSInteger timeInterval = [set intForColumn:@"timeInterval"];
+        NSInteger CHCount = [set intForColumn:@"CHCount"];
+        NSInteger AHCount = [set intForColumn:@"AHCount"];
+        NSString *date1 = [set stringForColumn:@"date"];
+        
+        SegmentedRunModel *model = [[SegmentedRunModel alloc] init];
+        
+        model.date = date1;
+        model.stepNumber = stepNumber;
+        model.kCalNumber = kCalNumber;
+        model.mileageNumber = mileageNumber;
+        model.startTime = startTime;
+        model.timeInterval = timeInterval;
+        model.CHCount = CHCount;
+        model.AHCount = AHCount;
+        
+        [arrM addObject:model];
+    }
+    
+    NSLog(@"SegmentRun查询成功");
     return arrM;
 }
 

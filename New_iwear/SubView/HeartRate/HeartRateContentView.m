@@ -135,6 +135,7 @@
             make.right.equalTo(hisBtn.mas_left).offset(-8);
             make.bottom.equalTo(hisBtn.mas_bottom);
         }];
+        trainingBtn.hidden = YES;
         
         self.view1 = [[UIView alloc] init];
         self.view1.layer.borderWidth = 1;

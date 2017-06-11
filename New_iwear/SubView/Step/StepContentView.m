@@ -440,6 +440,7 @@
 - (void)showNoDataView
 {
     self.noDataLabel.hidden = NO;
+    self.stepBarChart.hidden = YES;
 }
 
 #pragma mark - 懒加载

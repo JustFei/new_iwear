@@ -249,7 +249,7 @@ static SyncTool *_syncTool = nil;
         }
     }else if (model.segmentRunModel.segmentedRunState == SegmentedRunDataHistoryCount) {
         self.sumCount = self.sumCount + model.segmentRunModel.AHCount;
-        _haveSegStep = model.segmentRunModel.AHCount != 0;
+        _haveSegRun = model.segmentRunModel.AHCount != 0;
         NSLog(@"sum == %ld", self.sumCount);
         // signal操作+1
         dispatch_semaphore_signal(self.semaphore);

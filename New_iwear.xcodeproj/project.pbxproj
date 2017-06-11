@@ -35,7 +35,6 @@
 		9C00DF941EC6E7BB005CB06F /* HRTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C00DF931EC6E7BB005CB06F /* HRTableViewCell.m */; };
 		9C00DF981EC6E9E3005CB06F /* HRTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C00DF971EC6E9E3005CB06F /* HRTableModel.m */; };
 		9C0496901EB87DC400EDBEBB /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C04968F1EB87DC400EDBEBB /* SettingViewController.m */; };
-		9C0496941EB8855700EDBEBB /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0496931EB8855700EDBEBB /* HealthKit.framework */; };
 		9C0711B01EC5503A00F41754 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0711AF1EC5503A00F41754 /* MainViewController.m */; };
 		9C0712211EC558E800F41754 /* BloodO2ContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0711B61EC558E800F41754 /* BloodO2ContentView.m */; };
 		9C0712231EC558E800F41754 /* BloodPressureContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0711C51EC558E800F41754 /* BloodPressureContentView.m */; };
@@ -215,7 +214,6 @@
 		9C04968E1EB87DC400EDBEBB /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingViewController.h; path = Setting/SettingViewController/SettingViewController.h; sourceTree = "<group>"; };
 		9C04968F1EB87DC400EDBEBB /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingViewController.m; path = Setting/SettingViewController/SettingViewController.m; sourceTree = "<group>"; };
 		9C0496921EB8855700EDBEBB /* New_iwear.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = New_iwear.entitlements; sourceTree = "<group>"; };
-		9C0496931EB8855700EDBEBB /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		9C0711AE1EC5503A00F41754 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = MainViewController/MainViewController.h; sourceTree = "<group>"; };
 		9C0711AF1EC5503A00F41754 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = MainViewController/MainViewController.m; sourceTree = "<group>"; };
 		9C0711B51EC558E800F41754 /* BloodO2ContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BloodO2ContentView.h; sourceTree = "<group>"; };
@@ -394,7 +392,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C87EB291EC5B7100051C59D /* Charts.framework in Frameworks */,
-				9C0496941EB8855700EDBEBB /* HealthKit.framework in Frameworks */,
 				198962F584B552B32F9FE8B6 /* libPods-New_iwear.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1169,7 +1166,6 @@
 			isa = PBXGroup;
 			children = (
 				9C6D07141EC5B48C0000FAE6 /* MaterialControls.framework */,
-				9C0496931EB8855700EDBEBB /* HealthKit.framework */,
 				C32990811920916592BCFF4A /* libPods-New_iwear.a */,
 			);
 			name = Frameworks;
@@ -1219,7 +1215,7 @@
 								enabled = 1;
 							};
 							com.apple.HealthKit = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -1571,7 +1567,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = New_iwear/New_iwear.entitlements;
 				DEVELOPMENT_TEAM = CZG37T4ZQ8;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1597,7 +1592,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = New_iwear/New_iwear.entitlements;
 				DEVELOPMENT_TEAM = CZG37T4ZQ8;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

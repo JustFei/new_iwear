@@ -14,6 +14,7 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - Bugly (2.4.8)
   - FMDB (2.6.2):
     - FMDB/standard (= 2.6.2)
   - FMDB/standard (2.6.2)
@@ -99,6 +100,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
+  - Bugly (~> 2.4.8)
   - FMDB (~> 2.6.2)
   - Masonry (~> 1.0.2)
   - MaterialComponents/AppBar
@@ -110,6 +112,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  Bugly: da3c02408c14838d498429320545a8e439392978
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MaterialComponents: f6461aa016750c92a5ef436692d2a5eff67a9a66
@@ -119,6 +122,6 @@ SPEC CHECKSUMS:
   PNChart: 84774d225c2126ded6c93d4dbe6ae98c3a73c2d2
   UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
 
-PODFILE CHECKSUM: c674f56f9dc0f8e6f53518c74db425f7e9678899
+PODFILE CHECKSUM: 6844d036bbab8132cf9a68795e01db996285fb34
 
 COCOAPODS: 1.2.1

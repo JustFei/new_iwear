@@ -70,7 +70,6 @@
             make.height.equalTo(@(220 * VIEW_FRAME_WIDTH / 360));
         }];
         [self.bpCircleChart strokeChart];
-        [self.bpCircleChart updateChartByCurrent:@(0.75)];
         
         [self.BPLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.bpCircleChart.mas_centerX);
@@ -272,10 +271,6 @@
 
 - (void)drawProgress:(CGFloat )progress
 {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        [self.bpCircleChart strokeChart];
-    });
     [self.bpCircleChart updateChartByCurrent:@(progress)];
 }
 
@@ -370,12 +365,12 @@
     [self.lowBloodChart setXLabels:self.xArr];
     [self.lowBloodChart setYValues:self.lbArr];
 //    [self.lowBloodChart strokeChart];
-    [self.lowBloodChart strokeChart];
+    [self.lowBloodChart updateChartData:self.lbArr];
     
     [self.highBloodChart setXLabels:self.xArr];
     [self.highBloodChart setYValues:self.hbArr];
 //    [self.highBloodChart strokeChart];
-    [self.highBloodChart strokeChart];
+    [self.highBloodChart updateChartData:self.hbArr];
 }
 
 - (void)showNoDataView

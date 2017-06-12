@@ -24,6 +24,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
+## Bugly
+
+Copyright 2017 tencent.com. All rights reserved.
+
+
 ## FMDB
 
 If you are using FMDB in your project, I'd love to hear about it.  Let Gus know

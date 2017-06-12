@@ -90,7 +90,7 @@
                   moduleName = "New_iwear"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mofujian/Desktop/ProjectList/ProjectList/iwear/New_iwear/New_iwear/New_iwear/AppDelegate.m"
-                  timestampString = "518954443.974242"
+                  timestampString = "518957887.271591"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "253"
@@ -105,7 +105,7 @@
                   moduleName = "New_iwear"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mofujian/Desktop/ProjectList/ProjectList/iwear/New_iwear/New_iwear/New_iwear/AppDelegate.m"
-                  timestampString = "518954443.976228"
+                  timestampString = "518957887.275264"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "254"
@@ -320,6 +320,22 @@
             startingLineNumber = "250"
             endingLineNumber = "250"
             landmarkName = "-beforeDateAction:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "New_iwear/SubView/BloodPressure/BloodPressureContentView.m"
+            timestampString = "518957884.800198"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "373"
+            endingLineNumber = "373"
+            landmarkName = "-showChartViewWithData"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

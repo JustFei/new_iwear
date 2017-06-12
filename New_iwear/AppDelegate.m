@@ -12,6 +12,7 @@
 #import "BleManager.h"
 #import <UserNotifications/UserNotifications.h>
 #import <AudioToolbox/AudioToolbox.h>
+#import <Bugly/Bugly.h>
 
 @interface AppDelegate () < BleConnectDelegate, BleDiscoverDelegate, BleReceiveSearchResquset, UNUserNotificationCenterDelegate >
 {
@@ -36,7 +37,7 @@ static void completionCallback(SystemSoundID mySSID)
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
+    [Bugly startWithAppId:@"bbb928d22b"];
     //保存 log
     [self redirectNSLogToDocumentFolder];
     

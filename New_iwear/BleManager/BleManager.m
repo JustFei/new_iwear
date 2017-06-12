@@ -605,10 +605,10 @@ static BleManager *bleManager = nil;
     NSString *protocolStr;
     switch (mode) {
         case SegmentedRunDataHistoryData:
-            protocolStr = @"FC1B02";
+            protocolStr = @"FC1B04";
             break;
         case SegmentedRunDataHistoryCount:
-            protocolStr = @"FC1B04";
+            protocolStr = @"FC1B02";
             break;
         case SegmentedRunDataCurrentData:
             protocolStr = @"FC1B08";

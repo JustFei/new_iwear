@@ -399,48 +399,55 @@
         return ;
     }else {
         self.noDataLabel.hidden = YES;
-        NSMutableDictionary *dbDic = [NSMutableDictionary dictionaryWithCapacity:dbArr.count];
-        for (SegmentedStepModel *model in dbArr) {
-//            [self.dataArr addObject:@(model.stepNumber.integerValue)];
-            [dbDic setObject:model  forKey:[model.startTime substringWithRange:NSMakeRange(11, 2)]];
-            //设置数据源的最大值为 barChart 的最大值的2/3
-            if (model.stepNumber.integerValue > self.stepBarChart.yMaxValue * 0.7) {
-                self.stepBarChart.yMaxValue = model.stepNumber.integerValue * 1.3;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSMutableDictionary *dbDic = [NSMutableDictionary dictionaryWithCapacity:dbArr.count];
+            for (SegmentedStepModel *model in dbArr) {
+                //            [self.dataArr addObject:@(model.stepNumber.integerValue)];
+                [dbDic setObject:model  forKey:[model.startTime substringWithRange:NSMakeRange(11, 2)]];
+                //设置数据源的最大值为 barChart 的最大值的2/3
+                if (model.stepNumber.integerValue > self.stepBarChart.yMaxValue * 0.7) {
+                    self.stepBarChart.yMaxValue = model.stepNumber.integerValue * 1.3;
+                }
             }
-        }
-        NSMutableArray *indexArr = [NSMutableArray array];
-        for (int index = 0; index < 24; index ++) {
-            [indexArr addObject:[NSString stringWithFormat:@"%02d", index]];
-            [self.dateArr addObject:@""];
-        }
-        
-        //从数组中取出该时间有没有计步信息，没有的填充0
-        for (NSString *index in indexArr) {
-            SegmentedStepModel *model = dbDic[index];
-            if (model) {
-                [self.dataArr addObject:@(model.stepNumber.integerValue)];
-                [self.milArr addObject:@(model.mileageNumber.integerValue)];
-                [self.kcalArr addObject:@(model.kCalNumber.integerValue)];
-            }else {
-                [self.dataArr addObject:@(0)];
-                [self.milArr addObject:@(0)];
-                [self.kcalArr addObject:@(0)];
+            NSMutableArray *indexArr = [NSMutableArray array];
+            for (int index = 0; index < 24; index ++) {
+                [indexArr addObject:[NSString stringWithFormat:@"%02d", index]];
+                [self.dateArr addObject:@""];
             }
-        }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            //回主线程更新 UI
-            [self.stepBarChart setXLabels:self.dateArr];
-            [self.stepBarChart setYValues:self.dataArr];
-            [self.stepBarChart updateChartData:self.dataArr];
+            
+            //从数组中取出该时间有没有计步信息，没有的填充0
+            for (NSString *index in indexArr) {
+                SegmentedStepModel *model = dbDic[index];
+                if (model) {
+                    [self.dataArr addObject:@(model.stepNumber.integerValue)];
+                    [self.milArr addObject:@(model.mileageNumber.integerValue)];
+                    [self.kcalArr addObject:@(model.kCalNumber.integerValue)];
+                }else {
+                    [self.dataArr addObject:@(0)];
+                    [self.milArr addObject:@(0)];
+                    [self.kcalArr addObject:@(0)];
+                }
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //回主线程更新 UI
+                [self.stepBarChart setXLabels:self.dateArr];
+                [self.stepBarChart setYValues:self.dataArr];
+                [self.stepBarChart strokeChart];
+            });
         });
     }
 }
 
 - (void)showNoDataView
 {
-    self.noDataLabel.hidden = NO;
-    self.stepBarChart.hidden = YES;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.dataArr removeAllObjects];
+        [self.dateArr removeAllObjects];
+        [self.stepBarChart strokeChart];
+        self.noDataLabel.hidden = NO;
+        self.stepBarChart.hidden = YES;
+    });
 }
 
 #pragma mark - 懒加载

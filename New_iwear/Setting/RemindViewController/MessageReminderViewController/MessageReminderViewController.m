@@ -112,11 +112,13 @@ static NSString * const MessageReminderTableViewCellID = @"MessageReminderTableV
             MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
             [sucToast show];
             //保存选项至本地
-            [[NSUserDefaults standardUserDefaults] setBool:((SedentaryReminderModel *)self.dataArr.firstObject).switchIsOpen forKey:PHONE_SWITCH_SETTING];
+            [[NSUserDefaults standardUserDefaults] setBool:((SedentaryReminderModel *)self.dataArr.firstObject).switchIsOpen forKey:MESSAGE_SWITCH_SETTING];
             [self.navigationController popViewControllerAnimated:YES];
         }else {
             MDToast *sucToast = [[MDToast alloc] initWithText:@"配对失败，请配对设备，否则无法使用该功能" duration:3];
             [sucToast show];
+            //保存选项至本地
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:MESSAGE_SWITCH_SETTING];
         }
     }
 }
@@ -194,7 +196,11 @@ static NSString * const MessageReminderTableViewCellID = @"MessageReminderTableV
     if (!_dataArr) {
         SedentaryReminderModel *model = [[SedentaryReminderModel alloc] init];
         model.title = @"开启短信提醒";
-        model.switchIsOpen = NO;
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:MESSAGE_SWITCH_SETTING]) {
+            model.switchIsOpen = [[NSUserDefaults standardUserDefaults] boolForKey:MESSAGE_SWITCH_SETTING];
+        }else {
+            model.switchIsOpen = NO;
+        }
         model.whetherHaveSwitch = YES;
         model.subTitle = @"手机来短信时，手表会振动提醒";
         _dataArr = @[model];

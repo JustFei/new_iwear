@@ -117,6 +117,8 @@ static NSString * const PhoneReminderTableViewCellID = @"PhoneReminderTableViewC
         }else {
             MDToast *sucToast = [[MDToast alloc] initWithText:@"配对失败，请配对设备，否则无法使用该功能" duration:3];
             [sucToast show];
+            //保存选项至本地
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:PHONE_SWITCH_SETTING];
         }
     }
 }
@@ -194,7 +196,12 @@ static NSString * const PhoneReminderTableViewCellID = @"PhoneReminderTableViewC
     if (!_dataArr) {
         SedentaryReminderModel *model = [[SedentaryReminderModel alloc] init];
         model.title = @"开启来电提醒";
-        model.switchIsOpen = NO;
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:PHONE_SWITCH_SETTING]) {
+            model.switchIsOpen = [[NSUserDefaults standardUserDefaults] boolForKey:PHONE_SWITCH_SETTING];
+        }else {
+            model.switchIsOpen = NO;
+        }
+        
         model.whetherHaveSwitch = YES;
         model.subTitle = @"手机来电时，手表会振动提醒";
         _dataArr = @[model];

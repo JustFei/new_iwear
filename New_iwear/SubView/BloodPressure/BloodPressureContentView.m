@@ -370,12 +370,12 @@
     [self.lowBloodChart setXLabels:self.xArr];
     [self.lowBloodChart setYValues:self.lbArr];
 //    [self.lowBloodChart strokeChart];
-    [self.lowBloodChart updateChartData:self.lbArr];
+    [self.lowBloodChart strokeChart];
     
     [self.highBloodChart setXLabels:self.xArr];
     [self.highBloodChart setYValues:self.hbArr];
 //    [self.highBloodChart strokeChart];
-    [self.highBloodChart updateChartData:self.hbArr];
+    [self.highBloodChart strokeChart];
 }
 
 - (void)showNoDataView

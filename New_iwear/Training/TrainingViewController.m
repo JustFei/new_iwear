@@ -10,10 +10,11 @@
 #import "TrainingTableCell.h"
 #import "FMDBManager.h"
 #import "PNChart.h"
+#import "HooDatePicker.h"
 
 static NSString * const TrainingTableCellID = @"TrainingTableCell";
 
-@interface TrainingViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface TrainingViewController () <UITableViewDelegate, UITableViewDataSource, PNChartDelegate , HooDatePickerDelegate>
 {
     CGFloat offsetH;
     CGFloat turnOffsetH;
@@ -22,8 +23,15 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
     BOOL isSlideMax;
 }
 
-@property (nonatomic) UIView *headTopView;
-@property (nonatomic) UITableView *dataTableView;
+@property (nonatomic, strong) MDButton *leftBtn;
+@property (nonatomic, strong) MDButton *rightBtn;
+@property (nonatomic, strong) UILabel *dateLabel;
+@property (nonatomic, strong) MDButton *calBtn;
+@property (nonatomic, strong) UILabel *clickInfoLabel;
+@property (nonatomic, strong) UIView *headTopView;
+@property (nonatomic, strong) UILabel *leftLabel;
+@property (nonatomic, strong) UILabel *rightLabel;
+@property (nonatomic, strong) UITableView *dataTableView;
 @property (nonatomic, strong) NSMutableArray *tableDataArr;
 @property (nonatomic, strong) NSMutableArray *barChartDataArr;
 @property (nonatomic, strong) NSMutableArray *xArr;
@@ -31,6 +39,7 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
 @property (nonatomic, strong) UILabel *noDataLabel;
 @property (nonatomic, strong) MBProgressHUD *hud;
 @property (nonatomic, strong) PNBarChart *runBarChart;
+@property (nonatomic, strong) HooDatePicker *datePicker;
 
 
 @end
@@ -48,25 +57,96 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
+    [self initUI];
+    
+    [self getDataFromDBWithDate:[NSDate date]];
+}
+
+- (void)initUI
+{
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.view.backgroundColor = TRAINING_BACKGROUND_COLOR;
-    self.dataTableView.backgroundColor = SETTING_BACKGROUND_COLOR;
+    self.view.backgroundColor = SETTING_BACKGROUND_COLOR;
+    self.headTopView.backgroundColor = TRAINING_BACKGROUND_COLOR;
+    self.dataTableView.backgroundColor = CLEAR_COLOR;
     self.runBarChart.backgroundColor = CLEAR_COLOR;
     [self.runBarChart strokeChart];
     
+    self.leftLabel.backgroundColor = CLEAR_COLOR;
+    self.rightLabel.backgroundColor = CLEAR_COLOR;
     [self.hud showAnimated:YES];
-    self.noDataLabel.hidden = YES;
-    [self getDataFromDBWithDate:[NSDate date]];
+    
+    _dateLabel = [[UILabel alloc] init];
+    [_dateLabel setTextColor:TEXT_WHITE_COLOR_LEVEL3];
+    [_dateLabel setFont:[UIFont systemFontOfSize:12]];
+    [self.headTopView addSubview:_dateLabel];
+    [_dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.headTopView.mas_centerX);
+        make.top.equalTo(self.headTopView.mas_top).offset(82);
+    }];
+    
+    _clickInfoLabel = [[UILabel alloc] init];
+    [_clickInfoLabel setTextColor:TEXT_WHITE_COLOR_LEVEL3];
+    [_clickInfoLabel setFont:[UIFont systemFontOfSize:12]];
+    [self.headTopView addSubview:_clickInfoLabel];
+    [_clickInfoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.headTopView.mas_centerX);
+        make.top.equalTo(_dateLabel.mas_bottom).offset(28);
+    }];
+    
+    _leftBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:nil];
+    [_leftBtn setImage:[UIImage imageNamed:@"train_chevron_left"] forState:UIControlStateNormal];
+    [_leftBtn addTarget:self action:@selector(beforeDateAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.headTopView addSubview:_leftBtn];
+    [_leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(_dateLabel.mas_centerY);
+        make.right.equalTo(_dateLabel.mas_left).offset(-8);
+    }];
+    
+    _rightBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:nil];
+    [_rightBtn setImage:[UIImage imageNamed:@"train_chevron_right"] forState:UIControlStateNormal];
+    [_rightBtn addTarget:self action:@selector(afterDateAction:) forControlEvents:UIControlEventTouchUpInside];
+    _rightBtn.enabled = NO;
+    [self.headTopView addSubview:_rightBtn];
+    [_rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(_dateLabel.mas_centerY);
+        make.left.equalTo(_dateLabel.mas_right).offset(8);
+    }];
+    
+    _calBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:nil];
+    [_calBtn setImage:[UIImage imageNamed:@"all_calendar"] forState:UIControlStateNormal];
+    [_calBtn addTarget:self action:@selector(calAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.headTopView addSubview:_calBtn];
+    [_calBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(_dateLabel.mas_centerY);
+        make.left.equalTo(_rightBtn.mas_right).offset(8);
+    }];
+    
+    [self.datePicker setHighlightColor:TRAINING_BACKGROUND_COLOR];
 }
 
 - (void)getDataFromDBWithDate:(NSDate *)queryDate
 {
+    self.noDataLabel.hidden = YES;
+    NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
+    formatter1.dateFormat = @"yyyy-MM-dd";
+    NSString *currentDateStr = [formatter1 stringFromDate:queryDate];
+    if ([currentDateStr isEqualToString:[formatter1 stringFromDate:[NSDate date]]]) {
+        [self.dateLabel setText:@"今日"];
+        self.rightBtn.enabled = NO;
+    }else{
+        [self.dateLabel setText:currentDateStr];
+        self.rightBtn.enabled = YES;
+    }
+//    [self.dateLabel setText:currentDateStr];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
-        formatter1.dateFormat = @"yyyy-MM-dd";
-        NSArray *runDataArr = [self.myFmdbManager querySegmentedRunWithDate:[formatter1 stringFromDate:queryDate]];
+        NSArray *runDataArr = [self.myFmdbManager querySegmentedRunWithDate:currentDateStr];
         if (runDataArr.count == 0) {
             dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableDataArr removeAllObjects];
+                [self.barChartDataArr removeAllObjects];
+                [self.xArr removeAllObjects];
+                [self.runBarChart strokeChart];
+                [self.dataTableView reloadData];
                 [self.hud hideAnimated:YES];
                 self.noDataLabel.hidden = NO;
             });
@@ -75,6 +155,7 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
             [self.tableDataArr removeAllObjects];
             [self.barChartDataArr removeAllObjects];
             [self.xArr removeAllObjects];
+            self.noDataLabel.hidden = YES;
             
             for (SegmentedRunModel *model in runDataArr) {
                 //获取列表数据源
@@ -95,27 +176,107 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
                 }
             }
             NSMutableArray *indexArr = [NSMutableArray array];
-            for (int index = 0; index < 24; index ++) {
+            for (int index = 0; index < self.barChartDataArr.count; index ++) {
                 [indexArr addObject:[NSString stringWithFormat:@"%02d", index]];
-                [self.xArr addObject:@""];
+                [self.xArr addObject:[NSString stringWithFormat:@"%d", index]];
             }
+            
+            SegmentedRunModel *firModel = runDataArr.firstObject;
+            SegmentedRunModel *lasModel = runDataArr.lastObject;
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 //回主线程更新 UI
                 [self.hud hideAnimated:YES];
                 [self.runBarChart setXLabels:self.xArr];
                 [self.runBarChart setYValues:self.barChartDataArr];
-                [self.runBarChart updateChartData:self.barChartDataArr];
+                [self.runBarChart strokeChart];
                 [self.dataTableView reloadData];
+                [self.leftLabel setText:[firModel.startTime substringWithRange:NSMakeRange(11, 5)]];
+                 [self.rightLabel setText:[lasModel.startTime substringWithRange:NSMakeRange(11, 5)]];
             });
         }
     });
+}
+
+#pragma mark - HooDatePickerDelegate
+- (void)datePicker:(HooDatePicker *)datePicker dateDidChange:(NSDate *)date
+{
+    
+}
+
+- (void)datePicker:(HooDatePicker *)datePicker didCancel:(UIButton *)sender
+{
+    [datePicker dismiss];
+}
+
+- (void)datePicker:(HooDatePicker *)dataPicker didSelectedDate:(NSDate *)date
+{
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//    [formatter setDateFormat:@"yyyy-MM-dd"];
+//    
+//    [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:8 * 3600]];
+//    NSString *currentDateString = [formatter stringFromDate:date];
+    
+    if (date) {
+        [self getDataFromDBWithDate:date];
+    }
+    
+}
+
+#pragma mark - PNChartDelegate
+- (void)userClickedOnBarAtIndex:(NSInteger)barIndex
+{
+    NSLog(@"点击了 RunBarChart 的%ld", barIndex);
+    TrainingTableModel *model = self.tableDataArr[barIndex];
+    [self.clickInfoLabel setText:[NSString stringWithFormat:@"%@ %@步", [model.periodStr substringWithRange:NSMakeRange(11, 5)], self.barChartDataArr[barIndex]]];
+    self.clickInfoLabel.hidden = NO;
 }
 
 #pragma mark - Action
 - (void)backViewController
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+//前一天
+- (void)beforeDateAction:(MDButton *)sender
+{
+    NSDateFormatter *forMat = [[NSDateFormatter alloc] init];
+    [forMat setDateFormat:@"yyyy-MM-dd"];
+    NSDate *beforeDate;
+    if ([self.dateLabel.text isEqualToString:@"今日"]) {
+        beforeDate = [NSDate dateWithTimeInterval:-24*60*60 sinceDate:[NSDate date]];
+    }else {
+        beforeDate = [NSDate dateWithTimeInterval:-24*60*60 sinceDate:[forMat dateFromString:self.dateLabel.text]];
+    }
+    [self getDataFromDBWithDate:beforeDate];
+}
+
+//后一天
+- (void)afterDateAction:(MDButton *)sender
+{
+    NSDateFormatter *forMat = [[NSDateFormatter alloc] init];
+    [forMat setDateFormat:@"yyyy-MM-dd"];
+    NSDate *nextDat = [NSDate dateWithTimeInterval:24*60*60 sinceDate:[forMat dateFromString:self.dateLabel.text]];
+    [self getDataFromDBWithDate:nextDat];
+}
+
+- (void)calAction:(MDButton *)sender
+{
+    [self.datePicker setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_CN"]];
+    [self.datePicker setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];   //让时区正确
+    NSDate *maxDate = [NSDate date];
+    //self.datePicker.minimumDate = minDate;//设置显示的最小日期
+    self.datePicker.maximumDate = maxDate;//设置显示的最大日期
+    [self.datePicker setTintColor:TEXT_BLACK_COLOR_LEVEL3];//设置主色
+    //默认日期一定要最后设置，否在会被覆盖成当天的日期(貌似没什么效果)
+    NSString *curStr = [dateFormatter stringFromDate:[NSDate date]];
+    [self.datePicker setDate:[self.dateLabel.text isEqualToString:curStr] ? [NSDate date] : [dateFormatter dateFromString:self.dateLabel.text]];
+    
+    [self.datePicker show];
 }
 
 #pragma mark - UITableViewDelegate && UITableViewDataSource
@@ -150,54 +311,6 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
     return 72;
 }
 
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-//{
-//    slideH = - self.dataTableView.contentOffset.y;
-//    CGFloat slideMaxH = 0.0;
-//    CGFloat tipAlpha = 0.0;
-//    CGFloat stepAlpha = 1.0;
-//    isSlideMax = false;
-//    //NSLog(@"滑动距离: %f",slideH);
-//    if (slideH <= 214) {
-//        slideH = 214;
-//    }
-//    CGRect rect = self.headTopView.frame;
-//    rect.size.height = slideH;
-//    self.headTopView.frame = rect;
-//    //    [self.stepView mas_updateConstraints:^(MASConstraintMaker *make) {
-//    //        make.centerY.equalTo(@((slideH - 64) * 0.5 + 64));
-//    //    }];
-//    //NSLog(@"旋转: %f", (offsetH - slideH)/210);
-//    if (((offsetH - slideH)/210) > 0) {
-//        //self.stepView.layer.transform = CATransform3DMakeRotation(((offsetH - slideH) / 210) * (3.14159265 / 2), 1, 0, 0);
-//    }
-//    if (slideH > offsetH) {
-//        slideMaxH = slideH;
-//        if (slideMaxH >= 456) {
-//            slideMaxH = 456;
-//        }
-//        if (slideH >= 456) {
-//            isSlideMax = true;
-//        } else {
-//            isSlideMax = false;
-//        }
-//        tipAlpha = (slideMaxH - offsetH) / 50.0;
-//        if (tipAlpha >= 0.99) {
-//            tipAlpha = 0.99;
-//        }
-//        stepAlpha = 0.0;
-//    }else {
-//        stepAlpha = (offsetH - slideH) / 210.0;
-//    }
-//}
-//
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-//{
-//    if (isSlideMax) {
-//        NSLog(@"触发了刷新");
-//    }
-//}
-
 #pragma mark - lazy
 - (UIView *)headTopView
 {
@@ -215,6 +328,42 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
     }
     
     return _headTopView;
+}
+
+- (UILabel *)leftLabel
+{
+    if (!_leftLabel) {
+        _leftLabel = [[UILabel alloc] init];
+        [_leftLabel setText:@"00:00"];
+        [_leftLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+        [_leftLabel setFont:[UIFont systemFontOfSize:11]];
+        [self.view addSubview:_leftLabel];
+        
+        [_leftLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.view.mas_left).offset(16);
+            make.top.equalTo(self.headTopView.mas_bottom).offset(12);
+        }];
+    }
+    
+    return _leftLabel;
+}
+
+- (UILabel *)rightLabel
+{
+    if (!_rightLabel) {
+        _rightLabel = [[UILabel alloc] init];
+        [_rightLabel setText:@"23:59"];
+        [_rightLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
+        [_rightLabel setFont:[UIFont systemFontOfSize:11]];
+        [self.view addSubview:_rightLabel];
+        
+        [_rightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.view.mas_right).offset(-16);
+            make.top.equalTo(self.headTopView.mas_bottom).offset(12);
+        }];
+    }
+    
+    return _rightLabel;
 }
 
 - (UITableView *)dataTableView
@@ -235,7 +384,7 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
             make.left.equalTo(self.view.mas_left);
             make.right.equalTo(self.view.mas_right);
             make.bottom.equalTo(self.view.mas_bottom);
-            make.top.equalTo(self.headTopView.mas_bottom);
+            make.top.equalTo(self.leftLabel.mas_bottom).offset(12);
         }];
     }
     
@@ -313,19 +462,19 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
         [_runBarChart setStrokeColor:STEP_CURRENT_CIRCLE_COLOR];
         _runBarChart.barBackgroundColor = [UIColor clearColor];
         _runBarChart.yChartLabelWidth = 20.0;
-        _runBarChart.chartMarginLeft = 0;
-        _runBarChart.chartMarginRight = 0;
+        _runBarChart.chartMarginLeft = 16;
+        _runBarChart.chartMarginRight = 16;
         _runBarChart.chartMarginTop = 0;
         _runBarChart.chartMarginBottom = 0;
         _runBarChart.yMinValue = 0;
         _runBarChart.yMaxValue = 200;
-        _runBarChart.barWidth = 12;
+        _runBarChart.barWidth = 11;
         _runBarChart.barRadius = 0;
         _runBarChart.showLabel = NO;
         _runBarChart.showChartBorder = NO;
         _runBarChart.isShowNumbers = NO;
         _runBarChart.isGradientShow = NO;
-//        _runBarChart.delegate = self;
+        _runBarChart.delegate = self;
         
         [self.headTopView addSubview:_runBarChart];
         [_runBarChart mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -337,6 +486,17 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
     }
     
     return _runBarChart;
+}
+
+- (HooDatePicker *)datePicker
+{
+    if (!_datePicker) {
+        _datePicker = [[HooDatePicker alloc] initWithSuperView:self.view];
+        _datePicker.delegate = self;
+        _datePicker.datePickerMode = HooDatePickerModeDate;
+    }
+    
+    return _datePicker;
 }
 
 @end

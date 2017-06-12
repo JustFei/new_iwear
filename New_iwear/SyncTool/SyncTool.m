@@ -126,7 +126,7 @@ static SyncTool *_syncTool = nil;
         x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
         NSLog(@"1 ------ %ld", x);
         
-        //分段计步历史条数
+        //分段运动历史条数
         [[BleManager shareInstance] writeSegementRunWithHistoryMode:SegmentedRunDataHistoryCount];
         x = dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
         NSLog(@"1 ------ %ld", x);
@@ -210,7 +210,7 @@ static SyncTool *_syncTool = nil;
     if (model.segmentStepModel.segmentedStepState == SegmentedStepDataUpdateData) {
         //当有数据上报时，获取新数据
         if (!_syncDataIng) {
-            [self syncData];
+            [self syncAllData];
         }
     }else if (model.segmentStepModel.segmentedStepState == SegmentedStepDataHistoryCount) {
         self.sumCount = self.sumCount + model.segmentStepModel.AHCount;
@@ -245,7 +245,7 @@ static SyncTool *_syncTool = nil;
     if (model.segmentRunModel.segmentedRunState == SegmentedRunDataUpdateData) {
         //当有数据上报时，获取新数据
         if (!_syncDataIng) {
-            [self syncData];
+            [self syncAllData];
         }
     }else if (model.segmentRunModel.segmentedRunState == SegmentedRunDataHistoryCount) {
         self.sumCount = self.sumCount + model.segmentRunModel.AHCount;

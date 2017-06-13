@@ -9,7 +9,7 @@
 #import "ColorConstants.h"
 #import "FrameConstants.h"
 #import "TextConstants.h"
-#import "MaterialControls.h"
+@import MaterialControls;
 #import "Log.h"
 #import "Masonry.h"
 #import "AlertTool.h"

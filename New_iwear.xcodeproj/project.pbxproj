@@ -10,11 +10,14 @@
 		100E49061EC998D400625A93 /* TrainingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 100E49051EC998D400625A93 /* TrainingViewController.m */; };
 		100E490A1EC9AD6A00625A93 /* TrainingTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 100E49091EC9AD6A00625A93 /* TrainingTableCell.m */; };
 		100E490D1EC9B88B00625A93 /* TrainingTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 100E490C1EC9B88B00625A93 /* TrainingTableModel.m */; };
+		10170F2D1EEFC23B00B2B50F /* Pods_New_iwear.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E5A2579FEAEDF46DC9BF30F /* Pods_New_iwear.framework */; };
+		10170F2F1EEFCCCC00B2B50F /* 0001_20170613100100_V1.0.5_alpha.zip in Resources */ = {isa = PBXBuildFile; fileRef = 10170F2E1EEFCCCC00B2B50F /* 0001_20170613100100_V1.0.5_alpha.zip */; };
 		1028F5EA1EE2A26C00DCA724 /* HooDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1028F5E71EE2A26C00DCA724 /* HooDatePicker.m */; };
 		1028F5EB1EE2A26C00DCA724 /* NSDate+HooDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1028F5E91EE2A26C00DCA724 /* NSDate+HooDatePicker.m */; };
 		1032CA4F1ED6CC330084693D /* VersionUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032CA4E1ED6CC330084693D /* VersionUpdateViewController.m */; };
 		1032CA5A1ED6D1B80084693D /* VersionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032CA571ED6D1B80084693D /* VersionModel.m */; };
 		1032CA5B1ED6D1B80084693D /* VersionUpdateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032CA591ED6D1B80084693D /* VersionUpdateTableViewCell.m */; };
+		105156931EEF892F0080AD42 /* UpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105156921EEF892F0080AD42 /* UpdateViewController.m */; };
 		10814B2E1EDFE88C004C9B4F /* SyncTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 10814B2D1EDFE88C004C9B4F /* SyncTool.m */; };
 		10871DEC1EEA38AF0045F376 /* alert.wav in Resources */ = {isa = PBXBuildFile; fileRef = 10871DEB1EEA38AF0045F376 /* alert.wav */; };
 		109865BB1ECC5D200077797E /* UINavigationBar+Awesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 109865BA1ECC5D200077797E /* UINavigationBar+Awesome.m */; };
@@ -28,7 +31,6 @@
 		10EE89171ED6B67A007A3CE4 /* SGQRCodeScanningVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EE890F1ED6B67A007A3CE4 /* SGQRCodeScanningVC.m */; };
 		10EE89181ED6B67A007A3CE4 /* SGQRCodeScanningView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EE89111ED6B67A007A3CE4 /* SGQRCodeScanningView.m */; };
 		10EE89191ED6B67A007A3CE4 /* UIImage+SGHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EE89131ED6B67A007A3CE4 /* UIImage+SGHelper.m */; };
-		198962F584B552B32F9FE8B6 /* libPods-New_iwear.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C32990811920916592BCFF4A /* libPods-New_iwear.a */; };
 		9C00DF881EC6D3CA005CB06F /* StepHisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C00DF871EC6D3CA005CB06F /* StepHisViewController.m */; };
 		9C00DF8D1EC6D93F005CB06F /* SleepHisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C00DF8C1EC6D93F005CB06F /* SleepHisViewController.m */; };
 		9C00DF911EC6DB1A005CB06F /* HeartRateHisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C00DF901EC6DB1A005CB06F /* HeartRateHisViewController.m */; };
@@ -70,7 +72,6 @@
 		9C4FBDC31EB099D90072E9CE /* BaseNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDC21EB099D90072E9CE /* BaseNavigationViewController.m */; };
 		9C4FBDC71EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDC61EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m */; };
 		9C87EB281EC5B6BD0051C59D /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C87EB271EC5B6BD0051C59D /* test.swift */; };
-		9C87EB291EC5B7100051C59D /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C87EB231EC5B60B0051C59D /* Charts.framework */; };
 		9C87EB2A1EC5B7100051C59D /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9C87EB231EC5B60B0051C59D /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9C9E7FCA1EC2AC9E004840FD /* ClockTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FC91EC2AC9E004840FD /* ClockTableViewCell.m */; };
 		9C9E7FCE1EC2B224004840FD /* ClockModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FCD1EC2B224004840FD /* ClockModel.m */; };
@@ -166,6 +167,16 @@
 		100E49091EC9AD6A00625A93 /* TrainingTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrainingTableCell.m; path = Training/TrainingTableCell.m; sourceTree = "<group>"; };
 		100E490B1EC9B88B00625A93 /* TrainingTableModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrainingTableModel.h; path = Training/TrainingTableModel.h; sourceTree = "<group>"; };
 		100E490C1EC9B88B00625A93 /* TrainingTableModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrainingTableModel.m; path = Training/TrainingTableModel.m; sourceTree = "<group>"; };
+		10170F1A1EEFC15E00B2B50F /* AFNetworking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AFNetworking.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/New_iwear-gzfkxehwhmyljqcyjhhltxejmswd/Build/Products/Debug-iphoneos/AFNetworking/AFNetworking.framework"; sourceTree = "<group>"; };
+		10170F1B1EEFC15E00B2B50F /* FMDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FMDB.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/New_iwear-gzfkxehwhmyljqcyjhhltxejmswd/Build/Products/Debug-iphoneos/FMDB/FMDB.framework"; sourceTree = "<group>"; };
+		10170F1C1EEFC15E00B2B50F /* iOSDFULibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iOSDFULibrary.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/New_iwear-gzfkxehwhmyljqcyjhhltxejmswd/Build/Products/Debug-iphoneos/iOSDFULibrary/iOSDFULibrary.framework"; sourceTree = "<group>"; };
+		10170F1D1EEFC15E00B2B50F /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/New_iwear-gzfkxehwhmyljqcyjhhltxejmswd/Build/Products/Debug-iphoneos/Masonry/Masonry.framework"; sourceTree = "<group>"; };
+		10170F1E1EEFC15E00B2B50F /* MaterialControls.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MaterialControls.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/New_iwear-gzfkxehwhmyljqcyjhhltxejmswd/Build/Products/Debug-iphoneos/MaterialControls/MaterialControls.framework"; sourceTree = "<group>"; };
+		10170F1F1EEFC15E00B2B50F /* MBProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MBProgressHUD.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/New_iwear-gzfkxehwhmyljqcyjhhltxejmswd/Build/Products/Debug-iphoneos/MBProgressHUD/MBProgressHUD.framework"; sourceTree = "<group>"; };
+		10170F201EEFC15E00B2B50F /* PNChart.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PNChart.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/New_iwear-gzfkxehwhmyljqcyjhhltxejmswd/Build/Products/Debug-iphoneos/PNChart/PNChart.framework"; sourceTree = "<group>"; };
+		10170F211EEFC15E00B2B50F /* UICountingLabel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UICountingLabel.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/New_iwear-gzfkxehwhmyljqcyjhhltxejmswd/Build/Products/Debug-iphoneos/UICountingLabel/UICountingLabel.framework"; sourceTree = "<group>"; };
+		10170F221EEFC15E00B2B50F /* Zip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Zip.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/New_iwear-gzfkxehwhmyljqcyjhhltxejmswd/Build/Products/Debug-iphoneos/Zip/Zip.framework"; sourceTree = "<group>"; };
+		10170F2E1EEFCCCC00B2B50F /* 0001_20170613100100_V1.0.5_alpha.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = 0001_20170613100100_V1.0.5_alpha.zip; sourceTree = "<group>"; };
 		1028F5E61EE2A26C00DCA724 /* HooDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HooDatePicker.h; sourceTree = "<group>"; };
 		1028F5E71EE2A26C00DCA724 /* HooDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HooDatePicker.m; sourceTree = "<group>"; };
 		1028F5E81EE2A26C00DCA724 /* NSDate+HooDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+HooDatePicker.h"; sourceTree = "<group>"; };
@@ -176,6 +187,8 @@
 		1032CA571ED6D1B80084693D /* VersionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VersionModel.m; path = VersionUpdateViewController/VersionModel.m; sourceTree = "<group>"; };
 		1032CA581ED6D1B80084693D /* VersionUpdateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VersionUpdateTableViewCell.h; path = VersionUpdateViewController/VersionUpdateTableViewCell.h; sourceTree = "<group>"; };
 		1032CA591ED6D1B80084693D /* VersionUpdateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VersionUpdateTableViewCell.m; path = VersionUpdateViewController/VersionUpdateTableViewCell.m; sourceTree = "<group>"; };
+		105156911EEF892F0080AD42 /* UpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateViewController.h; sourceTree = "<group>"; };
+		105156921EEF892F0080AD42 /* UpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateViewController.m; sourceTree = "<group>"; };
 		10814B2C1EDFE88C004C9B4F /* SyncTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SyncTool.h; path = New_iwear/SyncTool/SyncTool.h; sourceTree = SOURCE_ROOT; };
 		10814B2D1EDFE88C004C9B4F /* SyncTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SyncTool.m; path = New_iwear/SyncTool/SyncTool.m; sourceTree = SOURCE_ROOT; };
 		10871DEB1EEA38AF0045F376 /* alert.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = alert.wav; path = Resource/alert.wav; sourceTree = "<group>"; };
@@ -201,6 +214,7 @@
 		10EE89111ED6B67A007A3CE4 /* SGQRCodeScanningView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGQRCodeScanningView.m; sourceTree = "<group>"; };
 		10EE89121ED6B67A007A3CE4 /* UIImage+SGHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+SGHelper.h"; sourceTree = "<group>"; };
 		10EE89131ED6B67A007A3CE4 /* UIImage+SGHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+SGHelper.m"; sourceTree = "<group>"; };
+		5E5A2579FEAEDF46DC9BF30F /* Pods_New_iwear.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_New_iwear.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C00DF861EC6D3CA005CB06F /* StepHisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StepHisViewController.h; path = History/StepHis/StepHisViewController.h; sourceTree = "<group>"; };
 		9C00DF871EC6D3CA005CB06F /* StepHisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StepHisViewController.m; path = History/StepHis/StepHisViewController.m; sourceTree = "<group>"; };
 		9C00DF8B1EC6D93F005CB06F /* SleepHisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SleepHisViewController.h; path = History/SleepHis/SleepHisViewController.h; sourceTree = "<group>"; };
@@ -383,7 +397,6 @@
 		9CE95A681EC1CBF700E88B47 /* ClockReminderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClockReminderViewController.m; path = Setting/RemindViewController/ClockViewController/ClockReminderViewController.m; sourceTree = "<group>"; };
 		9E1C62936127CBA2AB2484EB /* Pods-New_iwear.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-New_iwear.release.xcconfig"; path = "Pods/Target Support Files/Pods-New_iwear/Pods-New_iwear.release.xcconfig"; sourceTree = "<group>"; };
 		C009A0B0C823B2EBDFED3C4D /* Pods-New_iwear.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-New_iwear.debug.xcconfig"; path = "Pods/Target Support Files/Pods-New_iwear/Pods-New_iwear.debug.xcconfig"; sourceTree = "<group>"; };
-		C32990811920916592BCFF4A /* libPods-New_iwear.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-New_iwear.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -391,8 +404,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9C87EB291EC5B7100051C59D /* Charts.framework in Frameworks */,
-				198962F584B552B32F9FE8B6 /* libPods-New_iwear.a in Frameworks */,
+				10170F2D1EEFC23B00B2B50F /* Pods_New_iwear.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,8 +444,19 @@
 				1032CA571ED6D1B80084693D /* VersionModel.m */,
 				1032CA581ED6D1B80084693D /* VersionUpdateTableViewCell.h */,
 				1032CA591ED6D1B80084693D /* VersionUpdateTableViewCell.m */,
+				105156901EEF892F0080AD42 /* UpdateViewController */,
 			);
 			name = VersionUpdateViewController;
+			sourceTree = "<group>";
+		};
+		105156901EEF892F0080AD42 /* UpdateViewController */ = {
+			isa = PBXGroup;
+			children = (
+				105156911EEF892F0080AD42 /* UpdateViewController.h */,
+				105156921EEF892F0080AD42 /* UpdateViewController.m */,
+			);
+			name = UpdateViewController;
+			path = Setting/AboutViewController/UpdateViewController;
 			sourceTree = "<group>";
 		};
 		10814B2A1EDFE82F004C9B4F /* SyncTool */ = {
@@ -1078,6 +1101,7 @@
 		9CDEAC581EB078EC00279EDA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				10170F2E1EEFCCCC00B2B50F /* 0001_20170613100100_V1.0.5_alpha.zip */,
 				10871DEB1EEA38AF0045F376 /* alert.wav */,
 				9CDEAC721EB07A0500279EDA /* IwearHeader.pch */,
 				9CDEAC591EB078EC00279EDA /* main.m */,
@@ -1165,8 +1189,17 @@
 		CEFE28DF7EF1F157D7DE4858 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				10170F1A1EEFC15E00B2B50F /* AFNetworking.framework */,
+				10170F1B1EEFC15E00B2B50F /* FMDB.framework */,
+				10170F1C1EEFC15E00B2B50F /* iOSDFULibrary.framework */,
+				10170F1D1EEFC15E00B2B50F /* Masonry.framework */,
+				10170F1E1EEFC15E00B2B50F /* MaterialControls.framework */,
+				10170F1F1EEFC15E00B2B50F /* MBProgressHUD.framework */,
+				10170F201EEFC15E00B2B50F /* PNChart.framework */,
+				10170F211EEFC15E00B2B50F /* UICountingLabel.framework */,
+				10170F221EEFC15E00B2B50F /* Zip.framework */,
 				9C6D07141EC5B48C0000FAE6 /* MaterialControls.framework */,
-				C32990811920916592BCFF4A /* libPods-New_iwear.a */,
+				5E5A2579FEAEDF46DC9BF30F /* Pods_New_iwear.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1283,6 +1316,7 @@
 				9C0817841EB9AB9300C1845F /* SettingTableViewCell.xib in Resources */,
 				9CDEAC681EB078EC00279EDA /* Assets.xcassets in Resources */,
 				10871DEC1EEA38AF0045F376 /* alert.wav in Resources */,
+				10170F2F1EEFCCCC00B2B50F /* 0001_20170613100100_V1.0.5_alpha.zip in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1344,6 +1378,7 @@
 				9C00DF981EC6E9E3005CB06F /* HRTableModel.m in Sources */,
 				9C4FBDB71EB081A00072E9CE /* StepCircleView.m in Sources */,
 				9C079AAA1EBC612500D54AB3 /* PeripheralCellModel.m in Sources */,
+				105156931EEF892F0080AD42 /* UpdateViewController.m in Sources */,
 				9CE95A691EC1CBF700E88B47 /* ClockReminderViewController.m in Sources */,
 				9C00DF941EC6E7BB005CB06F /* HRTableViewCell.m in Sources */,
 				9C00DF8D1EC6D93F005CB06F /* SleepHisViewController.m in Sources */,

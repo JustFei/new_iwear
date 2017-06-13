@@ -19,52 +19,7 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>MDFTextAccessibility.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Masonry.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>MaterialComponents-MaterialIcons_ic_arrow_back.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>MaterialComponents-MaterialIcons_ic_check.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>MaterialComponents-MaterialIcons_ic_check_circle.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>MaterialComponents-MaterialIcons_ic_chevron_right.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>MaterialComponents-MaterialIcons_ic_info.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>MaterialComponents-MaterialIcons_ic_radio_button_unchecked.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>MaterialComponents-MaterialIcons_ic_reorder.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>MaterialComponents.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -89,90 +44,65 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Zip.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>iOSDFULibrary.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>246C59B31FA1BCB307CB67FF94C88084</key>
+		<key>0FC1CB21D1B64FAAC47A6478616DA728</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>403BE3AB205F0FA6506E1B52BD334CFB</key>
+		<key>251BAD17812F7EBF6532EACF66F941C3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5419DC3EF4CA91426429676F780C3473</key>
+		<key>3A43395A1696E283CA24A4012C4E0CC1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>586F2DFA9BDCC6675C2546793A69E5CC</key>
+		<key>41FA54D12162DAD51D02FC58A2CD5034</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>706FB48F9AAD875CE7885B4705A5B53E</key>
+		<key>4EFC2B5D771991F64C10368A2B4609AC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7A4053476853EEEF48F65A4DDA4AC72B</key>
+		<key>570B1EFB2D11F5B06166FDA2A614F81C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>85CF5C89AB7799B7EE09C050667C784D</key>
+		<key>6DE24706FE9CF4E6C5DB4508F180A481</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8642CC820CE8C5B88C113D7F47AF4BC3</key>
+		<key>CF671F7E57B92905F1CC91D036D6B4A7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9D4A1B69057B2ACDCF903EC15F099E33</key>
+		<key>D52144DE9D7255DE912490FF5A806573</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9DC8D9E02903E93BD0B2FEC9D846EA20</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9E033EDB5EC0819481B0546434FA577B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>AB6F38476E0F739D444BEAFDB469E851</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>BC65EEC49D445D1C5431013ACD0C5688</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>D6F358D6FB1BF8D3B7AC3F34C7AED614</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>EB31A05090143EAF02A3DE187E2CBA22</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>EDCAD1D8314FF9B866EDABBAE576A412</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>F2C153906EBA08A1643CD1576B58307F</key>
+		<key>DA392EE8E5B24D16FB9910405A0AFC2E</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -9,8 +9,11 @@
 #import <MaterialControls/MaterialControls.h>
 #import "VersionModel.h"
 
+typedef void(^UpdateActionBlock)(void);
+
 @interface VersionUpdateTableViewCell : MDTableViewCell
 
 @property (nonatomic, strong) VersionModel *model;
+@property (nonatomic, copy) UpdateActionBlock updateActionBlock;
 
 @end

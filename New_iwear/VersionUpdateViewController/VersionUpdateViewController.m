@@ -8,13 +8,18 @@
 
 #import "VersionUpdateViewController.h"
 #import "VersionUpdateTableViewCell.h"
+#import "UpdateViewController.h"
+//#import "AFNetworking.h"
 
 static NSString *const VersionUpdateTableViewCellID = @"VersionUpdateTableViewCell";
 
-@interface VersionUpdateViewController () < UITableViewDelegate, UITableViewDataSource >
+@interface VersionUpdateViewController () < UITableViewDelegate, UITableViewDataSource, NSXMLParserDelegate >
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *dataArr;
+@property (nonatomic, strong) UIAlertController *updateAc;
+@property (nonatomic, strong) NSString *filePath;
+@property (nonatomic, strong) MDToast *loadingToast;
 
 @end
 
@@ -49,12 +54,108 @@ static NSString *const VersionUpdateTableViewCellID = @"VersionUpdateTableViewCe
     VersionUpdateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:VersionUpdateTableViewCellID];
     
     cell.model = self.dataArr[indexPath.row];
+    
+    cell.updateActionBlock = ^{
+        self.loadingToast = [[MDToast alloc] initWithText:@"检查更新中" duration: 10000];
+        [self.loadingToast show];
+        
+        NSURL *url = [NSURL URLWithString:@"http://39.108.92.15:12345/version.xml"];
+        
+        NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:1 timeoutInterval:10.0];
+        [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc]init] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
+            //创建xml解析器
+            NSXMLParser *parser = [[NSXMLParser alloc]initWithData:data];
+            //设置代理
+            parser.delegate = self;
+            //开始解析
+            [parser parse];
+        }];
+    };
+    
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 48;
+}
+
+#pragma mark - NSXMLParserDelegate
+- (void)parserDidStartDocument:(NSXMLParser *)parser {
+    NSLog(@"1.开始文档");
+}
+
+//每发现一个开始节点就调用
+
+/**
+ *  每发现一个节点就调用
+ *  *  @param parser        解析器
+ *  @param elementName   节点名字
+ *  @param attributeDict 属性字典
+ */
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(nullable NSString *)namespaceURI qualifiedName:(nullable NSString *)qName attributes:(NSDictionary<NSString *, NSString *> *)attributeDict
+{
+    NSLog(@"2.发现节点：%@",elementName);
+    if ([elementName isEqualToString:@"product"])
+    {
+        //获取 id 号
+        NSString *idcount = attributeDict[@"id"];
+        if ([idcount isEqualToString:@"0001"]) {
+            self.filePath = [@"http://39.108.92.15:12345" stringByAppendingString:[NSString stringWithFormat:@"/0001/%@", attributeDict[@"file"]]];
+            NSString *verInServer = attributeDict[@"least"];
+            if ([[NSUserDefaults standardUserDefaults] objectForKey:HARDWARE_VERSION]) {
+                NSString *hardVer = [[NSUserDefaults standardUserDefaults] objectForKey:HARDWARE_VERSION];
+                if (verInServer >= hardVer) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.loadingToast dismiss];
+                        //提示是否更新
+                        [self presentViewController:self.updateAc animated:YES completion:nil];
+                    });
+                }else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.loadingToast setText:@"暂无更新"];
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [self.loadingToast dismiss];
+                        });
+                    });
+                }
+            }
+        }
+    }
+    
+//    [self.elementNameString setString:@""];
+}
+
+//发现节点内容
+- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
+{
+    
+    NSLog(@"3.发现节点内容：%@",string);
+    //把发现的内容进行拼接
+//    [self.elementNameString appendString:string];
+}
+
+//发现结束节点
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(nullable NSString *)namespaceURI qualifiedName:(nullable NSString *)qName
+{
+    NSLog(@"3.发现结束节点 %@",elementName);
+    //    NSLog(@"拼接的内容%@",self.elementNameString);
+    
+    if ([elementName isEqualToString:@"name"])
+    {
+//        self.video.name = self.elementNameString;
+    }else if ([elementName isEqualToString:@"teacher"])
+    {
+//        self.video.teacher = self.elementNameString;
+    }
+}
+
+//解析完毕调用
+- (void)parserDidEndDocument:(NSXMLParser *)parser
+{
+    NSLog(@"解析完毕---------");
+    
+//    NSLog(@"%@",self.video);
 }
 
 #pragma mark - Action
@@ -102,6 +203,24 @@ static NSString *const VersionUpdateTableViewCellID = @"VersionUpdateTableViewCe
     }
     
     return _dataArr;
+}
+
+- (UIAlertController *)updateAc
+{
+    if (!_updateAc) {
+        _updateAc = [UIAlertController alertControllerWithTitle:@"更新提示" message:@"有新的更新，是否现在更新？" preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *cancelAc = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+        UIAlertAction *okAc = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            UpdateViewController *vc = [[UpdateViewController alloc] init];
+            vc.filePa = self.filePath;
+            [self presentViewController:vc animated:YES completion:nil];
+        }];
+        [_updateAc addAction:cancelAc];
+        [_updateAc addAction:okAc];
+    }
+    
+    return _updateAc;
 }
 
 @end

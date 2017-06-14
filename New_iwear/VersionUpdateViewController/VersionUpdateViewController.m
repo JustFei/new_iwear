@@ -56,30 +56,35 @@ static NSString *const VersionUpdateTableViewCellID = @"VersionUpdateTableViewCe
     cell.model = self.dataArr[indexPath.row];
     
     cell.updateActionBlock = ^{
-        self.loadingToast = [[MDToast alloc] initWithText:@"检查更新中" duration: 10000];
-        [self.loadingToast show];
         
-        NSURL *url = [NSURL URLWithString:@"http://39.108.92.15:12345/version.xml"];
-        
-        NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:1 timeoutInterval:10.0];
-        [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc]init] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
-            NSLog(@"connectionError == %@", connectionError);
-            if (!connectionError) {
-                //创建xml解析器
-                NSXMLParser *parser = [[NSXMLParser alloc]initWithData:data];
-                //设置代理
-                parser.delegate = self;
-                //开始解析
-                [parser parse];
-            }else {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.loadingToast setText:@"网络异常，请连接网络后再尝试"];
-                });
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [self.loadingToast dismiss];
-                });
-            }
-        }];
+        if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
+            [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
+        }else {
+            self.loadingToast = [[MDToast alloc] initWithText:@"检查更新中" duration: 10000];
+            [self.loadingToast show];
+            
+            NSURL *url = [NSURL URLWithString:@"http://39.108.92.15:12345/version.xml"];
+            
+            NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:1 timeoutInterval:10.0];
+            [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc]init] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
+                NSLog(@"connectionError == %@", connectionError);
+                if (!connectionError) {
+                    //创建xml解析器
+                    NSXMLParser *parser = [[NSXMLParser alloc]initWithData:data];
+                    //设置代理
+                    parser.delegate = self;
+                    //开始解析
+                    [parser parse];
+                }else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.loadingToast setText:@"网络异常，请连接网络后再尝试"];
+                    });
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self.loadingToast dismiss];
+                    });
+                }
+            }];
+        }
     };
     
     return cell;

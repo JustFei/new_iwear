@@ -172,7 +172,7 @@ MDSnackbarManger *snackbarManagerInstance;
 
     NSArray *hConstraints = [NSLayoutConstraint
         constraintsWithVisualFormat:
-            @"H:|-largePadding-[label]-largePadding-[button]-largePadding-|"
+            @"H:|-54-[label]-largePadding-[button]-largePadding-|"
                             options:0
                             metrics:metrics
                               views:viewsDictionary];

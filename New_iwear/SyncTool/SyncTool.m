@@ -8,11 +8,18 @@
 
 #import "SyncTool.h"
 #import "FMDBManager.h"
+#import "SedentaryReminderModel.h"
+#import "SedentaryModel.h"
+#import "InterfaceSelectionModel.h"
+#import "UnitsSettingModel.h"
+#import "TargetSettingModel.h"
 
 @interface SyncTool ()
 {
-    
-    BOOL _syncSettingIng;   //判断设置是否在同步中
+    /** 同步的数据量 */
+    NSInteger _asynCount;
+    //判断设置是否在同步中
+    BOOL _syncSettingIng;
     //用来判断每个数据是否有数据
     BOOL _haveSegStep;
     BOOL _haveSegRun;
@@ -48,6 +55,21 @@ static SyncTool *_syncTool = nil;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getHR:) name:GET_HR_DATA object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBP:) name:GET_BP_DATA object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBO:) name:GET_BO_DATA object:nil];
+        //注册所有通知
+        NSArray *observerArr = @[SET_TIME,
+                                 SET_FIRMWARE,
+                                 SET_WINDOW,
+                                 GET_SEDENTARY_DATA,
+                                 LOST_PERIPHERAL_SWITCH,
+                                 SET_CLOCK,
+                                 SET_UNITS_DATA,
+                                 SET_TIME_FORMATTER,
+                                 SET_MOTION_TARGET,
+                                 SET_USER_INFO];
+        for (NSString *keyWord in observerArr) {
+            [[NSNotificationCenter defaultCenter]
+             addObserver:self selector:@selector(setNotificationObserver:) name:keyWord object:nil];
+        }
         // 信号量初始化为1
         self.semaphore = dispatch_semaphore_create(1);
         self.sendMessageQueue = dispatch_get_global_queue(0, 0);
@@ -406,7 +428,345 @@ static SyncTool *_syncTool = nil;
 #pragma mark - 设置同步
 - (void)syncSetting
 {
+    _asynCount = 0;
+    /** 同步时间 */
+    [[BleManager shareInstance] writeTimeToPeripheral:[NSDate date]];
+    [NSThread sleepForTimeInterval:0.01];
+    /** 同步硬件版本号 */
+    [[BleManager shareInstance] writeRequestVersion];
+    [NSThread sleepForTimeInterval:0.01];
+    /** 同步获取电量 */
+    [[BleManager shareInstance] writeGetElectricity];
+    [NSThread sleepForTimeInterval:0.01];
+    /** 同步界面选择 */
+    [self writeUserInterface];
+    [NSThread sleepForTimeInterval:0.01];
+    /** 同步久坐提醒 */
+    [self writeSedentReminder];
+    [NSThread sleepForTimeInterval:0.01];
+    /** 同步防丢提醒 */
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:LOST_SETTING]) {
+        [[BleManager shareInstance] writePeripheralShakeWhenUnconnectWithOforOff:[[NSUserDefaults standardUserDefaults] boolForKey:LOST_SETTING]];
+    }else {
+        [[BleManager shareInstance] writePeripheralShakeWhenUnconnectWithOforOff:NO];
+    }
+    [NSThread sleepForTimeInterval:0.01];
+    /** 同步闹钟提醒 */
+    [self writeClockReminder];
+    [NSThread sleepForTimeInterval:0.01];
+    /** 同步亮度调节 */
+    [[BleManager shareInstance] writeDimmingToPeripheral:[[NSUserDefaults standardUserDefaults] floatForKey:DIMMING_SETTING] ? [[NSUserDefaults standardUserDefaults] floatForKey:DIMMING_SETTING] : 90];
+    [NSThread sleepForTimeInterval:0.01];
+    /** 同步单位设置 */
+    [self writeUnitsSetting];
+    [NSThread sleepForTimeInterval:0.01];
+    /** 同步时间格式设置 */
+    [self writeTimeFormatterSetting];
+    [NSThread sleepForTimeInterval:0.01];
+    /** 同步计步目标 */
+    [self writeStepTargetSetting];
+    [NSThread sleepForTimeInterval:0.01];
+    /** 同步用户信息设置 */
+    [self writeUserInfoSetting];
+    [NSThread sleepForTimeInterval:0.01];
+    /** 同步电话短信配对提醒（暂时不同步电话和短信的设置） */
+    //        [self pairPhoneAndMessage];
+}
+
+#pragma mark -同步设置的数据
+- (void)pairPhoneAndMessage
+{
+    //同步提醒设置
+    Remind *rem = [[Remind alloc] init];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:PHONE_SWITCH_SETTING] && [[NSUserDefaults standardUserDefaults] boolForKey:MESSAGE_SWITCH_SETTING]) {
+        rem.phone = [[NSUserDefaults standardUserDefaults] boolForKey:PHONE_SWITCH_SETTING];
+        rem.message = [[NSUserDefaults standardUserDefaults] boolForKey:MESSAGE_SWITCH_SETTING];
+        [[BleManager shareInstance] writePhoneAndMessageRemindToPeripheral:rem];
+    }
+}
+
+- (void)writeSedentReminder
+{
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:SEDENTARY_SETTING]) {
+        NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:SEDENTARY_SETTING];
+        NSMutableArray *mutArr = [NSMutableArray array];
+        for (NSData *data in arr) {
+            SedentaryReminderModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+            [mutArr addObject:model];
+        }
+        SedentaryModel *sedModel = [[SedentaryModel alloc] init];
+        //久坐是否开启
+        sedModel.sedentaryAlert = ((SedentaryReminderModel *)mutArr[0]).switchIsOpen;
+        //勿扰是否开启
+        sedModel.unDisturb = ((SedentaryReminderModel *)mutArr[3]).switchIsOpen;
+        //开始时间
+        sedModel.sedentaryStartTime = ((SedentaryReminderModel *)mutArr[1]).time;
+        //结束时间
+        sedModel.sedentaryEndTime = ((SedentaryReminderModel *)mutArr[2]).time;
+        //勿扰开始时间
+        sedModel.disturbStartTime = @"12:00";
+        //勿扰结束时间
+        sedModel.disturbEndTime = @"14:00";
+        //步数设置
+        sedModel.stepInterval = 50;
+        [[BleManager shareInstance] writeSedentaryAlertWithSedentaryModel:sedModel];
+    }else {
+        SedentaryModel *sedModel = [[SedentaryModel alloc] init];
+        //勿扰是否开启
+        sedModel.sedentaryAlert = NO;
+        //勿扰是否开启
+        sedModel.unDisturb = NO;
+        [[BleManager shareInstance] writeSedentaryAlertWithSedentaryModel:sedModel];
+    }
+}
+
+- (void)writeClockReminder
+{
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:CLOCK_SETTING]) {
+        NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:CLOCK_SETTING];
+        NSMutableArray *mutArr = [NSMutableArray array];
+        for (NSData *data in arr) {
+            ClockModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+            [mutArr addObject:model];
+        }
+        [[BleManager shareInstance] writeClockToPeripheral:ClockDataSetClock withClockArr:[NSMutableArray arrayWithArray:mutArr]];
+    }else {
+        NSArray *timeArr = @[@"08:00", @"08:30", @"09:00", @"09:30", @"10:00"];
+        NSMutableArray *mutArr = [NSMutableArray array];
+        for (int ind = 0; ind < timeArr.count; ind ++) {
+            ClockModel *model = [[ClockModel alloc] init];
+            model.time = timeArr[ind];
+            model.isOpen = NO;
+            [mutArr addObject:model];
+        }
+        
+        [[BleManager shareInstance] writeClockToPeripheral:ClockDataSetClock withClockArr:[NSMutableArray arrayWithArray:mutArr]];
+    }
+}
+
+- (void)writeUserInterface
+{
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:WINDOW_SETTING]) {
+        NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:WINDOW_SETTING];
+        NSMutableArray *mutArr = [NSMutableArray array];
+        for (NSData *data in arr) {
+            InterfaceSelectionModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+            [mutArr addObject:model];
+        }
+        [[BleManager shareInstance] writeWindowRequset:WindowRequestModeSetWindow withDataArr:mutArr];
+    }else {
+        NSArray *nameArr = @[@"待机",@"计步",@"运动",@"心率",@"睡眠",@"查找",@"闹钟",@"关于",@"关机"];
+        NSArray *imageArr = @[@"selection_standby",@"selection_sport",@"selection_step",@"selection_heartrate",@"selection_sleep",@"selection_find",@"selection_alarmclock",@"selection_about",@"selection_turnoff"];
+        NSMutableArray *mutArr = [NSMutableArray array];
+        for (int i = 0; i < nameArr.count; i ++) {
+            InterfaceSelectionModel *model = [[InterfaceSelectionModel alloc] init];
+            model.functionName = nameArr[i];
+            model.functionImageName = imageArr[i];
+            
+            switch (i) {
+                case 0:
+                    model.windowID = 80;
+                    break;
+                case 1:
+                    model.windowID = 81;
+                    break;
+                case 2:
+                    model.windowID = 82;
+                    break;
+                case 3:
+                    model.windowID = 83;
+                    break;
+                case 4:
+                    model.windowID = 84;
+                    break;
+                case 5:
+                    model.windowID = 87;
+                    break;
+                case 6:
+                    model.windowID = 89;
+                    break;
+                case 7:
+                    model.windowID = 86;
+                    break;
+                case 8:
+                    model.windowID = 85;
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+            
+            if (i == 0) {
+                model.selectMode = SelectModeUnchoose;
+            }else {
+                model.selectMode = SelectModeSelected;
+            }
+            
+            [mutArr addObject:model];
+        }
+        
+        [[BleManager shareInstance] writeWindowRequset:WindowRequestModeSetWindow withDataArr:mutArr];
+    }
+}
+
+- (void)writeUnitsSetting
+{
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:UNITS_SETTING]) {
+        NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:UNITS_SETTING];
+        NSMutableArray *mutArr = [NSMutableArray array];
+        for (NSData *data in arr) {
+            UnitsSettingModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+            [mutArr addObject:model];
+        }
+        UnitsSettingModel *model = ((NSArray*)mutArr.firstObject).firstObject;
+        [[BleManager shareInstance] writeUnitToPeripheral:model.isSelect];
+    }else {
+        [[BleManager shareInstance] writeUnitToPeripheral:NO];
+    }
+}
+
+- (void)writeTimeFormatterSetting
+{
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:TIME_FORMATTER_SETTING]) {
+        NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:TIME_FORMATTER_SETTING];
+        NSMutableArray *mutArr = [NSMutableArray array];
+        for (NSData *data in arr) {
+            UnitsSettingModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+            [mutArr addObject:model];
+        }
+        UnitsSettingModel *model = ((NSArray*)mutArr.firstObject).firstObject;
+        
+        [[BleManager shareInstance] writeTimeFormatterToPeripheral:model.isSelect];
+    }else {
+        [[BleManager shareInstance] writeTimeFormatterToPeripheral:NO];
+    }
+}
+
+- (void)writeStepTargetSetting
+{
+    NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:TARGET_SETTING];
+    TargetSettingModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:arr.firstObject];
+    [[BleManager shareInstance] writeMotionTargetToPeripheral:model.target];
+}
+
+- (void)writeUserInfoSetting
+{
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:USER_INFO_SETTING]) {
+        NSData *infoData = [[NSUserDefaults standardUserDefaults] objectForKey:USER_INFO_SETTING];
+        UserInfoModel *infoModel = [NSKeyedUnarchiver unarchiveObjectWithData:infoData];
+        [[BleManager shareInstance] writeUserInfoToPeripheralWeight:[NSString stringWithFormat:@"%ld",(long)infoModel.weight] andHeight:[NSString stringWithFormat:@"%ld", infoModel.height]];
+    }else {
+        [[BleManager shareInstance] writeUserInfoToPeripheralWeight:@"60" andHeight:@"170"];
+    }
+}
+
+//- (void)synchronizeSettings
+//{
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        /** 同步时间 */
+//        [[BleManager shareInstance] writeTimeToPeripheral:[NSDate date]];
+//        /** 同步硬件版本号 */
+//        [[BleManager shareInstance] writeRequestVersion];
+//        /** 同步获取电量 */
+//        [[BleManager shareInstance] writeGetElectricity];
+//        /** 同步界面选择 */
+//        [self writeUserInterface];
+//        /** 同步久坐提醒 */
+//        [self writeSedentReminder];
+//        /** 同步防丢提醒 */
+//        if ([[NSUserDefaults standardUserDefaults] boolForKey:LOST_SETTING]) {
+//            [[BleManager shareInstance] writePeripheralShakeWhenUnconnectWithOforOff:[[NSUserDefaults standardUserDefaults] boolForKey:LOST_SETTING]];
+//        }else {
+//            [[BleManager shareInstance] writePeripheralShakeWhenUnconnectWithOforOff:NO];
+//        }
+//        
+//        /** 同步闹钟提醒 */
+//        [self writeClockReminder];
+//        /** 同步亮度调节 */
+//        [[BleManager shareInstance] writeDimmingToPeripheral:[[NSUserDefaults standardUserDefaults] floatForKey:DIMMING_SETTING] ? [[NSUserDefaults standardUserDefaults] floatForKey:DIMMING_SETTING] : 90];
+//        /** 同步单位设置 */
+//        [self writeUnitsSetting];
+//        /** 同步时间格式设置 */
+//        [self writeTimeFormatterSetting];
+//        /** 同步计步目标 */
+//        [self writeStepTargetSetting];
+//        /** 同步用户信息设置 */
+//        [self writeUserInfoSetting];
+//        /** 同步电话短信配对提醒（暂时不同步电话和短信的设置） */
+//        //        [self pairPhoneAndMessage];
+//    });
+//}
+
+/**
+ SET_TIME,
+ SET_FIRMWARE,
+ SET_WINDOW,
+ GET_SEDENTARY_DATA,
+ LOST_PERIPHERAL_SWITCH,
+ SET_CLOCK,
+ SET_UNITS_DATA,
+ SET_TIME_FORMATTER,
+ SET_MOTION_TARGET,
+ SET_USER_INFO;
+ */
+
+- (void)setNotificationObserver:(NSNotification *)noti
+{
+    NSLog(@"asynCount == %ld noti.name == %@",_asynCount ,noti.name);
     
+    if ([noti.name isEqualToString:SET_TIME] ||
+        [noti.name isEqualToString:SET_WINDOW] ||
+        [noti.name isEqualToString:GET_SEDENTARY_DATA] ||
+        [noti.name isEqualToString:LOST_PERIPHERAL_SWITCH] ||
+        [noti.name isEqualToString:SET_UNITS_DATA] ||
+        [noti.name isEqualToString:SET_TIME_FORMATTER] ||
+        [noti.name isEqualToString:SET_MOTION_TARGET] ||
+        [noti.name isEqualToString:SET_USER_INFO]) {
+        BOOL isFirst = noti.userInfo[@"success"];
+        if (isFirst == 1)
+        {
+            _asynCount ++;
+        }
+        else [self asynFail];
+    }else if ([noti.name isEqualToString:SET_FIRMWARE]) {
+        // 版本号,电量,亮度
+        manridyModel *model = [noti object];
+        if (model.isReciveDataRight == ResponsEcorrectnessDataRgith) {
+            if (model.receiveDataType == ReturnModelTypeFirwmave) {
+                switch (model.firmwareModel.mode) {
+                    case FirmwareModeGetVersion:
+                        //版本号
+                        [[NSUserDefaults standardUserDefaults] setObject:model.firmwareModel.version forKey:HARDWARE_VERSION];
+                        break;
+                    case FirmwareModeGetElectricity:
+                        //电量
+                        [[NSUserDefaults standardUserDefaults] setObject:model.firmwareModel.PerElectricity forKey:ELECTRICITY_INFO_SETTING];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            _asynCount ++;
+        }else [self asynFail];
+    }else if ([noti.name isEqualToString:SET_CLOCK]) {
+        manridyModel *model = [noti object];
+        if (model.isReciveDataRight == ResponsEcorrectnessDataRgith) _asynCount ++;
+        else [self asynFail];
+    }
+    if (_asynCount == 12) {
+        if (self.syncSettingSuccessBlock) {
+            self.syncSettingSuccessBlock(YES);
+        }
+    }
+}
+
+- (void)asynFail
+{
+    if (self.syncSettingSuccessBlock) {
+        self.syncSettingSuccessBlock(NO);
+    }
 }
 
 #pragma mark - Action

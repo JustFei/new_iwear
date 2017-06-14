@@ -8,14 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
-//typedef void(^SyncDataCurrentCountBlock)(NSInteger progress);
+//同步设置的回调
+typedef void(^SyncSettingSuccessBlock)(BOOL success);
 
 @interface SyncTool : NSObject
 @property (nonatomic, assign) BOOL syncDataIng;      //判断数据是否在同步中
-//@property (nonatomic, copy) SyncDataCurrentCountBlock syncDataCurrentCountBlock;
+@property (nonatomic, copy) SyncSettingSuccessBlock syncSettingSuccessBlock;
 
 + (instancetype)shareInstance;
 //同步数据
 - (void)syncAllData;
+//同步设置
+- (void)syncSetting;
 
 @end

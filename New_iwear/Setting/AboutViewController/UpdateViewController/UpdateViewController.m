@@ -10,8 +10,10 @@
 #import "PNChart.h"
 #import <iOSDFULibrary/iOSDFULibrary-Swift.h>
 #import <iOSDFULibrary/iOSDFULibrary-umbrella.h>
+#import "SyncTool.h"
+#import "AppDelegate.h"
 
-@interface UpdateViewController () <LoggerDelegate, DFUServiceDelegate, DFUProgressDelegate>
+@interface UpdateViewController () <LoggerDelegate, DFUServiceDelegate, DFUProgressDelegate, BleConnectDelegate >
 
 @property (nonatomic, strong) UIImageView *updateArrow;
 @property (nonatomic, strong) UILabel *updateStateLabel;
@@ -19,6 +21,7 @@
 @property (nonatomic, strong) PNCircleChart *updateCircle;
 @property (nonatomic, strong) UILabel *currentLabel;
 @property (nonatomic, strong) DFUServiceController *controller;
+@property (nonatomic, strong) MBProgressHUD *hud;
 
 @end
 
@@ -29,9 +32,20 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor colorWithRed:37.0 / 255.0 green:154.0 / 255.0 blue:219.0 / 255.0 alpha:1];
     
+    [BleManager shareInstance].connectDelegate = self;
     [self createUI];
     
     [self downloadUpdate];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [((AppDelegate *)[UIApplication sharedApplication].delegate) resetDelegate];
+}
+
+- (void)dealloc
+{
+    [((AppDelegate *)[UIApplication sharedApplication].delegate) resetDelegate];
 }
 
 - (void)downloadUpdate
@@ -175,12 +189,15 @@
             self.updateArrow.hidden = YES;
             self.updateStateLabel.text = @"升级成功!";
             [self.updateStateLabel setTextColor:[UIColor whiteColor]];
-//            self.sureButton.hidden = NO;
             self.currentLabel.hidden = YES;
             
             //此处需要重新设置下CentralManager 的代理方法，不然不会设置peripheral 的delegate
             [BleManager shareInstance].myCentralManager.delegate = [BleManager shareInstance];
             [[BleManager shareInstance] connectDevice:[BleManager shareInstance].currentDev];
+            
+            self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            self.hud.label.text = @"正在同步设置";
+            [self.hud showAnimated:YES];
         }
             break;
         case DFUStateAborted:
@@ -205,11 +222,30 @@
     self.currentLabel.hidden = YES;
     //[self.myBleTool connectDevice:self.myBleTool.currentDev];
 }
-//
-//-(void)didErrorOccur:(enum DFUError)error withMessage:(NSString *)message
-//{
-//    
-//}
+
+#pragma mark - BleConnectDelegate
+/**
+ *  invoked when the device did connected by the centeral
+ *
+ *  @param device the device did connected
+ */
+- (void)manridyBLEDidConnectDevice:(BleDevice *)device
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [[SyncTool shareInstance] syncSetting];
+        [SyncTool shareInstance].syncSettingSuccessBlock = ^(BOOL success) {
+            if (success) {
+                self.hud.label.text = @"同步完成";
+                [self.hud hideAnimated:YES afterDelay:1.5];
+                self.sureButton.hidden = NO;
+            }else {
+                self.hud.label.text = @"同步失败";
+                [self.hud hideAnimated:YES afterDelay:1.5];
+                self.sureButton.hidden = NO;
+            }
+        };
+    });
+}
 
 #pragma mark -DFUProgressDelegate
 - (void)dfuProgressDidChangeFor:(NSInteger)part outOf:(NSInteger)totalParts to:(NSInteger)progress currentSpeedBytesPerSecond:(double)currentSpeedBytesPerSecond avgSpeedBytesPerSecond:(double)avgSpeedBytesPerSecond
@@ -219,6 +255,8 @@
     [self.updateCircle updateChartByCurrent:@(progress)];
     self.currentLabel.text = [NSString stringWithFormat:@"已完成%ld%%", (long)progress];
 }
+
+
 
 #pragma mark - lazy
 - (PNCircleChart *)updateCircle

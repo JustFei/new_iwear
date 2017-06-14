@@ -15,5 +15,7 @@
 /** 用来判断是否显示状态栏 */
 - (void)showTheStateBar;
 
+- (void)resetDelegate;
+
 @end
 

@@ -76,6 +76,14 @@ static void completionCallback(SystemSoundID mySSID)
     return YES;
 }
 
+- (void)resetDelegate
+{
+    self.myBleManager = [BleManager shareInstance];
+    self.myBleManager.discoverDelegate = self;
+    self.myBleManager.connectDelegate = self;
+    self.myBleManager.searchDelegate = self;
+}
+
 /** 跳转到蓝牙设置界面 */
 - (void)pushToBleSet
 {

@@ -11,12 +11,7 @@
 #import "BleDevice.h"
 #import <AVFoundation/AVFoundation.h>
 #import "QRCodeScanningVC.h"
-#import "SedentaryReminderModel.h"
-#import "SedentaryModel.h"
-#import "InterfaceSelectionModel.h"
-#import "UnitsSettingModel.h"
-#import "TargetSettingModel.h"
-//#import "FMDBManager.h"
+#import "SyncTool.h"
 
 #define WIDTH self.view.frame.size.width
 
@@ -100,22 +95,6 @@
     _myBleMananger = [BleManager shareInstance];
     _myBleMananger.connectDelegate = self;
     _myBleMananger.discoverDelegate = self;
-    
-    //注册所有通知
-    NSArray *observerArr = @[SET_TIME,
-                             SET_FIRMWARE,
-                             SET_WINDOW,
-                             GET_SEDENTARY_DATA,
-                             LOST_PERIPHERAL_SWITCH,
-                             SET_CLOCK,
-                             SET_UNITS_DATA,
-                             SET_TIME_FORMATTER,
-                             SET_MOTION_TARGET,
-                             SET_USER_INFO];
-    for (NSString *keyWord in observerArr) {
-        [[NSNotificationCenter defaultCenter]
-         addObserver:self selector:@selector(setNotificationObserver:) name:keyWord object:nil];
-    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -310,295 +289,6 @@
     }
 }
 
-#pragma mark - 同步设置的数据
-- (void)pairPhoneAndMessage
-{
-    //同步提醒设置
-    Remind *rem = [[Remind alloc] init];
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:PHONE_SWITCH_SETTING] && [[NSUserDefaults standardUserDefaults] boolForKey:MESSAGE_SWITCH_SETTING]) {
-        rem.phone = [[NSUserDefaults standardUserDefaults] boolForKey:PHONE_SWITCH_SETTING];
-        rem.message = [[NSUserDefaults standardUserDefaults] boolForKey:MESSAGE_SWITCH_SETTING];
-        [self.myBleMananger writePhoneAndMessageRemindToPeripheral:rem];
-    }
-}
-
-- (void)writeSedentReminder
-{
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:SEDENTARY_SETTING]) {
-        NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:SEDENTARY_SETTING];
-        NSMutableArray *mutArr = [NSMutableArray array];
-        for (NSData *data in arr) {
-            SedentaryReminderModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-            [mutArr addObject:model];
-        }
-        SedentaryModel *sedModel = [[SedentaryModel alloc] init];
-        //久坐是否开启
-        sedModel.sedentaryAlert = ((SedentaryReminderModel *)mutArr[0]).switchIsOpen;
-        //勿扰是否开启
-        sedModel.unDisturb = ((SedentaryReminderModel *)mutArr[3]).switchIsOpen;
-        //开始时间
-        sedModel.sedentaryStartTime = ((SedentaryReminderModel *)mutArr[1]).time;
-        //结束时间
-        sedModel.sedentaryEndTime = ((SedentaryReminderModel *)mutArr[2]).time;
-        //勿扰开始时间
-        sedModel.disturbStartTime = @"12:00";
-        //勿扰结束时间
-        sedModel.disturbEndTime = @"14:00";
-        //步数设置
-        sedModel.stepInterval = 50;
-        [self.myBleMananger writeSedentaryAlertWithSedentaryModel:sedModel];
-    }else {
-        SedentaryModel *sedModel = [[SedentaryModel alloc] init];
-        //勿扰是否开启
-        sedModel.sedentaryAlert = NO;
-        //勿扰是否开启
-        sedModel.unDisturb = NO;
-        [self.myBleMananger writeSedentaryAlertWithSedentaryModel:sedModel];
-    }
-}
-
-- (void)writeClockReminder
-{
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:CLOCK_SETTING]) {
-        NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:CLOCK_SETTING];
-        NSMutableArray *mutArr = [NSMutableArray array];
-        for (NSData *data in arr) {
-            ClockModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-            [mutArr addObject:model];
-        }
-        [self.myBleMananger writeClockToPeripheral:ClockDataSetClock withClockArr:[NSMutableArray arrayWithArray:mutArr]];
-    }else {
-        NSArray *timeArr = @[@"08:00", @"08:30", @"09:00", @"09:30", @"10:00"];
-        NSMutableArray *mutArr = [NSMutableArray array];
-        for (int ind = 0; ind < timeArr.count; ind ++) {
-            ClockModel *model = [[ClockModel alloc] init];
-            model.time = timeArr[ind];
-            model.isOpen = NO;
-            [mutArr addObject:model];
-        }
-        
-        [self.myBleMananger writeClockToPeripheral:ClockDataSetClock withClockArr:[NSMutableArray arrayWithArray:mutArr]];
-    }
-}
-
-- (void)writeUserInterface
-{
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:WINDOW_SETTING]) {
-        NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:WINDOW_SETTING];
-        NSMutableArray *mutArr = [NSMutableArray array];
-        for (NSData *data in arr) {
-            InterfaceSelectionModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-            [mutArr addObject:model];
-        }
-        [self.myBleMananger writeWindowRequset:WindowRequestModeSetWindow withDataArr:mutArr];
-    }else {
-        NSArray *nameArr = @[@"待机",@"计步",@"运动",@"心率",@"睡眠",@"查找",@"闹钟",@"关于",@"关机"];
-        NSArray *imageArr = @[@"selection_standby",@"selection_sport",@"selection_step",@"selection_heartrate",@"selection_sleep",@"selection_find",@"selection_alarmclock",@"selection_about",@"selection_turnoff"];
-        NSMutableArray *mutArr = [NSMutableArray array];
-        for (int i = 0; i < nameArr.count; i ++) {
-            InterfaceSelectionModel *model = [[InterfaceSelectionModel alloc] init];
-            model.functionName = nameArr[i];
-            model.functionImageName = imageArr[i];
-            
-            switch (i) {
-                case 0:
-                    model.windowID = 80;
-                    break;
-                case 1:
-                    model.windowID = 81;
-                    break;
-                case 2:
-                    model.windowID = 82;
-                    break;
-                case 3:
-                    model.windowID = 83;
-                    break;
-                case 4:
-                    model.windowID = 84;
-                    break;
-                case 5:
-                    model.windowID = 87;
-                    break;
-                case 6:
-                    model.windowID = 89;
-                    break;
-                case 7:
-                    model.windowID = 86;
-                    break;
-                case 8:
-                    model.windowID = 85;
-                    break;
-                    
-                default:
-                    break;
-            }
-            
-            
-            if (i == 0) {
-                model.selectMode = SelectModeUnchoose;
-            }else {
-                model.selectMode = SelectModeSelected;
-            }
-            
-            [mutArr addObject:model];
-        }
-        
-        [self.myBleMananger writeWindowRequset:WindowRequestModeSetWindow withDataArr:mutArr];
-    }
-}
-
-- (void)writeUnitsSetting
-{
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:UNITS_SETTING]) {
-        NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:UNITS_SETTING];
-        NSMutableArray *mutArr = [NSMutableArray array];
-        for (NSData *data in arr) {
-            UnitsSettingModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-            [mutArr addObject:model];
-        }
-        UnitsSettingModel *model = ((NSArray*)mutArr.firstObject).firstObject;
-        [self.myBleMananger writeUnitToPeripheral:model.isSelect];
-    }else {
-        [self.myBleMananger writeUnitToPeripheral:NO];
-    }
-}
-
-- (void)writeTimeFormatterSetting
-{
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:TIME_FORMATTER_SETTING]) {
-        NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:TIME_FORMATTER_SETTING];
-        NSMutableArray *mutArr = [NSMutableArray array];
-        for (NSData *data in arr) {
-            UnitsSettingModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-            [mutArr addObject:model];
-        }
-        UnitsSettingModel *model = ((NSArray*)mutArr.firstObject).firstObject;
-        
-        [self.myBleMananger writeTimeFormatterToPeripheral:model.isSelect];
-    }else {
-        [self.myBleMananger writeTimeFormatterToPeripheral:NO];
-    }
-}
-
-- (void)writeStepTargetSetting
-{
-    NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:TARGET_SETTING];
-    TargetSettingModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:arr.firstObject];
-    [self.myBleMananger writeMotionTargetToPeripheral:model.target];
-}
-
-- (void)writeUserInfoSetting
-{
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:USER_INFO_SETTING]) {
-        NSData *infoData = [[NSUserDefaults standardUserDefaults] objectForKey:USER_INFO_SETTING];
-        UserInfoModel *infoModel = [NSKeyedUnarchiver unarchiveObjectWithData:infoData];
-        [self.myBleMananger writeUserInfoToPeripheralWeight:[NSString stringWithFormat:@"%ld",(long)infoModel.weight] andHeight:[NSString stringWithFormat:@"%ld", infoModel.height]];
-    }else {
-        [self.myBleMananger writeUserInfoToPeripheralWeight:@"60" andHeight:@"170"];
-    }
-}
-
-- (void)synchronizeSettings
-{
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        /** 同步时间 */
-        [self.myBleMananger writeTimeToPeripheral:[NSDate date]];
-        /** 同步硬件版本号 */
-        [self.myBleMananger writeRequestVersion];
-        /** 同步获取电量 */
-        [self.myBleMananger writeGetElectricity];
-        /** 同步界面选择 */
-        [self writeUserInterface];
-        /** 同步久坐提醒 */
-        [self writeSedentReminder];
-        /** 同步防丢提醒 */
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:LOST_SETTING]) {
-            [self.myBleMananger writePeripheralShakeWhenUnconnectWithOforOff:[[NSUserDefaults standardUserDefaults] boolForKey:LOST_SETTING]];
-        }else {
-            [self.myBleMananger writePeripheralShakeWhenUnconnectWithOforOff:NO];
-        }
-        
-        /** 同步闹钟提醒 */
-        [self writeClockReminder];
-        /** 同步亮度调节 */
-        [self.myBleMananger writeDimmingToPeripheral:[[NSUserDefaults standardUserDefaults] floatForKey:DIMMING_SETTING] ? [[NSUserDefaults standardUserDefaults] floatForKey:DIMMING_SETTING] : 90];
-        /** 同步单位设置 */
-        [self writeUnitsSetting];
-        /** 同步时间格式设置 */
-        [self writeTimeFormatterSetting];
-        /** 同步计步目标 */
-        [self writeStepTargetSetting];
-        /** 同步用户信息设置 */
-        [self writeUserInfoSetting];
-        /** 同步电话短信配对提醒（暂时不同步电话和短信的设置） */
-//        [self pairPhoneAndMessage];
-    });
-}
-
-/**
- SET_TIME,
- SET_FIRMWARE,
- SET_WINDOW,
- GET_SEDENTARY_DATA,
- LOST_PERIPHERAL_SWITCH,
- SET_CLOCK,
- SET_UNITS_DATA,
- SET_TIME_FORMATTER,
- SET_MOTION_TARGET,
- SET_USER_INFO;
- */
-
-- (void)setNotificationObserver:(NSNotification *)noti
-{
-    NSLog(@"asynCount == %ld noti.name == %@",_asynCount ,noti.name);
-    
-    if ([noti.name isEqualToString:SET_TIME] ||
-        [noti.name isEqualToString:SET_WINDOW] ||
-        [noti.name isEqualToString:GET_SEDENTARY_DATA] ||
-        [noti.name isEqualToString:LOST_PERIPHERAL_SWITCH] ||
-        [noti.name isEqualToString:SET_UNITS_DATA] ||
-        [noti.name isEqualToString:SET_TIME_FORMATTER] ||
-        [noti.name isEqualToString:SET_MOTION_TARGET] ||
-        [noti.name isEqualToString:SET_USER_INFO]) {
-        BOOL isFirst = noti.userInfo[@"success"];
-        if (isFirst == 1)
-        {
-            _asynCount ++;
-        }
-            else [self asynFail];
-    }else if ([noti.name isEqualToString:SET_FIRMWARE]) {
-        // 版本号,电量,亮度
-        manridyModel *model = [noti object];
-        if (model.isReciveDataRight == ResponsEcorrectnessDataRgith) {
-            if (model.receiveDataType == ReturnModelTypeFirwmave) {
-                switch (model.firmwareModel.mode) {
-                    case FirmwareModeGetVersion:
-                        //版本号
-                        [[NSUserDefaults standardUserDefaults] setObject:model.firmwareModel.version forKey:HARDWARE_VERSION];
-                        break;
-                    case FirmwareModeGetElectricity:
-                        //电量
-                        [[NSUserDefaults standardUserDefaults] setObject:model.firmwareModel.PerElectricity forKey:ELECTRICITY_INFO_SETTING];
-                        break;
-                        
-                    default:
-                        break;
-                }
-            }
-            _asynCount ++;
-        }else [self asynFail];
-    }else if ([noti.name isEqualToString:SET_CLOCK]) {
-        manridyModel *model = [noti object];
-        if (model.isReciveDataRight == ResponsEcorrectnessDataRgith) _asynCount ++;
-        else [self asynFail];
-    }
-    if (_asynCount == 12) {
-        self.hud.label.text = @"同步完成";
-        [self.hud hideAnimated:YES afterDelay:1.5];
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-}
-
 - (void)asynFail
 {
     self.hud.label.text = @"同步失败";
@@ -659,10 +349,21 @@
 //这里我使用peripheral.identifier作为设备的唯一标识，没有使用mac地址，如果出现id变化导致无法连接的情况，请转成用mac地址作为唯一标识。
 - (void)manridyBLEDidConnectDevice:(BleDevice *)device
 {
-    //同步设置条数初始化为0
-    _asynCount = 0;
     self.hud.label.text = @"正在同步设置";
-    [self synchronizeSettings];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [[SyncTool shareInstance] syncSetting];
+        [SyncTool shareInstance].syncSettingSuccessBlock = ^(BOOL success) {
+            if (success) {
+                self.hud.label.text = @"同步完成";
+                [self.hud hideAnimated:YES afterDelay:1.5];
+                [self.navigationController popViewControllerAnimated:YES];
+            }else {
+                self.hud.label.text = @"同步失败";
+                [self.hud hideAnimated:YES afterDelay:1.5];
+            }
+        };
+    });
+    
     [self.myBleMananger stopScan];
     
     [[NSUserDefaults standardUserDefaults] setValue:device.peripheral.identifier.UUIDString forKey:@"bindPeripheralID"];
@@ -679,7 +380,6 @@
 - (void)manridyBLEDidFailConnectDevice:(BleDevice *)device
 {
     self.navigationItem.rightBarButtonItem.enabled = YES;
-//    _isConnected = NO;
     UIAlertView *view = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"tips", nil) message:NSLocalizedString(@"bindErrorAndTryAgain", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"sure", nil) otherButtonTitles:nil, nil];
     view.tag = 101;
     [view show];
@@ -694,43 +394,6 @@
     index = 0;
 }
 
-//#pragma mark - BleReceiveDelegate
-//- (void)receiveVersionWithVersionStr:(NSString *)versionStr
-//{
-//    NSLog(@"固件版本号 == %@",versionStr);
-//    [[NSUserDefaults standardUserDefaults] setObject:versionStr forKey:@"version"];
-//}
-//
-//- (void)receiveChangePerNameSuccess:(BOOL)success
-//{
-//    if (success) {
-//        BleDevice *current = self.myBleMananger.currentDev;
-//        current.deviceName = self.changeName;
-////        _isConnected = NO;
-//        self.myBleMananger.isReconnect = NO;
-//        [self.myBleMananger unConnectDevice];
-//        index = -1;
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//            [self.myBleMananger connectDevice:current];
-//        });
-//    }
-//}
-//
-//- (void)receivePairWitheModel:(manridyModel *)manridyModel
-//{
-//    if (manridyModel.receiveDataType == ReturnModelTypePairSuccess) {
-//        if (manridyModel.isReciveDataRight == ResponsEcorrectnessDataFail) {
-//            if (manridyModel.pairSuccess == NO) {
-//                AlertTool *aTool = [AlertTool alertWithTitle:NSLocalizedString(@"tips", nil) message:@"配对失败，请重试。" style:UIAlertControllerStyleAlert];
-//                [aTool addAction:[AlertAction actionWithTitle:NSLocalizedString(@"sure", nil) style:AlertToolStyleDefault handler:^(AlertAction *action) {
-//                    //失败了就继续配对
-//                    [self pairPhoneAndMessage];
-//                }]];
-//                [aTool show];
-//            }
-//        }
-//    }
-//}
 
 #pragma mark - 懒加载
 - (UIImageView *)connectImageView

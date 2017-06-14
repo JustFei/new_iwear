@@ -90,7 +90,7 @@
                   moduleName = "New_iwear"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mofujian/Desktop/ProjectList/ProjectList/iwear/New_iwear/New_iwear/New_iwear/AppDelegate.m"
-                  timestampString = "519102369.157337"
+                  timestampString = "519106533.003325"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "254"
@@ -105,7 +105,7 @@
                   moduleName = "New_iwear"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mofujian/Desktop/ProjectList/ProjectList/iwear/New_iwear/New_iwear/New_iwear/AppDelegate.m"
-                  timestampString = "519102369.159052"
+                  timestampString = "519106533.004993"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "255"
@@ -330,7 +330,7 @@
                   moduleName = "New_iwear"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mofujian/Desktop/ProjectList/ProjectList/iwear/New_iwear/New_iwear/New_iwear/VersionUpdateViewController/VersionUpdateViewController.m"
-                  timestampString = "519102369.203019"
+                  timestampString = "519106533.05088"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "77"
@@ -345,7 +345,7 @@
                   moduleName = "New_iwear"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mofujian/Desktop/ProjectList/ProjectList/iwear/New_iwear/New_iwear/New_iwear/VersionUpdateViewController/VersionUpdateViewController.m"
-                  timestampString = "519102369.204739"
+                  timestampString = "519106533.052974"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "77"
@@ -360,7 +360,7 @@
                   moduleName = "New_iwear"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mofujian/Desktop/ProjectList/ProjectList/iwear/New_iwear/New_iwear/New_iwear/VersionUpdateViewController/VersionUpdateViewController.m"
-                  timestampString = "519102369.206371"
+                  timestampString = "519106533.055658"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "77"
@@ -383,6 +383,38 @@
             startingLineNumber = "79"
             endingLineNumber = "79"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/MaterialControls/MaterialControls/MaterialControls/MDSnackbar.m"
+            timestampString = "519106401.905233"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "175"
+            endingLineNumber = "175"
+            landmarkName = "-arrangeContent"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/MaterialControls/MaterialControls/MaterialControls/MDSnackbar.m"
+            timestampString = "519106403.358809"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
+            landmarkName = "-arrangeContent"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

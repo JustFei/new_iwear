@@ -175,7 +175,7 @@
             self.updateArrow.hidden = YES;
             self.updateStateLabel.text = @"升级成功!";
             [self.updateStateLabel setTextColor:[UIColor whiteColor]];
-            self.sureButton.hidden = NO;
+//            self.sureButton.hidden = NO;
             self.currentLabel.hidden = YES;
             
             //此处需要重新设置下CentralManager 的代理方法，不然不会设置peripheral 的delegate
@@ -196,11 +196,6 @@
 
 - (void)dfuError:(enum DFUError)error didOccurWithMessage:(NSString * _Nonnull)message
 {
-    
-}
-
--(void)didErrorOccur:(enum DFUError)error withMessage:(NSString *)message
-{
     NSLog(@"Error %ld: %@", (long) error, message);
     
     self.updateArrow.hidden = YES;
@@ -210,6 +205,11 @@
     self.currentLabel.hidden = YES;
     //[self.myBleTool connectDevice:self.myBleTool.currentDev];
 }
+//
+//-(void)didErrorOccur:(enum DFUError)error withMessage:(NSString *)message
+//{
+//    
+//}
 
 #pragma mark -DFUProgressDelegate
 - (void)dfuProgressDidChangeFor:(NSInteger)part outOf:(NSInteger)totalParts to:(NSInteger)progress currentSpeedBytesPerSecond:(double)currentSpeedBytesPerSecond avgSpeedBytesPerSecond:(double)avgSpeedBytesPerSecond

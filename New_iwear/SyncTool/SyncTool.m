@@ -426,6 +426,7 @@ static SyncTool *_syncTool = nil;
             self.syncDataIng = NO;
             NSLog(@"syncDataIngEnd == %d", self.syncDataIng);
             self.stateBar.text = @"同步完成";
+            
             [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_ALL_UI object:nil];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.stateBar dismiss];

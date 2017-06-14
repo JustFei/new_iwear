@@ -433,7 +433,7 @@
                 //回主线程更新 UI
                 [self.stepBarChart setXLabels:self.dateArr];
                 [self.stepBarChart setYValues:self.dataArr];
-                [self.stepBarChart strokeChart];
+                [self.stepBarChart updateChartData:self.dataArr];
             });
         });
     }
@@ -446,7 +446,7 @@
         [self.dateArr removeAllObjects];
         [self.stepBarChart strokeChart];
         self.noDataLabel.hidden = NO;
-        self.stepBarChart.hidden = YES;
+//        self.stepBarChart.hidden = YES;
     });
 }
 

@@ -750,21 +750,22 @@ static BleManager *bleManager = nil;
                 [self.discoverDelegate manridyBLEDidDiscoverDeviceWithMAC:device];
             }
         }
-    }else {
-        if ([device.uuidString isEqualToString:kServiceUUID]) {
-            device.deviceName = @"X9Plus";
-            if (![self.deviceArr containsObject:peripheral]) {
-                NSLog(@"+1");
-                [self.deviceArr addObject:peripheral];
-                
-                //返回扫描到的设备实例
-                if ([self.discoverDelegate respondsToSelector:@selector(manridyBLEDidDiscoverDeviceWithMAC:)]) {
-                    
-                    [self.discoverDelegate manridyBLEDidDiscoverDeviceWithMAC:device];
-                }
-            }
-        }
     }
+//    }else {
+//        if ([device.uuidString isEqualToString:kServiceUUID]) {
+//            device.deviceName = @"X9Plus";
+//            if (![self.deviceArr containsObject:peripheral]) {
+//                NSLog(@"+1");
+//                [self.deviceArr addObject:peripheral];
+//                
+//                //返回扫描到的设备实例
+//                if ([self.discoverDelegate respondsToSelector:@selector(manridyBLEDidDiscoverDeviceWithMAC:)]) {
+//                    
+//                    [self.discoverDelegate manridyBLEDidDiscoverDeviceWithMAC:device];
+//                }
+//            }
+//        }
+//    }
 }
 
 //连接成功

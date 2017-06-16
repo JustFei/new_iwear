@@ -173,7 +173,7 @@
 //PickerImage完成后的代理方法
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     //定义一个newPhoto，用来存放我们选择的图片。
-    UIImage *newPhoto = [info objectForKey:@"UIImagePickerControllerEditedImage"];
+    UIImage *newPhoto = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     [self saveImageToPhotoAlbum:newPhoto];
     //退出设备的相机模式
     [[BleManager shareInstance] writeCameraMode:kCameraModePhotoFinish];

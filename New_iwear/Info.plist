@@ -30,21 +30,17 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0.23</string>
+	<string>1.0.25</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>需要使用蓝牙功能</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Camera Usage</string>
-	<key>NSHealthShareUsageDescription</key>
-	<string>Health Share Usage</string>
-	<key>NSHealthUpdateUsageDescription</key>
-	<string>Health Update Usage</string>
-	<key>NSHomeKitUsageDescription</key>
-	<string>Home Kit Usage</string>
+	<string>需要使用相机功能</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Photo Add to Library</string>
+	<string>需要使用相册功能</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Photo Library Usage</string>
+	<string>需要使用相册功能</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>bluetooth-central</string>

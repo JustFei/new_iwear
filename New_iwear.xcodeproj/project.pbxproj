@@ -17,6 +17,9 @@
 		1032CA4F1ED6CC330084693D /* VersionUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032CA4E1ED6CC330084693D /* VersionUpdateViewController.m */; };
 		1032CA5A1ED6D1B80084693D /* VersionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032CA571ED6D1B80084693D /* VersionModel.m */; };
 		1032CA5B1ED6D1B80084693D /* VersionUpdateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032CA591ED6D1B80084693D /* VersionUpdateTableViewCell.m */; };
+		104741F71EF8D0AE002DC457 /* APPRemindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 104741F61EF8D0AE002DC457 /* APPRemindViewController.m */; };
+		104741FA1EF8D1BA002DC457 /* APPRemindTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 104741F91EF8D1BA002DC457 /* APPRemindTableViewCell.m */; };
+		104741FD1EF8D4BD002DC457 /* APPRemindModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 104741FC1EF8D4BD002DC457 /* APPRemindModel.m */; };
 		105156931EEF892F0080AD42 /* UpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105156921EEF892F0080AD42 /* UpdateViewController.m */; };
 		10814B2E1EDFE88C004C9B4F /* SyncTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 10814B2D1EDFE88C004C9B4F /* SyncTool.m */; };
 		10871DEC1EEA38AF0045F376 /* alert.wav in Resources */ = {isa = PBXBuildFile; fileRef = 10871DEB1EEA38AF0045F376 /* alert.wav */; };
@@ -187,6 +190,12 @@
 		1032CA571ED6D1B80084693D /* VersionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VersionModel.m; path = VersionUpdateViewController/VersionModel.m; sourceTree = "<group>"; };
 		1032CA581ED6D1B80084693D /* VersionUpdateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VersionUpdateTableViewCell.h; path = VersionUpdateViewController/VersionUpdateTableViewCell.h; sourceTree = "<group>"; };
 		1032CA591ED6D1B80084693D /* VersionUpdateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VersionUpdateTableViewCell.m; path = VersionUpdateViewController/VersionUpdateTableViewCell.m; sourceTree = "<group>"; };
+		104741F51EF8D0AE002DC457 /* APPRemindViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APPRemindViewController.h; path = Setting/RemindViewController/APPRemindViewController/APPRemindViewController.h; sourceTree = "<group>"; };
+		104741F61EF8D0AE002DC457 /* APPRemindViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APPRemindViewController.m; path = Setting/RemindViewController/APPRemindViewController/APPRemindViewController.m; sourceTree = "<group>"; };
+		104741F81EF8D1BA002DC457 /* APPRemindTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APPRemindTableViewCell.h; path = Setting/RemindViewController/APPRemindViewController/APPRemindTableViewCell.h; sourceTree = "<group>"; };
+		104741F91EF8D1BA002DC457 /* APPRemindTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APPRemindTableViewCell.m; path = Setting/RemindViewController/APPRemindViewController/APPRemindTableViewCell.m; sourceTree = "<group>"; };
+		104741FB1EF8D4BD002DC457 /* APPRemindModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APPRemindModel.h; path = Setting/RemindViewController/APPRemindViewController/APPRemindModel.h; sourceTree = "<group>"; };
+		104741FC1EF8D4BD002DC457 /* APPRemindModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APPRemindModel.m; path = Setting/RemindViewController/APPRemindViewController/APPRemindModel.m; sourceTree = "<group>"; };
 		105156911EEF892F0080AD42 /* UpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateViewController.h; sourceTree = "<group>"; };
 		105156921EEF892F0080AD42 /* UpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateViewController.m; sourceTree = "<group>"; };
 		10814B2C1EDFE88C004C9B4F /* SyncTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SyncTool.h; path = New_iwear/SyncTool/SyncTool.h; sourceTree = SOURCE_ROOT; };
@@ -447,6 +456,19 @@
 				105156901EEF892F0080AD42 /* UpdateViewController */,
 			);
 			name = VersionUpdateViewController;
+			sourceTree = "<group>";
+		};
+		104741F31EF8D07F002DC457 /* APPRemindViewController */ = {
+			isa = PBXGroup;
+			children = (
+				104741F51EF8D0AE002DC457 /* APPRemindViewController.h */,
+				104741F61EF8D0AE002DC457 /* APPRemindViewController.m */,
+				104741F81EF8D1BA002DC457 /* APPRemindTableViewCell.h */,
+				104741F91EF8D1BA002DC457 /* APPRemindTableViewCell.m */,
+				104741FB1EF8D4BD002DC457 /* APPRemindModel.h */,
+				104741FC1EF8D4BD002DC457 /* APPRemindModel.m */,
+			);
+			name = APPRemindViewController;
 			sourceTree = "<group>";
 		};
 		105156901EEF892F0080AD42 /* UpdateViewController */ = {
@@ -725,6 +747,7 @@
 				9C3AE83B1EBD7A200078CDAA /* RemindViewController.m */,
 				9C3AE83D1EBD80F40078CDAA /* RemindCollectionViewCell.h */,
 				9C3AE83E1EBD80F40078CDAA /* RemindCollectionViewCell.m */,
+				104741F31EF8D07F002DC457 /* APPRemindViewController */,
 				9CE95A5B1EC1546500E88B47 /* SedentaryReminderViewController */,
 				9CE95A661EC1C95A00E88B47 /* ClockReminderViewController */,
 				9C9E7FCF1EC2BF94004840FD /* MessageReminderViewController */,
@@ -1380,6 +1403,7 @@
 				9C079AAA1EBC612500D54AB3 /* PeripheralCellModel.m in Sources */,
 				105156931EEF892F0080AD42 /* UpdateViewController.m in Sources */,
 				9CE95A691EC1CBF700E88B47 /* ClockReminderViewController.m in Sources */,
+				104741F71EF8D0AE002DC457 /* APPRemindViewController.m in Sources */,
 				9C00DF941EC6E7BB005CB06F /* HRTableViewCell.m in Sources */,
 				9C00DF8D1EC6D93F005CB06F /* SleepHisViewController.m in Sources */,
 				9CD631241EC06F7B005EECE1 /* AboutTableViewCell.m in Sources */,
@@ -1392,6 +1416,7 @@
 				9C9E7FE61EC2E1F1004840FD /* AnalysisProcotolTool.m in Sources */,
 				9C9E800E1EC2E203004840FD /* SportTargetModel.m in Sources */,
 				9C9E80081EC2E203004840FD /* SedentaryModel.m in Sources */,
+				104741FD1EF8D4BD002DC457 /* APPRemindModel.m in Sources */,
 				10C496451ECEE739000F5769 /* FirmwareModel.m in Sources */,
 				9C4FBDBF1EB099140072E9CE /* RootViewController.m in Sources */,
 				9C9E801C1EC2E6AD004840FD /* BindPeripheralViewController.m in Sources */,
@@ -1474,6 +1499,7 @@
 				10EE89161ED6B67A007A3CE4 /* SGQRCodeConst.m in Sources */,
 				100E49061EC998D400625A93 /* TrainingViewController.m in Sources */,
 				9C079ABC1EBC8D6300D54AB3 /* TakePhotoViewController.m in Sources */,
+				104741FA1EF8D1BA002DC457 /* APPRemindTableViewCell.m in Sources */,
 				9C9E7FDE1EC2E117004840FD /* BleManager.m in Sources */,
 				9C079AAF1EBC61A800D54AB3 /* InterfaceSelectionViewController.m in Sources */,
 				9C0712281EC558E800F41754 /* SleepContentView.m in Sources */,

@@ -8,6 +8,7 @@
 
 #import "MessageReminderViewController.h"
 #import "SedentaryReminderTableViewCell.h"
+#import "APPRemindModel.h"
 
 static NSString * const MessageReminderTableViewCellID = @"MessageReminderTableViewCell";
 
@@ -88,9 +89,23 @@ static NSString * const MessageReminderTableViewCellID = @"MessageReminderTableV
     [self.hud showAnimated:YES];
     BOOL phone = [[NSUserDefaults standardUserDefaults] boolForKey:PHONE_SWITCH_SETTING];
     BOOL message = ((SedentaryReminderModel *)self.dataArr.firstObject).switchIsOpen;
+    NSMutableArray *appArr = [NSMutableArray array];
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:APP_REMIND_SETTING]) {
+        NSArray *arr = [[NSUserDefaults standardUserDefaults] objectForKey:APP_REMIND_SETTING];
+        for (NSData *data in arr) {
+            APPRemindModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+            [appArr addObject:model];
+        }
+    }
     Remind *model = [[Remind alloc] init];
     model.phone = phone;
     model.message = message;
+    if (appArr.count != 0) {
+        model.wechat = ((APPRemindModel *)appArr[0]).isSelect;
+        model.qq = ((APPRemindModel *)appArr[1]).isSelect;
+        model.whatsApp = ((APPRemindModel *)appArr[2]).isSelect;
+        model.facebook = ((APPRemindModel *)appArr[3]).isSelect;
+    }
     
     [[NSNotificationCenter defaultCenter]
      addObserver:self selector:@selector(setPairNoti:) name:GET_PAIR object:nil];

@@ -88,6 +88,8 @@
 #define MESSAGE_SWITCH_SETTING @"MessageSwitchSetting"
 //电话提醒开关保存
 #define PHONE_SWITCH_SETTING @"PhoneSwitchSetting"
+//app 设置保存
+#define APP_REMIND_SETTING @"AppRemindSetting"
 //防丢设置保存
 #define LOST_SETTING @"LostSetting"
 //亮度设置保存

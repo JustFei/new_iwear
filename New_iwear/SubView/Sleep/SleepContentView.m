@@ -294,8 +294,10 @@
                 _currentSleepData = 0;
             }
         }
-        [self.stepLabel setText:[NSString stringWithFormat:@"%.1f", sumData / 60]];
-        [self.mileageAndkCalLabel setText:[NSString stringWithFormat:@"深睡%.1f小时/浅睡%.1f小时", deepData / 60, lowData / 60]];
+        CGFloat averDeep = round((deepData / 60) * 10) / 10;
+        CGFloat averLow = round((lowData / 60) * 10) / 10;
+        [self.stepLabel setText:[NSString stringWithFormat:@"%.1f",averLow + averDeep]];
+        [self.mileageAndkCalLabel setText:[NSString stringWithFormat:@"深睡%.1f小时/浅睡%.1f小时", averDeep, averLow]];
         [self.awakeLabel setText:@"--"];
         
         for (int index = 0; index < dbArr.count; index ++) {

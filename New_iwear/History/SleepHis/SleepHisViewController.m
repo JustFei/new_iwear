@@ -343,11 +343,10 @@
                 }
             }
         }
-        float averageSumSleep = monthSumSleep / haveDataDays / 60;
-        float averageDeepSleep = monthDeepSleep / haveDataDays / 60;
-        float averageLowSleep = monthLowSleep / haveDataDays / 60;
-        
-        
+
+        //先除再加得到总和，这样不会出现因为四舍五入导致的数据不一致的情况
+        CGFloat averageDeepSleep = round(monthDeepSleep / haveDataDays / 60 * 10) / 10;
+        CGFloat averageLowSleep = round(monthLowSleep / haveDataDays / 60 * 10) / 10;
         
         dispatch_async(dispatch_get_main_queue(), ^{
             self.noDataLabel.hidden = monthSumSleep == 0 ? NO : YES;
@@ -360,12 +359,12 @@
                 [self drawCircle:0];
             }else {
                 self.noDataLabel.hidden = YES;
-                [self.stepLabel setText:[NSString stringWithFormat:@"%.2f",averageSumSleep]];
-                [self.view1StepLabel setText:[NSString stringWithFormat:@"%.2f", averageSumSleep]];
-                [self.view2MileageLabel setText:[NSString stringWithFormat:@"%.2f", averageDeepSleep]];
-                [self.view3kCalLabel setText:[NSString stringWithFormat:@"%.2f", averageLowSleep]];
+                [self.stepLabel setText:[NSString stringWithFormat:@"%.1f",averageDeepSleep + averageLowSleep]];
+                [self.view1StepLabel setText:[NSString stringWithFormat:@"%.1f", averageDeepSleep + averageLowSleep]];
+                [self.view2MileageLabel setText:[NSString stringWithFormat:@"%.1f", averageDeepSleep]];
+                [self.view3kCalLabel setText:[NSString stringWithFormat:@"%.1f", averageLowSleep]];
                 //更新圆环
-                [self drawCircle:averageSumSleep];
+                [self drawCircle:(averageDeepSleep + averageLowSleep)];
             }
             
             //更新 bar 图

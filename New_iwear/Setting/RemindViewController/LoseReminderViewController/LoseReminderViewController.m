@@ -54,9 +54,13 @@ static NSString * const LoseReminderTableViewCellID = @"LoseReminderTableViewCel
 
 - (void)saveLoseAction
 {
-    [self.hud showAnimated:YES];
-
-    [[BleManager shareInstance] writePeripheralShakeWhenUnconnectWithOforOff:((SedentaryReminderModel *)self.dataArr.firstObject).switchIsOpen];
+    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
+        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
+    }else {
+        [self.hud showAnimated:YES];
+        
+        [[BleManager shareInstance] writePeripheralShakeWhenUnconnectWithOforOff:((SedentaryReminderModel *)self.dataArr.firstObject).switchIsOpen];
+    }
 }
 
 - (void)wheatherSuccess:(NSNotification *)noti

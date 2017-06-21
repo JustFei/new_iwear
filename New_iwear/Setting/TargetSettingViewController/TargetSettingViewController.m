@@ -65,8 +65,12 @@ static NSString * const TargetSettingTableViewCellID = @"TargetSettingTableViewC
 
 - (void)saveMotionTargetAction
 {
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [[BleManager shareInstance] writeMotionTargetToPeripheral:((TargetSettingModel*)self.dataArr.firstObject).target];
+    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
+        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
+    }else {
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [[BleManager shareInstance] writeMotionTargetToPeripheral:((TargetSettingModel*)self.dataArr.firstObject).target];
+    }
 }
 
 - (void)setMotionTargetWeatherSuccess:(NSNotification *)noti

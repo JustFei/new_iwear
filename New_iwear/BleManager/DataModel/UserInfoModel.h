@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSUInteger, Metric) {
+    isMetric = 0,
+    notIsMetric
+};
 
 typedef NS_ENUM(NSUInteger, Gender) {
     GenderMan = 0,
@@ -18,13 +22,14 @@ typedef NS_ENUM(NSUInteger, Gender) {
 
 @property (nonatomic ,copy) NSString *userName;
 @property (nonatomic ,assign) Gender gender;
-@property (nonatomic ,assign) NSInteger age;
-@property (nonatomic ,assign) NSInteger height;
-@property (nonatomic ,assign) NSInteger weight;
+@property (nonatomic ,copy) NSString *age;
+@property (nonatomic ,copy) NSString *height;
+@property (nonatomic ,copy) NSString *weight;
 @property (nonatomic ,assign) NSInteger stepLength;
 @property (nonatomic ,assign) NSInteger stepTarget;
 @property (nonatomic ,assign) NSInteger sleepTarget;
+//@property (nonatomic, assign) Metric metric;
 
-+ (instancetype)userInfoModelWithUserName:(NSString *)userName andGender:(NSInteger)gender andAge:(NSInteger)age andHeight:(NSInteger)height andWeight:(NSInteger)weight andStepLength:(NSInteger)stepLength andStepTarget:(NSInteger)stepTarget andSleepTarget:(NSInteger)sleepTarget;
++ (instancetype)userInfoModelWithUserName:(NSString *)userName andGender:(NSInteger)gender andAge:(NSString *)age andHeight:(NSString *)height andWeight:(NSString *)weight andStepLength:(NSInteger)stepLength andStepTarget:(NSInteger)stepTarget andSleepTarget:(NSInteger)sleepTarget;
 
 @end

@@ -346,8 +346,8 @@ static AnalysisProcotolTool *analysisProcotolTool = nil;
         int heightValue = [NSStringTool parseIntFromData:height];
         NSString *heightStr = [NSString stringWithFormat:@"%d",heightValue];
         
-        model.userInfoModel.weight = weightStr.integerValue;
-        model.userInfoModel.height = heightStr.integerValue;
+        model.userInfoModel.weight = weightStr;
+        model.userInfoModel.height = heightStr;
         model.isReciveDataRight = ResponsEcorrectnessDataRgith;
         
     }else if ([head isEqualToString:@"86"]) {
@@ -952,8 +952,8 @@ union LAT{
         model.segmentStepModel.AHCount = ah;
         model.segmentStepModel.CHCount = ch;
         model.segmentStepModel.stepNumber = [NSString stringWithFormat:@"%d",stepValue];
-        model.segmentStepModel.kCalNumber = [NSString stringWithFormat:@"%d",kcalValue];
-        model.segmentStepModel.mileageNumber = [NSString stringWithFormat:@"%d",mileageValue];
+        model.segmentStepModel.kCalNumber = [NSString stringWithFormat:@"%d",mileageValue];
+        model.segmentStepModel.mileageNumber = [NSString stringWithFormat:@"%d",kcalValue];
         model.segmentStepModel.startTime = startTimeStr;
         model.segmentStepModel.date = dateStr;
         model.segmentStepModel.timeInterval = timeInterval;
@@ -1014,8 +1014,8 @@ union LAT{
         model.segmentRunModel.AHCount = ah;
         model.segmentRunModel.CHCount = ch;
         model.segmentRunModel.stepNumber = [NSString stringWithFormat:@"%d",stepValue];
-        model.segmentRunModel.kCalNumber = [NSString stringWithFormat:@"%d",kcalValue];
-        model.segmentRunModel.mileageNumber = [NSString stringWithFormat:@"%d",mileageValue];
+        model.segmentRunModel.kCalNumber = [NSString stringWithFormat:@"%d",mileageValue];
+        model.segmentRunModel.mileageNumber = [NSString stringWithFormat:@"%d",kcalValue];
         model.segmentRunModel.startTime = startTimeStr;
         model.segmentRunModel.date = dateStr;
         model.segmentRunModel.timeInterval = timeInterval;

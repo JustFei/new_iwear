@@ -116,8 +116,8 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 //判断是否是公制单位
 - (BOOL)isMetricOrImperialSystem
 {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isMetric"]) {
-        BOOL isMetric = [[NSUserDefaults standardUserDefaults] boolForKey:@"isMetric"];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:LONG_MEASURE]) {
+        BOOL isMetric = [[NSUserDefaults standardUserDefaults] boolForKey:LONG_MEASURE];
         return isMetric;
     }else {
         return NO;
@@ -191,13 +191,28 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
                 self.infoModel.gender = self.currentIndex;
                 break;
             case PickerTypeAge:
-                self.infoModel.age = self.currentIndex;
+                self.infoModel.age = self.ageArr[self.currentIndex];
                 break;
             case PickerTypeHeight:
-                self.infoModel.height = self.currentIndex;
+            {
+                if (self.isMetric) {
+                    self.infoModel.height = self.heightArr[self.currentIndex];
+                }else {
+                    //如果为英制，公制转换成英制在显示
+                    float height = [UnitsTool cmAndInch:((NSString *)self.heightArr[self.currentIndex]).integerValue withMode:ImperialToMetric];
+                    self.infoModel.height = [NSString stringWithFormat:@"%.0f", height];
+                }
+            }
                 break;
             case PickerTypeWeight:
-                self.infoModel.weight = self.currentIndex;
+            {
+                if (self.isMetric) {
+                    self.infoModel.weight = self.weightArr[self.currentIndex];
+                }else {
+                    float weight = [UnitsTool kgAndLb:((NSString *)self.weightArr[self.currentIndex]).integerValue withMode:ImperialToMetric];
+                    self.infoModel.weight = [NSString stringWithFormat:@"%.0f", weight];
+                }
+            }
                 break;
                 
             default:
@@ -229,7 +244,12 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
         {
             NSInteger index;
             if (![infoText isEqualToString:@"请选择"]) {
-                index = self.infoModel.age;
+                NSUInteger ind = [self.ageArr indexOfObject:self.infoModel.age];
+                if(ind == NSNotFound) {
+                    index = 0;
+                }else {
+                    index = ind;
+                }
             }else {
                 index = 0;
             }
@@ -241,7 +261,18 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
         {
             NSInteger index;
             if (![infoText isEqualToString:@"请选择"]) {
-                index = self.infoModel.height;
+                NSUInteger ind = 0;
+                if (self.isMetric) {
+                    ind = [self.heightArr indexOfObject:self.infoModel.height];
+                }else {
+                    float height = [UnitsTool cmAndInch:((NSString *)self.infoModel.height).integerValue withMode:MetricToImperial];
+                    ind = [self.heightArr indexOfObject:[NSString stringWithFormat:@"%.0f", height]];
+                }
+                if(ind == NSNotFound) {
+                    index = 0;
+                }else {
+                    index = ind;
+                }
             }else {
                 index = 0;
             }
@@ -253,7 +284,18 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
         {
             NSInteger index;
             if (![infoText isEqualToString:@"请选择"]) {
-                index = self.infoModel.weight;
+                NSUInteger ind = 0;
+                if (self.isMetric) {
+                    ind = [self.weightArr indexOfObject:self.infoModel.weight];
+                }else {
+                    float weight = [UnitsTool kgAndLb:((NSString *)self.infoModel.weight).integerValue withMode:MetricToImperial];
+                    ind = [self.weightArr indexOfObject:[NSString stringWithFormat:@"%.0f", weight]];
+                }
+                if(ind == NSNotFound) {
+                    index = 0;
+                }else {
+                    index = ind;
+                }
             }else {
                 index = 0;
             }
@@ -277,7 +319,7 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
         [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
     }else {
         //写入身高体重到设备
-        [[BleManager shareInstance] writeUserInfoToPeripheralWeight: self.weightArr[self.infoModel.weight] andHeight:self.heightArr[self.infoModel.height]];
+        [[BleManager shareInstance] writeUserInfoToPeripheralWeight: self.infoModel.weight andHeight:self.infoModel.height];
     }
 }
 
@@ -516,10 +558,21 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
         NSArray *nameArr = @[NSLocalizedString(@"性别", nil),NSLocalizedString(@"年龄", nil),NSLocalizedString(@"身高", nil),NSLocalizedString(@"体重", nil)];
         NSArray *fieldPlaceholdeArr;
         if (self.infoModel) {
-            fieldPlaceholdeArr = @[self.infoModel.gender ? @"女" : @"男",
-                                   self.infoModel.age ? self.ageArr[self.infoModel.age] : @"请选择",
-                                   self.infoModel.height ? self.heightArr[self.infoModel.height] : @"请选择",
-                                   self.infoModel.weight ? self.weightArr[self.infoModel.weight] : @"请选择"];
+            //如果当前是公制，直接显示公制
+            if (self.isMetric) {
+                fieldPlaceholdeArr = @[self.infoModel.gender ? @"女" : @"男",
+                                       self.infoModel.age ? self.infoModel.age : @"请选择",
+                                       self.infoModel.height ? self.infoModel.height : @"请选择",
+                                       self.infoModel.weight ? self.infoModel.weight : @"请选择"];
+            }else {
+                //如果为英制，公制转换成英制在显示
+                float height = [UnitsTool cmAndInch:self.infoModel.height.integerValue withMode:MetricToImperial];
+                float weight = [UnitsTool kgAndLb:self.infoModel.weight.integerValue withMode:MetricToImperial];
+                fieldPlaceholdeArr = @[self.infoModel.gender ? @"女" : @"男",
+                                       self.infoModel.age ? self.infoModel.age : @"请选择",
+                                       self.infoModel.height ? [NSString stringWithFormat:@"%.0f", height] : @"请选择",
+                                       self.infoModel.weight ? [NSString stringWithFormat:@"%.0f", weight] : @"请选择"];
+            }
         }else {
             fieldPlaceholdeArr = @[@"请选择",@"请选择",@"请选择",@"请选择"];
         }
@@ -579,10 +632,18 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 {
     if (!_heightArr) {
         NSMutableArray *heightMutArr = [NSMutableArray array];
-        for (int i = 90; i <= 200; i ++) {
-            NSString *height = [NSString stringWithFormat:@"%d",i];
-            [heightMutArr addObject:height];
+        if (self.isMetric) {
+            for (int i = 90; i <= 200; i ++) {
+                NSString *height = [NSString stringWithFormat:@"%d",i];
+                [heightMutArr addObject:height];
+            }
+        }else {
+            for (int i = 35; i <= 78; i ++) {
+                NSString *height = [NSString stringWithFormat:@"%d",i];
+                [heightMutArr addObject:height];
+            }
         }
+        
         _heightArr = heightMutArr;
     }
     
@@ -593,10 +654,20 @@ static NSString * const UserInfoTableViewCellID = @"UserInfoTableViewCell";
 {
     if (!_weightArr) {
         NSMutableArray *weightMutArr = [NSMutableArray array];
-        for (int i = 15; i <= 150; i ++) {
-            NSString *weight = [NSString stringWithFormat:@"%d",i];
-            [weightMutArr addObject:weight];
+        if (self.isMetric) {
+            //公制数据源
+            for (int i = 15; i <= 150; i ++) {
+                NSString *weight = [NSString stringWithFormat:@"%d",i];
+                [weightMutArr addObject:weight];
+            }
+        }else {
+            //英制数据源
+            for (int i = 33; i <= 330; i ++) {
+                NSString *weight = [NSString stringWithFormat:@"%d",i];
+                [weightMutArr addObject:weight];
+            }
         }
+        
         _weightArr = weightMutArr;
     }
     

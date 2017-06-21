@@ -11,19 +11,19 @@
 @implementation UnitsTool
 
 /** 厘米转英寸 */
-+ (NSInteger)cmAndInch:(NSInteger)param withMode:(Mode)mode
++ (float)cmAndInch:(NSInteger)param withMode:(Mode)mode
 {
     return mode == MetricToImperial ? param * 0.3937 : param / 0.3937;
 }
 
 /** 千克转磅 */
-+ (NSInteger)kgAndLb:(NSInteger)param withMode:(Mode)mode
++ (float)kgAndLb:(NSInteger)param withMode:(Mode)mode
 {
     return mode == MetricToImperial ? param * 2.205 : param / 2.205;
 }
 
 /** 千米转英里 */
-+ (NSInteger)kmAndMi:(NSInteger)param withMode:(Mode)mode
++ (float)kmAndMi:(NSInteger)param withMode:(Mode)mode
 {
     return mode == MetricToImperial ? param * 0.62137 : param / 0.62137;
 }
@@ -31,11 +31,11 @@
 //判断是否是公制单位
 + (BOOL)isMetricOrImperialSystem
 {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isMetric"]) {
-        BOOL isMetric = [[NSUserDefaults standardUserDefaults] boolForKey:@"isMetric"];
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:LONG_MEASURE]) {
+        BOOL isMetric = [[NSUserDefaults standardUserDefaults] boolForKey:LONG_MEASURE];
         return isMetric;
     }else {
-        return NO;
+        return YES;
     }
 }
 

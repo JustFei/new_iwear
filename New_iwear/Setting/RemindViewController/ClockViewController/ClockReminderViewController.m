@@ -54,11 +54,15 @@ static NSString *const ClockTableViewCellID = @"ClockTableViewCell";
 
 - (void)saveClockAction
 {
-    [self.hud showAnimated:YES];
-    
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self selector:@selector(setClockNoti:) name:SET_CLOCK object:nil];
-    [[BleManager shareInstance] writeClockToPeripheral:ClockDataSetClock withClockArr:[NSMutableArray arrayWithArray:self.dataArr]];
+    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
+        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
+    }else {
+        [self.hud showAnimated:YES];
+        
+        [[NSNotificationCenter defaultCenter]
+         addObserver:self selector:@selector(setClockNoti:) name:SET_CLOCK object:nil];
+        [[BleManager shareInstance] writeClockToPeripheral:ClockDataSetClock withClockArr:[NSMutableArray arrayWithArray:self.dataArr]];
+    }
 }
 
 - (void)setClockNoti:(NSNotification *)noti

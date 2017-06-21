@@ -97,26 +97,30 @@ static NSString *const SedentaryReminderTableViewCellID = @"SedentaryReminderTab
  */
 - (void)saveAction
 {
-    [self.hud showAnimated:YES];
-    SedentaryModel *sedModel = [[SedentaryModel alloc] init];
-    //久坐是否开启
-    sedModel.sedentaryAlert = ((SedentaryReminderModel *)self.dataArr[0]).switchIsOpen;
-    //勿扰是否开启
-    sedModel.unDisturb = ((SedentaryReminderModel *)self.dataArr[3]).switchIsOpen;
-    //开始时间
-    sedModel.sedentaryStartTime = ((SedentaryReminderModel *)self.dataArr[1]).time;
-    //结束时间
-    sedModel.sedentaryEndTime = ((SedentaryReminderModel *)self.dataArr[2]).time;
-    //勿扰开始时间
-    sedModel.disturbStartTime = @"12:00";
-    //勿扰结束时间
-    sedModel.disturbEndTime = @"14:00";
-    //步数设置
-    sedModel.stepInterval = 50;
-    
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self selector:@selector(weatheSuccess:) name:GET_SEDENTARY_DATA object:nil];
-    [[BleManager shareInstance] writeSedentaryAlertWithSedentaryModel:sedModel];
+    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
+        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
+    }else {
+        [self.hud showAnimated:YES];
+        SedentaryModel *sedModel = [[SedentaryModel alloc] init];
+        //久坐是否开启
+        sedModel.sedentaryAlert = ((SedentaryReminderModel *)self.dataArr[0]).switchIsOpen;
+        //勿扰是否开启
+        sedModel.unDisturb = ((SedentaryReminderModel *)self.dataArr[3]).switchIsOpen;
+        //开始时间
+        sedModel.sedentaryStartTime = ((SedentaryReminderModel *)self.dataArr[1]).time;
+        //结束时间
+        sedModel.sedentaryEndTime = ((SedentaryReminderModel *)self.dataArr[2]).time;
+        //勿扰开始时间
+        sedModel.disturbStartTime = @"12:00";
+        //勿扰结束时间
+        sedModel.disturbEndTime = @"14:00";
+        //步数设置
+        sedModel.stepInterval = 50;
+        
+        [[NSNotificationCenter defaultCenter]
+         addObserver:self selector:@selector(weatheSuccess:) name:GET_SEDENTARY_DATA object:nil];
+        [[BleManager shareInstance] writeSedentaryAlertWithSedentaryModel:sedModel];
+    }
 }
 
 - (void)weatheSuccess:(NSNotification *)noti
@@ -177,13 +181,9 @@ static NSString *const SedentaryReminderTableViewCellID = @"SedentaryReminderTab
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
-        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
-    }else {
-        //do some thing
-        if (indexPath.row == 1 || indexPath.row == 2) {
-            [self showTimePickerViewWith:indexPath];
-        }
+    
+    if (indexPath.row == 1 || indexPath.row == 2) {
+        [self showTimePickerViewWith:indexPath];
     }
 }
 

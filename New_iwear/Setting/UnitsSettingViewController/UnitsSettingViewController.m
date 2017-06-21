@@ -53,12 +53,16 @@ static NSString * const UnitsSettingTableViewCellID = @"UnitsSettingTableViewCel
 
 - (void)saveUnitsAction
 {
-    NSArray *arr1 = self.dataArr.firstObject;
-    UnitsSettingModel *model = arr1.lastObject;//英制的选择
-    
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    [self.hud showAnimated:YES];
-    [[BleManager shareInstance] writeUnitToPeripheral:model.isSelect];
+    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
+        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
+    }else {
+        NSArray *arr1 = self.dataArr.firstObject;
+        UnitsSettingModel *model = arr1.lastObject;//英制的选择
+        
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        //    [self.hud showAnimated:YES];
+        [[BleManager shareInstance] writeUnitToPeripheral:model.isSelect];
+    }
 }
 
 /*推送公制和英制单位
@@ -85,14 +89,14 @@ static NSString * const UnitsSettingTableViewCellID = @"UnitsSettingTableViewCel
         MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
         [sucToast show];
         NSArray *arr1 = self.dataArr.firstObject;
-        NSArray *arr2 = self.dataArr.lastObject;
-        UnitsSettingModel *heightModel = arr1.lastObject;
-        UnitsSettingModel *weightModel = arr2.lastObject;
+//        NSArray *arr2 = self.dataArr.lastObject;
+        UnitsSettingModel *heightModel = arr1.firstObject;
+//        UnitsSettingModel *weightModel = arr2.lastObject;
         //保存设置到本地
         //长度单位
         [[NSUserDefaults standardUserDefaults] setBool:heightModel.isSelect forKey:LONG_MEASURE];
         //重量单位
-        [[NSUserDefaults standardUserDefaults] setBool:weightModel.isSelect forKey:HUNDRED_WEIGHT];
+//        [[NSUserDefaults standardUserDefaults] setBool:weightModel.isSelect forKey:HUNDRED_WEIGHT];
         [self.navigationController popViewControllerAnimated:YES];
     }else {
         //做失败处理
@@ -204,23 +208,25 @@ static NSString * const UnitsSettingTableViewCellID = @"UnitsSettingTableViewCel
             }
             _dataArr = mutArr;
         }else {
-            NSArray *sec1 = @[@"公制(米/公里)", @"英制(英寸/英尺/英里)"];
-            NSArray *sec2 = @[@"公制(公斤/千克)",@"英制(磅)"];
+            NSArray *sec1 = @[@"公制(米/公里/千克)", @"英制(英寸/英尺/英磅)"];
+//            NSArray *sec2 = @[@"公制(公斤)",@"英制()"];
             NSMutableArray *mutArr1 = [NSMutableArray array];
-            NSMutableArray *mutArr2 = [NSMutableArray array];
+//            NSMutableArray *mutArr2 = [NSMutableArray array];
             for (int index = 0; index < sec1.count; index ++) {
                 UnitsSettingModel *model = [[UnitsSettingModel alloc] init];
                 model.name = sec1[index];
                 model.isSelect = index == 0 ? YES : NO;
                 [mutArr1 addObject:model];
             }
-            for (int index = 0; index < sec2.count; index ++) {
-                UnitsSettingModel *model = [[UnitsSettingModel alloc] init];
-                model.name = sec2[index];
-                model.isSelect = index == 0 ? YES : NO;
-                [mutArr2 addObject:model];
-            }
-            _dataArr = @[mutArr1, mutArr2];
+//            for (int index = 0; index < sec2.count; index ++) {
+//                UnitsSettingModel *model = [[UnitsSettingModel alloc] init];
+//                model.name = sec2[index];
+//                model.isSelect = index == 0 ? YES : NO;
+//                [mutArr2 addObject:model];
+//            }
+            _dataArr = @[mutArr1
+//                         mutArr2
+                         ];
         }
     }
     

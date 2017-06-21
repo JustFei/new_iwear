@@ -191,7 +191,6 @@ static NSString *const APPRemindTableViewCellID = @"APPRemindTableViewCell";
                 APPRemindModel *model = [[APPRemindModel alloc] init];
                 model.imageName = imageNameArr[index];
                 model.name = nameArr[index];
-//#warning 这里需要处理
                 model.isSelect = NO;
                 [mutArr addObject:model];
             }

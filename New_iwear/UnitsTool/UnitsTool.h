@@ -16,11 +16,11 @@ typedef enum : NSUInteger {
 @interface UnitsTool : NSObject
 
 /** 厘米转英寸 */
-+ (NSInteger)cmAndInch:(NSInteger)param withMode:(Mode)mode;
++ (float)cmAndInch:(NSInteger)param withMode:(Mode)mode;
 /** 千克转磅 */
-+ (NSInteger)kgAndLb:(NSInteger)param withMode:(Mode)mode;
++ (float)kgAndLb:(NSInteger)param withMode:(Mode)mode;
 /** 千米转英里 */
-+ (NSInteger)kmAndMi:(NSInteger)param withMode:(Mode)mode;
++ (float)kmAndMi:(NSInteger)param withMode:(Mode)mode;
 //判断是否是公制单位
 + (BOOL)isMetricOrImperialSystem;
 @end

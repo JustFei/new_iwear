@@ -56,10 +56,14 @@ static NSString * const TimeFormatterSettingTableViewCellID = @"TimeFormatterSet
 
 - (void)saveTimeFormatterAction
 {
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    UnitsSettingModel *model = ((NSArray*)self.dataArr.firstObject).firstObject;
-    
-    [[BleManager shareInstance] writeTimeFormatterToPeripheral:model.isSelect];
+    if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
+        [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
+    }else {
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        UnitsSettingModel *model = ((NSArray*)self.dataArr.firstObject).firstObject;
+        
+        [[BleManager shareInstance] writeTimeFormatterToPeripheral:model.isSelect];
+    }
 }
 
 - (void)setTimeFormatterWeatherSuccess:(NSNotification *)noti

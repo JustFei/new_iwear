@@ -77,7 +77,6 @@
 		9C4FBDC31EB099D90072E9CE /* BaseNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDC21EB099D90072E9CE /* BaseNavigationViewController.m */; };
 		9C4FBDC71EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4FBDC61EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m */; };
 		9C87EB281EC5B6BD0051C59D /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C87EB271EC5B6BD0051C59D /* test.swift */; };
-		9C87EB2A1EC5B7100051C59D /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9C87EB231EC5B60B0051C59D /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9C9E7FCA1EC2AC9E004840FD /* ClockTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FC91EC2AC9E004840FD /* ClockTableViewCell.m */; };
 		9C9E7FCE1EC2B224004840FD /* ClockModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FCD1EC2B224004840FD /* ClockModel.m */; };
 		9C9E7FD21EC2C06B004840FD /* MessageReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E7FD11EC2C06B004840FD /* MessageReminderViewController.m */; };
@@ -127,30 +126,6 @@
 		9CE95A691EC1CBF700E88B47 /* ClockReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE95A681EC1CBF700E88B47 /* ClockReminderViewController.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		9C87EB221EC5B60B0051C59D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9C87EB1D1EC5B60B0051C59D /* Charts.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 06165F241D8110E600722320;
-			remoteInfo = Charts;
-		};
-		9C87EB241EC5B60B0051C59D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9C87EB1D1EC5B60B0051C59D /* Charts.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 06165F2E1D8110E600722320;
-			remoteInfo = ChartsTests;
-		};
-		9C87EB2B1EC5B7100051C59D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9C87EB1D1EC5B60B0051C59D /* Charts.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 06165F231D8110E600722320;
-			remoteInfo = Charts;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		9C87EB2D1EC5B7100051C59D /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -158,7 +133,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9C87EB2A1EC5B7100051C59D /* Charts.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -311,7 +285,6 @@
 		9C4FBDC61EB0A9660072E9CE /* UINavigationController+FDFullscreenPopGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FDFullscreenPopGesture.m"; sourceTree = "<group>"; };
 		9C5CC3BC1EBC1B96009C07A5 /* FrameConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FrameConstants.h; path = Constants/FrameConstants.h; sourceTree = "<group>"; };
 		9C6D07141EC5B48C0000FAE6 /* MaterialControls.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MaterialControls.framework; path = "Pods/../build/Debug-iphoneos/MaterialControls/MaterialControls.framework"; sourceTree = "<group>"; };
-		9C87EB1D1EC5B60B0051C59D /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = "Charts-master/Charts.xcodeproj"; sourceTree = "<group>"; };
 		9C87EB261EC5B6BC0051C59D /* New_iwear-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "New_iwear-Bridging-Header.h"; sourceTree = "<group>"; };
 		9C87EB271EC5B6BD0051C59D /* test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = test.swift; path = SupportingFiles/test.swift; sourceTree = "<group>"; };
 		9C9E7FC81EC2AC9E004840FD /* ClockTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClockTableViewCell.h; path = Setting/RemindViewController/ClockViewController/ClockTableViewCell.h; sourceTree = "<group>"; };
@@ -859,15 +832,6 @@
 			path = FDFullscreenPopGesture;
 			sourceTree = "<group>";
 		};
-		9C87EB1E1EC5B60B0051C59D /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				9C87EB231EC5B60B0051C59D /* Charts.framework */,
-				9C87EB251EC5B60B0051C59D /* ChartsTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		9C9E7FCB1EC2B1F6004840FD /* ClockModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -1095,7 +1059,6 @@
 		9CDEAC4C1EB078EC00279EDA = {
 			isa = PBXGroup;
 			children = (
-				9C87EB1D1EC5B60B0051C59D /* Charts.xcodeproj */,
 				9CDEAC571EB078EC00279EDA /* New_iwear */,
 				9CDEAC561EB078EC00279EDA /* Products */,
 				AB0A39F28BA9571F790DB97C /* Pods */,
@@ -1263,7 +1226,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				9C87EB2C1EC5B7100051C59D /* PBXTargetDependency */,
 			);
 			name = New_iwear;
 			productName = New_iwear;
@@ -1316,35 +1278,12 @@
 			mainGroup = 9CDEAC4C1EB078EC00279EDA;
 			productRefGroup = 9CDEAC561EB078EC00279EDA /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 9C87EB1E1EC5B60B0051C59D /* Products */;
-					ProjectRef = 9C87EB1D1EC5B60B0051C59D /* Charts.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				9CDEAC541EB078EC00279EDA /* New_iwear */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		9C87EB231EC5B60B0051C59D /* Charts.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Charts.framework;
-			remoteRef = 9C87EB221EC5B60B0051C59D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9C87EB251EC5B60B0051C59D /* ChartsTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = ChartsTests.xctest;
-			remoteRef = 9C87EB241EC5B60B0051C59D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		9CDEAC531EB078EC00279EDA /* Resources */ = {
@@ -1529,14 +1468,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		9C87EB2C1EC5B7100051C59D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Charts;
-			targetProxy = 9C87EB2B1EC5B7100051C59D /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		9CDEAC691EB078EC00279EDA /* LaunchScreen.storyboard */ = {

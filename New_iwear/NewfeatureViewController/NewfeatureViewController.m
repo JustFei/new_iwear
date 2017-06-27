@@ -99,9 +99,13 @@
     imgView.userInteractionEnabled = YES;
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
 //    [btn setBackgroundImage:[UIImage imageNamed:@"cancel_ask"] forState:UIControlStateNormal];
-//    btn.size = btn.currentBackgroundImage.size;
+    btn.size = CGSizeMake(200, 50);
     btn.centerX = imgView.width * 0.5;
-    btn.centerY = imgView.height * 0.75;
+    btn.centerY = imgView.height * 0.55;
+    btn.layer.borderWidth = 1;
+    btn.layer.borderColor = WHITE_COLOR.CGColor;
+    btn.layer.cornerRadius = 10;
+    btn.layer.masksToBounds = YES;
     [btn setTitle:@"开启健康生活" forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(BtnDidClicked) forControlEvents:UIControlEventTouchUpInside];
@@ -120,6 +124,10 @@
     [nc.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont systemFontOfSize:15]}];
     window.rootViewController = nc;
+    
+    if (self.enterMainVCBlock) {
+        self.enterMainVCBlock();
+    }
 }
 
 @end

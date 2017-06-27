@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^EnterMainVCBlock)(void);
+
 @interface NewfeatureViewController : UIViewController
+
+@property (nonatomic, copy) EnterMainVCBlock enterMainVCBlock;
 
 @end

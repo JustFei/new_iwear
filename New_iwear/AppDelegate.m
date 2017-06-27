@@ -84,10 +84,26 @@ static void completionCallback(SystemSoundID mySSID)
         }];
         
     } else { // 这次打开的版本和上一次不一样，显示新特性
-        self.window.rootViewController = [[NewfeatureViewController alloc] init];
-        // 将当前的版本号存进沙盒
-        [[NSUserDefaults standardUserDefaults] setObject:currentVersion forKey:CF_BUNDLE_VERSION];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        NewfeatureViewController *vc = [[NewfeatureViewController alloc] init];
+        self.window.rootViewController = vc;
+        
+        vc.enterMainVCBlock = ^{
+            self.myBleManager = [BleManager shareInstance];
+            self.myBleManager.discoverDelegate = self;
+            self.myBleManager.connectDelegate = self;
+            self.myBleManager.searchDelegate = self;
+            //监听state变化的状态
+            [self.myBleManager addObserver:self forKeyPath:@"systemBLEstate" options: NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
+            
+            //注册通知
+            // 申请通知权限
+            [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:(UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error) {
+            }];
+            
+            // 将当前的版本号存进沙盒
+            [[NSUserDefaults standardUserDefaults] setObject:currentVersion forKey:CF_BUNDLE_VERSION];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        };
     }
     // 3.显示窗口
     [self.window makeKeyAndVisible];

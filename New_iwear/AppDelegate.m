@@ -7,12 +7,14 @@
 //
 
 #import "AppDelegate.h"
+#import "NewfeatureViewController.h"
 #import "MainViewController.h"
 #import "BindPeripheralViewController.h"
 #import "BleManager.h"
 #import <UserNotifications/UserNotifications.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <Bugly/Bugly.h>
+
 
 @interface AppDelegate () < BleConnectDelegate, BleDiscoverDelegate, BleReceiveSearchResquset, UNUserNotificationCenterDelegate >
 {
@@ -41,37 +43,54 @@ static void completionCallback(SystemSoundID mySSID)
     //保存 log
     [self redirectNSLogToDocumentFolder];
     
-    //监听查找手机通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getSearchPhoneNoti:) name:SET_FIND_PHONE object:nil];
     
-    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    // 1.创建窗口
+    self.window = [[UIWindow alloc] init];
+    self.window.frame = [UIScreen mainScreen].bounds;
+    // 2.设置根控制器
+    //NSString *key = @"CFBundleVersion";
+    // 上一次的使用版本（存储在沙盒中的版本号）
+    NSString *lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:CF_BUNDLE_VERSION];
+    // 当前软件的版本号（从Info.plist中获得）
+    NSString *currentVersion = [NSBundle mainBundle].infoDictionary[CF_BUNDLE_VERSION];
+    if ([currentVersion isEqualToString:lastVersion]) { // 版本号相同：这次打开和上次打开的是同一个版本
+//        self.window.rootViewController = [[LYWTabBarViewController alloc] init];
+        
+        //监听查找手机通知
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getSearchPhoneNoti:) name:SET_FIND_PHONE object:nil];
+        
+//        self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        [self.window makeKeyAndVisible];
+        self.window.backgroundColor = WHITE_COLOR;
+        
+        self.mainVC = [[MainViewController alloc]init];
+        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:self.mainVC];
+        
+        //修改title颜色和font
+        [nc.navigationBar setTitleTextAttributes:
+         @{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont systemFontOfSize:15]}];
+        self.window.rootViewController = nc;
+        
+        self.myBleManager = [BleManager shareInstance];
+        self.myBleManager.discoverDelegate = self;
+        self.myBleManager.connectDelegate = self;
+        self.myBleManager.searchDelegate = self;
+        //监听state变化的状态
+        [self.myBleManager addObserver:self forKeyPath:@"systemBLEstate" options: NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
+        
+        //注册通知
+        // 申请通知权限
+        [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:(UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error) {
+        }];
+        
+    } else { // 这次打开的版本和上一次不一样，显示新特性
+        self.window.rootViewController = [[NewfeatureViewController alloc] init];
+        // 将当前的版本号存进沙盒
+        [[NSUserDefaults standardUserDefaults] setObject:currentVersion forKey:CF_BUNDLE_VERSION];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    // 3.显示窗口
     [self.window makeKeyAndVisible];
-    self.window.backgroundColor = WHITE_COLOR;
-    
-    //初始化一个tabBar控制器
-    self.mainVC = [[MainViewController alloc]init];
-    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:self.mainVC];
-//    [nc.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-////    nc.navigationBar.barStyle = UIBarStyleBlack;
-//    nc.navigationBar.translucent = NO;
-//    [nc.navigationBar setShadowImage:[UIImage new]];
-
-    //修改title颜色和font
-    [nc.navigationBar setTitleTextAttributes:
-     @{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont systemFontOfSize:15]}];
-    self.window.rootViewController = nc;
-    
-    self.myBleManager = [BleManager shareInstance];
-    self.myBleManager.discoverDelegate = self;
-    self.myBleManager.connectDelegate = self;
-    self.myBleManager.searchDelegate = self;
-    //监听state变化的状态
-    [self.myBleManager addObserver:self forKeyPath:@"systemBLEstate" options: NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
-    
-    //注册通知
-    // 申请通知权限
-    [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:(UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error) {
-    }];
     
     return YES;
 }

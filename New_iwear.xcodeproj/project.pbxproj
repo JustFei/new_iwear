@@ -20,6 +20,8 @@
 		104741F71EF8D0AE002DC457 /* APPRemindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 104741F61EF8D0AE002DC457 /* APPRemindViewController.m */; };
 		104741FA1EF8D1BA002DC457 /* APPRemindTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 104741F91EF8D1BA002DC457 /* APPRemindTableViewCell.m */; };
 		104741FD1EF8D4BD002DC457 /* APPRemindModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 104741FC1EF8D4BD002DC457 /* APPRemindModel.m */; };
+		104F1C311F0237E800BE6B1E /* NewfeatureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 104F1C301F0237E800BE6B1E /* NewfeatureViewController.m */; };
+		104F1C341F02410000BE6B1E /* UIView+Layout.m in Sources */ = {isa = PBXBuildFile; fileRef = 104F1C331F02410000BE6B1E /* UIView+Layout.m */; };
 		105156931EEF892F0080AD42 /* UpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105156921EEF892F0080AD42 /* UpdateViewController.m */; };
 		10814B2E1EDFE88C004C9B4F /* SyncTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 10814B2D1EDFE88C004C9B4F /* SyncTool.m */; };
 		10871DEC1EEA38AF0045F376 /* alert.wav in Resources */ = {isa = PBXBuildFile; fileRef = 10871DEB1EEA38AF0045F376 /* alert.wav */; };
@@ -196,6 +198,10 @@
 		104741F91EF8D1BA002DC457 /* APPRemindTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APPRemindTableViewCell.m; path = Setting/RemindViewController/APPRemindViewController/APPRemindTableViewCell.m; sourceTree = "<group>"; };
 		104741FB1EF8D4BD002DC457 /* APPRemindModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APPRemindModel.h; path = Setting/RemindViewController/APPRemindViewController/APPRemindModel.h; sourceTree = "<group>"; };
 		104741FC1EF8D4BD002DC457 /* APPRemindModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APPRemindModel.m; path = Setting/RemindViewController/APPRemindViewController/APPRemindModel.m; sourceTree = "<group>"; };
+		104F1C2F1F0237E800BE6B1E /* NewfeatureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewfeatureViewController.h; path = NewfeatureViewController/NewfeatureViewController.h; sourceTree = "<group>"; };
+		104F1C301F0237E800BE6B1E /* NewfeatureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewfeatureViewController.m; path = NewfeatureViewController/NewfeatureViewController.m; sourceTree = "<group>"; };
+		104F1C321F02410000BE6B1E /* UIView+Layout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Layout.h"; path = "Constants/UIView+Layout.h"; sourceTree = "<group>"; };
+		104F1C331F02410000BE6B1E /* UIView+Layout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Layout.m"; path = "Constants/UIView+Layout.m"; sourceTree = "<group>"; };
 		105156911EEF892F0080AD42 /* UpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateViewController.h; sourceTree = "<group>"; };
 		105156921EEF892F0080AD42 /* UpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateViewController.m; sourceTree = "<group>"; };
 		10814B2C1EDFE88C004C9B4F /* SyncTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SyncTool.h; path = New_iwear/SyncTool/SyncTool.h; sourceTree = SOURCE_ROOT; };
@@ -469,6 +475,15 @@
 				104741FC1EF8D4BD002DC457 /* APPRemindModel.m */,
 			);
 			name = APPRemindViewController;
+			sourceTree = "<group>";
+		};
+		104F1C2D1F0237B000BE6B1E /* NewfeatureViewController */ = {
+			isa = PBXGroup;
+			children = (
+				104F1C2F1F0237E800BE6B1E /* NewfeatureViewController.h */,
+				104F1C301F0237E800BE6B1E /* NewfeatureViewController.m */,
+			);
+			name = NewfeatureViewController;
 			sourceTree = "<group>";
 		};
 		105156901EEF892F0080AD42 /* UpdateViewController */ = {
@@ -1102,6 +1117,7 @@
 				9C0496921EB8855700EDBEBB /* New_iwear.entitlements */,
 				9CDEAC5B1EB078EC00279EDA /* AppDelegate.h */,
 				9CDEAC5C1EB078EC00279EDA /* AppDelegate.m */,
+				104F1C2D1F0237B000BE6B1E /* NewfeatureViewController */,
 				9CA1C86D1EC31377007DB83A /* FMDBManager */,
 				9C9E7FDB1EC2E0D8004840FD /* BleManager */,
 				9CB616171EC31703008914F5 /* Tool */,
@@ -1141,6 +1157,8 @@
 				9C5CC3BC1EBC1B96009C07A5 /* FrameConstants.h */,
 				10CE70B61ECEA5990018AD11 /* TextConstants.h */,
 				9CDEAC741EB07A9C00279EDA /* Log.h */,
+				104F1C321F02410000BE6B1E /* UIView+Layout.h */,
+				104F1C331F02410000BE6B1E /* UIView+Layout.m */,
 			);
 			name = Constants;
 			sourceTree = "<group>";
@@ -1460,6 +1478,7 @@
 				9CD631211EC06E84005EECE1 /* AboutViewController.m in Sources */,
 				9CDEAC5D1EB078EC00279EDA /* AppDelegate.m in Sources */,
 				9C9E800B1EC2E203004840FD /* SetTimeModel.m in Sources */,
+				104F1C311F0237E800BE6B1E /* NewfeatureViewController.m in Sources */,
 				9C9E80181EC2E298004840FD /* StepDataModel.m in Sources */,
 				9C9E800A1EC2E203004840FD /* SegmentedStepModel.m in Sources */,
 				9C9E80121EC2E20B004840FD /* BleDevice.m in Sources */,
@@ -1492,6 +1511,7 @@
 				100E490D1EC9B88B00625A93 /* TrainingTableModel.m in Sources */,
 				9CDEAC5A1EB078EC00279EDA /* main.m in Sources */,
 				9C0817741EB9AB1800C1845F /* SettingPeripheralTableViewCell.m in Sources */,
+				104F1C341F02410000BE6B1E /* UIView+Layout.m in Sources */,
 				9CD631071EC0163D005EECE1 /* UnitsSettingViewController.m in Sources */,
 				9CD631131EC0556B005EECE1 /* TimeFormatterViewController.m in Sources */,
 				9C4FBDB61EB081A00072E9CE /* FirstViewController.m in Sources */,

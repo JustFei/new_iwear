@@ -112,4 +112,7 @@
 #pragma mark - 同步完成通知更新 UI
 #define UPDATE_ALL_UI @"UpdateAllUI"
 
+//保存第一次进入 app 的信息
+#define CF_BUNDLE_VERSION @"CFBundleVersion"
+
 #endif /* TextConstants_h */

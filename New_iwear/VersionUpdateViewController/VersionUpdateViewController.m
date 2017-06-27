@@ -120,7 +120,15 @@ static NSString *const VersionUpdateTableViewCellID = @"VersionUpdateTableViewCe
             NSString *verInServer = attributeDict[@"least"];
             if ([[NSUserDefaults standardUserDefaults] objectForKey:HARDWARE_VERSION]) {
                 NSString *hardVer = [[NSUserDefaults standardUserDefaults] objectForKey:HARDWARE_VERSION];
-                if (verInServer >= hardVer) {
+//                if ([@"1.0.a" compare:hardVer options:NSNumericSearch] == NSOrderedDescending)
+//                {
+//                    NSLog(@"%@ is bigger",verInServer);
+//                } else if ([@"1.0.a" compare:hardVer options:NSNumericSearch] == NSOrderedAscending) {
+//                    NSLog(@"%@ is bigger",hardVer);
+//                }else if ([@"1.0.a" compare:hardVer options:NSNumericSearch] == NSOrderedSame) {
+//                    NSLog(@"一样大");
+//                }
+                if ([verInServer compare:hardVer options:NSNumericSearch] == NSOrderedDescending) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.loadingToast dismiss];
                         //提示是否更新

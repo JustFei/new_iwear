@@ -16,9 +16,9 @@
 
 @interface StepHisViewController ()< PNChartDelegate , HooDatePickerDelegate >
 {
-    NSInteger sumStep;
-    NSInteger sumMileage;
-    NSInteger sumkCal;
+    float sumStep;
+    float sumMileage;
+    float sumkCal;
     NSInteger haveDataDays;
     BOOL _isMetric;
     NSString *_todayStr;
@@ -338,11 +338,11 @@
             float averageStep = (sumStep / haveDataDays);
             float averageKcal = (sumkCal / haveDataDays);
             
-            [self.view1StepLabel setText:[NSString stringWithFormat:@"%ld", sumStep]];
-            [self.view2MileageLabel setText:[NSString stringWithFormat:@"%ld", sumMileage]];
-            [self.view3kCalLabel setText:[NSString stringWithFormat:@"%ld", sumkCal]];
+            [self.view1StepLabel setText:[NSString stringWithFormat:@"%.0f", sumStep]];
+            [self.view2MileageLabel setText:[NSString stringWithFormat:@"%.3f", sumMileage / 1000.f]];
+            [self.view3kCalLabel setText:[NSString stringWithFormat:@"%.0f", sumkCal]];
             [self.stepLabel setText:[NSString stringWithFormat:@"%.0f",averageStep]];
-            [self.mileageAndkCalLabel setText:[NSString stringWithFormat:@"%.1fkm/%.0f", averageMileage, averageKcal]];
+            [self.mileageAndkCalLabel setText:[NSString stringWithFormat:@"%.3fkm/%.2fkcal", averageMileage / 1000, averageKcal]];
             
             //更新圆环
             [self updateCircleWithFloat:averageStep];

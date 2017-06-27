@@ -92,14 +92,19 @@
         make.height.equalTo(@8);
     }];
     
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
     _myBleMananger = [BleManager shareInstance];
     _myBleMananger.connectDelegate = self;
     _myBleMananger.discoverDelegate = self;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidDisappear:(BOOL)animated
 {
-    
+    [((AppDelegate *)[UIApplication sharedApplication].delegate) resetDelegate];
 }
 
 - (void)dealloc

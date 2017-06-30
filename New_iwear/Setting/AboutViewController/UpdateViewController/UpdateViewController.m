@@ -32,6 +32,7 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor colorWithRed:37.0 / 255.0 green:154.0 / 255.0 blue:219.0 / 255.0 alpha:1];
     
+    [UIApplication sharedApplication].idleTimerDisabled = YES;
     [BleManager shareInstance].connectDelegate = self;
     [self createUI];
     
@@ -41,6 +42,7 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [((AppDelegate *)[UIApplication sharedApplication].delegate) resetDelegate];
+    [UIApplication sharedApplication].idleTimerDisabled = NO;
 }
 
 - (void)dealloc

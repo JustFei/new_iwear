@@ -489,7 +489,7 @@
 {
     if (!_sumSleepChart) {
         _sumSleepChart = [[PNBarChart alloc] init];
-        [_sumSleepChart setStrokeColor:SLEEP_CURRENT_DEEP_SLEEEP_BAR];
+        [_sumSleepChart setStrokeColor:SLEEP_CURRENT_LOW_SLEEEP_BAR];
         _sumSleepChart.barBackgroundColor = [UIColor clearColor];
         _sumSleepChart.yChartLabelWidth = 20.0;
         _sumSleepChart.chartMarginLeft = 0;
@@ -521,7 +521,7 @@
 {
     if (!_deepSleepChart) {
         _deepSleepChart = [[PNBarChart alloc] init];
-        [_deepSleepChart setStrokeColor:SLEEP_CURRENT_LOW_SLEEEP_BAR];
+        [_deepSleepChart setStrokeColor:SLEEP_CURRENT_DEEP_SLEEEP_BAR];
         _deepSleepChart.barBackgroundColor = [UIColor clearColor];
         _deepSleepChart.yChartLabelWidth = 20.0;
         _deepSleepChart.chartMarginLeft = 0;

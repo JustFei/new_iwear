@@ -67,7 +67,7 @@ static FMDatabase *_fmdb;
         [_fmdb executeUpdate:[NSString stringWithFormat:@"create table if not exists BloodO2Data(id integer primary key,month text, day text, time text, bloodO2integer text, bloodO2float text, currentCount text, sumCount text);"]];
         
         //SleepData
-        [_fmdb executeUpdate:[NSString stringWithFormat:@"create table if not exists SleepData(id integer primary key,date text, startTime text, endTime text, deepSleep text, lowSleep text, sumSleep text, currentDataCount integer, sumDataCount integer);"]];
+        [_fmdb executeUpdate:[NSString stringWithFormat:@"create table if not exists SleepData(id integer primary key,date text, startTime text, endTime text, deepSleep text, lowSleep text, clearTime text, sumSleep text, sleepType integer, currentDataCount integer, sumDataCount integer);"]];
         
 //        //SedentaryData
 //        [_fmdb executeUpdate:[NSString stringWithFormat:@"create table if not exists SedentaryData1_1_3(id integer primary key,sedentary bool, unDisturb bool, startSedentaryTime text, endSedentaryTime text, startDisturbTime text, endDisturbTime text, timeInterval integer, stepInterval integer);"]];
@@ -512,7 +512,7 @@ static FMDatabase *_fmdb;
 - (BOOL)insertSleepModel:(SleepModel *)model
 {
     
-    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO SleepData(date, startTime, endTime, deepSleep, lowSleep, sumSleep, currentDataCount, sumDataCount) VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@');", model.date, model.startTime, model.endTime, model.deepSleep, model.lowSleep, model.sumSleep, [NSNumber numberWithInteger:model.currentDataCount],[NSNumber numberWithInteger:model.sumDataCount]];
+    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO SleepData(date, startTime, endTime, deepSleep, lowSleep, clearTime, sumSleep, sleepType, currentDataCount, sumDataCount) VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@');", model.date, model.startTime, model.endTime, model.deepSleep, model.lowSleep, model.clearTime, model.sumSleep, [NSNumber numberWithInteger:model.type], [NSNumber numberWithInteger:model.currentDataCount],[NSNumber numberWithInteger:model.sumDataCount]];
     
     BOOL result = [_fmdb executeUpdate:insertSql];
     if (result) {
@@ -547,7 +547,9 @@ static FMDatabase *_fmdb;
         NSString *endTime = [set stringForColumn:@"endTime"];
         NSString *deepSleep = [set stringForColumn:@"deepSleep"];
         NSString *lowSleep = [set stringForColumn:@"lowSleep"];
+        NSString *clearTime = [set stringForColumn:@"clearTime"];
         NSString *sumSleep = [set stringForColumn:@"sumSleep"];
+        NSInteger sleepType = [set intForColumn:@"sleepType"];
         NSInteger currentDataCount = [set intForColumn:@"currentDataCount"];
         NSInteger sumDataCount = [set intForColumn:@"sumDataCount"];
         
@@ -557,7 +559,9 @@ static FMDatabase *_fmdb;
         model.endTime = endTime;
         model.deepSleep = deepSleep;
         model.lowSleep = lowSleep;
+        model.clearTime = clearTime;
         model.sumSleep = sumSleep;
+        model.type = sleepType;
         model.currentDataCount = currentDataCount;
         model.sumDataCount = sumDataCount;
         model.date = date;
@@ -579,6 +583,19 @@ static FMDatabase *_fmdb;
 - (BOOL)deleteSleepData:(NSString *)deleteSql
 {
     BOOL result = [_fmdb executeUpdate:@"delete from SleepData"];
+    
+    if (result) {
+        NSLog(@"Sleep表删除成功");
+    }else {
+        NSLog(@"Sleep表删除失败");
+    }
+    
+    return result;
+}
+
+- (BOOL)deleteSleep
+{
+    BOOL result = [_fmdb executeUpdate:@"drop table SleepData"];
     
     if (result) {
         NSLog(@"Sleep表删除成功");

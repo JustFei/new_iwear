@@ -263,4 +263,7 @@ typedef enum : NSUInteger {
  */
 - (void)writeTimeFormatterToPeripheral:(BOOL)twelveFormatter;
 
+/** 添加睡眠的测试协议 */
+- (void)writeSleepTest;
+
 @end

@@ -10,7 +10,8 @@
 
 typedef enum : NSUInteger {
     BarTypeDeep = 0,
-    BarTypeLow
+    BarTypeLow,
+    BarTypeClear
 } BarType;
 
 @interface XXBarDataModel : NSObject

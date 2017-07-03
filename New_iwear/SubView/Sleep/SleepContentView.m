@@ -264,6 +264,7 @@
      1.更新当天睡眠的 UI
      */
     float sumData = 0.f;
+    float sumSleepData = 0.f;
     float lowData = 0.f;
     float deepData = 0.f;
     if (dbArr.count == 0) {
@@ -280,9 +281,15 @@
         NSMutableArray *barDataArr = [NSMutableArray array];
         for (int index = 0; index < dbArr.count; index ++) {
             SleepModel *model = dbArr[index];
-            sumData = sumData + model.sumSleep.floatValue;
+            
+            sumSleepData = sumSleepData + model.sumSleep.floatValue;
             lowData = lowData + model.lowSleep.floatValue;
             deepData = deepData + model.deepSleep.floatValue;
+            if (model.type == SleepTypeClear) {
+                sumData = sumData + model.clearTime.floatValue;
+            }else {
+                sumData = sumData + model.sumSleep.floatValue;
+            }
             
             if (index == 0) {
                 [self.InSleepLabel setText:[model.startTime substringFromIndex:11]];
@@ -305,14 +312,22 @@
             
             XXBarDataModel *barModel = [[XXBarDataModel alloc] init];
             float xValue = (float)_currentSleepData / sumData * (BACK_WIDTH - 32);
-            float xWidth = (float)model.sumSleep.integerValue / sumData * (BACK_WIDTH - 32);
+            float xWidth;
+            if (model.type == SleepTypeClear) {
+                xWidth = (float)model.clearTime.integerValue / sumData * (BACK_WIDTH - 32);
+                _currentSleepData = _currentSleepData + model.clearTime.integerValue;
+            }else {
+                xWidth = (float)model.sumSleep.integerValue / sumData * (BACK_WIDTH - 32);
+                _currentSleepData = _currentSleepData + model.sumSleep.integerValue;
+            }
+//             (model.type == SleepTypeClear ? (float)model.clearTime.integerValue : (float)model.sumSleep.integerValue) / sumData * (BACK_WIDTH - 32);
             barModel.xValue = xValue;
             barModel.xWidth = xWidth;
-            barModel.barType = model.deepSleep.integerValue != 0 ? BarTypeDeep : BarTypeLow;
+            barModel.barType = model.type;
             [barDataArr addObject:barModel];
-            _currentSleepData = _currentSleepData + model.sumSleep.integerValue;
+            
         }
-        [self drawCircle:sumData / 60];
+        [self drawCircle:sumSleepData / 60];
         //绘制睡眠图表
         [self.sleepChartBackView setXValues:barDataArr];
         [self.sleepChartBackView updateBar];

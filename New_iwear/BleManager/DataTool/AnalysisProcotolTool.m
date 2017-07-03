@@ -571,23 +571,37 @@ static AnalysisProcotolTool *analysisProcotolTool = nil;
         NSString *endmm = [endTimeStr substringWithRange:NSMakeRange(10, 2)];
         endTimeStr = [NSString stringWithFormat:@"20%@/%@/%@ %02ld:%02ld",endyy ,endMM ,enddd ,(long)endhh.integerValue ,(long)endmm.integerValue];
         
+        NSData *sleep = [data subdataWithRange:NSMakeRange(14, 2)];
+        int sleepVale = [NSStringTool parseIntFromData:sleep];
+        NSString *sleepStr = [NSString stringWithFormat:@"%d",sleepVale];
         
-        NSData *deepSleep = [data subdataWithRange:NSMakeRange(14, 2)];
-        int deepSleepVale = [NSStringTool parseIntFromData:deepSleep];
-        NSString *deepSleepStr = [NSString stringWithFormat:@"%d",deepSleepVale];
+        //判断睡眠数据类型，01：深睡；02：浅睡；03：清醒
+        NSData *sleepType = [data subdataWithRange:NSMakeRange(16, 1)];
+        int sleepTypeVale = [NSStringTool parseIntFromData:sleepType];
         
-        NSData *lowSleep = [data subdataWithRange:NSMakeRange(16, 2)];
-        int lowSleepVale = [NSStringTool parseIntFromData:lowSleep];
-        NSString *lowSleepStr = [NSString stringWithFormat:@"%d",lowSleepVale];
-        
-        int sumSleepVale = deepSleepVale + lowSleepVale;
-        NSString *sumSleepStr = [NSString stringWithFormat:@"%d",sumSleepVale];
-        
+        switch (sleepTypeVale) {
+            case 1:
+            {
+                model.sleepModel.deepSleep = sleepStr;
+                model.sleepModel.sumSleep = sleepStr;
+            }
+                break;
+            case 2:
+            {
+                model.sleepModel.lowSleep = sleepStr;
+                model.sleepModel.sumSleep = sleepStr;
+            }
+                break;
+            case 3:
+                model.sleepModel.clearTime = sleepStr;
+                break;
+                
+            default:
+                break;
+        }
+        model.sleepModel.type = sleepTypeVale - 1;
         model.sleepModel.startTime = startTimeStr;
         model.sleepModel.endTime = endTimeStr;
-        model.sleepModel.deepSleep = deepSleepStr;
-        model.sleepModel.lowSleep = lowSleepStr;
-        model.sleepModel.sumSleep = sumSleepStr;
         model.sleepModel.date = startDateStr;
         model.isReciveDataRight = ResponsEcorrectnessDataRgith;
         

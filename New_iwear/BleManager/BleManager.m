@@ -688,6 +688,14 @@ static BleManager *bleManager = nil;
     NSLog(@"同步时间格式");
 }
 
+/** 添加睡眠的测试协议 */
+- (void)writeSleepTest
+{
+    NSString *protocolStr = @"fc0c03";
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
+    NSLog(@"添加睡眠测试数据");
+}
+
 #pragma mark - CBCentralManagerDelegate
 //检查设备蓝牙开关的状态
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central

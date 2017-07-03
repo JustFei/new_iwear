@@ -11,6 +11,7 @@
 typedef enum : NSUInteger {
     BackColorDeep = 0,
     BackColorLow,
+    BackColorClear
 } BackColor;
 
 @interface BarView : UIView

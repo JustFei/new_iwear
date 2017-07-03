@@ -52,6 +52,18 @@
     _currentPage = 0;
     [self notiViewUpdateUI];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notiViewUpdateUI) name:UPDATE_ALL_UI object:nil];
+    
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(writeSleepTest:)];
+    [self.view addGestureRecognizer:longPress];
+}
+
+- (void)writeSleepTest:(UILongPressGestureRecognizer *)ges
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self.myFmdbManager deleteSleep];
+        [[BleManager shareInstance] writeSleepTest];
+    });
 }
 
 - (void)viewDidAppear:(BOOL)animated

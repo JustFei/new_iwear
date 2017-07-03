@@ -323,11 +323,11 @@
     [self.view1StepLabel setText:[NSString stringWithFormat:@"%@", self.dataArr[barIndex]]];
     [self.view3kCalLabel setText:[NSString stringWithFormat:@"%@", self.kcalArr[barIndex]]];
     if ([UnitsTool isMetricOrImperialSystem]) {
-        [self.view2MileageLabel setText:[NSString stringWithFormat:@"%@", self.milArr[barIndex]]];
+        [self.view2MileageLabel setText:[NSString stringWithFormat:@"%.3f", ((NSNumber *)self.milArr[barIndex]).floatValue / 1000]];
         [self.unitLabel2 setText:@"公里"];
     }else {
         float km = [UnitsTool kmAndMi:((NSString *)self.milArr[barIndex]).integerValue withMode:MetricToImperial];
-        [self.view2MileageLabel setText:[NSString stringWithFormat:@"%0.3f", km]];
+        [self.view2MileageLabel setText:[NSString stringWithFormat:@"%0.3f", km / 1000]];
         [self.unitLabel2 setText:@"英里"];
     }
 }

@@ -90,6 +90,8 @@ typedef enum : NSUInteger {
 
 - (BOOL)deleteSleepData:(NSString *)deleteSql;
 
+- (BOOL)deleteSleep;
+
 #pragma mark - BloodPressureData
 - (BOOL)insertBloodModel:(BloodModel *)model;
 

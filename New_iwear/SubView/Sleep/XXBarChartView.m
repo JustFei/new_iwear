@@ -77,7 +77,7 @@
         //1.创建视图，并计算宽度
         BarView *view = [[BarView alloc] initWithFrame:CGRectMake(model.xValue + 16, 0, model.xWidth, VIEW_FRAME_HEIGHT)];
         //2.着色
-        view.backColor = model.barType == BarTypeDeep ? BackColorDeep : BackColorLow;
+        view.backColor = model.barType;
         view.isSelect = NO;
         [view setColor];
         view.tag = index;

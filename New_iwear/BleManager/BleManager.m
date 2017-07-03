@@ -383,6 +383,16 @@ static BleManager *bleManager = nil;
     NSLog(@"同步防丢");
 }
 
+//翻腕亮屏设置
+- (void)writeWristFunWithOff:(BOOL)state
+{
+    NSString *protocolStr;
+    protocolStr = state ? @"FC1501" : @"FC1500";
+    
+    [self addMessageToQueue:[NSStringTool hexToBytes:protocolStr]];
+    NSLog(@"翻腕亮屏设置");
+}
+
 //stop peripheral
 - (void)writeStopPeripheralRemind
 {
@@ -1011,6 +1021,8 @@ static BleManager *bleManager = nil;
             //获取血氧
             manridyModel *model = [[AnalysisProcotolTool shareInstance] analysisBloodO2Data:value WithHeadStr:headStr];
             [[NSNotificationCenter defaultCenter] postNotificationName:GET_BO_DATA object:model];
+        }else if ([headStr isEqualToString:@"15"] || [headStr isEqualToString:@"95"]) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:WRIST_SETTING_NOTI object:nil userInfo:@{@"success": @YES}];
         }else if ([headStr isEqualToString:@"16"] || [headStr isEqualToString:@"96"]) {
             //久坐提醒设置是否成功
             [[NSNotificationCenter defaultCenter] postNotificationName:GET_SEDENTARY_DATA object:nil userInfo:@{@"success":[headStr isEqualToString:@"16"]? @YES : @NO}];

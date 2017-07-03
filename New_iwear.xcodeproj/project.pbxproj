@@ -10,6 +10,7 @@
 		100E49061EC998D400625A93 /* TrainingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 100E49051EC998D400625A93 /* TrainingViewController.m */; };
 		100E490A1EC9AD6A00625A93 /* TrainingTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 100E49091EC9AD6A00625A93 /* TrainingTableCell.m */; };
 		100E490D1EC9B88B00625A93 /* TrainingTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 100E490C1EC9B88B00625A93 /* TrainingTableModel.m */; };
+		1012E75A1F0A51E9008BD440 /* WristViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1012E7591F0A51E9008BD440 /* WristViewController.m */; };
 		10170F2D1EEFC23B00B2B50F /* Pods_New_iwear.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E5A2579FEAEDF46DC9BF30F /* Pods_New_iwear.framework */; };
 		10170F2F1EEFCCCC00B2B50F /* 0001_20170613100100_V1.0.5_alpha.zip in Resources */ = {isa = PBXBuildFile; fileRef = 10170F2E1EEFCCCC00B2B50F /* 0001_20170613100100_V1.0.5_alpha.zip */; };
 		1028F5EA1EE2A26C00DCA724 /* HooDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1028F5E71EE2A26C00DCA724 /* HooDatePicker.m */; };
@@ -146,6 +147,8 @@
 		100E49091EC9AD6A00625A93 /* TrainingTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrainingTableCell.m; path = Training/TrainingTableCell.m; sourceTree = "<group>"; };
 		100E490B1EC9B88B00625A93 /* TrainingTableModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrainingTableModel.h; path = Training/TrainingTableModel.h; sourceTree = "<group>"; };
 		100E490C1EC9B88B00625A93 /* TrainingTableModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrainingTableModel.m; path = Training/TrainingTableModel.m; sourceTree = "<group>"; };
+		1012E7581F0A51E9008BD440 /* WristViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WristViewController.h; path = Setting/WristViewController/WristViewController.h; sourceTree = "<group>"; };
+		1012E7591F0A51E9008BD440 /* WristViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WristViewController.m; path = Setting/WristViewController/WristViewController.m; sourceTree = "<group>"; };
 		10170F1A1EEFC15E00B2B50F /* AFNetworking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AFNetworking.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/New_iwear-gzfkxehwhmyljqcyjhhltxejmswd/Build/Products/Debug-iphoneos/AFNetworking/AFNetworking.framework"; sourceTree = "<group>"; };
 		10170F1B1EEFC15E00B2B50F /* FMDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FMDB.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/New_iwear-gzfkxehwhmyljqcyjhhltxejmswd/Build/Products/Debug-iphoneos/FMDB/FMDB.framework"; sourceTree = "<group>"; };
 		10170F1C1EEFC15E00B2B50F /* iOSDFULibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iOSDFULibrary.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/New_iwear-gzfkxehwhmyljqcyjhhltxejmswd/Build/Products/Debug-iphoneos/iOSDFULibrary/iOSDFULibrary.framework"; sourceTree = "<group>"; };
@@ -412,6 +415,15 @@
 			name = Training;
 			sourceTree = "<group>";
 		};
+		1012E7571F0A5176008BD440 /* WristViewController */ = {
+			isa = PBXGroup;
+			children = (
+				1012E7581F0A51E9008BD440 /* WristViewController.h */,
+				1012E7591F0A51E9008BD440 /* WristViewController.m */,
+			);
+			name = WristViewController;
+			sourceTree = "<group>";
+		};
 		1028F5E51EE2A26C00DCA724 /* HooDatePicker */ = {
 			isa = PBXGroup;
 			children = (
@@ -580,6 +592,7 @@
 				9C3AE8321EBD76DE0078CDAA /* FindMyPeriphearlViewController */,
 				9C3AE8361EBD79400078CDAA /* RemindViewController */,
 				9C3AE84A1EBDC5C90078CDAA /* WeChatViewController */,
+				1012E7571F0A5176008BD440 /* WristViewController */,
 				9C3AE84F1EBDCD350078CDAA /* DimmingViewController */,
 				9CD631041EC015FF005EECE1 /* UnitsSettingViewController */,
 				9CD631101EC05541005EECE1 /* TimeFormatterViewController */,
@@ -1463,6 +1476,7 @@
 				9C079AAF1EBC61A800D54AB3 /* InterfaceSelectionViewController.m in Sources */,
 				9C0712281EC558E800F41754 /* SleepContentView.m in Sources */,
 				9C079AB21EBC680400D54AB3 /* InterfaceSelectionCollectionViewCell.m in Sources */,
+				1012E75A1F0A51E9008BD440 /* WristViewController.m in Sources */,
 				9C9E80041EC2E203004840FD /* BloodO2Model.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "New_iwear/BleManager/BleManager.m"
-            timestampString = "520756765.205903"
+            timestampString = "520771206.273732"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1050"
-            endingLineNumber = "1050"
+            startingLineNumber = "1062"
+            endingLineNumber = "1062"
             landmarkName = "-analysisDataWithCharacteristic:"
             landmarkType = "7">
          </BreakpointContent>

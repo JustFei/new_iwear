@@ -283,10 +283,10 @@ static NSString *const settingHeaderID = @"settingHeader";
     if (!_groupSecondDataSourceArr) {
         NSArray *fucName = @[@"界面选择",@"遥控拍照",@"查找手环",@"提醒功能",
 //                             @"微信运动",
-                             @"亮度调节",@"单位设置",@"时间格式",@"目标设置",@"关于"];
+                             @"翻腕亮屏",@"亮度调节",@"单位设置",@"时间格式",@"目标设置",@"关于"];
         NSArray *imageName = @[@"set_interface",@"set_camera",@"set_find",@"set_phone",
 //                               @"set_wechat",
-                               @"set_dimming",@"set_unit",@"set_time",@"set_targetsetting",@"set_info"];
+                               @"set_wrist",@"set_dimming",@"set_unit",@"set_time",@"set_targetsetting",@"set_info"];
         NSMutableArray *dataArr = [NSMutableArray array];
         for (int i = 0; i < fucName.count; i ++) {
             SettingCellModel *model = [[SettingCellModel alloc] init];
@@ -305,7 +305,7 @@ static NSString *const settingHeaderID = @"settingHeader";
     if (!_vcArray) {
         _vcArray = @[@"InterfaceSelectionViewController", @"TakePhotoViewController", @"FindMyPeriphearlViewController", @"RemindViewController",
 //                     @"WeChatViewController",
-                     @"DimmingViewController", @"UnitsSettingViewController", @"TimeFormatterViewController", @"TargetSettingViewController", @"AboutViewController"];
+                     @"WristViewController",@"DimmingViewController", @"UnitsSettingViewController", @"TimeFormatterViewController", @"TargetSettingViewController", @"AboutViewController"];
     }
     
     return _vcArray;

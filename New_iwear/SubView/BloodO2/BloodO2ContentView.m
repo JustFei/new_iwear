@@ -343,9 +343,9 @@
                     [self.rightTimeLabel setText:[model.timeString substringToIndex:5]];
                 }
                 
-                if (bo >= self.BOChart.yFixedValueMax * 0.7) {
-                    self.BOChart.yFixedValueMax = bo * 1.3;
-                }
+//                if (bo >= self.BOChart.yFixedValueMax * 0.7) {
+//                    self.BOChart.yFixedValueMax = bo * 1.3;
+//                }
                 
                 [self.xLabelArr addObject:@""];
                 //获取总数
@@ -421,8 +421,8 @@
         _BOChart.backgroundColor = TEXT_BLACK_COLOR_LEVEL0;
         _BOChart.delegate = self;
         _BOChart.showCoordinateAxis = NO;
-        _BOChart.yFixedValueMin = 70;
-        _BOChart.yFixedValueMax = 110;
+        _BOChart.yFixedValueMin = 90;
+        _BOChart.yFixedValueMax = 100;
         [_BOChart setShowLabel:YES];
         [_BOChart setShowGenYLabels:NO];
         

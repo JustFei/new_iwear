@@ -53,8 +53,8 @@
     [self notiViewUpdateUI];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notiViewUpdateUI) name:UPDATE_ALL_UI object:nil];
     
-    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(writeSleepTest:)];
-    [self.view addGestureRecognizer:longPress];
+//    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(writeSleepTest:)];
+//    [self.view addGestureRecognizer:longPress];
 }
 
 - (void)writeSleepTest:(UILongPressGestureRecognizer *)ges

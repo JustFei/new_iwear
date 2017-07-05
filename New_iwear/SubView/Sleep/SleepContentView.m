@@ -22,19 +22,13 @@
 
 @interface SleepContentView () < PNChartDelegate >
 {
-    NSInteger sumStep;
-    NSInteger sumMileage;
-    NSInteger sumkCal;
-    BOOL _isMetric;
     NSInteger _currentSleepData;
+    float clearData;
 }
 
 @property (nonatomic, strong) UIView *upView;
 @property (nonatomic, strong) UILabel *stepLabel;
 @property (nonatomic, strong) UILabel *mileageAndkCalLabel;
-@property (nonatomic, strong) UILabel *InSleepLabel;
-@property (nonatomic, strong) UILabel *outSleepLabel;
-@property (nonatomic, strong) UILabel *awakeLabel;
 @property (nonatomic, strong) PNCircleChart *sleepCircleChart;
 @property (nonatomic, strong) XXBarChartView *sleepChartBackView;
 @property (nonatomic, strong) UIView *view1;
@@ -45,6 +39,16 @@
 @property (nonatomic, strong) UILabel *leftTimeLabel;
 @property (nonatomic, strong) UILabel *rightTimeLabel;
 @property (nonatomic, strong) UILabel *noDataLabel;
+//中间的需要修改的文本
+@property (nonatomic, strong) UILabel *view1Title;
+@property (nonatomic, strong) UILabel *InSleepLabel;
+@property (nonatomic, strong) UILabel *view2Title;
+@property (nonatomic, strong) UILabel *outSleepLabel;
+@property (nonatomic, strong) UILabel *view3Title;
+@property (nonatomic, strong) UILabel *awakeLabel;
+//记录起始 model 和结束 model
+@property (nonatomic, strong) SleepModel *startModel;
+@property (nonatomic, strong) SleepModel *endModel;
 
 @end
 
@@ -140,12 +144,12 @@
             make.width.equalTo(@((VIEW_FRAME_WIDTH + 4) / 3));
         }];
         
-        UILabel *view1Title = [[UILabel alloc] init];
-        [view1Title setText:@"昨晚入睡"];
-        [view1Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
-        [view1Title setFont:[UIFont systemFontOfSize:12]];
-        [self.view1 addSubview:view1Title];
-        [view1Title mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.view1Title = [[UILabel alloc] init];
+        [self.view1Title setText:@"昨晚入睡"];
+        [self.view1Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
+        [self.view1Title setFont:[UIFont systemFontOfSize:12]];
+        [self.view1 addSubview:self.view1Title];
+        [self.view1Title mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.view1.mas_centerX);
             make.top.equalTo(@18);
         }];
@@ -171,12 +175,12 @@
             make.width.equalTo(self.view1.mas_width);
         }];
         
-        UILabel *view2Title = [[UILabel alloc] init];
-        [view2Title setText:@"今天醒来"];
-        [view2Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
-        [view2Title setFont:[UIFont systemFontOfSize:12]];
-        [view2 addSubview:view2Title];
-        [view2Title mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.view2Title = [[UILabel alloc] init];
+        [self.view2Title setText:@"今天醒来"];
+        [self.view2Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
+        [self.view2Title setFont:[UIFont systemFontOfSize:12]];
+        [view2 addSubview:self.view2Title];
+        [self.view2Title mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(view2.mas_centerX);
             make.top.equalTo(@18);
         }];
@@ -202,12 +206,12 @@
             make.width.equalTo(self.view1.mas_width);
         }];
         
-        UILabel *view3Title = [[UILabel alloc] init];
-        [view3Title setText:@"清醒时长"];
-        [view3Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
-        [view3Title setFont:[UIFont systemFontOfSize:12]];
-        [view3 addSubview:view3Title];
-        [view3Title mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.view3Title = [[UILabel alloc] init];
+        [self.view3Title setText:@"清醒时长"];
+        [self.view3Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
+        [self.view3Title setFont:[UIFont systemFontOfSize:12]];
+        [view3 addSubview:self.view3Title];
+        [self.view3Title mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(view3.mas_centerX);
             make.top.equalTo(@18);
         }];
@@ -225,7 +229,7 @@
         UILabel *unitLabel3 = [[UILabel alloc] init];
         [unitLabel3 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [unitLabel3 setFont:[UIFont systemFontOfSize:8]];
-        [unitLabel3 setText:@"小时"];
+        [unitLabel3 setText:@"分"];
         [self.view1 addSubview:unitLabel3];
         [unitLabel3 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_awakeLabel.mas_right).offset(8);
@@ -265,6 +269,7 @@
      */
     float sumData = 0.f;
     float sumSleepData = 0.f;
+    clearData = 0.f;
     float lowData = 0.f;
     float deepData = 0.f;
     if (dbArr.count == 0) {
@@ -285,6 +290,7 @@
             sumSleepData = sumSleepData + model.sumSleep.floatValue;
             lowData = lowData + model.lowSleep.floatValue;
             deepData = deepData + model.deepSleep.floatValue;
+            clearData = clearData + model.clearTime.floatValue;
             if (model.type == SleepTypeClear) {
                 sumData = sumData + model.clearTime.floatValue;
             }else {
@@ -294,21 +300,44 @@
             if (index == 0) {
                 [self.InSleepLabel setText:[model.startTime substringFromIndex:11]];
                 [self.leftTimeLabel setText:[model.startTime substringFromIndex:11]];
+                self.startModel = model;
             }
             if (index == dbArr.count -1) {
                 [self.outSleepLabel setText:[model.endTime substringFromIndex:11]];
                 [self.rightTimeLabel setText:[model.endTime substringFromIndex:11]];
                 _currentSleepData = 0;
+                self.endModel = model;
             }
         }
         CGFloat averDeep = round((deepData / 60) * 10) / 10;
         CGFloat averLow = round((lowData / 60) * 10) / 10;
         [self.stepLabel setText:[NSString stringWithFormat:@"%.1f",averLow + averDeep]];
         [self.mileageAndkCalLabel setText:[NSString stringWithFormat:@"深睡%.1f小时/浅睡%.1f小时", averDeep, averLow]];
-        [self.awakeLabel setText:@"--"];
+        [self.awakeLabel setText:[NSString stringWithFormat:@"%.0f", clearData]];
         
-        for (int index = 0; index < dbArr.count; index ++) {
-            SleepModel *model = dbArr[index];
+        //处理源数据，拼接成无间隙的数据源
+        NSMutableArray *dealDbArr = [NSMutableArray array];
+        SleepModel *oldModel = dbArr.firstObject;
+        for (int index = 1; index < dbArr.count; index ++) {
+            SleepModel *newModel = dbArr[index];
+            if (newModel.type == oldModel.type) {
+                if (newModel.type == SleepTypeDeep || newModel.type == SleepTypeLow) {
+                    oldModel.sumSleep = [NSString stringWithFormat:@"%ld", oldModel.sumSleep.integerValue + newModel.sumSleep.integerValue];
+                }else if (newModel.type == SleepTypeClear) {
+                    oldModel.clearTime = [NSString stringWithFormat:@"%ld", oldModel.clearTime.integerValue + newModel.clearTime.integerValue];
+                }
+                oldModel.endTime = newModel.endTime;
+            }else {
+                [dealDbArr addObject:oldModel];
+                oldModel = newModel;
+            }
+            if (index == dbArr.count - 1)  [dealDbArr addObject:oldModel];
+        }
+        
+        DLog(@"%@", dealDbArr);
+        
+        for (int index = 0; index < dealDbArr.count; index ++) {
+            SleepModel *model = dealDbArr[index];
             
             XXBarDataModel *barModel = [[XXBarDataModel alloc] init];
             float xValue = (float)_currentSleepData / sumData * (BACK_WIDTH - 32);
@@ -320,17 +349,58 @@
                 xWidth = (float)model.sumSleep.integerValue / sumData * (BACK_WIDTH - 32);
                 _currentSleepData = _currentSleepData + model.sumSleep.integerValue;
             }
-//             (model.type == SleepTypeClear ? (float)model.clearTime.integerValue : (float)model.sumSleep.integerValue) / sumData * (BACK_WIDTH - 32);
             barModel.xValue = xValue;
             barModel.xWidth = xWidth;
             barModel.barType = model.type;
             [barDataArr addObject:barModel];
-            
         }
         [self drawCircle:sumSleepData / 60];
         //绘制睡眠图表
         [self.sleepChartBackView setXValues:barDataArr];
         [self.sleepChartBackView updateBar];
+        
+        __weak __typeof__(self) weakSelf = self;
+        self.sleepChartBackView.sleepBarClickIndexBlock = ^(NSInteger index, BOOL select) {
+            if (select) {       //选中的数据
+                SleepModel *model = dealDbArr[index];
+                switch (model.type) {
+                    case SleepTypeDeep:
+                    {
+                        weakSelf.view1Title.text = @"深睡开始";
+                        weakSelf.view2Title.text = @"深睡结束";
+                        weakSelf.awakeLabel.text = model.sumSleep;
+                    }
+                        break;
+                    case SleepTypeLow:
+                    {
+                        weakSelf.view1Title.text = @"浅睡开始";
+                        weakSelf.view2Title.text = @"浅睡结束";
+                        weakSelf.awakeLabel.text = model.sumSleep;
+                    }
+                        break;
+                    case SleepTypeClear:
+                    {
+                        weakSelf.view1Title.text = @"清醒开始";
+                        weakSelf.view2Title.text = @"清醒结束";
+                        weakSelf.awakeLabel.text = model.clearTime;
+                    }
+                        break;
+                        
+                    default:
+                        break;
+                }
+                weakSelf.view3Title.text = @"时长";
+                weakSelf.InSleepLabel.text = [model.startTime substringFromIndex:11];
+                weakSelf.outSleepLabel.text = [model.endTime substringFromIndex:11];
+            }else {             //为选中的数据
+                weakSelf.view1Title.text = @"昨晚入睡";
+                weakSelf.view2Title.text = @"今天醒来";
+                weakSelf.view3Title.text = @"清醒时长";
+                weakSelf.InSleepLabel.text = [weakSelf.startModel.startTime substringFromIndex:11];
+                weakSelf.outSleepLabel.text = [weakSelf.endModel.endTime substringFromIndex:11];
+                weakSelf.awakeLabel.text = [NSString stringWithFormat:@"%.0f",clearData];
+            }
+        };
     }
 }
 

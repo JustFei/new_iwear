@@ -16,7 +16,8 @@
 @property (strong, nonatomic) NSMutableArray *subViewArr;
 @property (strong, nonatomic) NSMutableArray *xPointArr;
 @property (strong, nonatomic) BarView *selectView;
-@property (assign, nonatomic) BOOL disSelectView;
+//@property (assign, nonatomic) BOOL disSelectView;
+@property (nonatomic, strong) NSTimer *unSelectTimer;
 
 @end
 
@@ -85,8 +86,13 @@
         [self addSubview:view];
         [self.subViewArr addObject:view];
         [self.xPointArr addObject:[NSString stringWithFormat:@"%f", model.xValue + 16 + model.xWidth]];
-        
     }
+    
+    if (_unSelectTimer) {
+        [_unSelectTimer invalidate];
+        _unSelectTimer = nil;
+    }
+    
 }
 
 #pragma mark -图表点击事件
@@ -130,39 +136,50 @@
 //    }
 //}
 
-//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-//{
-//    //这里刷新后，后面的 view 就无法改变 backcolor 了，再尝试其他办法
-////    [self updateBar];
-//    [self touchPoint:touches withEvent:event];
-//    [super touchesBegan:touches withEvent:event];
-//}
-//
-//- (void)touchPoint:(NSSet *)touches withEvent:(UIEvent *)event
-//{
-//    //Get the point user touched
-//    UITouch *touch = [touches anyObject];
-//    CGPoint touchPoint = [touch locationInView:self];
-//    BarView *subview = (BarView *)[self hitTest:touchPoint withEvent:nil];
-//    
-//    NSLog(@"clickBar == %ld", subview.tag);
-//
-//    subview.isSelect = YES;
-//    [subview setColor];
-//}
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    //这里刷新后，后面的 view 就无法改变 backcolor 了，再尝试其他办法
+//    [self updateBar];
+    DLog(@"touchesBegan");
+    [self touchPoint:touches withEvent:event];
+    [super touchesBegan:touches withEvent:event];
+}
 
-//- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-//{
-//    self.disSelectView = YES;
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        if (self.disSelectView) {
-//            //改变选中的 view 的颜色为选中的颜色
-//            self.selectView = self.subViewArr[_oldIndex];
-//            self.selectView.isSelect = NO;
-//            [self.selectView setColor];
-//        }
-//    });
-//}
+- (void)touchPoint:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if (_unSelectTimer) {
+        [self updateBar];
+        [_unSelectTimer invalidate];
+        _unSelectTimer = nil;
+    }
+    //Get the point user touched
+    UITouch *touch = [touches anyObject];
+    CGPoint touchPoint = [touch locationInView:self];
+    UIView *unkonwView = [self hitTest:touchPoint withEvent:nil];
+    if ([unkonwView isKindOfClass:NSClassFromString(@"BarView")] ) {
+        BarView *subView = (BarView *)unkonwView;
+        self.selectView = subView;
+        NSLog(@"clickBar == %ld", subView.tag);
+        
+        if (self.sleepBarClickIndexBlock) {     //传递点击的 tag 值,选中的状态
+            self.sleepBarClickIndexBlock(subView.tag, YES);
+        }
+        
+        _oldIndex = subView.tag;
+        subView.isSelect = YES;
+        [subView setColor];
+        _unSelectTimer = [NSTimer timerWithTimeInterval:3 target:self selector:@selector(disSelectView) userInfo:nil repeats:NO];
+        [[NSRunLoop currentRunLoop] addTimer:_unSelectTimer forMode:NSDefaultRunLoopMode];
+    }
+}
+
+- (void)disSelectView
+{
+    if (self.sleepBarClickIndexBlock) {     //传递点击的 tag 值,未选择的状态
+        self.sleepBarClickIndexBlock(0, NO);
+    }
+    [self updateBar];
+}
 
 #pragma mark - lazy
 - (NSMutableArray *)subViewArr

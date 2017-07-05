@@ -22,7 +22,7 @@
                 [self setBackgroundColor:SLEEP_CURRENT_LOW_SLEEEP_SELECT_BAR];
                 break;
             case BackColorClear:
-                [self setBackgroundColor:SLEEP_CURRENT_CLEAR_SLEEEP_BAR];
+                [self setBackgroundColor:SLEEP_CURRENT_CLEAR_SLEEEP_SELECT_BAR];
                 break;
                 
             default:

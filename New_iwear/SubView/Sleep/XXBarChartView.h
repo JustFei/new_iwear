@@ -10,9 +10,12 @@
 #import "BarView.h"
 #import "XXBarDataModel.h"
 
+typedef void(^SleepBarClickIndexBlock)(NSInteger index, BOOL select);
+
 @interface XXBarChartView : UIView
 
 @property (nonatomic, strong) NSArray *xValues;
+@property (nonatomic, copy) SleepBarClickIndexBlock sleepBarClickIndexBlock;
 
 - (void)updateBar;
 

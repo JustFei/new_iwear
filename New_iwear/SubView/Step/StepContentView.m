@@ -102,7 +102,7 @@
         [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.stepLabel.mas_bottom).offset(13 * VIEW_FRAME_WIDTH / 360);
             make.centerX.equalTo(self.stepCircleChart.mas_centerX);
-            make.width.equalTo(self.stepLabel.mas_width).offset(-6 * VIEW_FRAME_WIDTH / 360);
+            make.width.equalTo(@(158 * VIEW_FRAME_WIDTH / 360));
             make.height.equalTo(@1);
         }];
         

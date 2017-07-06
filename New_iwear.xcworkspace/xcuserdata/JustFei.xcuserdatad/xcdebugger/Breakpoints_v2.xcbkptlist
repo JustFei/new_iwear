@@ -10,59 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "New_iwear/AppDelegate.m"
-            timestampString = "520243250.386818"
+            timestampString = "520996266.006382"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "274"
-            endingLineNumber = "274"
-            landmarkName = "-getSearchPhoneNoti:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "New_iwear/AppDelegate.m"
-            timestampString = "520243250.386818"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "260"
-            endingLineNumber = "260"
-            landmarkName = "-getSearchPhoneNoti:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "New_iwear/BleManager/BleManager.m"
-            timestampString = "520771206.273732"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1062"
-            endingLineNumber = "1062"
-            landmarkName = "-analysisDataWithCharacteristic:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "New_iwear/AppDelegate.m"
-            timestampString = "520243250.386818"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "299"
-            endingLineNumber = "299"
+            startingLineNumber = "278"
+            endingLineNumber = "278"
             landmarkName = "-requestNotify"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,29 +26,46 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "New_iwear/AppDelegate.m"
-            timestampString = "520243250.386818"
+            timestampString = "520996266.006382"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "297"
-            endingLineNumber = "297"
+            startingLineNumber = "264"
+            endingLineNumber = "264"
+            landmarkName = "-getSearchPhoneNoti:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "New_iwear/AppDelegate.m"
+            timestampString = "520996266.006382"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "303"
+            endingLineNumber = "303"
+            landmarkName = "-dealloc"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "New_iwear/AppDelegate.m"
+            timestampString = "520996266.006382"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "301"
+            endingLineNumber = "301"
             landmarkName = "-requestNotify"
             landmarkType = "7">
             <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[AppDelegate requestNotify]"
-                  moduleName = "New_iwear"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mofujian/Desktop/ProjectList/ProjectList/iwear/New_iwear/New_iwear/New_iwear/AppDelegate.m"
-                  timestampString = "520920578.262083"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "297"
-                  endingLineNumber = "297"
-                  offsetFromSymbolStart = "484">
-               </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
@@ -105,12 +74,42 @@
                   moduleName = "New_iwear"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mofujian/Desktop/ProjectList/ProjectList/iwear/New_iwear/New_iwear/New_iwear/AppDelegate.m"
-                  timestampString = "520920578.263829"
+                  timestampString = "521020566.657231"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "298"
-                  endingLineNumber = "298"
-                  offsetFromSymbolStart = "48">
+                  startingLineNumber = "301"
+                  endingLineNumber = "301"
+                  offsetFromSymbolStart = "164">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__copy_helper_block_.235"
+                  moduleName = "New_iwear"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mofujian/Desktop/ProjectList/ProjectList/iwear/New_iwear/New_iwear/New_iwear/AppDelegate.m"
+                  timestampString = "521020566.661518"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "301"
+                  endingLineNumber = "301"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_.236"
+                  moduleName = "New_iwear"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mofujian/Desktop/ProjectList/ProjectList/iwear/New_iwear/New_iwear/New_iwear/AppDelegate.m"
+                  timestampString = "521020566.664389"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "301"
+                  endingLineNumber = "301"
+                  offsetFromSymbolStart = "36">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -234,7 +233,7 @@
                   moduleName = "New_iwear"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mofujian/Desktop/ProjectList/ProjectList/iwear/New_iwear/New_iwear/New_iwear/VersionUpdateViewController/VersionUpdateViewController.m"
-                  timestampString = "520920578.289398"
+                  timestampString = "521020566.723887"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "81"
@@ -249,7 +248,7 @@
                   moduleName = "New_iwear"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mofujian/Desktop/ProjectList/ProjectList/iwear/New_iwear/New_iwear/New_iwear/VersionUpdateViewController/VersionUpdateViewController.m"
-                  timestampString = "520920578.291098"
+                  timestampString = "521020566.727209"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "81"
@@ -264,7 +263,7 @@
                   moduleName = "New_iwear"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/mofujian/Desktop/ProjectList/ProjectList/iwear/New_iwear/New_iwear/New_iwear/VersionUpdateViewController/VersionUpdateViewController.m"
-                  timestampString = "520920578.292843"
+                  timestampString = "521020566.731074"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "81"
@@ -463,38 +462,6 @@
             startingLineNumber = "518"
             endingLineNumber = "518"
             landmarkName = "-insertSleepModel:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "New_iwear/BleManager/BleManager.m"
-            timestampString = "520851549.720251"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1058"
-            endingLineNumber = "1058"
-            landmarkName = "-analysisDataWithCharacteristic:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "New_iwear/BleManager/BleManager.m"
-            timestampString = "520851560.641286"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "991"
-            endingLineNumber = "991"
-            landmarkName = "-analysisDataWithCharacteristic:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

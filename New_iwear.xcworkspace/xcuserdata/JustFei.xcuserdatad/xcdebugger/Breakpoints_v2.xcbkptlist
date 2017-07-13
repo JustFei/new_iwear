@@ -63,7 +63,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "301"
             endingLineNumber = "301"
-            landmarkName = "-requestNotify"
+            landmarkName = "-dealloc"
             landmarkType = "7">
             <Locations>
                <Location

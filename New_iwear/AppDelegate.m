@@ -191,10 +191,6 @@ static void completionCallback(SystemSoundID mySSID)
                 break;
         }
     }
-//    else if ([keyPath isEqualToString:@"connectState"]) {
-//        NSString *new = change[@"new"];
-//        
-//    }
 }
 
 /** 用来判断是否显示状态栏 */

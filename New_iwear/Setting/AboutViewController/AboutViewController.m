@@ -23,7 +23,7 @@ static NSString * const AboutTableViewCellID = @"AboutTableViewCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"关于";
+    self.title = NSLocalizedString(@"about", nil);
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
@@ -146,7 +146,7 @@ static NSString * const AboutTableViewCellID = @"AboutTableViewCell";
 - (NSArray *)dataArr
 {
     if (!_dataArr) {
-        _dataArr = @[@"检查升级"
+        _dataArr = @[NSLocalizedString(@"checkUpdate", nil)
 //                     @"使用帮助",
 //                     @"关于我们"
                      ];

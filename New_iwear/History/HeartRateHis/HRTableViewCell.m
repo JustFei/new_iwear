@@ -44,7 +44,7 @@
         _unitLabel = [[UILabel alloc] init];
         [_unitLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [_unitLabel setFont:[UIFont systemFontOfSize:8]];
-        [_unitLabel setText:@"次/分钟"];
+        [_unitLabel setText:NSLocalizedString(@"time/min", nil)];
         [self addSubview:_unitLabel];
         [_unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.mas_centerY).offset(8);

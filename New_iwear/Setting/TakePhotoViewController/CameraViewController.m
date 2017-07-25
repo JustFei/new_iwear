@@ -28,7 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"遥控拍照";
+    self.title = NSLocalizedString(@"RemoteControlCamera", nil);
     self.view.backgroundColor = SETTING_BACKGROUND_COLOR;
     
     [self cameraDistrict];
@@ -180,14 +180,14 @@
 {
     NSString *msg = nil ;
     if(error != NULL){
-        msg = @"保存图片失败" ;
+        msg = NSLocalizedString(@"savePicFail", nil) ;
     }else{
-        msg = @"保存图片成功" ;
+        msg = NSLocalizedString(@"savePicSuccess", nil) ;
     }
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"保存图片结果提示"
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"savePisResultTip", nil)
                                                     message:msg
                                                    delegate:self
-                                          cancelButtonTitle:@"确定"
+                                          cancelButtonTitle:NSLocalizedString(@"sure", nil)
                                           otherButtonTitles:nil];
     [alert show];
 }

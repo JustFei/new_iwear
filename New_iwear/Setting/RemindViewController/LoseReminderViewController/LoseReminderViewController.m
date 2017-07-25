@@ -23,13 +23,13 @@ static NSString * const LoseReminderTableViewCellID = @"LoseReminderTableViewCel
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"防丢提醒";
+    self.title = NSLocalizedString(@"lostRemind", nil);
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"保存", nil) style:UIBarButtonItemStylePlain target:self action:@selector(saveLoseAction)];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"save", nil) style:UIBarButtonItemStylePlain target:self action:@selector(saveLoseAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
@@ -73,11 +73,11 @@ static NSString * const LoseReminderTableViewCellID = @"LoseReminderTableViewCel
         SedentaryReminderModel *model = self.dataArr.firstObject;
         NSData *data = [NSKeyedArchiver archivedDataWithRootObject:model];
         [[NSUserDefaults standardUserDefaults] setObject:data forKey:LOST_SETTING];
-        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
+        MDToast *sucToast = [[MDToast alloc] initWithText:NSLocalizedString(@"saveSuccess", nil) duration:1.5];
         [sucToast show];
         [self.navigationController popViewControllerAnimated:YES];
     }else {
-        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存失败" duration:1.5];
+        MDToast *sucToast = [[MDToast alloc] initWithText:NSLocalizedString(@"saveFail", nil) duration:1.5];
         [sucToast show];
     }
 }
@@ -160,10 +160,10 @@ static NSString * const LoseReminderTableViewCellID = @"LoseReminderTableViewCel
             _dataArr = @[model];
         }else {
             SedentaryReminderModel *model = [[SedentaryReminderModel alloc] init];
-            model.title = @"开启防丢提醒";
+            model.title = NSLocalizedString(@"openLostRemind", nil);
             model.switchIsOpen = NO;
             model.whetherHaveSwitch = YES;
-            model.subTitle = @"连接断开时振动";
+            model.subTitle = NSLocalizedString(@"disconnectVibrate", nil);
             _dataArr = @[model];
         }
     }

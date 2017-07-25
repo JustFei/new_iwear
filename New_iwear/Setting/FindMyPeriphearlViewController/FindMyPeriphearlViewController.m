@@ -21,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"查找手环";
+    self.title = NSLocalizedString(@"searchPer", nil);
     self.view.backgroundColor = SETTING_BACKGROUND_COLOR;
     
     [self createUI];
@@ -40,7 +40,7 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
     UILabel *infoLabel = [[UILabel alloc] init];
-    [infoLabel setText:@"使用此功能需手环与手机保持连接"];
+    [infoLabel setText:NSLocalizedString(@"needConnectPer", nil)];
     [infoLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [infoLabel setFont:[UIFont systemFontOfSize:14]];
     [self.view addSubview:infoLabel];
@@ -74,7 +74,7 @@
     self.findBtn.layer.cornerRadius = 36;
     
     UILabel *takePhotoLabel = [[UILabel alloc] init];
-    [takePhotoLabel setText:@"查找手环"];
+    [takePhotoLabel setText:NSLocalizedString(@"searchPer", nil)];
     [takePhotoLabel setFont:[UIFont systemFontOfSize:14]];
     [takePhotoLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [self.view addSubview:takePhotoLabel];
@@ -84,7 +84,7 @@
     }];
     
     UILabel *tipLabel = [[UILabel alloc] init];
-    [tipLabel setText:@"如果找到手环，手环会振动和亮屏"];
+    [tipLabel setText:NSLocalizedString(@"vibrationWhenFoundPer", nil)];
     [tipLabel setFont:[UIFont systemFontOfSize:12]];
     [tipLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [self.view addSubview:tipLabel];
@@ -114,10 +114,10 @@
         [self.timeToast show];
         __block int time = 10;
         self.findTimer = [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
-            self.timeToast.text = [NSString stringWithFormat:@"正在查找设备：%d", time];
+            self.timeToast.text = [NSString stringWithFormat:@"%@:%d", NSLocalizedString(@"findingPer", nil), time];
             time = time - 1;
             if (time  == 0) {
-                self.timeToast.text = @"设备未响应，请稍后重试";
+                self.timeToast.text = NSLocalizedString(@"perNotResponse", nil);
                 [self endTimerAndDismissToast];
                 return ;
             }
@@ -131,10 +131,10 @@
     NSLog(@"isFirst:%d",isFirst);
     //这里不能直接写 if (isFirst),必须如下写法
     if (isFirst == 1) {
-        self.timeToast.text = @"设备已找到";
+        self.timeToast.text = NSLocalizedString(@"perHasFound", nil);
         [self endTimerAndDismissToast];
     }else {
-        self.timeToast.text = @"错误";
+        self.timeToast.text = NSLocalizedString(@"wrong", nil);
         [self endTimerAndDismissToast];
     }
 }
@@ -154,7 +154,7 @@
 - (MDToast *)timeToast
 {
     if (!_timeToast) {
-        _timeToast = [[MDToast alloc] initWithText:@"正在查找设备..." duration:15];
+        _timeToast = [[MDToast alloc] initWithText:NSLocalizedString(@"findingPer", nil) duration:15];
     }
     
     return _timeToast;

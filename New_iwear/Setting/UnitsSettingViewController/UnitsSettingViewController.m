@@ -23,13 +23,13 @@ static NSString * const UnitsSettingTableViewCellID = @"UnitsSettingTableViewCel
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"单位设置";
+    self.title = NSLocalizedString(@"unitSetting", nil);
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"保存", nil) style:UIBarButtonItemStylePlain target:self action:@selector(saveUnitsAction)];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"save", nil) style:UIBarButtonItemStylePlain target:self action:@selector(saveUnitsAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
@@ -86,7 +86,7 @@ static NSString * const UnitsSettingTableViewCellID = @"UnitsSettingTableViewCel
         NSArray *saveArr = [NSArray arrayWithArray:saveMutArr];
         [[NSUserDefaults standardUserDefaults] setObject:saveArr forKey:UNITS_SETTING];
         [self.hud hideAnimated:YES];
-        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
+        MDToast *sucToast = [[MDToast alloc] initWithText:NSLocalizedString(@"saveSuccess", nil) duration:1.5];
         [sucToast show];
         NSArray *arr1 = self.dataArr.firstObject;
 //        NSArray *arr2 = self.dataArr.lastObject;
@@ -101,7 +101,7 @@ static NSString * const UnitsSettingTableViewCellID = @"UnitsSettingTableViewCel
     }else {
         //做失败处理
         [self.hud hideAnimated:YES];
-        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存失败，稍后再试" duration:1.5];
+        MDToast *sucToast = [[MDToast alloc] initWithText:NSLocalizedString(@"saveFail", nil) duration:1.5];
         [sucToast show];
     }
 }
@@ -151,7 +151,7 @@ static NSString * const UnitsSettingTableViewCellID = @"UnitsSettingTableViewCel
     UIView *headerView = [[UIView alloc] init];
     headerView.backgroundColor = CLEAR_COLOR;
     UILabel *sectionTitleLabel = [[UILabel alloc] init];
-    [sectionTitleLabel setText:section == 0 ? @"长度单位设置" : @"重量单位设置"];
+    [sectionTitleLabel setText:section == 0 ? NSLocalizedString(@"longUnitSet", nil) : NSLocalizedString(@"weightUnitSet", nil)];
     [sectionTitleLabel setFont:[UIFont systemFontOfSize:14]];
     [sectionTitleLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [headerView addSubview:sectionTitleLabel];
@@ -208,7 +208,7 @@ static NSString * const UnitsSettingTableViewCellID = @"UnitsSettingTableViewCel
             }
             _dataArr = mutArr;
         }else {
-            NSArray *sec1 = @[@"公制(米/公里/千克)", @"英制(英寸/英尺/英磅)"];
+            NSArray *sec1 = @[NSLocalizedString(@"metric", nil), NSLocalizedString(@"inch", nil)];
 //            NSArray *sec2 = @[@"公制(公斤)",@"英制()"];
             NSMutableArray *mutArr1 = [NSMutableArray array];
 //            NSMutableArray *mutArr2 = [NSMutableArray array];

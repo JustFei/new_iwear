@@ -54,7 +54,7 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
 - (void)initUI
 {
     UILabel *todayLabel = [[UILabel alloc] init];
-    [todayLabel setText:@"上次测量结果"];
+    [todayLabel setText:NSLocalizedString(@"lastTestResult", nil)];
     [todayLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [todayLabel setFont:[UIFont systemFontOfSize:12]];
     [self.view addSubview:todayLabel];
@@ -92,7 +92,7 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
     }];
     
     self.hisBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
-    [self.hisBtn setTitle:@"本月" forState:UIControlStateNormal];
+    [self.hisBtn setTitle:NSLocalizedString(@"curMonth", nil) forState:UIControlStateNormal];
     [self.hisBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
     [self.hisBtn setTitleColor:TEXT_BLACK_COLOR_LEVEL4 forState:UIControlStateNormal];
     self.hisBtn.backgroundColor = CLEAR_COLOR;
@@ -227,24 +227,24 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
     switch (self.vcType) {
         case ViewControllerTypeHR:
         {
-            self.title = @"心率记录";
+            self.title = NSLocalizedString(@"hrLog", nil);
             [self.navigationController.navigationBar setBackgroundColor:HR_CURRENT_BACKGROUND_COLOR];
             view1.layer.borderColor = HR_CURRENT_BACKGROUND_COLOR.CGColor;
             view2.layer.borderColor = HR_CURRENT_BACKGROUND_COLOR.CGColor;
             view3.layer.borderColor = HR_CURRENT_BACKGROUND_COLOR.CGColor;
             [headImageView setImage:[UIImage imageNamed:@"heart_heartic02"]];
             [self.datePicker setHighlightColor:HR_CURRENT_BACKGROUND_COLOR];//设置高亮颜色
-            [unitLabel setText:@"次/分钟"];
-            [unitLabel2 setText:@"次/分钟"];
-            [unitLabel3 setText:@"次/分钟"];
-            [view1Title setText:@"平均心率"];
-            [view2Title setText:@"最低心率"];
-            [view3Title setText:@"最高心率"];
+            [unitLabel setText:NSLocalizedString(@"time/min", nil)];
+            [unitLabel2 setText:NSLocalizedString(@"time/min", nil)];
+            [unitLabel3 setText:NSLocalizedString(@"time/min", nil)];
+            [view1Title setText:NSLocalizedString(@"averageHr", nil)];
+            [view2Title setText:NSLocalizedString(@"minimumHr", nil)];
+            [view3Title setText:NSLocalizedString(@"maximumHr", nil)];
         }
             break;
         case ViewControllerTypeBP:
         {
-            self.title = @"血压记录";
+            self.title = NSLocalizedString(@"bpLog", nil);
             [self.navigationController.navigationBar setBackgroundColor:BP_HISTORY_BACKGROUND_COLOR];
             view1.layer.borderColor = BP_HISTORY_BACKGROUND_COLOR.CGColor;
             view2.layer.borderColor = BP_HISTORY_BACKGROUND_COLOR.CGColor;
@@ -254,14 +254,14 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
             [unitLabel setText:@""];
             [unitLabel2 setText:@"mmHg"];
             [unitLabel3 setText:@"mmHg"];
-            [view1Title setText:@"时间"];
-            [view2Title setText:@"平均收缩压"];
-            [view3Title setText:@"平均舒张压"];
+            [view1Title setText:NSLocalizedString(@"time", nil)];
+            [view2Title setText:NSLocalizedString(@"averageSystolicPressure", nil)];
+            [view3Title setText:NSLocalizedString(@"averageDiastolicPressure", nil)];
         }
             break;
         case ViewControllerTypeBO:
         {
-            self.title = @"血氧记录";
+            self.title = NSLocalizedString(@"boLog", nil);
             [self.navigationController.navigationBar setBackgroundColor:BO_HISTORY_BACKGROUND_COLOR];
             view1.layer.borderColor = BO_HISTORY_BACKGROUND_COLOR.CGColor;
             view2.layer.borderColor = BO_HISTORY_BACKGROUND_COLOR.CGColor;
@@ -271,9 +271,9 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
             [unitLabel setText:@"%"];
             [unitLabel2 setText:@"%"];
             [unitLabel3 setText:@"%"];
-            [view1Title setText:@"平均血氧"];
-            [view2Title setText:@"最低血氧"];
-            [view3Title setText:@"最高血氧"];
+            [view1Title setText:NSLocalizedString(@"averageBo", nil)];
+            [view2Title setText:NSLocalizedString(@"minimumBo", nil)];
+            [view3Title setText:NSLocalizedString(@"maximumBo", nil)];
         }
             break;
             
@@ -349,10 +349,10 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
         HRTableModel *tableModel = [[HRTableModel alloc] init];
         NSString *monthStr = [model.time substringWithRange:NSMakeRange(0, 2)];
         NSString *dayStr = [model.time substringWithRange:NSMakeRange(3, 2)];
-        tableModel.dateStr = [NSString stringWithFormat:@"%@月%@日", monthStr, dayStr];
+        tableModel.dateStr = [NSString stringWithFormat:@"%@%@%@%@", monthStr,NSLocalizedString(@"month", nil), dayStr, NSLocalizedString(@"day", nil)];
         tableModel.timeStr = [model.time substringWithRange:NSMakeRange(6, 5)];
         tableModel.dataStr = model.heartRate;
-        tableModel.unitStr = @"次/分钟";
+        tableModel.unitStr = NSLocalizedString(@"time/min", nil);
         
         //获取最大值
         if (model.heartRate.integerValue > maxHr) {
@@ -391,7 +391,7 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
         HRTableModel *tableModel = [[HRTableModel alloc] init];
         NSString *monthStr = [model.dayString substringWithRange:NSMakeRange(5, 2)];
         NSString *dayStr = [model.dayString substringWithRange:NSMakeRange(8, 2)];
-        tableModel.dateStr = [NSString stringWithFormat:@"%@月%@日", monthStr, dayStr];
+        tableModel.dateStr = [NSString stringWithFormat:@"%@%@%@%@", monthStr,NSLocalizedString(@"month", nil), dayStr, NSLocalizedString(@"day", nil)];
         tableModel.timeStr = [model.highBloodString stringByAppendingString:@"mmHg"];
         tableModel.dataStr = model.lowBloodString;
         tableModel.unitStr = @"mmHg";
@@ -412,7 +412,8 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
         float aveLowBp = (float)sumLowBp / bpArr.count;
         NSString *year = [lastTestModel.monthString substringWithRange:NSMakeRange(0, 4)];
         NSString *month = [lastTestModel.monthString substringWithRange:NSMakeRange(5, 2)];
-        self.view1StepLabel.text = [NSString stringWithFormat:@"%@年%@月", year, month];
+        
+        self.view1StepLabel.text = [NSString stringWithFormat:@"%@%@%@%@", year, NSLocalizedString(@"year", nil), month, NSLocalizedString(@"month", nil)];
         self.view2MileageLabel.text = [NSString stringWithFormat:@"%.0f", aveHighBp];
         self.view3kCalLabel.text = [NSString stringWithFormat:@"%.0f", aveLowBp];
     });
@@ -429,7 +430,7 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
         HRTableModel *tableModel = [[HRTableModel alloc] init];
         NSString *monthStr = [model.dayString substringWithRange:NSMakeRange(5, 2)];
         NSString *dayStr = [model.dayString substringWithRange:NSMakeRange(8, 2)];
-        tableModel.dateStr = [NSString stringWithFormat:@"%@月%@日", monthStr, dayStr];
+        tableModel.dateStr = [NSString stringWithFormat:@"%@%@%@%@", monthStr,NSLocalizedString(@"month", nil), dayStr, NSLocalizedString(@"day", nil)];
         tableModel.timeStr = [model.timeString substringWithRange:NSMakeRange(0, 5)];
         tableModel.dataStr = [NSString stringWithFormat:@"%@.%@", model.integerString, model.floatString];
         tableModel.unitStr = @"%";
@@ -483,7 +484,7 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
     self.datePicker.maximumDate = maxDate;//设置显示的最大日期
     [self.datePicker setTintColor:TEXT_BLACK_COLOR_LEVEL3];//设置主色
     //默认日期一定要最后设置，否在会被覆盖成当天的日期(貌似没什么效果)
-    [self.datePicker setDate:[sender.titleLabel.text isEqualToString:@"本月"] ? [NSDate date] : [dateFormatter dateFromString:sender.titleLabel.text]];
+    [self.datePicker setDate:[sender.titleLabel.text isEqualToString:NSLocalizedString(@"curMonth", nil)] ? [NSDate date] : [dateFormatter dateFromString:sender.titleLabel.text]];
     
     [self.datePicker show];
 }
@@ -536,7 +537,7 @@ static NSString * const HRTableViewCellID = @"HRTableViewCell";
     [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:8 * 3600]];
     NSString *currentDateString = [formatter stringFromDate:date];
     
-    [self.hisBtn setTitle:[currentDateString isEqualToString:_todayStr] ? @"本月" : currentDateString forState:UIControlStateNormal];
+    [self.hisBtn setTitle:[currentDateString isEqualToString:_todayStr] ? NSLocalizedString(@"curMonth", nil) : currentDateString forState:UIControlStateNormal];
     [self.dataArr removeAllObjects];
     [self getDataFromDBWithMonthStr:currentDateString];
 }

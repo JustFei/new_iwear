@@ -25,13 +25,13 @@ static NSString *const interfaceCollectionViewHeaderID = @"interfaceCollectionVi
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"界面选择";
+    self.title = NSLocalizedString(@"interfaceSelect", nil);
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"保存", nil) style:UIBarButtonItemStylePlain target:self action:@selector(saveAction)];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"save", nil) style:UIBarButtonItemStylePlain target:self action:@selector(saveAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
@@ -80,13 +80,13 @@ static NSString *const interfaceCollectionViewHeaderID = @"interfaceCollectionVi
         NSArray *saveArr = [NSArray arrayWithArray:saveMutArr];
         [[NSUserDefaults standardUserDefaults] setObject:saveArr forKey:WINDOW_SETTING];
         [self.hud hideAnimated:YES];
-        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
+        MDToast *sucToast = [[MDToast alloc] initWithText:NSLocalizedString(@"saveSuccess", nil) duration:1.5];
         [sucToast show];
         [self.navigationController popViewControllerAnimated:YES];
     }else {
         //做失败处理
         [self.hud hideAnimated:YES];
-        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存失败，稍后再试" duration:1.5];
+        MDToast *sucToast = [[MDToast alloc] initWithText:NSLocalizedString(@"saveFail", nil) duration:1.5];
         [sucToast show];
     }
 }
@@ -121,7 +121,7 @@ static NSString *const interfaceCollectionViewHeaderID = @"interfaceCollectionVi
 {
     UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:interfaceCollectionViewHeaderID forIndexPath:indexPath];
     UILabel *tipLabel = [[UILabel alloc] init];
-    [tipLabel setText:@"选择需要在设备上显示的界面"];
+    [tipLabel setText:NSLocalizedString(@"chooseInterface", nil)];
     [tipLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [tipLabel setFont:[UIFont systemFontOfSize:14]];
     [headerView addSubview:tipLabel];
@@ -205,7 +205,7 @@ static NSString *const interfaceCollectionViewHeaderID = @"interfaceCollectionVi
             }
             _dataArr = mutArr;
         }else {
-            NSArray *nameArr = @[@"待机",@"计步",@"运动",@"心率",@"睡眠",@"查找",@"闹钟",@"关于",@"关机"];
+            NSArray *nameArr = @[NSLocalizedString(@"standby", nil),NSLocalizedString(@"step", nil),NSLocalizedString(@"sport", nil),NSLocalizedString(@"hr", nil),NSLocalizedString(@"sleep", nil),NSLocalizedString(@"search", nil),NSLocalizedString(@"clock", nil),NSLocalizedString(@"about", nil),NSLocalizedString(@"shutdown", nil)];
             NSArray *imageArr = @[@"selection_standby",@"selection_sport",@"selection_step",@"selection_heartrate",@"selection_sleep",@"selection_find",@"selection_alarmclock",@"selection_about",@"selection_turnoff"];
             NSMutableArray *mutArr = [NSMutableArray array];
             for (int i = 0; i < nameArr.count; i ++) {

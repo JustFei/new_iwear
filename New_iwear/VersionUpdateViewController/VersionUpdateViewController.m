@@ -29,7 +29,7 @@ static NSString *const VersionUpdateTableViewCellID = @"VersionUpdateTableViewCe
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.title = @"检查升级";
+    self.title = NSLocalizedString(@"checkUpdate", nil);
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
@@ -60,7 +60,7 @@ static NSString *const VersionUpdateTableViewCellID = @"VersionUpdateTableViewCe
         if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
             [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
         }else {
-            self.loadingToast = [[MDToast alloc] initWithText:@"检查更新中" duration: 10000];
+            self.loadingToast = [[MDToast alloc] initWithText:NSLocalizedString(@"checkUpdating", nil) duration: 10000];
             [self.loadingToast show];
             
             NSURL *url = [NSURL URLWithString:@"http://39.108.92.15:12345/version.xml"];
@@ -77,7 +77,7 @@ static NSString *const VersionUpdateTableViewCellID = @"VersionUpdateTableViewCe
                     [parser parse];
                 }else {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.loadingToast setText:@"网络异常，请连接网络后再尝试"];
+                        [self.loadingToast setText:NSLocalizedString(@"netError", nil)];
                     });
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                         [self.loadingToast dismiss];
@@ -128,7 +128,7 @@ static NSString *const VersionUpdateTableViewCellID = @"VersionUpdateTableViewCe
                     });
                 }else {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.loadingToast setText:@"暂无更新"];
+                        [self.loadingToast setText:NSLocalizedString(@"noUpdate", nil)];
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                             [self.loadingToast dismiss];
                         });
@@ -208,10 +208,10 @@ static NSString *const VersionUpdateTableViewCellID = @"VersionUpdateTableViewCe
     if (!_dataArr) {
         NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
         NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
-        VersionModel *model0 = [VersionModel modelWithTitle:@"软件版本" andVersion:app_Version];
+        VersionModel *model0 = [VersionModel modelWithTitle:NSLocalizedString(@"softwareVersion", nil) andVersion:app_Version];
         model0.versionType = VersionTypeSoftware;
         NSString *hardware_Version = [[NSUserDefaults standardUserDefaults] objectForKey:HARDWARE_VERSION];
-        VersionModel *model1 = [VersionModel modelWithTitle:@"硬件版本" andVersion:hardware_Version == nil ? @"" : hardware_Version];
+        VersionModel *model1 = [VersionModel modelWithTitle:NSLocalizedString(@"hardwareVersion", nil) andVersion:hardware_Version == nil ? @"" : hardware_Version];
         model1.versionType = VersionTypeHardware;
         
         _dataArr = @[model0, model1];
@@ -223,10 +223,10 @@ static NSString *const VersionUpdateTableViewCellID = @"VersionUpdateTableViewCe
 - (UIAlertController *)updateAc
 {
     if (!_updateAc) {
-        _updateAc = [UIAlertController alertControllerWithTitle:@"更新提示" message:@"有新的更新，是否现在更新？" preferredStyle:UIAlertControllerStyleAlert];
+        _updateAc = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"tips", nil) message:NSLocalizedString(@"sureUpdate", nil) preferredStyle:UIAlertControllerStyleAlert];
         
-        UIAlertAction *cancelAc = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
-        UIAlertAction *okAc = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertAction *cancelAc = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:UIAlertActionStyleDefault handler:nil];
+        UIAlertAction *okAc = [UIAlertAction actionWithTitle:NSLocalizedString(@"sure", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             UpdateViewController *vc = [[UpdateViewController alloc] init];
             vc.filePa = self.filePath;
             [self presentViewController:vc animated:YES completion:nil];

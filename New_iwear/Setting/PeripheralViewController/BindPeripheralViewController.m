@@ -52,8 +52,8 @@
     index = -1;
     
     //navigationbar
-    self.title = @"设备绑定";
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"搜索", nil) style:UIBarButtonItemStylePlain target:self action:@selector(searchPeripheral)];
+    self.title = NSLocalizedString(@"perBind", nil);
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"search", nil) style:UIBarButtonItemStylePlain target:self action:@selector(searchPeripheral)];
     self.navigationItem.rightBarButtonItem = rightItem;
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
@@ -117,7 +117,7 @@
     self.navigationItem.rightBarButtonItem.enabled = NO;
     self.bindButton.hidden = NO;
     [self.connectImageView setImage:[UIImage imageNamed:@"devicebinding_pic01_connect"]];
-    [self.bindButton setTitle:@"解除绑定" forState:UIControlStateNormal];
+    [self.bindButton setTitle:NSLocalizedString(@"cancelBind", nil) forState:UIControlStateNormal];
     [self.peripheralList setHidden:YES];
     [self.refreshImageView setHidden:YES];
     [self.bindStateLabel setText:[[NSUserDefaults standardUserDefaults] objectForKey:@"bindPeripheralName"]];
@@ -129,10 +129,10 @@
     self.navigationItem.rightBarButtonItem.enabled = YES;
     self.bindButton.hidden = YES;
     [self.connectImageView setImage: [UIImage imageNamed:@"devicebinding_pic01_disconnect"]];
-    [self.bindButton setTitle:@"绑定设备" forState:UIControlStateNormal];
+    [self.bindButton setTitle:NSLocalizedString(@"bindPer", nil) forState:UIControlStateNormal];
     [self.peripheralList setHidden:YES];
     [self.refreshImageView setHidden:NO];
-    [self.bindStateLabel setText:@"未绑定设备"];
+    [self.bindStateLabel setText:NSLocalizedString(@"notBindPer", nil)];
     [self.qrCodeButton setHidden:NO];
 }
 
@@ -163,7 +163,7 @@
 /** 绑定/接触绑定设备 */
 - (void)bindPeripheral:(MDButton *)sender
 {
-    if ([sender.titleLabel.text isEqualToString:@"绑定设备"]) {
+    if ([sender.titleLabel.text isEqualToString:NSLocalizedString(@"bindPer", nil)]) {
         if (index != -1) {
             self.navigationItem.rightBarButtonItem.enabled = NO;
             
@@ -172,14 +172,14 @@
             self.myBleMananger.isReconnect = YES;
             self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             self.hud.mode = MBProgressHUDModeIndeterminate;
-            [self.hud.label setText:NSLocalizedString(@"绑定中", nil)];
+            [self.hud.label setText:NSLocalizedString(@"binding", nil)];
         }else {
-            MDToast *toast = [[MDToast alloc] initWithText:@"请选择设备以绑定" duration:0.5];
+            MDToast *toast = [[MDToast alloc] initWithText:NSLocalizedString(@"choosePerToBind", nil) duration:0.5];
             [toast show];
         }
     }else {
-        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"确定解除绑定？" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *okAc = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"tips", nil) message:NSLocalizedString(@"sureCancelBind", nil) preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAc = [UIAlertAction actionWithTitle:NSLocalizedString(@"sure", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             self.myBleMananger.isReconnect = NO;
             [self.myBleMananger unConnectDevice];
             index = -1;
@@ -191,10 +191,10 @@
             [[NSUserDefaults standardUserDefaults] setObject:@"--" forKey:ELECTRICITY_INFO_SETTING];
             
             [self setUnBindView];
-            MDToast *disconnectToast = [[MDToast alloc] initWithText:@"解绑成功" duration:1];
+            MDToast *disconnectToast = [[MDToast alloc] initWithText:NSLocalizedString(@"cancelBindSuccess", nil) duration:1];
             [disconnectToast show];
         }];
-        UIAlertAction *cancelAc = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+        UIAlertAction *cancelAc = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:UIAlertActionStyleDefault handler:nil];
         [alertC addAction:cancelAc];
         [alertC addAction:okAc];
         [self presentViewController:alertC animated:YES completion:nil];
@@ -234,19 +234,19 @@
                 [self.myBleMananger scanDevice];
                 self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
                 self.hud.mode = MBProgressHUDModeIndeterminate;
-                [self.hud.label setText:NSLocalizedString(@"绑定中", nil)];
+                [self.hud.label setText:NSLocalizedString(@"binding", nil)];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     if (self.myBleMananger.connectState == kBLEstateDisConnected) {
                         [self.myBleMananger stopScan];
-                        [self.hud.label setText:@"绑定失败，请重试"];
+                        [self.hud.label setText:NSLocalizedString(@"bindFail", nil)];
                         [self.hud hideAnimated:YES afterDelay:1.5];
                     }
                 });
             };
             [self.navigationController pushViewController:vc animated:YES];
         } else if (status == AVAuthorizationStatusDenied) { // 用户拒绝当前应用访问相机
-            UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"⚠️ 警告" message:@"请去-> [设置 - 隐私 - 相机 - SGQRCodeExample] 打开访问开关" preferredStyle:(UIAlertControllerStyleAlert)];
-            UIAlertAction *alertA = [UIAlertAction actionWithTitle:@"确定" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+            UIAlertController *alertC = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"warning", nil) message:NSLocalizedString(@"warningMessage", nil) preferredStyle:(UIAlertControllerStyleAlert)];
+            UIAlertAction *alertA = [UIAlertAction actionWithTitle:NSLocalizedString(@"sure", nil) style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
                 
             }];
             
@@ -257,8 +257,8 @@
             NSLog(@"因为系统原因, 无法访问相册");
         }
     } else {
-        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"未检测到您的摄像头" preferredStyle:(UIAlertControllerStyleAlert)];
-        UIAlertAction *alertA = [UIAlertAction actionWithTitle:@"确定" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"warning", nil) message:NSLocalizedString(@"notFindCamera", nil) preferredStyle:(UIAlertControllerStyleAlert)];
+        UIAlertAction *alertA = [UIAlertAction actionWithTitle:NSLocalizedString(@"notFindCamera", nil) style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
             
         }];
         
@@ -279,24 +279,24 @@
     [self.peripheralList deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
 }
 
-- (void)changePeripheralName:(UILongPressGestureRecognizer *)sender
-{
-    if (sender.state == UIGestureRecognizerStateBegan) {
-        if ([BleManager shareInstance].connectState == kBLEstateDidConnected) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"修改名称" message:@"" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-            alertView.tag = 103;
-            [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
-            UITextField *nameField = [alertView textFieldAtIndex:0];
-            nameField.delegate = self;
-            nameField.placeholder = @"请输入修改的名称";
-            [alertView show];
-        }
-    }
-}
+//- (void)changePeripheralName:(UILongPressGestureRecognizer *)sender
+//{
+//    if (sender.state == UIGestureRecognizerStateBegan) {
+//        if ([BleManager shareInstance].connectState == kBLEstateDidConnected) {
+//            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"修改名称" message:@"" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:NSLocalizedString(@"sure", nil), nil];
+//            alertView.tag = 103;
+//            [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+//            UITextField *nameField = [alertView textFieldAtIndex:0];
+//            nameField.delegate = self;
+//            nameField.placeholder = @"请输入修改的名称";
+//            [alertView show];
+//        }
+//    }
+//}
 
 - (void)asynFail
 {
-    self.hud.label.text = @"同步失败";
+    self.hud.label.text = NSLocalizedString(@"syncFail", nil);
     [self.hud hideAnimated:YES afterDelay:1.5];
 }
 
@@ -354,16 +354,16 @@
 //这里我使用peripheral.identifier作为设备的唯一标识，没有使用mac地址，如果出现id变化导致无法连接的情况，请转成用mac地址作为唯一标识。
 - (void)manridyBLEDidConnectDevice:(BleDevice *)device
 {
-    self.hud.label.text = @"正在同步设置";
+    self.hud.label.text = NSLocalizedString(@"syncingSetting", nil);
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [[SyncTool shareInstance] syncSetting];
         [SyncTool shareInstance].syncSettingSuccessBlock = ^(BOOL success) {
             if (success) {
-                self.hud.label.text = @"同步完成";
+                self.hud.label.text = NSLocalizedString(@"syncSuccess", nil);
                 [self.hud hideAnimated:YES afterDelay:1.5];
                 [self.navigationController popViewControllerAnimated:YES];
             }else {
-                self.hud.label.text = @"同步失败";
+                self.hud.label.text = NSLocalizedString(@"syncFail", nil);
                 [self.hud hideAnimated:YES afterDelay:1.5];
             }
         };
@@ -377,7 +377,7 @@
     
     /** 修改状态栏的文本,隐藏二维码扫描,修改连接状态图,隐藏设备列表 */
     [self setBindView];
-    self.connectToast = [[MDToast alloc] initWithText:[NSString stringWithFormat:@"已绑定设备:%@", device.deviceName] duration:1];
+    self.connectToast = [[MDToast alloc] initWithText:[NSString stringWithFormat:@"%@:%@", NSLocalizedString(@"haveBindPer", nil), device.deviceName] duration:1];
     [self.connectToast show];
 }
 
@@ -515,7 +515,7 @@
 {
     if (!_bindButton) {
         MDButton *button = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
-        [button setTitle:NSLocalizedString(@"绑定设备", nil) forState:UIControlStateNormal];
+        [button setTitle:NSLocalizedString(@"bindPer", nil) forState:UIControlStateNormal];
         [button setTitleColor:NAVIGATION_BAR_COLOR forState:UIControlStateNormal];
         [button addTarget:self action:@selector(bindPeripheral:) forControlEvents:UIControlEventTouchUpInside];
         button.layer.borderWidth = 1;

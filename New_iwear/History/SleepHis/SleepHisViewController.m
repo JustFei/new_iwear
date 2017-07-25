@@ -54,7 +54,7 @@
     
     self.view.backgroundColor = WHITE_COLOR;
     self.leftButton.backgroundColor = CLEAR_COLOR;
-    self.title = @"睡眠记录";
+    self.title = NSLocalizedString(@"sleepLog", nil);   //@"睡眠记录";
     [self initUI];
     
     [self updateDBWithDate:[NSDate date]];
@@ -93,7 +93,7 @@
     [self.stepLabel setText:@"--"];
     
     UILabel *todayLabel = [[UILabel alloc] init];
-    [todayLabel setText:@"每日平均睡眠"];
+    [todayLabel setText:NSLocalizedString(@"dayAverageSleep", nil)];
     [todayLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [todayLabel setFont:[UIFont systemFontOfSize:20]];
     [self.view addSubview:todayLabel];
@@ -127,7 +127,7 @@
     [self.mileageAndkCalLabel setText:@""];
     
     MDButton *hisBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
-    [hisBtn setTitle:@"本月" forState:UIControlStateNormal];
+    [hisBtn setTitle:NSLocalizedString(@"curMonth", nil) forState:UIControlStateNormal];
     [hisBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
     [hisBtn setTitleColor:TEXT_BLACK_COLOR_LEVEL4 forState:UIControlStateNormal];
     hisBtn.backgroundColor = CLEAR_COLOR;
@@ -150,7 +150,7 @@
     }];
     
     UILabel *view1Title = [[UILabel alloc] init];
-    [view1Title setText:@"每日平均睡眠"];
+    [view1Title setText:NSLocalizedString(@"dayAverageSleep", nil)];
     [view1Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
     [view1Title setFont:[UIFont systemFontOfSize:12]];
     [self.view1 addSubview:view1Title];
@@ -181,7 +181,7 @@
     }];
     
     UILabel *view2Title = [[UILabel alloc] init];
-    [view2Title setText:@"深睡"];
+    [view2Title setText:NSLocalizedString(@"deepSleep", nil)];
     [view2Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
     [view2Title setFont:[UIFont systemFontOfSize:12]];
     [view2 addSubview:view2Title];
@@ -212,7 +212,7 @@
     }];
     
     UILabel *view3Title = [[UILabel alloc] init];
-    [view3Title setText:@"浅睡"];
+    [view3Title setText:NSLocalizedString(@"lowSleep", nil)];
     [view3Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
     [view3Title setFont:[UIFont systemFontOfSize:12]];
     [view3 addSubview:view3Title];
@@ -234,7 +234,7 @@
     UILabel *unitLabel = [[UILabel alloc] init];
     [unitLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [unitLabel setFont:[UIFont systemFontOfSize:8]];
-    [unitLabel setText:@"小时"];
+    [unitLabel setText:NSLocalizedString(@"hour", nil)];
     [self.view1 addSubview:unitLabel];
     [unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_view1StepLabel.mas_right).offset(8);
@@ -243,7 +243,7 @@
     UILabel *unitLabel2 = [[UILabel alloc] init];
     [unitLabel2 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [unitLabel2 setFont:[UIFont systemFontOfSize:8]];
-    [unitLabel2 setText:@"小时"];
+    [unitLabel2 setText:NSLocalizedString(@"hour", nil)];
     [self.view1 addSubview:unitLabel2];
     [unitLabel2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_view2MileageLabel.mas_right).offset(8);
@@ -252,7 +252,7 @@
     UILabel *unitLabel3 = [[UILabel alloc] init];
     [unitLabel3 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [unitLabel3 setFont:[UIFont systemFontOfSize:8]];
-    [unitLabel3 setText:@"小时"];
+    [unitLabel3 setText:NSLocalizedString(@"hour", nil)];
     [self.view1 addSubview:unitLabel3];
     [unitLabel3 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_view3kCalLabel.mas_right).offset(8);
@@ -414,7 +414,7 @@
     [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:8 * 3600]];
     NSString *currentDateString = [formatter stringFromDate:date];
     
-    [self.hisBtn setTitle:[currentDateString isEqualToString:_todayStr] ? @"本月" : currentDateString forState:UIControlStateNormal];
+    [self.hisBtn setTitle:[currentDateString isEqualToString:_todayStr] ? NSLocalizedString(@"curMonth", nil) : currentDateString forState:UIControlStateNormal];
     if (date) {
         [self updateDBWithDate:date];
     }
@@ -454,7 +454,7 @@
     self.datePicker.maximumDate = maxDate;//设置显示的最大日期
     [self.datePicker setTintColor:TEXT_BLACK_COLOR_LEVEL3];//设置主色
     //默认日期一定要最后设置，否在会被覆盖成当天的日期(貌似没什么效果)
-    [self.datePicker setDate:[sender.titleLabel.text isEqualToString:@"本月"] ? [NSDate date] : [dateFormatter dateFromString:sender.titleLabel.text]];
+    [self.datePicker setDate:[sender.titleLabel.text isEqualToString:NSLocalizedString(@"curMonth", nil)] ? [NSDate date] : [dateFormatter dateFromString:sender.titleLabel.text]];
     
     [self.datePicker show];
 }
@@ -615,7 +615,7 @@
 {
     if (!_noDataLabel) {
         _noDataLabel = [[UILabel alloc] init];
-        [_noDataLabel setText:@"无数据"];
+        [_noDataLabel setText:NSLocalizedString(@"noData", nil)];
         
         [self.sumSleepChart addSubview:_noDataLabel];
         [_noDataLabel mas_makeConstraints:^(MASConstraintMaker *make) {

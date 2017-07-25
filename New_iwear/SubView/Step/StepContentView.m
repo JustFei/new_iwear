@@ -79,7 +79,7 @@
         }];
         
         UILabel *todayLabel = [[UILabel alloc] init];
-        [todayLabel setText:@"今日步数"];
+        [todayLabel setText:NSLocalizedString(@"todayStep", nil)];
         [todayLabel setTextColor:TEXT_WHITE_COLOR_LEVEL3];
         [todayLabel setFont:[UIFont systemFontOfSize:20]];
         [self addSubview:todayLabel];
@@ -149,7 +149,7 @@
         }];
         
         UILabel *view1Title = [[UILabel alloc] init];
-        [view1Title setText:@"步数"];
+        [view1Title setText:NSLocalizedString(@"stepValue", nil)];
         [view1Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
         [view1Title setFont:[UIFont systemFontOfSize:12]];
         [self.view1 addSubview:view1Title];
@@ -180,7 +180,7 @@
         }];
         
         UILabel *view2Title = [[UILabel alloc] init];
-        [view2Title setText:@"里程"];
+        [view2Title setText:NSLocalizedString(@"mileageValue", nil)];
         [view2Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
         [view2Title setFont:[UIFont systemFontOfSize:12]];
         [view2 addSubview:view2Title];
@@ -211,7 +211,7 @@
         }];
         
         UILabel *view3Title = [[UILabel alloc] init];
-        [view3Title setText:@"卡路里"];
+        [view3Title setText:NSLocalizedString(@"kcalValue", nil)];
         [view3Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
         [view3Title setFont:[UIFont systemFontOfSize:12]];
         [view3 addSubview:view3Title];
@@ -232,7 +232,7 @@
         UILabel *unitLabel = [[UILabel alloc] init];
         [unitLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [unitLabel setFont:[UIFont systemFontOfSize:8]];
-        [unitLabel setText:@"步"];
+        [unitLabel setText:NSLocalizedString(@"step1", nil)];
         [self.view1 addSubview:unitLabel];
         [unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_view1StepLabel.mas_right).offset(8);
@@ -242,9 +242,9 @@
         [self.unitLabel2 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [self.unitLabel2 setFont:[UIFont systemFontOfSize:8]];
         if ([UnitsTool isMetricOrImperialSystem]) {
-            [self.unitLabel2 setText:@"公里"];
+            [self.unitLabel2 setText:NSLocalizedString(@"kilometre", nil)];
         }else {
-            [self.unitLabel2 setText:@"英里"];
+            [self.unitLabel2 setText:NSLocalizedString(@"mile", nil)];
         }
         
         [self.view1 addSubview:self.unitLabel2];
@@ -255,7 +255,7 @@
         UILabel *unitLabel3 = [[UILabel alloc] init];
         [unitLabel3 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [unitLabel3 setFont:[UIFont systemFontOfSize:8]];
-        [unitLabel3 setText:@"千卡"];
+        [unitLabel3 setText:NSLocalizedString(@"kCalorie", nil)];
         [self.view1 addSubview:unitLabel3];
         [unitLabel3 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_view3kCalLabel.mas_right).offset(8);
@@ -295,13 +295,13 @@
             SportModel *sportModel = stepArr.lastObject;
             self.stepLabel.text = sportModel.stepNumber;
             if ([UnitsTool isMetricOrImperialSystem]) {
-                [self.mileageAndkCalLabel setText:[NSString stringWithFormat:@"%.3f公里/%@千卡", sportModel.mileageNumber.floatValue / 1000, sportModel.kCalNumber]];
-                [self.unitLabel2 setText:@"公里"];
+                [self.mileageAndkCalLabel setText:[NSString stringWithFormat:@"%.3f%@/%@%@", sportModel.mileageNumber.floatValue / 1000, NSLocalizedString(@"kilometre", nil), sportModel.kCalNumber, NSLocalizedString(@"kCalorie", nil)]];
+                [self.unitLabel2 setText:NSLocalizedString(@"kilometre", nil)];
             }else {
                 float km = [UnitsTool kmAndMi:(sportModel.mileageNumber.floatValue / 1000) withMode:MetricToImperial];
                 [self.view2MileageLabel setText:[NSString stringWithFormat:@"%.3f", km]];
-                [self.mileageAndkCalLabel setText:[NSString stringWithFormat:@"%.3f英里/%@千卡", km, sportModel.kCalNumber]];
-                [self.unitLabel2 setText:@"英里"];
+                [self.mileageAndkCalLabel setText:[NSString stringWithFormat:@"%.3f%@/%@%@", km, NSLocalizedString(@"mile", nil), sportModel.kCalNumber, NSLocalizedString(@"kCalorie", nil)]];
+                [self.unitLabel2 setText:NSLocalizedString(@"mile", nil)];
             }
             
             [self updateCircleWithFloat:sportModel.stepNumber.floatValue];
@@ -324,11 +324,11 @@
     [self.view3kCalLabel setText:[NSString stringWithFormat:@"%@", self.kcalArr[barIndex]]];
     if ([UnitsTool isMetricOrImperialSystem]) {
         [self.view2MileageLabel setText:[NSString stringWithFormat:@"%.3f", ((NSNumber *)self.milArr[barIndex]).floatValue / 1000]];
-        [self.unitLabel2 setText:@"公里"];
+        [self.unitLabel2 setText:NSLocalizedString(@"kilometre", nil)];
     }else {
         float km = [UnitsTool kmAndMi:((NSString *)self.milArr[barIndex]).integerValue withMode:MetricToImperial];
         [self.view2MileageLabel setText:[NSString stringWithFormat:@"%0.3f", km / 1000]];
-        [self.unitLabel2 setText:@"英里"];
+        [self.unitLabel2 setText:NSLocalizedString(@"mile", nil)];
     }
 }
 
@@ -360,14 +360,14 @@
             [self.view1StepLabel setText:[NSString stringWithFormat:@"%@", model.sportModel.stepNumber]];
             //长度单位转换
             if ([UnitsTool isMetricOrImperialSystem]) {
-                [self.mileageAndkCalLabel setText:[NSString stringWithFormat:@"%.3f公里/%@千卡", model.sportModel.mileageNumber.floatValue / 1000, model.sportModel.kCalNumber]];
+                [self.mileageAndkCalLabel setText:[NSString stringWithFormat:@"%.3f%@/%@%@", model.sportModel.mileageNumber.floatValue / 1000, NSLocalizedString(@"kilometre", nil), model.sportModel.kCalNumber, NSLocalizedString(@"kCalorie", nil)]];
                 [self.view2MileageLabel setText:[NSString stringWithFormat:@"%.3f", model.sportModel.mileageNumber.floatValue / 1000]];
-                [self.unitLabel2 setText:@"公里"];
+                [self.unitLabel2 setText:NSLocalizedString(@"kilometre", nil)];
             }else {
                 float km = [UnitsTool kmAndMi:(model.sportModel.mileageNumber.floatValue / 1000) withMode:MetricToImperial];
                 [self.view2MileageLabel setText:[NSString stringWithFormat:@"%.3f", km]];
-                [self.mileageAndkCalLabel setText:[NSString stringWithFormat:@"%.3f英里/%@千卡", km, model.sportModel.kCalNumber]];
-                [self.unitLabel2 setText:@"英里"];
+                [self.mileageAndkCalLabel setText:[NSString stringWithFormat:@"%.3f%@/%@%@", km, NSLocalizedString(@"mile", nil), model.sportModel.kCalNumber, NSLocalizedString(@"kCalorie", nil)]];
+                [self.unitLabel2 setText:NSLocalizedString(@"mile", nil)];
             }
             
             [self.view3kCalLabel setText:[NSString stringWithFormat:@"%@",model.sportModel.kCalNumber]];
@@ -595,7 +595,7 @@
 {
     if (!_noDataLabel) {
         _noDataLabel = [[UILabel alloc] init];
-        [_noDataLabel setText:@"无数据"];
+        [_noDataLabel setText:NSLocalizedString(@"noData", nil)];
         
         [self.stepBarChart addSubview:_noDataLabel];
         [_noDataLabel mas_makeConstraints:^(MASConstraintMaker *make) {

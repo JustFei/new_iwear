@@ -24,7 +24,7 @@ static NSString * const RemindMoreTableViewCellID = @"RemindMoreTableViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"更多提醒";
+    self.title = NSLocalizedString(@"moreRemind", nil);
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
@@ -96,7 +96,7 @@ static NSString * const RemindMoreTableViewCellID = @"RemindMoreTableViewCell";
     if (!_dataArr) {
         NSMutableArray *mutArr = [NSMutableArray array];
         NSArray *imageNameArr = @[@"remind_sit02", @"remind_alarm02", @"remind_mgs02", @"remind_phone02", @"remind_antilost", @"remind_app"];
-        NSArray *funcNameArr = @[@"久坐提醒", @"闹钟提醒", @"短信提醒", @"来电提醒", @"防丢提醒",@"应用提醒"];
+        NSArray *funcNameArr = @[NSLocalizedString(@"sedentaryRemind", nil),NSLocalizedString(@"alarmReminder", nil),NSLocalizedString(@"smsRemind", nil),NSLocalizedString(@"phoneRemind",nil),NSLocalizedString(@"lostRemind", nil),NSLocalizedString(@"appRemind", nil)];
         for (int index = 0; index < funcNameArr.count; index ++) {
             RemindModel *model = [[RemindModel alloc] init];
             model.functionName = funcNameArr[index];

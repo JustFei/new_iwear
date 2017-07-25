@@ -34,7 +34,7 @@
     }];
     
     _userNameLabel = [[UILabel alloc] init];
-    [_userNameLabel setText:[[NSUserDefaults standardUserDefaults] objectForKey:USER_NAME_SETTING] ? [[NSUserDefaults standardUserDefaults] objectForKey:USER_NAME_SETTING] : @"用户名"];
+    [_userNameLabel setText:[[NSUserDefaults standardUserDefaults] objectForKey:USER_NAME_SETTING] ? [[NSUserDefaults standardUserDefaults] objectForKey:USER_NAME_SETTING] : NSLocalizedString(@"userName", nil)];
     [_userNameLabel setTextColor:TEXT_BLACK_COLOR_LEVEL1];
     [_userNameLabel setFont:[UIFont systemFontOfSize:16]];
     [self addSubview:_userNameLabel];
@@ -44,7 +44,7 @@
     }];
     
     _userInfoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_userInfoButton setTitle:@"用户信息" forState:UIControlStateNormal];
+    [_userInfoButton setTitle:NSLocalizedString(@"userInfo", nil) forState:UIControlStateNormal];
     [_userInfoButton setTitleColor:TEXT_BLACK_COLOR_LEVEL2 forState:UIControlStateNormal];
     [_userInfoButton.titleLabel setFont:[UIFont systemFontOfSize:14]];
     [_userInfoButton addTarget:self action:@selector(userInfoAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -67,7 +67,7 @@
     }];
     
     UILabel *peripheralConnectLabel = [[UILabel alloc] init];
-    [peripheralConnectLabel setText:@"设备连接"];
+    [peripheralConnectLabel setText:NSLocalizedString(@"perConnect", nil)];
     [peripheralConnectLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [peripheralConnectLabel setFont:[UIFont systemFontOfSize:14]];
     [self addSubview:peripheralConnectLabel];

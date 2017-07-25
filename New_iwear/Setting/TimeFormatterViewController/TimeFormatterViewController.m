@@ -25,13 +25,13 @@ static NSString * const TimeFormatterSettingTableViewCellID = @"TimeFormatterSet
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"时间格式";
+    self.title = NSLocalizedString(@"timeFormatter", nil);
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"保存", nil) style:UIBarButtonItemStylePlain target:self action:@selector(saveTimeFormatterAction)];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"save", nil) style:UIBarButtonItemStylePlain target:self action:@selector(saveTimeFormatterAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
@@ -83,7 +83,7 @@ static NSString * const TimeFormatterSettingTableViewCellID = @"TimeFormatterSet
         [[NSUserDefaults standardUserDefaults] setObject:saveArr forKey:TIME_FORMATTER_SETTING];
         
         [self.hud hideAnimated:YES];
-        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
+        MDToast *sucToast = [[MDToast alloc] initWithText:NSLocalizedString(@"saveSuccess", nil) duration:1.5];
         [sucToast show];
         UnitsSettingModel *model = ((NSArray *)self.dataArr.firstObject).firstObject;//12小时制
         //保存设置到本地
@@ -93,7 +93,7 @@ static NSString * const TimeFormatterSettingTableViewCellID = @"TimeFormatterSet
     }else {
         //做失败处理
         [self.hud hideAnimated:YES];
-        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存失败，稍后再试" duration:1.5];
+        MDToast *sucToast = [[MDToast alloc] initWithText:NSLocalizedString(@"saveFail", nil) duration:1.5];
         [sucToast show];
     }
 }
@@ -143,7 +143,7 @@ static NSString * const TimeFormatterSettingTableViewCellID = @"TimeFormatterSet
     UIView *headerView = [[UIView alloc] init];
     headerView.backgroundColor = CLEAR_COLOR;
     UILabel *sectionTitleLabel = [[UILabel alloc] init];
-    [sectionTitleLabel setText:@"选择需要在设备上显示的界面"];
+    [sectionTitleLabel setText:NSLocalizedString(@"timeForSet", nil)];
     [sectionTitleLabel setFont:[UIFont systemFontOfSize:14]];
     [sectionTitleLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [headerView addSubview:sectionTitleLabel];
@@ -200,7 +200,7 @@ static NSString * const TimeFormatterSettingTableViewCellID = @"TimeFormatterSet
             }
             _dataArr = mutArr;
         }else {
-            NSArray *sec1 = @[@"12时", @"24时"];
+            NSArray *sec1 = @[[NSString stringWithFormat:@"12%@", NSLocalizedString(@"hour", nil)], [NSString stringWithFormat:@"24%@", NSLocalizedString(@"hour", nil)]];
             NSMutableArray *mutArr1 = [NSMutableArray array];
             for (int index = 0; index < sec1.count; index ++) {
                 UnitsSettingModel *model = [[UnitsSettingModel alloc] init];

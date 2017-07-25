@@ -172,7 +172,7 @@ static void completionCallback(SystemSoundID mySSID)
         switch (new.integerValue) {
             case 4:
             {
-                self.stateBar.text = NSLocalizedString(@"手机蓝牙未打开", nil);
+                self.stateBar.text = NSLocalizedString(@"bleNotOpen", nil);
 //                [self.stateBar setActionTitle:@"设置"];
 //                [self.stateBar addTarget:self action:@selector(pushToBleSet)];
                 [self.stateBar show];
@@ -197,7 +197,7 @@ static void completionCallback(SystemSoundID mySSID)
 - (void)showTheStateBar
 {
     if (self.myBleManager.systemBLEstate == 4) {
-        self.stateBar.text = NSLocalizedString(@"手机蓝牙未打开", nil);
+        self.stateBar.text = NSLocalizedString(@"bleNotOpen", nil);
         [self.stateBar show];
     }else if (self.myBleManager.systemBLEstate == 5) {
         [self isBindPeripheral];
@@ -214,7 +214,7 @@ static void completionCallback(SystemSoundID mySSID)
             [self.stateBar dismiss];
             self.stateBar = nil;
         }
-        self.stateBar.text = @"正在连接中";
+        self.stateBar.text = NSLocalizedString(@"bleConnecting", nil);
         [self.stateBar show];
         [self connectBLE];
     }else {
@@ -222,8 +222,8 @@ static void completionCallback(SystemSoundID mySSID)
             [self.stateBar dismiss];
             self.stateBar = nil;
         }
-        self.stateBar.text = @"未绑定设备";
-        self.stateBar.actionTitle = @"绑定";
+        self.stateBar.text = NSLocalizedString(@"notBindPer", nil);
+        self.stateBar.actionTitle = NSLocalizedString(@"bind", nil);
         [self.stateBar addTarget:self action:@selector(bindAction)];
         [self.stateBar show];
     }
@@ -276,9 +276,9 @@ static void completionCallback(SystemSoundID mySSID)
     // 1、创建通知内容，注：这里得用可变类型的UNMutableNotificationContent，否则内容的属性是只读的
     UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
     // 标题
-    content.title = @"手环查找中。。。";
+    content.title = NSLocalizedString(@"perFinding", nil);
     // body     Tips:之前忘记设置body，导致通知只有声音而没有通知内容 ╥﹏╥...
-    content.body = [NSString stringWithFormat:@"您的手环正在查找您。。。"];
+    content.body = [NSString stringWithFormat:NSLocalizedString(@"perFindPhoneing", nil)];
     content.sound = [UNNotificationSound soundNamed:@"alert.wav"];
     // 标识符
     content.categoryIdentifier = @"categoryIndentifier1";
@@ -307,7 +307,7 @@ static void completionCallback(SystemSoundID mySSID)
 - (void)manridyBLEDidConnectDevice:(BleDevice *)device
 {
     //    [self.mainVc showFunctionView];
-    self.stateBar.text = @"连接成功";
+    self.stateBar.text = NSLocalizedString(@"connectSuccess", nil);
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [[SyncTool shareInstance] syncAllData];
@@ -411,8 +411,8 @@ void UncaughtExceptionHandler(NSException* exception)
 - (AlertTool *)searchVC
 {
     if (!_searchVC) {
-        _searchVC = [AlertTool alertWithTitle:@"提示" message:@"设备正在查找手机" style:UIAlertControllerStyleAlert];
-        [_searchVC addAction:[AlertAction actionWithTitle:@"取消" style:AlertToolStyleDefault handler:^(AlertAction *action) {
+        _searchVC = [AlertTool alertWithTitle:NSLocalizedString(@"tips", nil) message:NSLocalizedString(@"perFindPhoneing", nil) style:UIAlertControllerStyleAlert];
+        [_searchVC addAction:[AlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:AlertToolStyleDefault handler:^(AlertAction *action) {
             if ([BleManager shareInstance].connectState == kBLEstateDidConnected) {
                 [[BleManager shareInstance] writeStopPeripheralRemind];
                 AudioServicesDisposeSystemSoundID(soundID);

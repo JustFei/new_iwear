@@ -23,7 +23,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"亮度调节";
+    self.title = NSLocalizedString(@"dimmingSetting", nil);
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
@@ -46,7 +46,7 @@
 - (void)createUI
 {
     UILabel *infoLabel = [[UILabel alloc] init];
-    [infoLabel setText:@"设置手表的亮度"];
+    [infoLabel setText:NSLocalizedString(@"setPerDimming", nil)];
     [infoLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [infoLabel setFont:[UIFont systemFontOfSize:14]];
     [self.view addSubview:infoLabel];
@@ -189,11 +189,11 @@
         //这里不能直接写 if (isFirst),必须如下写法
         if (model.firmwareModel.mode == FirmwareModeSetLCD) {
             [[NSUserDefaults standardUserDefaults] setFloat:self.slider.value forKey:DIMMING_SETTING];
-            MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
+            MDToast *sucToast = [[MDToast alloc] initWithText:NSLocalizedString(@"saveSuccess", nil) duration:1.5];
             [sucToast show];
         }else {
             //做失败处理
-            MDToast *sucToast = [[MDToast alloc] initWithText:@"保存失败，稍后再试" duration:1.5];
+            MDToast *sucToast = [[MDToast alloc] initWithText:NSLocalizedString(@"saveFial", nil) duration:1.5];
             [sucToast show];
         }
     }

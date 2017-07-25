@@ -78,7 +78,7 @@
         [self.BPLabel setText:@"--"];
         
         UILabel *todayLabel = [[UILabel alloc] init];
-        [todayLabel setText:@"上次测量结果"];
+        [todayLabel setText:NSLocalizedString(@"lastTestResult", nil)];
         [todayLabel setTextColor:TEXT_WHITE_COLOR_LEVEL3];
         [todayLabel setFont:[UIFont systemFontOfSize:20]];
         [self addSubview:todayLabel];
@@ -134,7 +134,7 @@
         }];
         
         UILabel *view1Title = [[UILabel alloc] init];
-        [view1Title setText:@"时间"];
+        [view1Title setText:NSLocalizedString(@"time", nil)];
         [view1Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
         [view1Title setFont:[UIFont systemFontOfSize:12]];
         [self.view1 addSubview:view1Title];
@@ -165,7 +165,7 @@
         }];
         
         UILabel *view2Title = [[UILabel alloc] init];
-        [view2Title setText:@"收缩压"];
+        [view2Title setText:NSLocalizedString(@"systolicPressure", nil)];
         [view2Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
         [view2Title setFont:[UIFont systemFontOfSize:12]];
         [view2 addSubview:view2Title];
@@ -196,7 +196,7 @@
         }];
         
         UILabel *view3Title = [[UILabel alloc] init];
-        [view3Title setText:@"舒张压"];
+        [view3Title setText:NSLocalizedString(@"diastolicPressure", nil)];
         [view3Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
         [view3Title setFont:[UIFont systemFontOfSize:12]];
         [view3 addSubview:view3Title];
@@ -218,7 +218,7 @@
         UILabel *unitLabel = [[UILabel alloc] init];
         [unitLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [unitLabel setFont:[UIFont systemFontOfSize:8]];
-        [unitLabel setText:@"次/分"];
+        [unitLabel setText:NSLocalizedString(@"time/min", nil)];
         [self.view1 addSubview:unitLabel];
         [unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_timeLabel.mas_right).offset(8);
@@ -227,7 +227,7 @@
         UILabel *unitLabel2 = [[UILabel alloc] init];
         [unitLabel2 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [unitLabel2 setFont:[UIFont systemFontOfSize:8]];
-        [unitLabel2 setText:@"次/分"];
+        [unitLabel2 setText:NSLocalizedString(@"time/min", nil)];
         [self.view1 addSubview:unitLabel2];
         [unitLabel2 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_highBPLabel.mas_right).offset(8);
@@ -236,7 +236,7 @@
         UILabel *unitLabel3 = [[UILabel alloc] init];
         [unitLabel3 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [unitLabel3 setFont:[UIFont systemFontOfSize:8]];
-        [unitLabel3 setText:@"次/分"];
+        [unitLabel3 setText:NSLocalizedString(@"time/min", nil)];
         [self.view1 addSubview:unitLabel3];
         [unitLabel3 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_lowBPLabel.mas_right).offset(8);
@@ -304,7 +304,7 @@
             NSString *monthStr = [model.bloodModel.dayString substringWithRange:NSMakeRange(5, 2)];
             NSString *dayStr = [model.bloodModel.dayString substringWithRange:NSMakeRange(8, 2)];
             NSString *timeStr = [model.bloodModel.timeString substringWithRange:NSMakeRange(0, 5)];
-            self.lastTimeLabel.text = [NSString stringWithFormat:@"%@月%@日 %@", monthStr, dayStr, timeStr];
+            self.lastTimeLabel.text = [NSString stringWithFormat:@"%@%@%@%@ %@", monthStr, NSLocalizedString(@"month", nil), dayStr, NSLocalizedString(@"day", nil), timeStr];
         }
     }
 }
@@ -364,7 +364,7 @@
 {
     [self.lowBloodChart setXLabels:self.xArr];
     [self.lowBloodChart setYValues:self.lbArr];
-//    [self.lowBloodChart strokeChart];
+
     [self.lowBloodChart updateChartData:self.lbArr];
     
     [self.highBloodChart setXLabels:self.xArr];
@@ -528,7 +528,7 @@
 {
     if (!_noDataLabel) {
         _noDataLabel = [[UILabel alloc] init];
-        [_noDataLabel setText:@"无数据"];
+        [_noDataLabel setText:NSLocalizedString(@"noData", nil)];
         
         [self.highBloodChart addSubview:_noDataLabel];
         [_noDataLabel mas_makeConstraints:^(MASConstraintMaker *make) {

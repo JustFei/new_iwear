@@ -60,7 +60,7 @@
     _model = model;
     [self.headImageView setImage:[UIImage imageNamed:model.headImageName]];
     [self.functionNameLabel setText:model.functionName];
-    [self.isOpenLabel setText:model.isOpen ? @"已开启" : @"未开启"];
+    [self.isOpenLabel setText:model.isOpen ? NSLocalizedString(@"haveOpen", nil) : NSLocalizedString(@"notOpen", nil)];
 }
 
 @end

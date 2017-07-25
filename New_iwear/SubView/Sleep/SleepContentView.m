@@ -88,7 +88,7 @@
         [self.stepLabel setText:@"--"];
         
         UILabel *todayLabel = [[UILabel alloc] init];
-        [todayLabel setText:@"今日睡眠"];
+        [todayLabel setText:NSLocalizedString(@"todaySleep", nil)];
         [todayLabel setTextColor:TEXT_WHITE_COLOR_LEVEL3];
         [todayLabel setFont:[UIFont systemFontOfSize:24]];
         [self addSubview:todayLabel];
@@ -145,7 +145,7 @@
         }];
         
         self.view1Title = [[UILabel alloc] init];
-        [self.view1Title setText:@"昨晚入睡"];
+        [self.view1Title setText:NSLocalizedString(@"lastNightInSleep", nil)];
         [self.view1Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
         [self.view1Title setFont:[UIFont systemFontOfSize:12]];
         [self.view1 addSubview:self.view1Title];
@@ -176,7 +176,7 @@
         }];
         
         self.view2Title = [[UILabel alloc] init];
-        [self.view2Title setText:@"今天醒来"];
+        [self.view2Title setText:NSLocalizedString(@"todayAwake", nil)];
         [self.view2Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
         [self.view2Title setFont:[UIFont systemFontOfSize:12]];
         [view2 addSubview:self.view2Title];
@@ -207,7 +207,7 @@
         }];
         
         self.view3Title = [[UILabel alloc] init];
-        [self.view3Title setText:@"清醒时长"];
+        [self.view3Title setText:NSLocalizedString(@"awakeTime", nil)];
         [self.view3Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
         [self.view3Title setFont:[UIFont systemFontOfSize:12]];
         [view3 addSubview:self.view3Title];
@@ -229,7 +229,7 @@
         UILabel *unitLabel3 = [[UILabel alloc] init];
         [unitLabel3 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [unitLabel3 setFont:[UIFont systemFontOfSize:8]];
-        [unitLabel3 setText:@"分"];
+        [unitLabel3 setText:NSLocalizedString(@"min", nil)];
         [self.view1 addSubview:unitLabel3];
         [unitLabel3 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_awakeLabel.mas_right).offset(8);
@@ -312,7 +312,8 @@
         CGFloat averDeep = round((deepData / 60) * 10) / 10;
         CGFloat averLow = round((lowData / 60) * 10) / 10;
         [self.stepLabel setText:[NSString stringWithFormat:@"%.1f",averLow + averDeep]];
-        [self.mileageAndkCalLabel setText:[NSString stringWithFormat:@"深睡%.1f小时/浅睡%.1f小时", averDeep, averLow]];
+//        NSLocalizedString(@"hour", nil)
+        [self.mileageAndkCalLabel setText:[NSString stringWithFormat:@"%@%.1f%@/%@%.1f%@", NSLocalizedString(@"deepSleep", nil), averDeep, NSLocalizedString(@"hour", nil), NSLocalizedString(@"lowSleep", nil), averLow, NSLocalizedString(@"hour", nil)]];
         [self.awakeLabel setText:[NSString stringWithFormat:@"%.0f", clearData]];
         
         //处理源数据，拼接成无间隙的数据源
@@ -366,22 +367,22 @@
                 switch (model.type) {
                     case SleepTypeDeep:
                     {
-                        weakSelf.view1Title.text = @"深睡开始";
-                        weakSelf.view2Title.text = @"深睡结束";
+                        weakSelf.view1Title.text = [NSString stringWithFormat:@"%@%@", NSLocalizedString(@"deepSleep", nil), NSLocalizedString(@"start", nil)]; //@"深睡开始";
+                        weakSelf.view2Title.text = [NSString stringWithFormat:@"%@%@", NSLocalizedString(@"deepSleep", nil), NSLocalizedString(@"end", nil)]; //@"深睡结束";
                         weakSelf.awakeLabel.text = model.sumSleep;
                     }
                         break;
                     case SleepTypeLow:
                     {
-                        weakSelf.view1Title.text = @"浅睡开始";
-                        weakSelf.view2Title.text = @"浅睡结束";
+                        weakSelf.view1Title.text = [NSString stringWithFormat:@"%@%@", NSLocalizedString(@"lowSleep", nil), NSLocalizedString(@"start", nil)]; //@"浅睡开始";
+                        weakSelf.view2Title.text = [NSString stringWithFormat:@"%@%@", NSLocalizedString(@"lowSleep", nil), NSLocalizedString(@"end", nil)];   //@"浅睡结束";
                         weakSelf.awakeLabel.text = model.sumSleep;
                     }
                         break;
                     case SleepTypeClear:
                     {
-                        weakSelf.view1Title.text = @"清醒开始";
-                        weakSelf.view2Title.text = @"清醒结束";
+                        weakSelf.view1Title.text = [NSString stringWithFormat:@"%@%@", NSLocalizedString(@"awake", nil), NSLocalizedString(@"start", nil)];  //@"清醒开始";
+                        weakSelf.view2Title.text = [NSString stringWithFormat:@"%@%@", NSLocalizedString(@"awake", nil), NSLocalizedString(@"end", nil)];    //@"清醒结束";
                         weakSelf.awakeLabel.text = model.clearTime;
                     }
                         break;
@@ -389,13 +390,13 @@
                     default:
                         break;
                 }
-                weakSelf.view3Title.text = @"时长";
+                weakSelf.view3Title.text = NSLocalizedString(@"timeLong", nil); //@"时长";
                 weakSelf.InSleepLabel.text = [model.startTime substringFromIndex:11];
                 weakSelf.outSleepLabel.text = [model.endTime substringFromIndex:11];
             }else {             //为选中的数据
-                weakSelf.view1Title.text = @"昨晚入睡";
-                weakSelf.view2Title.text = @"今天醒来";
-                weakSelf.view3Title.text = @"清醒时长";
+                weakSelf.view1Title.text = NSLocalizedString(@"lastNightInSleep", nil);     //@"昨晚入睡";
+                weakSelf.view2Title.text = NSLocalizedString(@"todayAwake", nil);   //@"今天醒来";
+                weakSelf.view3Title.text = NSLocalizedString(@"awakeTime", nil);
                 weakSelf.InSleepLabel.text = [weakSelf.startModel.startTime substringFromIndex:11];
                 weakSelf.outSleepLabel.text = [weakSelf.endModel.endTime substringFromIndex:11];
                 weakSelf.awakeLabel.text = [NSString stringWithFormat:@"%.0f",clearData];
@@ -520,7 +521,7 @@
 {
     if (!_noDataLabel) {
         _noDataLabel = [[UILabel alloc] init];
-        [_noDataLabel setText:@"无数据"];
+        [_noDataLabel setText:NSLocalizedString(@"noData", nil)];
         
         [self.sleepChartBackView addSubview:_noDataLabel];
         [_noDataLabel mas_makeConstraints:^(MASConstraintMaker *make) {

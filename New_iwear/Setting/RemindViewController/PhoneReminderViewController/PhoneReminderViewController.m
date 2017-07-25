@@ -24,13 +24,13 @@ static NSString * const PhoneReminderTableViewCellID = @"PhoneReminderTableViewC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"电话提醒";
+    self.title = NSLocalizedString(@"phoneRemind", nil);
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"保存", nil) style:UIBarButtonItemStylePlain target:self action:@selector(savePhoneAction)];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"save", nil) style:UIBarButtonItemStylePlain target:self action:@selector(savePhoneAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
@@ -56,7 +56,7 @@ static NSString * const PhoneReminderTableViewCellID = @"PhoneReminderTableViewC
     }];
     
     UILabel *tipLabel = [[UILabel alloc] init];
-    [tipLabel setText:@"请保持蓝牙开启，并且手环与手机保持连接"];
+    [tipLabel setText:NSLocalizedString(@"keepBleOpen", nil)];
     [tipLabel setTextColor:TEXT_WHITE_COLOR_LEVEL3];
     [tipLabel setFont:[UIFont systemFontOfSize:14]];
     [headView addSubview:tipLabel];
@@ -121,20 +121,20 @@ static NSString * const PhoneReminderTableViewCellID = @"PhoneReminderTableViewC
     [self.hud hideAnimated:YES];
     manridyModel *model = [noti object];
     if (model.isReciveDataRight) {
-        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
+        MDToast *sucToast = [[MDToast alloc] initWithText:NSLocalizedString(@"saveSuccess", nil) duration:1.5];
         [sucToast show];
         //保存选项至本地
         [[NSUserDefaults standardUserDefaults] setBool:((SedentaryReminderModel *)self.dataArr.firstObject).switchIsOpen forKey:PHONE_SWITCH_SETTING];
         [self.navigationController popViewControllerAnimated:YES];
     }else {
         if (model.pairSuccess) {
-            MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
+            MDToast *sucToast = [[MDToast alloc] initWithText:NSLocalizedString(@"saveSuccess", nil) duration:1.5];
             [sucToast show];
             //保存选项至本地
             [[NSUserDefaults standardUserDefaults] setBool:((SedentaryReminderModel *)self.dataArr.firstObject).switchIsOpen forKey:PHONE_SWITCH_SETTING];
             [self.navigationController popViewControllerAnimated:YES];
         }else {
-            MDToast *sucToast = [[MDToast alloc] initWithText:@"配对失败，请配对设备，否则无法使用该功能" duration:3];
+            MDToast *sucToast = [[MDToast alloc] initWithText:NSLocalizedString(@"pairFail", nil) duration:3];
             [sucToast show];
             //保存选项至本地
             [[NSUserDefaults standardUserDefaults] setBool:NO forKey:PHONE_SWITCH_SETTING];
@@ -214,7 +214,7 @@ static NSString * const PhoneReminderTableViewCellID = @"PhoneReminderTableViewC
 {
     if (!_dataArr) {
         SedentaryReminderModel *model = [[SedentaryReminderModel alloc] init];
-        model.title = @"开启来电提醒";
+        model.title = NSLocalizedString(@"openPhoneRemind", nil);
         if ([[NSUserDefaults standardUserDefaults] boolForKey:PHONE_SWITCH_SETTING]) {
             model.switchIsOpen = [[NSUserDefaults standardUserDefaults] boolForKey:PHONE_SWITCH_SETTING];
         }else {
@@ -222,7 +222,7 @@ static NSString * const PhoneReminderTableViewCellID = @"PhoneReminderTableViewC
         }
         
         model.whetherHaveSwitch = YES;
-        model.subTitle = @"手机来电时，手表会振动提醒";
+        model.subTitle = NSLocalizedString(@"perVibrateWhenPhone", nil);
         _dataArr = @[model];
     }
     

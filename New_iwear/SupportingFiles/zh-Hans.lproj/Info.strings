@@ -1,0 +1,10 @@
+/* 
+  Info.strings
+  New_iwear
+
+  Created by JustFei on 2017/7/24.
+  Copyright © 2017年 manridy. All rights reserved.
+*/
+
+// Localizable App Name是App在英语环境环境下显示的名称
+CFBundleDisplayName = "iband";

@@ -24,6 +24,8 @@
 		104F1C311F0237E800BE6B1E /* NewfeatureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 104F1C301F0237E800BE6B1E /* NewfeatureViewController.m */; };
 		104F1C341F02410000BE6B1E /* UIView+Layout.m in Sources */ = {isa = PBXBuildFile; fileRef = 104F1C331F02410000BE6B1E /* UIView+Layout.m */; };
 		105156931EEF892F0080AD42 /* UpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105156921EEF892F0080AD42 /* UpdateViewController.m */; };
+		107A455A1F25895C0059BF26 /* Info.strings in Resources */ = {isa = PBXBuildFile; fileRef = 107A455C1F25895C0059BF26 /* Info.strings */; };
+		107A45611F258A1A0059BF26 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 107A45631F258A1A0059BF26 /* Localizable.strings */; };
 		10814B2E1EDFE88C004C9B4F /* SyncTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 10814B2D1EDFE88C004C9B4F /* SyncTool.m */; };
 		10871DEC1EEA38AF0045F376 /* alert.wav in Resources */ = {isa = PBXBuildFile; fileRef = 10871DEB1EEA38AF0045F376 /* alert.wav */; };
 		109865BB1ECC5D200077797E /* UINavigationBar+Awesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 109865BA1ECC5D200077797E /* UINavigationBar+Awesome.m */; };
@@ -181,6 +183,13 @@
 		104F1C331F02410000BE6B1E /* UIView+Layout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Layout.m"; path = "Constants/UIView+Layout.m"; sourceTree = "<group>"; };
 		105156911EEF892F0080AD42 /* UpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateViewController.h; sourceTree = "<group>"; };
 		105156921EEF892F0080AD42 /* UpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateViewController.m; sourceTree = "<group>"; };
+		107A45571F2588EF0059BF26 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		107A455B1F25895C0059BF26 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Info.strings; sourceTree = "<group>"; };
+		107A455D1F25895F0059BF26 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Info.strings; sourceTree = "<group>"; };
+		107A455E1F2589600059BF26 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Info.strings"; sourceTree = "<group>"; };
+		107A45621F258A1A0059BF26 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		107A45641F258A1C0059BF26 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		107A45651F258A1D0059BF26 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		10814B2C1EDFE88C004C9B4F /* SyncTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SyncTool.h; path = New_iwear/SyncTool/SyncTool.h; sourceTree = SOURCE_ROOT; };
 		10814B2D1EDFE88C004C9B4F /* SyncTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SyncTool.m; path = New_iwear/SyncTool/SyncTool.m; sourceTree = SOURCE_ROOT; };
 		10871DEB1EEA38AF0045F376 /* alert.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = alert.wav; path = Resource/alert.wav; sourceTree = "<group>"; };
@@ -1109,6 +1118,8 @@
 				9CDEAC671EB078EC00279EDA /* Assets.xcassets */,
 				9CDEAC691EB078EC00279EDA /* LaunchScreen.storyboard */,
 				9CDEAC6C1EB078EC00279EDA /* Info.plist */,
+				107A45631F258A1A0059BF26 /* Localizable.strings */,
+				107A455C1F25895C0059BF26 /* Info.strings */,
 			);
 			path = New_iwear;
 			sourceTree = "<group>";
@@ -1277,15 +1288,6 @@
 			knownRegions = (
 				en,
 				Base,
-				ar,
-				de,
-				es,
-				fr,
-				it,
-				ja,
-				ko,
-				"pt-PT",
-				ru,
 				"zh-Hans",
 			);
 			mainGroup = 9CDEAC4C1EB078EC00279EDA;
@@ -1303,9 +1305,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				107A455A1F25895C0059BF26 /* Info.strings in Resources */,
 				10EE89151ED6B67A007A3CE4 /* SGQRCode.bundle in Resources */,
 				9C0817751EB9AB1800C1845F /* SettingPeripheralTableViewCell.xib in Resources */,
 				9CDEAC6B1EB078EC00279EDA /* LaunchScreen.storyboard in Resources */,
+				107A45611F258A1A0059BF26 /* Localizable.strings in Resources */,
 				9C0817841EB9AB9300C1845F /* SettingTableViewCell.xib in Resources */,
 				9CDEAC681EB078EC00279EDA /* Assets.xcassets in Resources */,
 				10871DEC1EEA38AF0045F376 /* alert.wav in Resources */,
@@ -1484,10 +1488,33 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		107A455C1F25895C0059BF26 /* Info.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				107A455B1F25895C0059BF26 /* Base */,
+				107A455D1F25895F0059BF26 /* en */,
+				107A455E1F2589600059BF26 /* zh-Hans */,
+			);
+			name = Info.strings;
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		107A45631F258A1A0059BF26 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				107A45621F258A1A0059BF26 /* Base */,
+				107A45641F258A1C0059BF26 /* en */,
+				107A45651F258A1D0059BF26 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			path = SupportingFiles/Localizable;
+			sourceTree = "<group>";
+		};
 		9CDEAC691EB078EC00279EDA /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				9CDEAC6A1EB078EC00279EDA /* Base */,
+				107A45571F2588EF0059BF26 /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";

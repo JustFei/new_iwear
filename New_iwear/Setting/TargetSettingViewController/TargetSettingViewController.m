@@ -34,13 +34,13 @@ static NSString * const TargetSettingTableViewCellID = @"TargetSettingTableViewC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"目标设置";
+    self.title = NSLocalizedString(@"targetSetting", nil);
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"保存", nil) style:UIBarButtonItemStylePlain target:self action:@selector(saveMotionTargetAction)];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"save", nil) style:UIBarButtonItemStylePlain target:self action:@selector(saveMotionTargetAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
@@ -90,13 +90,13 @@ static NSString * const TargetSettingTableViewCellID = @"TargetSettingTableViewC
         [[NSUserDefaults standardUserDefaults] setObject:saveArr forKey:TARGET_SETTING];
         
         [self.hud hideAnimated:YES];
-        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
+        MDToast *sucToast = [[MDToast alloc] initWithText:NSLocalizedString(@"saveSuccess", nil) duration:1.5];
         [sucToast show];
         [self.navigationController popViewControllerAnimated:YES];
     }else {
         //做失败处理
         [self.hud hideAnimated:YES];
-        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存失败，稍后再试" duration:1.5];
+        MDToast *sucToast = [[MDToast alloc] initWithText:NSLocalizedString(@"saveFial", nil) duration:1.5];
         [sucToast show];
     }
 }
@@ -108,14 +108,14 @@ static NSString * const TargetSettingTableViewCellID = @"TargetSettingTableViewC
     NSArray *targetArr = indexPath.row == 0 ? self.motionArr : self.sleepArr;
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"\n\n\n\n\n\n\n\n\n\n" message:nil preferredStyle:(UIAlertControllerStyleActionSheet)];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         //初始化 selectTime
         self.selectTilte = @"";
     }];
     
     //修改数据源的数据
     TargetSettingModel *model = self.dataArr[indexPath.row];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"sure", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         model.target = self.selectTilte;
         [self.tableView reloadData];
@@ -268,14 +268,14 @@ static NSString * const TargetSettingTableViewCellID = @"TargetSettingTableViewC
             _dataArr = mutArr;
         }else {
             TargetSettingModel *model1 = [[TargetSettingModel alloc] init];
-            model1.title = @"运动目标";
-            model1.name = @"每天步行";
+            model1.title = NSLocalizedString(@"sportTarget", nil);
+            model1.name = NSLocalizedString(@"dayStep", nil);  //@"每天步行";
             model1.target = @"8000";
             model1.mode = TargetModeMotion;
             
             TargetSettingModel *model2 = [[TargetSettingModel alloc] init];
-            model2.title = @"睡眠目标";
-            model2.name = @"每天睡眠";
+            model2.title = NSLocalizedString(@"sleepTarget", nil);
+            model2.name = NSLocalizedString(@"daySleep", nil);
             model2.target = @"8";
             model2.mode = TargetModeSleep;
             _dataArr = @[model1, model2];

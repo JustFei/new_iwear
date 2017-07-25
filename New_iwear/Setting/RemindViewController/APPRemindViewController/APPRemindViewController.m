@@ -23,13 +23,13 @@ static NSString *const APPRemindTableViewCellID = @"APPRemindTableViewCell";
 
 - (void)viewDidLoad
 {
-    self.title = @"应用提醒";
+    self.title = NSLocalizedString(@"appRemind", nil);
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector (backViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"保存", nil) style:UIBarButtonItemStylePlain target:self action:@selector(saveAction)];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"save", nil) style:UIBarButtonItemStylePlain target:self action:@selector(saveAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
@@ -78,18 +78,18 @@ static NSString *const APPRemindTableViewCellID = @"APPRemindTableViewCell";
     [self.hud hideAnimated:YES];
     manridyModel *model = [noti object];
     if (model.isReciveDataRight) {
-        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
+        MDToast *sucToast = [[MDToast alloc] initWithText:NSLocalizedString(@"saveSuccess", nil) duration:1.5];
         [sucToast show];
         [self saveSetting];
         [self.navigationController popViewControllerAnimated:YES];
     }else {
         if (model.pairSuccess) {
-            MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
+            MDToast *sucToast = [[MDToast alloc] initWithText:NSLocalizedString(@"saveSuccess", nil) duration:1.5];
             [sucToast show];
             [self saveSetting];
             [self.navigationController popViewControllerAnimated:YES];
         }else {
-            MDToast *sucToast = [[MDToast alloc] initWithText:@"配对失败，请配对设备，否则无法使用该功能" duration:3];
+            MDToast *sucToast = [[MDToast alloc] initWithText:NSLocalizedString(@"pairFail", nil) duration:3];
             [sucToast show];
             //保存选项至本地
             //[[NSUserDefaults standardUserDefaults] setBool:NO forKey:MESSAGE_SWITCH_SETTING];
@@ -186,7 +186,7 @@ static NSString *const APPRemindTableViewCellID = @"APPRemindTableViewCell";
         }else {
             NSMutableArray *mutArr = [NSMutableArray array];
             NSArray *imageNameArr = @[@"appremind_wechat", @"appremind_qq", @"appremind_whatsapp", @"appremind_facebook"];
-            NSArray *nameArr = @[@"微信", @"QQ", @"WhatsApp", @"Facebook"];
+            NSArray *nameArr = @[NSLocalizedString(@"wechat", nil), @"QQ", @"WhatsApp", @"Facebook"];
             for (int index = 0; index < imageNameArr.count; index ++) {
                 APPRemindModel *model = [[APPRemindModel alloc] init];
                 model.imageName = imageNameArr[index];

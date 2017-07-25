@@ -27,7 +27,7 @@ static NSString * const RemindCollectionViewFooterID = @"RemindCollectionViewFoo
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"提醒功能";
+    self.title = NSLocalizedString(@"remindFunc", nil);
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
@@ -102,7 +102,7 @@ static NSString * const RemindCollectionViewFooterID = @"RemindCollectionViewFoo
     UICollectionReusableView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:RemindCollectionViewFooterID forIndexPath:indexPath];
     MDButton *moreBtn = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:CLEAR_COLOR];
     moreBtn.backgroundColor = WHITE_COLOR;
-    [moreBtn setTitle:@"更多" forState:UIControlStateNormal];
+    [moreBtn setTitle:NSLocalizedString(@"more", nil) forState:UIControlStateNormal];
     [moreBtn setTitleColor:TEXT_BLACK_COLOR_LEVEL2 forState:UIControlStateNormal];
     [moreBtn.titleLabel setFont:[UIFont systemFontOfSize:12]];
     [moreBtn addTarget:self action:@selector(moreFunctionAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -158,7 +158,7 @@ static NSString * const RemindCollectionViewFooterID = @"RemindCollectionViewFoo
 {
     if (!_dataArr) {
         NSArray *imageArr = @[@"remind_phone01", @"remind_mgs01", @"remind_sit01", @"remind_alarm01"];
-        NSArray *nameArr = @[@"来电提醒", @"短信提醒", @"久坐提醒", @"闹钟提醒"];
+        NSArray *nameArr = @[NSLocalizedString(@"phoneRemind", nil), NSLocalizedString(@"smsRemind", nil), NSLocalizedString(@"sedentaryRemind", nil), NSLocalizedString(@"alarmReminder", nil)];
         
         NSMutableArray *mutArr = [NSMutableArray array];
         for (int i = 0; i < nameArr.count; i ++) {

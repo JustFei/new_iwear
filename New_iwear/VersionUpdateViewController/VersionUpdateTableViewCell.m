@@ -44,7 +44,7 @@
         
         _checkUpdateButton = [[MDButton alloc] initWithFrame:CGRectZero type:MDButtonTypeFlat rippleColor:nil];
         [_checkUpdateButton.titleLabel setFont:[UIFont systemFontOfSize:14]];
-        [_checkUpdateButton setTitle:@"检查版本" forState:UIControlStateNormal];
+        [_checkUpdateButton setTitle:NSLocalizedString(@"checkVersion", nil) forState:UIControlStateNormal];
         [_checkUpdateButton setTitleColor:COLOR_WITH_HEX(0x2196f3, 0.87) forState:UIControlStateNormal];
         [_checkUpdateButton addTarget:self action:@selector(checkUpdateAction:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_checkUpdateButton];

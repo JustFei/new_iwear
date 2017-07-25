@@ -74,7 +74,7 @@
         [self.hrLabel setText:@"--"];
         
         self.todayLabel = [[UILabel alloc] init];
-        [self.todayLabel setText:@"上次测量结果"];
+        [self.todayLabel setText:NSLocalizedString(@"lastTestResult", nil)];
         [self.todayLabel setTextColor:TEXT_WHITE_COLOR_LEVEL3];
         [self.todayLabel setFont:[UIFont systemFontOfSize:20]];
         [self addSubview:self.todayLabel];
@@ -101,7 +101,7 @@
             make.height.equalTo(@1);
         }];
         
-        [self.singleTestButton setTitle:@"测量" forState:UIControlStateNormal];
+        [self.singleTestButton setTitle:NSLocalizedString(@"test", nil) forState:UIControlStateNormal];
         [self.singleTestButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.hrCircleChart.mas_centerX);
             make.top.equalTo(lineView.mas_bottom).offset(8 * VIEW_FRAME_WIDTH / 360);
@@ -149,7 +149,7 @@
         }];
         
         self.view1Title = [[UILabel alloc] init];
-        [self.view1Title setText:@"平均心率"];
+        [self.view1Title setText:NSLocalizedString(@"averageHr", nil)];
         [self.view1Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
         [self.view1Title setFont:[UIFont systemFontOfSize:12]];
         [self.view1 addSubview:self.view1Title];
@@ -180,7 +180,7 @@
         }];
         
         UILabel *view2Title = [[UILabel alloc] init];
-        [view2Title setText:@"最低心率"];
+        [view2Title setText:NSLocalizedString(@"minimumHr", nil)];
         [view2Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
         [view2Title setFont:[UIFont systemFontOfSize:12]];
         [view2 addSubview:view2Title];
@@ -211,7 +211,7 @@
         }];
         
         UILabel *view3Title = [[UILabel alloc] init];
-        [view3Title setText:@"最高心率"];
+        [view3Title setText:NSLocalizedString(@"maximumHr", nil)];
         [view3Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
         [view3Title setFont:[UIFont systemFontOfSize:12]];
         [view3 addSubview:view3Title];
@@ -233,7 +233,7 @@
         UILabel *unitLabel = [[UILabel alloc] init];
         [unitLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [unitLabel setFont:[UIFont systemFontOfSize:8]];
-        [unitLabel setText:@"次/分"];
+        [unitLabel setText:NSLocalizedString(@"time/min", nil)];
         [self.view1 addSubview:unitLabel];
         [unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_averageHR.mas_right).offset(8);
@@ -242,7 +242,7 @@
         UILabel *unitLabel2 = [[UILabel alloc] init];
         [unitLabel2 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [unitLabel2 setFont:[UIFont systemFontOfSize:8]];
-        [unitLabel2 setText:@"次/分"];
+        [unitLabel2 setText:NSLocalizedString(@"time/min", nil)];
         [self.view1 addSubview:unitLabel2];
         [unitLabel2 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_minHR.mas_right).offset(8);
@@ -251,7 +251,7 @@
         UILabel *unitLabel3 = [[UILabel alloc] init];
         [unitLabel3 setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [unitLabel3 setFont:[UIFont systemFontOfSize:8]];
-        [unitLabel3 setText:@"次/分"];
+        [unitLabel3 setText:NSLocalizedString(@"time/min", nil)];
         [self.view1 addSubview:unitLabel3];
         [unitLabel3 mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_maxHR.mas_right).offset(8);
@@ -304,7 +304,7 @@
     if ([BleManager shareInstance].connectState == kBLEstateDisConnected) {
         [((AppDelegate *)[UIApplication sharedApplication].delegate) showTheStateBar];
     }else {
-        if ([sender.titleLabel.text isEqualToString:@"测量"]) {
+        if ([sender.titleLabel.text isEqualToString:NSLocalizedString(@"test", nil)]) {
             [[BleManager shareInstance] writeHeartRateTestStateToPeripheral:HeartRateDataStateSingle];
             sender.enabled = NO;
         }else {
@@ -346,22 +346,22 @@
     if (model.heartRateModel.heartRateState == HeartRateDataSingleTestSuccess) {
         if (model.heartRateModel.singleTestSuccess) {
             self.singleTestButton.enabled = YES;
-            [self.singleTestButton setTitle:@"停止" forState:UIControlStateNormal];
-            [self.todayLabel setText:@"测量中"];
+            [self.singleTestButton setTitle:NSLocalizedString(@"stop", nil) forState:UIControlStateNormal];
+            [self.todayLabel setText:NSLocalizedString(@"testing", nil)];
         }else {
             self.singleTestButton.enabled = YES;
-            MDToast *failToast = [[MDToast alloc] initWithText:@"测试失败" duration:1.5];
+            MDToast *failToast = [[MDToast alloc] initWithText:NSLocalizedString(@"testFail", nil) duration:1.5];
             [failToast show];
-            [self.todayLabel setText:@"上次测量心率"];
+            [self.todayLabel setText:NSLocalizedString(@"lastTestHr", nil)];
         }
     }else if (model.heartRateModel.heartRateState == HeartRateDataUpload) {
         //每次进入主界面时同步数据
         [[SyncTool shareInstance] syncAllData];
         self.singleTestButton.enabled = YES;
-        [self.singleTestButton setTitle:@"测量" forState:UIControlStateNormal];
-        [self.todayLabel setText:@"测量结束"];
+        [self.singleTestButton setTitle:NSLocalizedString(@"test", nil) forState:UIControlStateNormal];
+        [self.todayLabel setText:NSLocalizedString(@"testEnd", nil)];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.todayLabel setText:@"上次测量心率"];
+            [self.todayLabel setText:NSLocalizedString(@"lastTestHr", nil)];
         });
     }
 }
@@ -416,7 +416,7 @@
     //这里暂时只显示整数部分
     [self.hrLabel setText:model.heartRate];
     float aveBo = sumBo / dbArr.count;
-    [self.view1Title setText:@"平均心率"];
+    [self.view1Title setText:NSLocalizedString(@"averageHr", nil)];
     [self.averageHR setText:[NSString stringWithFormat:@"%.0f", aveBo]];
     [self.maxHR setText:[NSString stringWithFormat:@"%.0f", HighBo]];
     [self.minHR setText:[NSString stringWithFormat:@"%.0f", lowBo]];
@@ -435,7 +435,7 @@
 {
     self.noDataLabel.hidden = NO;
     [self.hrLabel setText:@"--"];
-    [self.view1Title setText:@"平均心率"];
+    [self.view1Title setText:NSLocalizedString(@"averageHr", nil)];
     [self.averageHR setText:@"--"];
     [self.minHR setText:@"--"];
     [self.maxHR setText:@"--"];
@@ -553,7 +553,7 @@
 {
     if (!_noDataLabel) {
         _noDataLabel = [[UILabel alloc] init];
-        [_noDataLabel setText:@"无数据"];
+        [_noDataLabel setText:NSLocalizedString(@"noData", nil)];
         
         [self.hrBarChart addSubview:_noDataLabel];
         [_noDataLabel mas_makeConstraints:^(MASConstraintMaker *make) {

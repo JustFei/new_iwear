@@ -42,7 +42,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    _titleArr = @[NSLocalizedString(@"计步", nil),NSLocalizedString(@"睡眠", nil),NSLocalizedString(@"心率", nil),NSLocalizedString(@"血压", nil),NSLocalizedString(@"血氧", nil)];
+    _titleArr = @[NSLocalizedString(@"step", nil),NSLocalizedString(@"sleep", nil),NSLocalizedString(@"hr", nil),NSLocalizedString(@"bp", nil),NSLocalizedString(@"bo", nil)];
     
     self.navigationController.automaticallyAdjustsScrollViewInsets = YES;
     self.navigationController.navigationBar.barTintColor = CLEAR_COLOR;

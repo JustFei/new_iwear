@@ -81,7 +81,7 @@
         [self.BOLabel setText:@"--"];
         
         UILabel *todayLabel = [[UILabel alloc] init];
-        [todayLabel setText:@"上次测量结果"];
+        [todayLabel setText:NSLocalizedString(@"lastTestResult", nil)];
         [todayLabel setTextColor:TEXT_WHITE_COLOR_LEVEL3];
         [todayLabel setFont:[UIFont systemFontOfSize:20]];
         [self addSubview:todayLabel];
@@ -137,7 +137,7 @@
         }];
         
         self.view1Title = [[UILabel alloc] init];
-        [self.view1Title setText:@"平均值"];
+        [self.view1Title setText:NSLocalizedString(@"average", nil)];
         [self.view1Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
         [self.view1Title setFont:[UIFont systemFontOfSize:12]];
         [self.view1 addSubview:self.view1Title];
@@ -168,7 +168,7 @@
         }];
         
         UILabel *view2Title = [[UILabel alloc] init];
-        [view2Title setText:@"最低值"];
+        [view2Title setText:NSLocalizedString(@"minimum", nil)];
         [view2Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
         [view2Title setFont:[UIFont systemFontOfSize:12]];
         [view2 addSubview:view2Title];
@@ -199,7 +199,7 @@
         }];
         
         UILabel *view3Title = [[UILabel alloc] init];
-        [view3Title setText:@"最高值"];
+        [view3Title setText:NSLocalizedString(@"maximum", nil)];
         [view3Title setTextColor:TEXT_BLACK_COLOR_LEVEL2];
         [view3Title setFont:[UIFont systemFontOfSize:12]];
         [view3 addSubview:view3Title];
@@ -307,7 +307,7 @@
             NSString *monthStr = [model.bloodO2Model.dayString substringWithRange:NSMakeRange(5, 2)];
             NSString *dayStr = [model.bloodO2Model.dayString substringWithRange:NSMakeRange(8, 2)];
             NSString *timeStr = [model.bloodO2Model.timeString substringWithRange:NSMakeRange(0, 5)];
-            self.lastTimeLabel.text = [NSString stringWithFormat:@"%@月%@日 %@", monthStr, dayStr, timeStr];
+            self.lastTimeLabel.text = [NSString stringWithFormat:@"%@%@%@%@ %@", monthStr, NSLocalizedString(@"month", nil), dayStr, NSLocalizedString(@"day", nil), timeStr];
             
             float progress = self.BOLabel.text.floatValue / 100.f;
             [self.boCircleChart updateChartByCurrent:@(progress)];
@@ -367,7 +367,7 @@
     [self.BOLabel setText:[NSString stringWithFormat:@"%@.%@", model.integerString, model.floatString]];
     [self.lastTimeLabel setText:[NSString stringWithFormat:@"%@ %@", model.dayString, model.timeString]];
     float aveBo = sumBo / dbArr.count;
-    [self.view1Title setText:@"平均心率"];
+    [self.view1Title setText:NSLocalizedString(@"averageHr", nil)];
     [self.avageBOLabel setText:[NSString stringWithFormat:@"%.1f", aveBo]];
     [self.highBOLabel setText:[NSString stringWithFormat:@"%.1f", HighBo]];
     [self.lowBOLabel setText:[NSString stringWithFormat:@"%.1f", lowBo]];
@@ -386,7 +386,7 @@
 {
     self.noDataLabel.hidden = NO;
     [self.BOLabel setText:@"--"];
-    [self.view1Title setText:@"平均心率"];
+    [self.view1Title setText:NSLocalizedString(@"averageHr", nil)];
     [self.lastTimeLabel setText:@""];
     [self.avageBOLabel setText:@"--"];
     [self.lowBOLabel setText:@"--"];
@@ -503,7 +503,7 @@
 {
     if (!_noDataLabel) {
         _noDataLabel = [[UILabel alloc] init];
-        [_noDataLabel setText:@"无数据"];
+        [_noDataLabel setText:NSLocalizedString(@"noData", nil)];
         
         [self.BOChart addSubview:_noDataLabel];
         [_noDataLabel mas_makeConstraints:^(MASConstraintMaker *make) {

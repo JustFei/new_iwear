@@ -117,7 +117,7 @@ static SyncTool *_syncTool = nil;
     }
     if (![SyncTool shareInstance].syncDataIng && [BleManager shareInstance].connectState == kBLEstateDidConnected) {
         [self syncData];
-        [self.stateBar setText:@"正在同步数据"];
+        [self.stateBar setText:NSLocalizedString(@"syncingData", nil)];
         [self.stateBar show];
     }
 }
@@ -555,7 +555,7 @@ static SyncTool *_syncTool = nil;
         }
         [[BleManager shareInstance] writeWindowRequset:WindowRequestModeSetWindow withDataArr:mutArr];
     }else {
-        NSArray *nameArr = @[@"待机",@"计步",@"运动",@"心率",@"睡眠",@"查找",@"闹钟",@"关于",@"关机"];
+        NSArray *nameArr = @[NSLocalizedString(@"standby", nil),NSLocalizedString(@"step", nil),NSLocalizedString(@"sport", nil),NSLocalizedString(@"hr", nil),NSLocalizedString(@"sleep", nil),NSLocalizedString(@"search", nil),NSLocalizedString(@"clock", nil),NSLocalizedString(@"about", nil),NSLocalizedString(@"shutdown", nil)];
         NSArray *imageArr = @[@"selection_standby",@"selection_sport",@"selection_step",@"selection_heartrate",@"selection_sleep",@"selection_find",@"selection_alarmclock",@"selection_about",@"selection_turnoff"];
         NSMutableArray *mutArr = [NSMutableArray array];
         for (int i = 0; i < nameArr.count; i ++) {
@@ -781,11 +781,11 @@ static SyncTool *_syncTool = nil;
 - (void)updateProgress:(float)progress
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.stateBar setText:[NSString stringWithFormat:@"正在同步数据 %.0f%%", progress]];
+        [self.stateBar setText:[NSString stringWithFormat:@"%@ %.0f%%", NSLocalizedString(@"syncingData", nil), progress]];
         if (progress >= 100) {
             self.syncDataIng = NO;
             NSLog(@"syncDataIngEnd == %d", self.syncDataIng);
-            self.stateBar.text = @"同步完成";
+            self.stateBar.text = NSLocalizedString(@"syncSuccess", nil);
             
             [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_ALL_UI object:nil];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

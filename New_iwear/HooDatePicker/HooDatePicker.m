@@ -9,8 +9,8 @@
 #import "HooDatePicker.h"
 
 // Constants :
-static NSString  * const kSureButtonItemTitle = @"确定";
-static NSString  * const kCancelButtonItemTitle = @"取消";
+//static NSString  * const kSureButtonItemTitle = NSLocalizedString(@"sure", nil);
+//static NSString  * const kCancelButtonItemTitle = NSLocalizedString(@"cancel", nil);
 
 // Constants sizes :
 static CGFloat const kHooDatePickerHeight = 260.0f;
@@ -494,7 +494,7 @@ typedef NS_ENUM(NSInteger,ScrollViewTagValue) {
     NSDateFormatter *dateFormatter = self.dateFormatter;
     [dateFormatter setCalendar:self.calendar];
     [dateFormatter setTimeZone:self.timeZone];
-    [dateFormatter setDateFormat:[NSString stringWithFormat:@"MMMdd%@ EEE", @"日"]];
+    [dateFormatter setDateFormat:[NSString stringWithFormat:@"MMMdd%@ EEE", NSLocalizedString(@"day", nil)]];
     
     for (int i = 0; i < _dates.count; i++) {
         
@@ -956,7 +956,7 @@ typedef NS_ENUM(NSInteger,ScrollViewTagValue) {
     
     for (int i = 1; i <= daysRange.length; i++) {
         
-        [days addObject:[NSString stringWithFormat:@"%d%@", i, @"日"]];
+        [days addObject:[NSString stringWithFormat:@"%d%@", i, NSLocalizedString(@"day", nil)]];
     }
     
     return days;
@@ -1517,14 +1517,14 @@ typedef NS_ENUM(NSInteger,ScrollViewTagValue) {
         _headerView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.frame.size.width, kHooDatePickerHeaderHeight)];
         // Button Cancel
         UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(kHooDatePickerPadding, 0.0, kHooDatePickerButtonHeaderWidth, kHooDatePickerHeaderHeight)];
-        [cancelButton setTitle:kCancelButtonItemTitle forState:UIControlStateNormal];
+        [cancelButton setTitle:NSLocalizedString(@"cancel", nil) forState:UIControlStateNormal];
         [cancelButton setTitleColor:self.tintColor forState:UIControlStateNormal];
         [cancelButton addTarget:self action:@selector(actionButtonCancel:) forControlEvents:UIControlEventTouchUpInside];
         [_headerView addSubview:cancelButton];
         
         // Button confirm
         UIButton *sureButton = [[UIButton alloc] initWithFrame:CGRectMake(self.frame.size.width - kHooDatePickerButtonHeaderWidth - kHooDatePickerPadding, 0.0, kHooDatePickerButtonHeaderWidth, kHooDatePickerHeaderHeight)];
-        [sureButton setTitle:kSureButtonItemTitle forState:UIControlStateNormal];
+        [sureButton setTitle:NSLocalizedString(@"sure", nil) forState:UIControlStateNormal];
         [sureButton setTitleColor:self.highlightColor forState:UIControlStateNormal];
         [sureButton addTarget:self action:@selector(actionButtonValid:) forControlEvents:UIControlEventTouchUpInside];
         [_headerView addSubview:sureButton];
@@ -1586,9 +1586,9 @@ typedef NS_ENUM(NSInteger,ScrollViewTagValue) {
         
         for (int i = 0; i < 24; i++) {
             if (i < 10) {
-                [hours addObject:[NSString stringWithFormat:@"0%d%@", i, @"时"]];
+                [hours addObject:[NSString stringWithFormat:@"0%d%@", i, NSLocalizedString(@"hour", nil)]];
             } else {
-                [hours addObject:[NSString stringWithFormat:@"%d%@", i, @"时"]];
+                [hours addObject:[NSString stringWithFormat:@"%d%@", i, NSLocalizedString(@"hour", nil)]];
             }
         }
         _hours = hours;
@@ -1604,9 +1604,9 @@ typedef NS_ENUM(NSInteger,ScrollViewTagValue) {
          */
         for (int i = 0; i < 6; i++) {
             if (!i) {
-                [minutes addObject:[NSString stringWithFormat:@"%d0%@", i, @"分"]];
+                [minutes addObject:[NSString stringWithFormat:@"%d0%@", i, NSLocalizedString(@"min", nil)]];
             } else {
-                [minutes addObject:[NSString stringWithFormat:@"%d%@", i * 10, @"分"]];
+                [minutes addObject:[NSString stringWithFormat:@"%d%@", i * 10, NSLocalizedString(@"min", nil)]];
             }
             
         }

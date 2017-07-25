@@ -25,13 +25,13 @@ static NSString *const SedentaryReminderTableViewCellID = @"SedentaryReminderTab
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"久坐提醒";
+    self.title = NSLocalizedString(@"sedentaryRemind", nil);
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"保存", nil) style:UIBarButtonItemStylePlain target:self action:@selector(saveAction)];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"save", nil) style:UIBarButtonItemStylePlain target:self action:@selector(saveAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
@@ -57,7 +57,7 @@ static NSString *const SedentaryReminderTableViewCellID = @"SedentaryReminderTab
     }];
     
     UILabel *tipLabel = [[UILabel alloc] init];
-    [tipLabel setText:@"持续一小时静坐，手环会振动提醒"];
+    [tipLabel setText:NSLocalizedString(@"sedentaryMessage", nil)];
     [tipLabel setTextColor:TEXT_WHITE_COLOR_LEVEL3];
     [tipLabel setFont:[UIFont systemFontOfSize:14]];
     [headView addSubview:tipLabel];
@@ -138,13 +138,13 @@ static NSString *const SedentaryReminderTableViewCellID = @"SedentaryReminderTab
         NSArray *saveArr = [NSArray arrayWithArray:saveMutArr];
         [[NSUserDefaults standardUserDefaults] setObject:saveArr forKey:SEDENTARY_SETTING];
         [self.hud hideAnimated:YES];
-        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
+        MDToast *sucToast = [[MDToast alloc] initWithText:NSLocalizedString(@"saveSuccess", nil) duration:1.5];
         [sucToast show];
         [self.navigationController popViewControllerAnimated:YES];
     }else {
         //做失败处理
         [self.hud hideAnimated:YES];
-        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存失败，稍后再试" duration:1.5];
+        MDToast *sucToast = [[MDToast alloc] initWithText:NSLocalizedString(@"saveFail", nil) duration:1.5];
         [sucToast show];
     }
 }
@@ -205,13 +205,13 @@ static NSString *const SedentaryReminderTableViewCellID = @"SedentaryReminderTab
 {
 //    self.title = sender.titleLabel.text;
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"\n\n\n\n\n\n\n\n\n\n" message:nil preferredStyle:(UIAlertControllerStyleActionSheet)];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         //初始化 selectTime
         self.selectTime = @"";
     }];
     //修改数据源的数据
     SedentaryReminderModel *model = self.dataArr[indexPath.row];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"sure", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         model.time = self.selectTime;
         [self.tableView reloadData];
@@ -284,7 +284,7 @@ static NSString *const SedentaryReminderTableViewCellID = @"SedentaryReminderTab
             }
             _dataArr = mutArr;
         }else {
-            NSArray *titleArr = @[@"开始久坐提醒", @"开始时间", @"结束时间", @"午休时间"];
+            NSArray *titleArr = @[NSLocalizedString(@"openSedentary", nil), NSLocalizedString(@"beginTime", nil), NSLocalizedString(@"endTime", nil), NSLocalizedString(@"moonrestTime", nil)];
             NSMutableArray *mutArr = [NSMutableArray array];
             for (int index = 0; index < titleArr.count; index ++) {
                 SedentaryReminderModel *model = [[SedentaryReminderModel alloc] init];
@@ -292,7 +292,7 @@ static NSString *const SedentaryReminderTableViewCellID = @"SedentaryReminderTab
                 if (index == 0 || index == 3) {
                     model.switchIsOpen = NO;
                     model.whetherHaveSwitch = YES;
-                    model.subTitle = index == 3 ? @"12:00~14:00不进行提醒" : @"";
+                    model.subTitle = index == 3 ? [NSString stringWithFormat:@"12:00~14:00%@",NSLocalizedString(@"noRemind", nil)] : @"";
                 }else {
                     model.time = index == 1 ? @"09:00" : @"18:00";
                     model.whetherHaveSwitch = NO;

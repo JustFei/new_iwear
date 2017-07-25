@@ -25,13 +25,13 @@ static NSString *const ClockTableViewCellID = @"ClockTableViewCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"闹钟提醒";
+    self.title = NSLocalizedString(@"alarmReminder", nil);
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
     [leftButton addTarget:self action:@selector(backViewController) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"保存", nil) style:UIBarButtonItemStylePlain target:self action:@selector(saveClockAction)];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"save", nil) style:UIBarButtonItemStylePlain target:self action:@selector(saveClockAction)];
     self.navigationItem.rightBarButtonItem = rightItem;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
@@ -85,11 +85,11 @@ static NSString *const ClockTableViewCellID = @"ClockTableViewCell";
         [[NSUserDefaults standardUserDefaults] setObject:saveArr forKey:CLOCK_SETTING];
         //保存下 colock 开关的状态
         [[NSUserDefaults standardUserDefaults] setBool:clockIsOpen forKey:CLOCK_ISOPEN];
-        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存成功" duration:1.5];
+        MDToast *sucToast = [[MDToast alloc] initWithText:NSLocalizedString(@"saveSuccess", nil) duration:1.5];
         [sucToast show];
         [self.navigationController popViewControllerAnimated:YES];
     }else {
-        MDToast *sucToast = [[MDToast alloc] initWithText:@"保存失败" duration:1.5];
+        MDToast *sucToast = [[MDToast alloc] initWithText:NSLocalizedString(@"saveFial", nil) duration:1.5];
         [sucToast show];
     }
 }
@@ -135,7 +135,7 @@ static NSString *const ClockTableViewCellID = @"ClockTableViewCell";
 {
     UIView *headerView = [UIView new];
     UILabel *tipLabel = [[UILabel alloc] init];
-    [tipLabel setText:@"你可以设置最多三个闹钟"];
+    [tipLabel setText:NSLocalizedString(@"setThreeClock", nil)];
     [tipLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [tipLabel setFont:[UIFont systemFontOfSize:14]];
     [headerView addSubview:tipLabel];
@@ -175,13 +175,13 @@ static NSString *const ClockTableViewCellID = @"ClockTableViewCell";
 {
     //    self.title = sender.titleLabel.text;
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"\n\n\n\n\n\n\n\n\n\n" message:nil preferredStyle:(UIAlertControllerStyleActionSheet)];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         //初始化 selectTime
         self.selectTime = @"";
     }];
     //修改数据源的数据
     ClockModel *model = self.dataArr[indexPath.row];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"sure", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         model.time = self.selectTime;
         [self.tableView reloadData];

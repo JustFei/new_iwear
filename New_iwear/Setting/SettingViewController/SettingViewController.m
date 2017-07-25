@@ -37,7 +37,7 @@ static NSString *const settingHeaderID = @"settingHeader";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.title = @"设置";
+    self.title = NSLocalizedString(@"setting", nil);
     
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
@@ -144,7 +144,7 @@ static NSString *const settingHeaderID = @"settingHeader";
         }];
 
         UILabel *functionChooseLabel = [[UILabel alloc] init];
-        [functionChooseLabel setText:@"功能设置"];
+        [functionChooseLabel setText:NSLocalizedString(@"funSetting", nil)];
         [functionChooseLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
         [functionChooseLabel setFont:[UIFont systemFontOfSize:14]];
         [view addSubview:functionChooseLabel];
@@ -265,7 +265,7 @@ static NSString *const settingHeaderID = @"settingHeader";
         
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"isBind"]) {
             model.isBind = [[NSUserDefaults standardUserDefaults] boolForKey:@"isBind"];
-            model.peripheralName = [[NSUserDefaults standardUserDefaults] objectForKey:@"bindPeripheralName"] ? [[NSUserDefaults standardUserDefaults] objectForKey:@"bindPeripheralName"] : @"未绑定";
+            model.peripheralName = [[NSUserDefaults standardUserDefaults] objectForKey:@"bindPeripheralName"] ? [[NSUserDefaults standardUserDefaults] objectForKey:@"bindPeripheralName"] : NSLocalizedString(@"notBindPer", nil);
             model.isConnect = [BleManager shareInstance].connectState == kBLEstateDidConnected ? YES : NO;
             model.battery = [[NSUserDefaults standardUserDefaults] objectForKey:ELECTRICITY_INFO_SETTING] ? [[NSUserDefaults standardUserDefaults] objectForKey:ELECTRICITY_INFO_SETTING] : @"--";
         }else {
@@ -281,9 +281,9 @@ static NSString *const settingHeaderID = @"settingHeader";
 - (NSArray *)groupSecondDataSourceArr
 {
     if (!_groupSecondDataSourceArr) {
-        NSArray *fucName = @[@"界面选择",@"遥控拍照",@"查找手环",@"提醒功能",
+        NSArray *fucName = @[NSLocalizedString(@"interfaceSelect", nil),NSLocalizedString(@"RemoteControlCamera", nil),NSLocalizedString(@"searchPer", nil),NSLocalizedString(@"remindFunc", nil),
 //                             @"微信运动",
-                             @"翻腕亮屏",@"亮度调节",@"单位设置",@"时间格式",@"目标设置",@"关于"];
+                             NSLocalizedString(@"wrist", nil),NSLocalizedString(@"dimmingSetting", nil),NSLocalizedString(@"unitSetting", nil),NSLocalizedString(@"timeFormatter", nil),NSLocalizedString(@"targetSetting", nil),NSLocalizedString(@"about", nil)];
         NSArray *imageName = @[@"set_interface",@"set_camera",@"set_find",@"set_phone",
 //                               @"set_wechat",
                                @"set_wrist",@"set_dimming",@"set_unit",@"set_time",@"set_targetsetting",@"set_info"];

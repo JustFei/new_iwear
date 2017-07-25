@@ -21,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"遥控拍照";
+    self.title = NSLocalizedString(@"RemoteControlCamera", nil);
     self.view.backgroundColor = SETTING_BACKGROUND_COLOR;
     
     [self createUI];
@@ -40,7 +40,7 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
     UILabel *infoLabel = [[UILabel alloc] init];
-    [infoLabel setText:@"使用手表遥控拍照"];
+    [infoLabel setText:NSLocalizedString(@"usePerTakePhoto", nil)];
     [infoLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [infoLabel setFont:[UIFont systemFontOfSize:14]];
     [self.view addSubview:infoLabel];
@@ -74,7 +74,7 @@
     self.takePhotoButton.layer.cornerRadius = 36;
     
     UILabel *takePhotoLabel = [[UILabel alloc] init];
-    [takePhotoLabel setText:@"开始拍照"];
+    [takePhotoLabel setText:NSLocalizedString(@"startTakePhoto", nil)];
     [takePhotoLabel setFont:[UIFont systemFontOfSize:14]];
     [takePhotoLabel setTextColor:TEXT_BLACK_COLOR_LEVEL3];
     [self.view addSubview:takePhotoLabel];
@@ -129,7 +129,7 @@
         
         //再加一个翻转摄像头的按钮
         UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+        [cancelBtn setTitle:NSLocalizedString(@"cancel", nil) forState:UIControlStateNormal];
         [cancelBtn addTarget:self action:@selector(cancelAction:) forControlEvents:UIControlEventTouchUpInside];
         [cancelBtn setTitleColor:WHITE_COLOR forState:UIControlStateNormal];
         [cancelBtn.titleLabel setFont:[UIFont systemFontOfSize:20]];
@@ -203,9 +203,9 @@
 {
     NSString *msg = nil ;
     if(error != NULL){
-        msg = @"保存图片失败" ;
+        msg = NSLocalizedString(@"savePicFail", nil) ;
     }else{
-        msg = @"保存图片成功" ;
+        msg = NSLocalizedString(@"savePicSuccess", nil) ;
     }
     MDToast *toast = [[MDToast alloc] initWithText:msg duration:1.5];
     [toast show];

@@ -50,7 +50,7 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.title = @"训练";
+    self.title = NSLocalizedString(@"train", nil);
     
     MDButton *leftButton = [[MDButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24) type:MDButtonTypeFlat rippleColor:nil];
     [leftButton setImageNormal:[UIImage imageNamed:@"ic_back"]];
@@ -131,7 +131,7 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
     formatter1.dateFormat = @"yyyy-MM-dd";
     NSString *currentDateStr = [formatter1 stringFromDate:queryDate];
     if ([currentDateStr isEqualToString:[formatter1 stringFromDate:[NSDate date]]]) {
-        [self.dateLabel setText:@"今日"];
+        [self.dateLabel setText:NSLocalizedString(@"today", nil)];
         self.rightBtn.enabled = NO;
     }else{
         [self.dateLabel setText:currentDateStr];
@@ -161,7 +161,7 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
                 //获取列表数据源
                 TrainingTableModel *tableModel = [[TrainingTableModel alloc] init];
                 tableModel.periodStr = model.startTime;
-                tableModel.sportTypeStr = @"跑步";
+                tableModel.sportTypeStr = NSLocalizedString(@"running", nil);
                 tableModel.timeCountStr = [NSString stringWithFormat:@"%ld", model.timeInterval];
                 tableModel.stepStr = model.stepNumber;
                 tableModel.kcalStr = model.kCalNumber;
@@ -228,7 +228,7 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
 {
     NSLog(@"点击了 RunBarChart 的%ld", barIndex);
     TrainingTableModel *model = self.tableDataArr[barIndex];
-    [self.clickInfoLabel setText:[NSString stringWithFormat:@"%@ %@步", [model.periodStr substringWithRange:NSMakeRange(11, 5)], self.barChartDataArr[barIndex]]];
+    [self.clickInfoLabel setText:[NSString stringWithFormat:@"%@ %@%@", [model.periodStr substringWithRange:NSMakeRange(11, 5)], self.barChartDataArr[barIndex], NSLocalizedString(@"step1", nil)]];
     self.clickInfoLabel.hidden = NO;
 }
 
@@ -244,7 +244,7 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
     NSDateFormatter *forMat = [[NSDateFormatter alloc] init];
     [forMat setDateFormat:@"yyyy-MM-dd"];
     NSDate *beforeDate;
-    if ([self.dateLabel.text isEqualToString:@"今日"]) {
+    if ([self.dateLabel.text isEqualToString:NSLocalizedString(@"today", nil)]) {
         beforeDate = [NSDate dateWithTimeInterval:-24*60*60 sinceDate:[NSDate date]];
     }else {
         beforeDate = [NSDate dateWithTimeInterval:-24*60*60 sinceDate:[forMat dateFromString:self.dateLabel.text]];
@@ -433,7 +433,7 @@ static NSString * const TrainingTableCellID = @"TrainingTableCell";
 {
     if (!_noDataLabel) {
         _noDataLabel = [[UILabel alloc] init];
-        _noDataLabel.text = @"无数据";
+        _noDataLabel.text = NSLocalizedString(@"noData", nil);
         
         [self.dataTableView addSubview:_noDataLabel];
         [_noDataLabel mas_makeConstraints:^(MASConstraintMaker *make) {

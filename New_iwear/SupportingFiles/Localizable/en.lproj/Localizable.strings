@@ -5,3 +5,638 @@
   Created by JustFei on 2017/7/24.
   Copyright © 2017年 manridy. All rights reserved.
 */
+
+//AboutViewController
+//关于
+"about" = "about";
+
+//检查升级
+"checkUpdate" = "Check for Updates";
+
+//Appdelegate
+//手机蓝牙未打开
+"bleNotOpen" = "Bluetooth off";
+
+//正在连接中
+"bleConnecting" = "Connecting";
+
+//未绑定设备
+"notBindPer" = "No bound device";
+
+//绑定
+"bind" = "Bind";
+
+//手环查找中。。。
+"perFinding" = "The watch is searching ";
+
+//您的手环正在查找您。。。
+"perFindPhoneing" = "The watch is searching for your phone.";
+
+//连接成功
+"connectSuccess" = "Connect successfully";
+
+//提示
+"tips" = "Tips";
+
+//取消
+"cancel" = "Cancel";
+
+//APPRemindViewController
+//应用提醒
+"appRemind" = "App  Reminder";
+
+//保存
+"save" = "Save";
+
+//保存成功
+"saveSuccess" = "Save successfully";
+
+//配对失败，请配对设备，否则无法使用该7功能
+"pairFail" = "Pairing failed, please pair devices, otherwise this function cannot be applied";
+
+//微信
+"wechat" = "WeChat";
+
+//BindPeripheralViewController
+//设备绑定
+"perBind" = "Device binding ";
+
+//搜索
+"search" = "Search";
+
+//解除绑定
+"cancelBind" = "Unbind";
+
+//绑定设备
+"bindPer" = "Bind a device";
+
+//绑定中
+"binding" = "Binding...";
+
+//请选择设备以绑定
+"choosePerToBind" = "Please select a device to bind";
+
+//确定解除绑定？
+"sureCancelBind" = "sure to unbind？";
+
+//确定
+"sure" = "Yes";
+
+//解绑成功
+"cancelBindSuccess" = "Binding has been lifted! ";
+
+//绑定失败，请重试
+"bindFail" = "Binding failed, please try again";
+
+//警告
+"warning" = "Attention";
+
+//请去-> [设置 - 隐私 - 相机 - iband] 打开访问开关
+"warningMessage" = "please click-> [settings- privacy - camera - iband] and enable'visit'";
+
+//未检测到您的摄像头
+"notFindCamera" = "Your camera is undetected";
+
+//同步失败
+"syncFail" = "Syncing failed";
+
+//正在同步设置
+"syncingSetting" = "Syncing now...";
+
+//同步完成
+"syncSuccess" = "Syncing completed";
+
+//已绑定设备
+"haveBindPer" = "Bound device";
+
+//BloodO2ContentView
+//上次测量结果
+"lastTestResult" = "Last measurement result ";
+
+//平均值
+"average" = "Avg";f
+
+//最低值
+"minimum" = "Min";
+
+//最高值
+"maximum" = "Max";
+
+//月
+"month" = "Month";
+
+//日
+"day" = "day";
+
+//平均心率
+"averageHr" = "avgHR";
+
+//无数据
+"noData" = "No data";
+
+//BloodPressureContentView
+//时间
+"time" = "Time";
+
+//收缩压
+"systolicPressure" = "Systolic Pressure";
+
+//舒张压
+"diastolicPressure" = "Diastolic Pressure";
+
+//次/分
+"time/min" = "times/min";
+
+//CameraViewController
+//遥控拍照
+"RemoteControlCamera" = "Remote Camera";
+
+//保存图片失败
+"savePicFail" = "Saving pictures failed";
+
+//保存图片成功
+"savePicSuccess" = "Successfully saved";
+
+//保存图片结果提示
+"savePisResultTip" = "Tips for saving pictures";
+
+//ClockReminderViewController
+//闹钟提醒
+"alarmReminder" = "Clock Alarms";
+
+//保存失败
+"saveFial" = "Saving failed";
+
+//你可以设置最多三个闹钟
+"setThreeClock" = "You can set 3 alarms at most  ";
+
+//DimmingViewController
+//亮度调节
+"dimmingSetting" = "Brightness Adjustment";
+
+//设置手表的亮度
+"setPerDimming" = "Screen Brightness Setting";
+
+//FindMyPeriphearlViewController
+//查找手环
+"searchPer" = "Searching the watch...";
+
+//使用此功能需手环与手机保持连接
+"needConnectPer" = "Watch should be connected with phone in using this function ";
+
+//如果找到手环，手环会振动和亮屏
+"vibrationWhenFoundPer" = "If the watch is found, phone will vibrate and its screen will light up ";
+
+//正在查找设备
+"findingPer" = "Searching the device now";
+
+//设备未响应，请稍后重试
+"perNotResponse" = "The device is not responding, please try again later ";
+
+//设备已找到
+"perHasFound" = "The device has been found";
+
+//错误
+"wrong" = "Error";
+
+//HeartRateContentView
+//测量
+"test" = "Measure";
+
+//最低心率
+"minimumHr" = "Min heart rate";
+
+//最高心率
+"maximumHr" = "Max heart rate";
+
+//停止
+"stop" = "Stop";
+
+//测量中
+"testing" = "Measuring...";
+
+//测试失败
+"testFail" = "Measuring failed";
+
+//上次测量心率
+"lastTestHr" = "Last heart rate measurement";
+
+//测量结束
+"testEnd" = "Measurement completed";
+
+//HeartRateHisViewController
+//上次测量结果
+"lastTestResult" = "Last measurement result ";
+
+//本月
+"curMonth" = "Current month";
+
+//心率记录
+"hrLog" = "Heart Rate Record";
+
+//血压记录
+"bpLog" = "Blood Pressure Record";
+
+//平均收缩压
+"averageSystolicPressure" = "Avg Systolic Pressure";
+
+//平均舒张压
+"averageDiastolicPressure" = "Avg Diastolic Pressure";
+
+//血氧记录
+"boLog" = "Blood Oxygen Record";
+
+//平均血氧
+"averageBo" = "Avg Blood Oxygen";
+
+//最低血氧
+"minimumBo" = "Min blood oxygen";
+
+//最高血氧
+"maximumBo" = "Max blood oxygen";
+
+//年
+"year" = "year";
+
+//时
+"hour" = "hour";
+
+//分
+"min" = "min";
+
+//InterfaceSelectionViewController
+//界面选择
+"interfaceSelect" = "Interface Selection";
+
+//选择需要在设备上显示的界面
+"chooseInterface" = "Select the interface you want to display on the device";
+
+//待机
+"standby" = "standby";
+
+//计步
+"step" = "step count";
+
+//运动
+"sport" = "sports";
+
+//心率
+"hr" = "heart rate";
+
+//睡眠
+"sleep" = "sleep";
+
+//查找
+"search" = "search";
+
+//闹钟
+"clock" = "clock";
+
+//关机
+"shutdown" = "Power Off";
+
+//LoseReminderViewController
+//防丢提醒
+"lostRemind" = "Anti-Lost Alert";
+
+//开启防丢提醒
+"openLostRemind" = "Enable anti-lost alert";
+
+//连接断开时振动
+"disconnectVibrate" = "if the watch disconnects from phone, phone will vibrate";
+
+//MainViewController
+//血压
+"bp" = "Blood Pressure";
+
+//血氧
+"bo" = "Blood Oxygen";
+
+//MessageReminderViewController
+//短信提醒
+"smsRemind" = "Message Notifications";
+
+//请保持蓝牙开启，并且手环与手机保持连接
+"keepBleOpen" = "Please keep bluetooth enabled and keep the watch and phone connected.";
+
+//开启短信提醒
+"openSmsRemind" = "Enable message notifications";
+
+//手机来短信时，手表会振动提醒
+"perVibrateWhenSms" = "When you receive messages, the watch will vibrate for reminding";
+
+//电话提醒
+"phoneRemind" = "Call Notifications";
+
+//开启来电提醒
+"openPhoneRemind" = "Enable call notifications";
+
+//手机来电时，手表会振动提醒
+"perVibrateWhenPhone" = "When you receive calls, the watch will vibrate for reminding ";
+
+//扫描异常
+"scanError" = "Scanning Error";
+
+//请重新尝试
+"tryAgain" = "Try again";
+
+//已开启
+"haveOpen" = "Enabled";
+
+//未开启
+"notOpen" = "Disabled";
+
+//RemindMoreViewController
+//更多提醒
+"moreRemind" = "More reminder";
+
+//久坐提醒
+"sedentaryRemind" = "Sedentary Reminder";
+
+//SedentaryReminderViewController
+//持续一小时静坐，手环会振动提醒
+"sedentaryMessage" = "If you are being sedentary for more than 1 hour, the watch will vibrate";
+
+//开始久坐提醒
+"openSedentary" = "Enable sedentary reminder";
+
+//开始时间
+"beginTime" = "Start time";
+
+//结束时间
+"endTime" = "End time";
+
+//午休时间
+"moonrestTime" = "Noon Break";
+
+//(12:00~14:00)不进行提醒
+"noRemind" = "No reminder";
+
+//用户名
+"userName" = "User Name";
+
+//用户信息
+"userInfo" = "User Info";
+
+//设备连接
+"perConnect" = "Device connect";
+
+//已连接
+"haveConnect" = "Connected";
+
+//未连接
+"notConnect" = "Unconnected";
+
+//剩余电量
+"electricity" = "Remaining Battery Capacity  ";
+
+//设置
+"setting" = "Settings";
+
+//功能设置
+"funSetting" = "Function Settings";
+
+//提醒功能
+"remindFunc" = "Reminder Function";
+
+//翻腕亮屏
+"wrist" = "When you swing  wrists up, screen will light up";
+
+//单位设置
+"unitSetting" = "Unit setting";
+
+//时间格式
+"timeFormatter" = "Time Format";
+
+//目标设置
+"targetSetting" = "Goal setting";
+
+//扫一扫
+"scan" = "Scan";
+
+//相册
+"photoLibrry" = "albums";
+
+//由于系统原因, 无法访问相册
+"canNotVisitPhoto" = "Due to system error, cannot have access to albums";
+
+//更多
+"more" = "More";
+
+//将二维码/条码放入框内, 即可自动扫描
+"putQrCode" = "Align the QR code within the frame to scan";
+
+//打开照明灯
+"openFlash" = "Turn on flashlight";
+
+//关闭照明灯
+"closeFlash" = "Turn off flashlight";
+
+//今日睡眠
+"todaySleep" = "Sleep";
+
+//昨晚入睡
+"lastNightInSleep" = " Falling asleep";
+
+//今天醒来
+"todayAwake" = "Waking up";
+
+//清醒时长
+"awakeTime" = "the duration of staying awake";
+
+//深睡
+"deepSleep" = "Deep Sleep";
+
+//浅睡
+"lowSleep" = "Light Sleep";
+
+//清醒
+"awake" = "Awake";
+
+//开始
+"start" = "Start";
+
+//结束
+"end" = "End";
+
+//时长
+"timeLong" = "Duration";
+
+//昨晚入睡
+"lastNightInSleep" = "Falling asleep";
+
+//今天醒来
+"todayAwake" = "Waking up";
+
+//睡眠记录
+"sleepLog" = "Sleep Record";
+
+//每日平均睡眠
+"dayAverageSleep" = "Avg Daily Sleep";
+
+//今日步数
+"todayStep" = " Steps";
+
+//步数
+"stepValue" = "Steps";
+
+//里程
+"mileageValue" = "Mileage";
+
+//卡路里
+"kcalValue" = "Cal";
+
+//步
+"step1" = "Step";
+
+//公里
+"kilometre" = "km";
+
+//英里
+"mile" = "mile";
+
+//千卡
+"kCalorie" = "cal";
+
+//历史记录
+"hisLog" = "history";
+
+//每日平均
+"dayAverage" = "Daily Avg";
+
+//总步数
+"sumStep" = "Total Steps";
+
+//总里程
+"sumMileage" = "Total Mileage";
+
+//总热量
+"sumKcal" = "Total Cal";
+
+//正在同步数据
+"syncingData" = "Syncing  data now ...";
+
+//使用手表遥控拍照
+"usePerTakePhoto" = "Use the watch to remotely take photos";
+
+//开始拍照
+"startTakePhoto" = "Start taking photos ";
+
+//运动目标
+"sportTarget" = "Exercise Plans";
+
+//每天步行
+"dayStep" = "Daily Steps";
+
+//睡眠目标
+"sleepTarget" = "Sleep Plans";
+
+//每天睡眠
+"daySleep" = "Daily Sleep";
+
+//时间单位设置
+"timeForSet" = "Time Unit Setting";
+
+//训练
+"train" = "Train";
+
+//今日
+"today" = "Today";
+
+//跑步
+"running" = "Running";
+
+//长度单位设置
+"longUnitSet" = "Length Unit Setting";
+
+//重量单位设置
+"weightUnitSet" = "Weight Unit Setting";
+
+//公制(米/公里/千克)
+"metric" = "metric units(m/km/kg)";
+
+//英制(英寸/英尺/英磅)
+"inch" = "Imperial Units (inch/foot/pound)";
+
+//固件升级
+"hardwareUpdate" = "Firmware Upgrade";
+
+//升级中请勿使设备远离手机
+"updateTips" = "Upgrading now, Please don’t keep the device away from phone ";
+
+//升级成功!
+"updateSuccess" = "Successfully upgraded";
+
+//升级失败!
+"updateFail" = "Upgrade failed";
+
+//已完成
+"complete" = "Completed";
+
+//拍照
+"takePhoto" = "Take Photos";
+
+//请选择
+"plsChoose" = "Please select";
+
+//性别
+"gender" = "gender";
+
+//年龄
+"age" = "age";
+
+//身高
+"height" = "height";
+
+//体重
+"weight" = "weight";
+
+//男
+"male" = "male";
+
+//女
+"female" = "female";
+
+//岁
+"old" = "years old";
+
+//检查版本
+"checkVersion" = "Check version";
+
+//检查更新中
+"checkUpdating" = "Check for Updates ";
+
+//网络异常，请连接网络后再尝试
+"netError" = "Network error, please connect internet and try again";
+
+//暂无更新
+"noUpdate" = "No update now";
+
+//软件版本
+"softwareVersion" = "Software Version";
+
+//硬件版本
+"hardwareVersion" = "Hardware Version";
+
+//有新的更新，是否现在更新？
+"sureUpdate" = "There is a new version, if updating now？";
+
+//微信运动
+"wechatSport" = "WeRun";
+
+//点击“接入”启动微信后，进入“深圳曼瑞德科技有限公司”账号页面，然后点击“绑定设备”按钮既可完成接入
+"wechatSportTips1" = "First, click‘connect ’ to start wechat, and enter into the account ‘Manridy Technology Corporation’. Second, click ‘bind the device’ to complete the connection";
+
+//"接入后，步数将会同步至微信排行榜中"
+"wechatSportTips2" = "After the connection, steps will sync with the WeRun rankings";
+
+//开启翻腕提醒
+"openWrist" = "Enable the reminder of swinging wrists";
+
+//抬手翻腕时亮屏
+"wristTips" = "When you swing wrists up, screen will light up";
+
+
+
+
+

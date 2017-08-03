@@ -421,7 +421,7 @@
     [self.maxHR setText:[NSString stringWithFormat:@"%.0f", HighBo]];
     [self.minHR setText:[NSString stringWithFormat:@"%.0f", lowBo]];
     
-    float highProgress = model.heartRate.floatValue / 100;
+    float highProgress = model.heartRate.floatValue / 220;
     
     if (highProgress <= 1) {
         [self.hrCircleChart updateChartByCurrent:@(highProgress)];
